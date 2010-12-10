@@ -1,0 +1,12 @@
+<h:form xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:ui="http://java.sun.com/jsf/facelets"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:s="http://jboss.com/products/seam/taglib"
+        xmlns:f="http://java.sun.com/jsf/core">
+
+    <h:selectOneMenu value="#{studyBeanProvider.assayTypeFilter}">
+        <s:selectItems value="#{assayTypes.resultList}" var="assayType" label="#{assayType.name}"/>
+        <s:convertEntity/>
+    </h:selectOneMenu>
+    <h:commandButton value="Filter" action="/studies.xhtml"/>
+</h:form>

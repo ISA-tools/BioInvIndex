@@ -1,0 +1,60 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:a4j="http://richfaces.org/a4j"
+                xmlns:rich="http://richfaces.org/rich"
+                template="layout/local-template.xhtml">
+
+    <ui:define name="body">
+
+        <div align="center">
+            <img alt="" src="img/table_images/submit_investigation.png"/>
+        </div>
+
+        <table style="table-layout:fixed">
+            <tr>
+
+                <!--<td width="300" align="center">-->
+                <!--<div align="center">-->
+                <!--<rich:fileUpload maxFilesQuantity="1" id="upload" listHeight="100" listWidth="300"-->
+                <!--acceptedTypes="zip, gzip, tar" allowFlash="true"-->
+                <!--data="#{archiveUploadService.contentType}"-->
+                <!--fileName="#{uploadService.fileName}">-->
+                <!--<a4j:support event="onuploadcomplete" reRender="fileInfo"/>-->
+                <!--<f:facet name="label">-->
+
+                <!--<h:outputText value="{_KB}KB of {KB}KB uploaded - {mm}:{ss}"/>-->
+
+                <!--</f:facet>-->
+
+                <!--</rich:fileUpload>-->
+
+
+                <!--</div>-->
+                <!--</td>-->
+                <td align="center">
+                    <img alt="" src="img/download.png" align="top" usemap="#dlandinfo" border="0"/>
+                </td>
+
+            </tr>
+        </table>
+        <div>
+
+            <map name="dlandinfo" id="dlandinfo">
+                <area shape="rect" coords="194,340,312,387" href="http://isatab.sf.net" target="_blank"
+                      alt="Learn more about the ISAtab format"/>
+                <area shape="rect" coords="202,409,306,508" href="http://isatab.sf.net/isacreator.html" target="_blank"
+                      alt="Learn more about ISAcreator"/>
+                <area shape="rect" coords="406,352,539,486" href="http://isatab.sourceforge.net/form.html" target="_blank"
+                      alt="Download ISAcreator"/>
+                <area shape="rect" coords="125,66,211,83" href="mailto:bii@ebi.ac.uk" alt="contact the BII team!"/>
+            </map>
+
+        </div>
+    </ui:define>
+
+
+</ui:composition>

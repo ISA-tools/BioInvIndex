@@ -1,0 +1,732 @@
+<!--
+    Just a basic set of rows that are currently sufficient for all tests.
+    In future, maybe several datasets are required.
+-->
+<dataset>
+
+	<REFERENCE_SOURCE
+			ID="100"
+			ACC="BII-1"
+			NAME="OBI"
+			/>
+
+	<ontology_entry
+			ID="201"
+			OBJ_TYPE="MaterialRole"
+			ACC="OBI-1"
+			NAME="SOURCE"
+			SOURCE="100"
+			/>
+
+	<ontology_entry
+			ID="202"
+			OBJ_TYPE="MaterialRole"
+			ACC="OBI-2"
+			NAME="sample"
+			SOURCE="100"
+			/>
+
+	<ONTOLOGY_ENTRY
+			OBJ_TYPE="EndPoint"
+			ID="203"
+			ACC="OBI-AT1"
+			NAME="Transcription Profiling"
+			SOURCE="100"/>
+
+	<ONTOLOGY_ENTRY
+			OBJ_TYPE="AssayTechnology"
+			ID="301"
+			ACC="OBI-AP1"
+			NAME="DNA microarray"
+			SOURCE="100"/>
+
+	<ONTOLOGY_ENTRY
+			OBJ_TYPE="EndPoint"
+			ID="206"
+			ACC="OBI-AT2"
+			NAME="Metabolite Profiling"
+			SOURCE="100"/>
+
+	<ONTOLOGY_ENTRY
+			OBJ_TYPE="AssayTechnology"
+			ID="302"
+			ACC="OBI-AP2"
+			NAME="NMR Spectroscopy"
+			SOURCE="100"/>
+
+	<ONTOLOGY_ENTRY
+			OBJ_TYPE="AssayTechnology"
+			ID="304"
+			ACC="OBI-AP4"
+			NAME="NMR spectrometry"
+			SOURCE="100"/>
+
+	<ONTOLOGY_ENTRY
+			OBJ_TYPE="EndPoint"
+			ID="207"
+			ACC="OBI-AT3"
+			NAME="Plasmatic lipids"
+			SOURCE="100"/>
+
+	<ONTOLOGY_ENTRY
+			OBJ_TYPE="AssayTechnology"
+			ID="303"
+			ACC="OBI-AP3"
+			NAME="Conventional clinical chemistry"
+			SOURCE="100"/>
+
+
+	<!--<ONTOLOGY_ENTRY-->
+			<!--OBJ_TYPE="Vendor"-->
+			<!--ID="401"-->
+			<!--ACC="OBI-V1"-->
+			<!--NAME="Vendor"-->
+			<!--SOURCE="100"/>-->
+
+	<!--<ONTOLOGY_ENTRY-->
+			<!--OBJ_TYPE="Instrument"-->
+			<!--ID="501"-->
+			<!--ACC="OBI-I1"-->
+			<!--NAME="Instrument"-->
+			<!--SOURCE="100"/>-->
+
+	<!--<ONTOLOGY_ENTRY-->
+			<!--OBJ_TYPE="Vendor"-->
+			<!--ID="601"-->
+			<!--ACC="OBI-V2"-->
+			<!--NAME="BMW"-->
+			<!--SOURCE="100"/>-->
+
+	<!--<ONTOLOGY_ENTRY-->
+			<!--OBJ_TYPE="Instrument"-->
+			<!--ID="701"-->
+			<!--ACC="OBI-I2"-->
+			<!--NAME="car"-->
+			<!--SOURCE="100"/>-->
+
+	<!--<ONTOLOGY_ENTRY-->
+	<!--OBJ_TYPE="AssayTechnology"-->
+	<!--ID="205"-->
+	<!--ACC="OBI-5"-->
+	<!--NAME="proteomics"-->
+	<!--SOURCE="100"/>-->
+
+	<!--<ONTOLOGY_ENTRY-->
+	<!--OBJ_TYPE="AnalyticalPlatform"-->
+	<!--ID="204"-->
+	<!--ACC="OBI-4"-->
+	<!--NAME="platform"-->
+	<!--SOURCE="100"/>-->
+
+	<STUDY
+			ID="-1"
+			ACC="FOO-STUDY-1"
+			TITLE = "Foo Study"
+			DESCRIPTION=""
+			OBJECTIVE="Testing"
+			SUBMISSIONDATE="[null]"
+			RELEASEDATE="[null]"
+      STATUS="1" 
+  />
+
+
+  <!--Private study-->
+	<STUDY
+			ID="100"
+			ACC="BII-ST-1"
+			TITLE="Subtle metabolic and liver gene transcriptional changes underlie diet-induced fatty liver susceptibility in insulin-resistant mice"
+			DESCRIPTION="Complex changes in gene expression are associated with insulin resistance and non-alcoholic fatty liver disease (NAFLD) promoted by feeding a high-fat diet (HFD). Functional genomic technologies to document molecular mechanisms."
+			OBJECTIVE="Testing this study"
+
+
+			SUBMISSIONDATE="2007-08-30"
+			RELEASEDATE="2007-08-30"
+            STATUS="1"/>
+
+	<Design
+			ID="200"
+			VALUE="treated vs untreated"
+			STUDY_ID="100"
+			/>
+
+    <!-- Public study-->
+	<STUDY
+			ID="101"
+			ACC="BII-ST-2"
+			TITLE="The Influence of Pharmacogenetics on Fatty Liver Disease in the Wistar and Kyoto Rats: A Combined Transcriptomic and Metabonomic Study"
+			DESCRIPTION="Analysis of liver tissue from rats exposed to orotic acid for 1, 3, and 14 days was performed by DNA microarrays and high resolution 1H NMR spectroscopy based metabonomics of both tissue extracts and intact tissue (n ) 3)."
+			OBJECTIVE="Testing this study"
+            STATUS="0"/>
+
+	<Design
+			ID="201"
+			VALUE="compound based treatment"
+			STUDY_ID="101"
+			/>
+
+	<!--<PROCESSING-->
+	<!--OBJ_TYPE="assay"-->
+	<!--ID="1"-->
+	<!--ACC="BII_A100"-->
+	<!--ORIGINAL="true"-->
+	<!--STUDY_ID="100"/>-->
+
+	<ASSAY
+			ID="-1"
+			ACC="-1"
+			TECHNOLOGY="301"
+			ENDPOINT="203"
+			PLATFORM="affymetrix"
+			MATERIAL_ID="101"
+			STUDY_ID="100"/>
+
+	<!--<PROCESSING-->
+	<!--OBJ_TYPE="assay"-->
+	<!--ID="2"-->
+	<!--ACC="BII_A101"-->
+	<!--ORIGINAL="true"-->
+	<!--STUDY_ID="100"/>-->
+
+	<ASSAY
+			ID="-2"
+			ACC="-2"
+			TECHNOLOGY="302"
+			ENDPOINT="206"
+			PLATFORM="bruker"
+			MATERIAL_ID="101"
+			STUDY_ID="100"/>
+
+	<!--<PROCESSING-->
+	<!--OBJ_TYPE="assay"-->
+	<!--ID="3"-->
+	<!--ACC="BII_A102"-->
+	<!--ORIGINAL="true"-->
+	<!--STUDY_ID="100"/>-->
+
+	<!--<ASSAY-->
+			<!--ID="-3"-->
+			<!--TECHNOLOGY="303"-->
+			<!--ENDPOINT="207"-->
+			<!--PLATFORM="VENDOR - INSTUMENT"-->
+			<!--MATERIAL_ID="101"-->
+			<!--STUDY_ID="100"/>-->
+
+	<!--Study 2-->
+	<!--<PROCESSING-->
+	<!--OBJ_TYPE="assay"-->
+	<!--ID="4"-->
+	<!--ACC="BII_A103"-->
+	<!--ORIGINAL="true"-->
+	<!--STUDY_ID="101"/>-->
+
+	<ASSAY
+			ID="-4"
+			ACC="-4"
+			TECHNOLOGY="301"
+			ENDPOINT="203"
+			PLATFORM="new cool assay "
+			MATERIAL_ID="201"
+			STUDY_ID="101"/>
+
+	<!--<PROCESSING-->
+	<!--OBJ_TYPE="assay"-->
+	<!--ID="5"-->
+	<!--ACC="BII_A104"-->
+	<!--ORIGINAL="true"-->
+	<!--STUDY_ID="101"/>-->
+
+	<ASSAY
+			ID="-5"
+			ACC="-5"
+			TECHNOLOGY="304"
+			ENDPOINT="206"
+			PLATFORM="BMW - car"
+			MATERIAL_ID="201"
+			STUDY_ID="101"/>
+
+	<!--<PROCESSING-->
+	<!--OBJ_TYPE="assay"-->
+	<!--ID="6"-->
+	<!--ACC="BII_A105"-->
+	<!--ORIGINAL="true"-->
+	<!--STUDY_ID="101"/>-->
+
+	<ASSAY
+			ID="-6"
+			ACC="-6"
+			TECHNOLOGY="303"
+			ENDPOINT="207"
+			PLATFORM="test platform"
+			MATERIAL_ID="201"
+			STUDY_ID="101"/>
+
+	<NODE
+			OBJ_TYPE="MaterialNode"
+			ID="1"
+			ACC="BII-N1"
+			STUDY_ID="100"
+	/>
+	
+	<MATERIAL
+		ID="100"
+		ACC="BII-M1"
+		NAME="test mouse1"
+		TYPE="201"
+		NODE_ID = "1"
+	/>
+
+	<NODE
+			OBJ_TYPE="MaterialNode"
+			ID="2"
+			ACC="BII-N2"
+			STUDY_ID="100"
+	/>
+
+	<MATERIAL
+		ID="101"
+		ACC="BII-M2"
+		NAME="liver1"
+		TYPE="202"
+		NODE_ID = "2"
+	/>
+
+	<NODE
+			OBJ_TYPE="MaterialNode"
+			ID="3"
+			ACC="BII-N3"
+			STUDY_ID="100"
+	/>
+
+	<MATERIAL
+		ID="200"
+		ACC="BII-M3"
+		NAME="test mouse2"
+		TYPE="201"
+		NODE_ID = "3"
+	/>
+
+	<NODE
+			OBJ_TYPE="MaterialNode"
+			ID="4"
+			ACC="BII-N4"
+			STUDY_ID="100"
+	/>
+	
+	<MATERIAL
+		ID="201"
+		ACC="BII-M4"
+		NAME="liver2"
+		TYPE="202"
+		NODE_ID = "4"
+	/>
+
+	<PROPERTY ID="101" VALUE="organism" POSITION="1" ROLE="0" OBJ_TYPE="Characteristic"/>
+	<PROPERTY ID="102" VALUE="sex" POSITION="2" ROLE="1" OBJ_TYPE="Characteristic"/>
+	<PROPERTY ID="103" VALUE="Diet" POSITION="3" ROLE="0" OBJ_TYPE="Characteristic"/>
+	<PROPERTY ID="104" VALUE="Exposure" POSITION="4" ROLE="0" OBJ_TYPE="Characteristic"/>
+
+	<PROPERTY ID="105" VALUE="organism" POSITION="1" ROLE="0" OBJ_TYPE="Factor"/>
+	<PROPERTY ID="106" VALUE="Diet" POSITION="3" ROLE="0" OBJ_TYPE="Factor"/>
+	<PROPERTY ID="107" VALUE="Exposure" POSITION="4" ROLE="0" OBJ_TYPE="Factor"/>
+
+	<PROPERTY_VALUE OBJ_TYPE="CharacteristicValue" ID="101" VALUE="Mus musculus" PROPERTY_ID="101"
+									MATERIAL_ID="100"/>
+	<PROPERTY_VALUE OBJ_TYPE="CharacteristicValue" ID="102" VALUE="male" PROPERTY_ID="102"
+									MATERIAL_ID="100"/>
+	<PROPERTY_VALUE OBJ_TYPE="CharacteristicValue" ID="103" VALUE="Homo sapiens" PROPERTY_ID="101"
+									MATERIAL_ID="101"/>
+	<PROPERTY_VALUE OBJ_TYPE="CharacteristicValue" ID="104" VALUE="female" PROPERTY_ID="102"
+									MATERIAL_ID="101"/>
+
+	<PROPERTY_VALUE OBJ_TYPE="CharacteristicValue" ID="105"
+									VALUE="High Fat Diet (32%lard oil, 8 %corn oil)" PROPERTY_ID="103" MATERIAL_ID="100"/>
+	<PROPERTY_VALUE OBJ_TYPE="CharacteristicValue" ID="106" VALUE="15" PROPERTY_ID="104"
+									MATERIAL_ID="100"/>
+	<PROPERTY_VALUE OBJ_TYPE="CharacteristicValue" ID="107"
+									VALUE="Low Fat Diet (standard carbohydrate chow)" PROPERTY_ID="103" MATERIAL_ID="101"/>
+	<PROPERTY_VALUE OBJ_TYPE="CharacteristicValue" ID="108" VALUE="20" PROPERTY_ID="104"
+									MATERIAL_ID="101"/>
+
+
+	<REFERENCE_SOURCE
+			ID="-1"
+			ACC="FOO.REF.SOURCE"
+			NAME="A foo ref SOURCE made by test suite"
+			URL="http://wherever.net"
+			/>
+
+	<REFERENCE_SOURCE
+			ID="-2"
+			ACC="FOO.REF.SOURCE.1"
+			NAME="A foo ref SOURCE, part of test data set"
+			URL="http://wherever.net"
+			/>
+
+	<REFERENCE_SOURCE
+			ID="-100"
+			ACC="PRIDE:RAW"
+			NAME="PRIDE"
+			URL="http://www.ebi.ac.uk/pride/"
+			/>
+
+	<REFERENCE_SOURCE
+			ID="-200"
+			ACC="AE:PROCESSED"
+			NAME="ArrayExpress"
+			URL="http://www.ebi.ac.uk/microarray-as/aer"
+			/>
+
+	<REFERENCE_SOURCE
+			ID="-300"
+			ACC="ref3"
+			NAME="Pubmed"
+			URL="http://www.ebi.ac.uk/citexplore/"
+			/>
+
+	<ONTOLOGY_ENTRY
+			ID="-4"
+			OBJ_TYPE="ContactRole"
+			ACC="testsuite:AnotherRole"
+			NAME="Another Test Role, by Test Suite"
+			SOURCE="-2"
+			/>
+
+	<xref
+			ID="-1"
+			ACC="1755"
+			SOURCE_ID="-100"
+			/>
+	 <assay2xref assay_id = "-2" xref_id = "-1" />
+
+	<xref
+			ID="-2"
+			ACC="E-MTAB-75"
+			SOURCE_ID="-200"
+			/>
+	 <assay2xref assay_id = "-1" xref_id = "-2" />
+
+	<!--<ASSAY2PROPERTYVALUE-->
+			<!--assay_id="-1"-->
+			<!--PV_ID="101"-->
+			<!--/>-->
+
+	<!--<ASSAY2PROPERTYVALUE-->
+			<!--assay_id="-4"-->
+			<!--PV_ID="103"-->
+			<!--/>-->
+
+	<!--<ASSAY2PROPERTYVALUE-->
+			<!--assay_id="-1"-->
+			<!--PV_ID="102"-->
+			<!--/>-->
+
+	<!--<ASSAY2PROPERTYVALUE-->
+			<!--assay_id="-1"-->
+			<!--PV_ID="104"-->
+			<!--/>-->
+
+	<!--<ASSAY2PROPERTYVALUE-->
+			<!--assay_id="-2"-->
+			<!--PV_ID="105"-->
+			<!--/>-->
+
+	<!--<ASSAY2PROPERTYVALUE-->
+			<!--assay_id="-5"-->
+			<!--PV_ID="107"-->
+			<!--/>-->
+
+	<!--Protocol data-->
+	<ONTOLOGY_ENTRY
+			OBJ_TYPE="ProtocolType"
+			ID="-11"
+			ACC="biionto:TestProtoType:11"
+			NAME="Protocol Type 11"
+			SOURCE="-2"
+			/>
+
+	<PROTOCOL
+			ID="-1"
+			ACC="ACCCC"
+			DESCRIPTION="qqqw eee"
+			NAME="Test Protocol -1"
+			type="-11"
+			/>
+
+	<PROPERTY
+			OBJ_TYPE="Parameter"
+			ID="-1"
+			VALUE="A Test Parameter"
+			POSITION="0"
+			PROTOCOL_ID="-1"
+			/>
+
+	<Study2Protocol
+			PROTOCOL_ID="-1"
+			STUDY_ID="100"
+			/>
+
+	<!--Contact data-->
+
+	<ONTOLOGY_ENTRY
+			ID="-12"
+			OBJ_TYPE="ContactRole"
+			ACC="testsuite:TesterRole"
+			NAME="Test Role, by Test Suite"
+			SOURCE="-2"
+			/>
+
+	<CONTACT
+			ID="-2"
+			FIRSTNAME="Julian"
+			MIDINITIALS=""
+			LASTNAME="Griffin"
+			EMAIL="jagi@pml.ac.uk"
+			PHONE="123"
+			FAX=""
+			AFFILIATION="Comics World"
+			URL="http://www.mrbean.co.uk/"
+			STUDY_ID="100"
+	/>
+
+	<role2contact	CONTACT_ID = "-2" ROLE_ID = "-12" />
+
+
+	<!--Publication data-->
+	<PUBLICATION
+			ID="-1"
+			STUDY_ID="100"
+			INVESTIGATION_ID="[null]"
+			TITLE="The influence of pharmacogenetics on fatty liver disease in the wistar and kyoto rats: a combined transcriptomic and metabonomic study."
+			AUTHORLIST="Griffin JL, Scott J, Nicholson JK."
+			PMID="17203948"
+            />
+
+	<xref
+			ID="-3"
+			ACC="17203948"
+			SOURCE_ID="-300"
+			/>
+	 <!--<publication2xref PUBLICATION_ID = "-1" XREF_ID = "-3" />-->
+
+
+	<!--<PROPERTY_VALUE OBJ_TYPE="FactorValue" ID="110" VALUE="Mus musculus" PROPERTY_ID="105"-->
+									<!--AR_ID="-1"/>-->
+	<!--<PROPERTY_VALUE OBJ_TYPE="FactorValue" ID="111" VALUE="Homo sapiens" PROPERTY_ID="105"-->
+									<!--AR_ID="-2"/>-->
+
+	<ONTOLOGY_ENTRY
+			OBJ_TYPE="DataType"
+			ID="-15"
+			ACC="biionto:DataType:11"
+			NAME="DataType"
+			SOURCE="-2"
+			SUBMISSION_TS="2008-08-18 16:21:20.200000000"
+			/>
+
+	<NODE
+			OBJ_TYPE="DataNode"
+			ID="101"
+			ACC="BII-N101"
+			STUDY_ID="100"
+	/>
+
+	<DATA
+			ID="101"
+			ACC="DATA_101"
+			DATAMATRIXURL="URL"
+			NAME="file name1"
+			URL="URL"
+			TYPE="-15"
+			SUBMISSION_TS="2008-08-18 16:21:20.200000000"
+			NODE_ID = "101"
+		/>
+
+	<NODE
+			OBJ_TYPE="DataNode"
+			ID="102"
+			ACC="BII-N102"
+			STUDY_ID="100"
+	/>
+
+	<DATA
+			ID="102"
+			ACC="DATA_102"
+			DATAMATRIXURL="URL"
+			NAME="file name1"
+			URL="URL"
+			TYPE="-15"
+			SUBMISSION_TS="2008-08-18 16:21:20.200000000"
+			NODE_ID = "102"
+		/>
+
+    <!--AssayResult data	-->
+    <ASSAYRESULT
+            ID="-1"
+            DATA_ID="101"
+            STUDY_ID="100"/>
+
+    <ASSAYRESULT
+            ID="-2"
+            DATA_ID="102"
+            STUDY_ID="100"/>
+
+    	<PROPERTY_VALUE OBJ_TYPE="FactorValue" ID="112"
+									VALUE="High Fat Diet (32%lard oil, 8 %corn oil)" PROPERTY_ID="106" AR_ID="-1"/>
+	<PROPERTY_VALUE OBJ_TYPE="FactorValue" ID="115" VALUE="15" PROPERTY_ID="107"
+									AR_ID="-1"/>
+	<PROPERTY_VALUE OBJ_TYPE="FactorValue" ID="113"
+									VALUE="Low Fat Diet (standard carbohydrate chow)" PROPERTY_ID="106" AR_ID="-2"/>
+	<PROPERTY_VALUE OBJ_TYPE="FactorValue" ID="114" VALUE="20" PROPERTY_ID="107"
+									AR_ID="-2"/>
+
+		<ASSAYRESULT2PROPERTYVALUE
+			AR_ID="-1"
+			PV_ID="101"
+			/>
+
+	<ASSAYRESULT2PROPERTYVALUE
+			AR_ID="-2"
+			PV_ID="103"
+			/>
+
+	<ASSAYRESULT2PROPERTYVALUE
+			AR_ID="-1"
+			PV_ID="102"
+			/>
+
+	<ASSAYRESULT2PROPERTYVALUE
+			AR_ID="-2"
+			PV_ID="104"
+			/>
+
+	<ASSAYRESULT2PROPERTYVALUE
+			AR_ID="-1"
+			PV_ID="105"
+			/>
+
+	<ASSAYRESULT2PROPERTYVALUE
+			AR_ID="-1"
+			PV_ID="106"
+			/>
+
+	<ASSAYRESULT2PROPERTYVALUE
+			AR_ID="-2"
+			PV_ID="107"
+			/>
+
+	<ASSAYRESULT2PROPERTYVALUE
+			AR_ID="-2"
+			PV_ID="108"
+			/>
+
+	<!--Factor values-->
+	<!--<ASSAYRESULT2PROPERTYVALUE-->
+			<!--ar_id="-1"-->
+			<!--PV_ID="110"-->
+			<!--/>-->
+
+	<!--<ASSAYRESULT2PROPERTYVALUE-->
+			<!--ar_id="-2"-->
+			<!--PV_ID="111"-->
+			<!--/>-->
+
+	<ASSAYRESULT2PROPERTYVALUE
+			AR_ID="-1"
+			PV_ID="112"
+			/>
+
+	<ASSAYRESULT2PROPERTYVALUE
+			AR_ID="-2"
+			PV_ID="113"
+			/>
+	<ASSAYRESULT2PROPERTYVALUE
+			AR_ID="-1"
+			PV_ID="115"
+			/>
+
+	<ASSAYRESULT2PROPERTYVALUE
+			AR_ID="-2"
+			PV_ID="114"
+			/>
+
+	<!--Chebi test-->
+		<REFERENCE_SOURCE
+			ID="103"
+			ACC="CHEBI"
+			NAME="CHEBI"
+			/>
+
+	<ONTOLOGY_ENTRY
+				OBJ_TYPE="OntologyTerm"
+				ID="508"
+				ACC="CHEBI:30069"
+				NAME="ferric ferrocyanide"
+				SOURCE="103"/>
+
+	<ONTOLOGY_ENTRY
+				OBJ_TYPE="OntologyTerm"
+				ID="509"
+				ACC="CHEBI:15377"
+				NAME="water"
+				SOURCE="103"/>
+
+	<PROPERTYVALUE2OT PV_ID="112" OE_ID="508"/>
+	<PROPERTYVALUE2OT PV_ID="115" OE_ID="509"/>
+
+    <!--Investigation-->
+    <INVESTIGATION
+            ID = "1"
+            ACC = "BII-INV1"
+            TITLE = "Investigation about Fatty Liver Disease"
+            DESCRIPTION = "Investigation about Fatty Liver Disease"
+        />
+<!-- TODO: fix Oracle
+            submissionDate = "2007-10-1"
+            RELEASEDATE = "1007-10-2"
+-->       
+
+
+        <STUDY2INVESTIGATION
+          STUDY_ID = "100"
+          INVESTIGATION_ID = "1"
+        />
+
+    <STUDY2INVESTIGATION
+          STUDY_ID = "101"
+          INVESTIGATION_ID = "1"
+        />
+
+   <user_detail
+    OBJ_TYPE = "Person"
+    ID = "-1"
+    PASSWORD = "pass"
+    USERNAME = "test_user"
+    FIRSTNAME  = "user"
+    LASTNAME = "Test"
+    ROLE="0"
+    />
+
+    <user_detail
+    OBJ_TYPE = "Person"
+    ID = "-2"
+    PASSWORD = "pass"
+    USERNAME = "curator"
+    FIRSTNAME  = "curator"
+    LASTNAME = "Test"
+    ROLE="1"
+    />
+
+    <STUDY2USER
+        STUDY_ID = "100"
+        USER_ID = "-1"
+            />
+    <STUDY2USER
+        STUDY_ID = "101"
+        USER_ID = "-2"
+            />
+     <STUDY2USER
+        STUDY_ID = "100"
+        USER_ID = "-2"
+            />
+
+</dataset>

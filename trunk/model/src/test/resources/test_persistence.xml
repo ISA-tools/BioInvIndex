@@ -1,0 +1,252 @@
+<dataset>
+
+	<REFERENCE_SOURCE
+			ID="100"
+			ACC="BII-1"
+			NAME="TEST ONTOLOGY"
+			/>
+
+	<REFERENCE_SOURCE
+			ID="101"
+			ACC="BII-101"
+			NAME="101 Ontology"
+			/>
+
+	<ONTOLOGY_ENTRY
+		ID="201"
+		OBJ_TYPE="MaterialRole"
+		ACC="OBI-1"
+		NAME="SOURCE"
+		SOURCE="100"
+	/>
+
+	<ONTOLOGY_ENTRY
+		ID="202"
+		OBJ_TYPE="MaterialRole"
+		ACC="OBI-2"
+		NAME="sample"
+		SOURCE="100"
+	/>
+
+	<ONTOLOGY_ENTRY
+		OBJ_TYPE="EndPoint"
+		ID="203"
+		ACC="OBI-AT1"
+		NAME="Gene Expression"
+		SOURCE="100"
+	/>
+
+	<ONTOLOGY_ENTRY
+			OBJ_TYPE="AssayTechnology"
+			ID="301"
+			ACC="OBI-AP1"
+			NAME="DNA microarray"
+			SOURCE="100"/>
+
+	<ONTOLOGY_ENTRY
+				OBJ_TYPE="EndPoint"
+			ID="206"
+			ACC="OBI-AT2"
+			NAME="Metabolite Characterization"
+			SOURCE="100"/>
+
+	<ONTOLOGY_ENTRY
+				OBJ_TYPE="AssayTechnology"
+			ID="302"
+			ACC="OBI-AP2"
+			NAME="1H NMR spectrometry"
+			SOURCE="100"/>
+
+	<ONTOLOGY_ENTRY
+				OBJ_TYPE="AssayTechnology"
+			ID="304"
+			ACC="OBI-AP4"
+			NAME="NMR spectrometry"
+			SOURCE="100"/>
+
+	<ONTOLOGY_ENTRY
+				OBJ_TYPE="EndPoint"
+			ID="207"
+			ACC="OBI-AT3"
+			NAME="Plasmatic lipids"
+			SOURCE="100"/>
+
+	<ONTOLOGY_ENTRY
+				OBJ_TYPE="AssayTechnology"
+			ID="303"
+			ACC="OBI-AP3"
+			NAME="Conventional clinical chemistry"
+			SOURCE="100"/>
+
+<!--Ontology terms-->
+	<ONTOLOGY_ENTRY
+				OBJ_TYPE="OntologyTerm"
+				ID="501"
+				ACC="OBI-EO1"
+				NAME="organism"
+				SOURCE="100"/>
+	<ONTOLOGY_ENTRY
+				OBJ_TYPE="OntologyTerm"
+				ID="502"
+				ACC="OBI-EO2"
+				NAME="test 2"
+				SOURCE="100"/>
+	<ONTOLOGY_ENTRY
+				OBJ_TYPE="OntologyTerm"
+				ID="503"
+				ACC="OBI-EO3"
+				NAME="test 3"
+				SOURCE="100"/>
+	<ONTOLOGY_ENTRY
+				OBJ_TYPE="OntologyTerm"
+				ID="504"
+				ACC="OBI-EO4"
+				NAME="test 4"
+				SOURCE="100"/>
+	<ONTOLOGY_ENTRY
+				OBJ_TYPE="OntologyTerm"
+				ID="505"
+				ACC="OBI-EO5"
+				NAME="test 5"
+				SOURCE="100"/>
+
+	<ONTOLOGY_ENTRY
+				OBJ_TYPE="ProtocolType"
+				ID="506"
+				ACC="proto:type:fancy"
+				NAME="My Fancy Protocol Type"
+				SOURCE="101"/>
+
+
+	<ONTOLOGY_ENTRY
+				OBJ_TYPE="OntologyTerm"
+				ID="507"
+				ACC="test:101"
+				NAME="Time"
+				SOURCE="101"/>
+
+	<ONTOLOGY_ENTRY
+				OBJ_TYPE="OntologyTerm"
+				ID="-2"
+				ACC="biionto:M2"
+				NAME="test OE"
+				SOURCE="100"/>
+
+	<ONTOLOGY_ENTRY
+				OBJ_TYPE="OntologyTerm"
+				ID="-3"
+				ACC="biionto:OperatorPerturbationDesign"
+				NAME="Operator Perturbation Design"
+				SOURCE="100"/>
+
+	<ONTOLOGY_ENTRY
+				OBJ_TYPE="EndPoint"
+				ID="-4"
+				ACC="biionto:Transcriptomics"
+				NAME="Microarrays"
+				SOURCE="100"/>
+
+	<ONTOLOGY_ENTRY
+				OBJ_TYPE="OntologyTerm"
+				ID="-5"
+				ACC="biionto:LengthUnit"
+				NAME="Length"
+				SOURCE="100"/>
+
+	<ONTOLOGY_ENTRY
+				OBJ_TYPE="OntologyTerm"
+				ID="-6"
+				ACC="bii:mylen"
+				NAME="mylen"
+				SOURCE="100"/>
+
+
+	<ONTOLOGY_ENTRY
+				OBJ_TYPE="ContactRole"
+				ID="-7"
+				ACC="bii:fooContactRole"
+				NAME="My Contact Role"
+				SOURCE="100"/>
+
+
+	<REFERENCE_SOURCE
+		ID="-100"
+		ACC="bii:test:data-types"
+		NAME="Foo Data Type Ontology"
+	/>
+
+
+
+	<ONTOLOGY_ENTRY
+		OBJ_TYPE="DataType"
+		ID="-8"
+		ACC="bii:test:foo-data-type"
+		NAME="Foo Data Type"
+		SOURCE="-100"
+	/>
+
+
+
+
+	<PROPERTY ID="101"  VALUE="organism" POSITION="1" ROLE="1" OBJ_TYPE="Characteristic" PROTOCOL_ID = "[null]" />
+	<PROPERTY ID="102"  VALUE="part" POSITION="2" ROLE="1" OBJ_TYPE="Characteristic"/>
+	<PROPERTY2OE PROPERTY_ID="101" OE_ID="501"/>
+	<PROPERTY2OE PROPERTY_ID="102" OE_ID="501"/>
+
+	<PROTOCOL
+		ID = "-10"
+		ACC = "bii:proto:999"
+		TYPE = "506"
+    NAME = "name"
+    DESCRIPTION = "My Fancy Protocol"
+	/>
+
+
+	<PROPERTY
+		OBJ_TYPE = "Parameter"
+		ID = "-1"
+		VALUE = "Before Killing the Operator"
+		POSITION = "0"
+		ROLE = "1"
+		PROTOCOL_ID = "-10"
+	/>
+	<PROPERTY2OE PROPERTY_ID="-1" OE_ID="-2"/>
+
+	<PROPERTY
+		OBJ_TYPE = "Parameter"
+		ID = "-2"
+		VALUE = "Time To get rid of the corpse"
+		POSITION = "1"
+		ROLE = "1"
+		PROTOCOL_ID = "-10"
+	/>
+	<PROPERTY2OE PROPERTY_ID="-2" OE_ID="507"/>
+
+
+	<INVESTIGATION
+		ID = "-1"
+	  ACC = "bii:test:inv:01"
+		TITLE = "My Existing Test Investigation"
+		DESCRIPTION = "bla bla bla..."
+	/>
+
+    <user_detail
+    OBJ_TYPE = "Person"
+    ID = "-1"
+    PASSWORD = "pass"
+    USERNAME = "test_user"
+    FIRSTNAME  = "user"
+    LASTNAME = "Test"
+    ROLE="0"
+    />
+
+    <user_detail
+    OBJ_TYPE = "Person"
+    ID = "-2"
+    PASSWORD = "pass"
+    USERNAME = "curator"
+    FIRSTNAME  = "curator"
+    LASTNAME = "Test"
+    ROLE="1"
+    />
+</dataset>

@@ -1,0 +1,30 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!--suppress ALL -->
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:s="http://jboss.com/products/seam/taglib"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                template="layout/local-template.xhtml">
+
+    <ui:define name="body">
+
+        <div class="error_top"></div>
+        <div class="error_mid">
+
+            <table class="error_content" align="center">
+                <tr>
+                    <td class="error_title">ERROR OCCURRED</td>
+                </tr>
+                <tr>
+                    <td valign="top"><h:messages/></td>
+                </tr>
+            </table>
+        </div>
+        <div class="error_bottom"></div>
+
+    </ui:define>
+
+
+</ui:composition>

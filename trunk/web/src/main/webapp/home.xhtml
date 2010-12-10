@@ -1,0 +1,74 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!--suppress ALL -->
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:s="http://jboss.com/products/seam/taglib"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                template="layout/local-template.xhtml">
+
+    <ui:define name="body">
+
+        <div align="center">
+            <img src="img/table_images/welcome.png" alt="about bii"/>
+        </div>
+
+        <div align="center" class="body">
+            <table width="100%" border="0">
+                <tr>
+                    <td valign="top">
+                        <div align="left">
+                          BioInvestigation Index (BII) is a new prototype infrastructure set to provide users with a common structured representation and storage mechanism for a variety of biological, biomedical and environmental studies.
+The figure below illustrates the BII infrastructure and its main components: <a href="http://isatab.sf.net/isacreator.html" target="_blank">ISAcreator</a> standalone editor tool, internal import layer, BII repository and its query interface.
+                        </div>
+                    </td>
+                    
+                </tr>
+
+                <tr>
+                    <td>
+                        <div align="center"><img alt="bii infrastructure" src="img/home_page/bii_infra_small.png"
+                                                 border="0" usemap="#infrastructure"/></div>
+                    </td>
+                </tr>
+                <!--comment out since it doesn't work properly at present!-->
+                <!--<tr>-->
+                    <!--<td>-->
+                        <!--<div align="right"><a id="bii_infrastructure" href="img/home_page/bii_infra_large.png"-->
+                                              <!--class="highslide"-->
+                                              <!--onclick="return hs.expand(this)"> <img-->
+                                <!--src="img/home_page/click_to_enlarge.png"-->
+                                <!--border="0" alt="BioInvestigationIndex"-->
+                                <!--style="visibility: visible;"-->
+                                <!--title="Click to enlarge"/></a></div>-->
+                    <!--</td>-->
+                <!--</tr>-->
+                <tr>
+                    <td>
+                       <div align="left">
+                           Although relying on other EBI production systems, the BII infrastructure shields the users from their diverse formats and ontologies, by progressively implementing in the editor tool integrative cross-domain 'standards' such as <a href="http://www.mibbi.org/index.php/MIBBI_portal" target="_blank">MIBBI</a>, <a href="http://www.obofoundry.org" target="_blank">OBO Foundry</a> and <a href="http://isatab.sf.net" target="_blank">ISA-TAB</a>.
+                       </div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <map name="Map3" id="isatab">
+            <area alt="" shape="rect" coords="165,237,258,261" href="http://isatab.sourceforge.net" target="_blank"/>
+        </map>
+        <map name="Map4" id="isacreator">
+            <area alt="" shape="rect" coords="169,239,261,262" href="http://isatab.sourceforge.net/isacreator.html"
+                  target="_blank"/>
+        </map>
+
+        <map name="infrastructure" id="infrastructure">
+  <area shape="rect" coords="453,457,486,471" href="http://www.mibbi.org/index.php/MIBBI_portal" alt="mibbi" />
+  <area shape="rect" coords="589,374,724,401" href="submission_portal.seam" alt="isacreator" />
+  <area shape="rect" coords="535,470,558,484" href="http://www.ebi.ac.uk/ontology-lookup/" alt="OLS" />
+  <area shape="rect" coords="434,483,481,496" href="http://bioportal.bioontology.org/" alt="BioPortal" />
+  <area shape="rect" coords="465,496,513,509" href="http://isatab.sourceforge.net/" target="_blank" alt="isatab" />
+</map>
+
+    </ui:define>
+</ui:composition>

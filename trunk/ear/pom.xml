@@ -1,0 +1,454 @@
+<project>
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>uk.ac.ebi.bioinvindex</groupId>
+    <artifactId>bii</artifactId>
+    <packaging>ear</packaging>
+    <version>${bii.version}</version>
+    <name>Bio-Investigation Index (EAR) Application Assembly</name>
+
+    <parent>
+        <groupId>uk.ac.ebi</groupId>
+        <artifactId>bioinvindex</artifactId>
+        <version>1.2</version>
+    </parent>
+
+    <repositories>
+        <repository>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+            <id>ebi-repo-snapshots</id>
+            <name>EBI repo snapshots</name>
+            <url>http://www.ebi.ac.uk/~maven/m2repo_snapshots</url>
+        </repository>
+
+        <repository>
+            <id>m2repo</id>
+            <name>EBI repo</name>
+            <url>http://www.ebi.ac.uk/~maven/m2repo</url>
+        </repository>
+    </repositories>
+
+    <dependencies>
+
+        <dependency>
+            <groupId>uk.ac.ebi.bioinvindex</groupId>
+            <artifactId>web</artifactId>
+		        <version>${bii.version}</version>
+            <type>war</type>
+        </dependency>
+
+        <dependency>
+            <groupId>uk.ac.ebi.bioinvindex</groupId>
+            <artifactId>model</artifactId>
+		        <version>${bii.version}</version>
+            <type>ejb</type>
+        </dependency>
+
+        <dependency>
+            <groupId>uk.ac.ebi.bioinvindex</groupId>
+            <artifactId>services</artifactId>
+		        <version>${bii.version}</version>
+            <type>ejb</type>
+        </dependency>
+
+        <dependency>
+            <groupId>uk.ac.ebi.bioinvindex</groupId>
+            <artifactId>webservices</artifactId>
+		        <version>${bii.version}</version>
+            <type>ejb</type>
+        </dependency>
+
+        <dependency>
+            <groupId>commons-logging</groupId>
+            <artifactId>commons-logging</artifactId>
+            <version>1.0.4</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>5.1.6</version>
+        </dependency>
+
+        <dependency>
+            <groupId>postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <version>8.4-701.jdbc3</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-annotations</artifactId>
+            <version>${hibernate-annotations.version}</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-entitymanager</artifactId>
+            <version>${hibernate-entitymanager.version}</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.jboss.seam</groupId>
+            <artifactId>jboss-seam</artifactId>
+            <version>${seam.version}</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>javassist</artifactId>
+                    <groupId>jboss</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>dom4j</artifactId>
+                    <groupId>dom4j</groupId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+
+        <!--<dependency>-->
+        <!--<groupId>org.jboss.seam</groupId>-->
+        <!--<artifactId>jboss-el</artifactId>-->
+        <!--<version>${seam.version}</version>-->
+        <!--<exclusions>-->
+        <!--<exclusion>-->
+        <!--<groupId>javax.el</groupId>-->
+        <!--<artifactId>el-api</artifactId>-->
+        <!--</exclusion>-->
+        <!--</exclusions>-->
+        <!--</dependency>-->
+
+        <dependency>
+            <groupId>org.jboss.el</groupId>
+            <artifactId>jboss-el</artifactId>
+            <version>${jboss.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>javax.el</groupId>
+                    <artifactId>el-api</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+        <dependency>
+            <groupId>org.jbpm</groupId>
+            <artifactId>jbpm-jpdl</artifactId>
+            <version>3.2.1</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.drools</groupId>
+            <artifactId>drools-core</artifactId>
+            <version>4.0.1</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.drools</groupId>
+            <artifactId>drools-compiler</artifactId>
+            <version>4.0.1</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.eclipse.jdt</groupId>
+                    <artifactId>core</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>xml-apis</groupId>
+                    <artifactId>xml-apis</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>xerces</groupId>
+                    <artifactId>xercesImpl</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+        <dependency>
+            <groupId>org.richfaces.framework</groupId>
+            <artifactId>richfaces-api</artifactId>
+            <version>${richfaces.version}</version>
+            <scope>provided</scope>
+        </dependency>
+
+    </dependencies>
+    <build>
+        <outputDirectory>target/${artifactId}-${version}</outputDirectory>
+        <resources>
+            <resource>
+                <directory>resources</directory>
+                <targetPath>.</targetPath>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-ear-plugin</artifactId>
+                <version>2.3.2</version>
+                <configuration>
+                    <jboss>
+                        <version>4</version>
+                        <loader-repository>seam.jboss.org:loader=bii</loader-repository>
+                        <data-sources>
+                            <data-source>bii-ds.xml</data-source>
+                        </data-sources>
+                    </jboss>
+                    <archive>
+                        <manifest>
+                            <addClasspath>true</addClasspath>
+                        </manifest>
+                    </archive>
+                    <modules>
+                        <webModule>
+                            <groupId>uk.ac.ebi.bioinvindex</groupId>
+                            <artifactId>web</artifactId>
+                            <contextRoot>/bioinvindex</contextRoot>
+                        </webModule>
+                        <ejbModule>
+                            <groupId>uk.ac.ebi.bioinvindex</groupId>
+                            <artifactId>model</artifactId>
+                        </ejbModule>
+                        <ejbModule>
+                            <groupId>uk.ac.ebi.bioinvindex</groupId>
+                            <artifactId>services</artifactId>
+                        </ejbModule>
+                        <ejbModule>
+                            <groupId>uk.ac.ebi.bioinvindex</groupId>
+                            <artifactId>webservices</artifactId>
+                        </ejbModule>
+                        <jarModule>
+                            <groupId>org.jboss.seam</groupId>
+                            <artifactId>jboss-seam</artifactId>
+                            <includeInApplicationXml>true</includeInApplicationXml>
+                        </jarModule>
+                        <jarModule>
+                            <groupId>org.jboss.el</groupId>
+                            <artifactId>jboss-el</artifactId>
+                            <includeInApplicationXml>true</includeInApplicationXml>
+                        </jarModule>
+                        <jarModule>
+                            <groupId>org.jbpm</groupId>
+                            <artifactId>jbpm-jpdl</artifactId>
+                            <includeInApplicationXml>true</includeInApplicationXml>
+                        </jarModule>
+                        <jarModule>
+                            <groupId>org.drools</groupId>
+                            <artifactId>drools-core</artifactId>
+                            <includeInApplicationXml>true</includeInApplicationXml>
+                        </jarModule>
+                        <jarModule>
+                            <groupId>org.drools</groupId>
+                            <artifactId>drools-compiler</artifactId>
+                            <includeInApplicationXml>true</includeInApplicationXml>
+                        </jarModule>
+                        <jarModule>
+                            <groupId>org.mvel</groupId>
+                            <artifactId>mvel14</artifactId>
+                            <includeInApplicationXml>true</includeInApplicationXml>
+                        </jarModule>
+                        <jarModule>
+                            <groupId>janino</groupId>
+                            <artifactId>janino</artifactId>
+                            <includeInApplicationXml>true</includeInApplicationXml>
+                        </jarModule>
+                        <jarModule>
+                            <groupId>org.antlr</groupId>
+                            <artifactId>antlr-runtime</artifactId>
+                            <includeInApplicationXml>true</includeInApplicationXml>
+                        </jarModule>
+                        <jarModule>
+                            <groupId>org.hibernate</groupId>
+                            <artifactId>hibernate-search</artifactId>
+                            <includeInApplicationXml>true</includeInApplicationXml>
+                        </jarModule>
+                        <jarModule>
+                            <groupId>org.hibernate</groupId>
+                            <artifactId>hibernate-commons-annotations</artifactId>
+                            <includeInApplicationXml>true</includeInApplicationXml>
+                        </jarModule>
+                        <jarModule>
+                            <groupId>org.hibernate</groupId>
+                            <artifactId>hibernate-core</artifactId>
+                            <includeInApplicationXml>true</includeInApplicationXml>
+                        </jarModule>
+                        <jarModule>
+                            <groupId>org.hibernate</groupId>
+                            <artifactId>hibernate-annotations</artifactId>
+                            <includeInApplicationXml>true</includeInApplicationXml>
+                        </jarModule>
+                        <jarModule>
+                            <groupId>org.hibernate</groupId>
+                            <artifactId>hibernate-entitymanager</artifactId>
+                            <includeInApplicationXml>true</includeInApplicationXml>
+                        </jarModule>
+                        <jarModule>
+                            <groupId>org.apache.lucene</groupId>
+                            <artifactId>lucene-core</artifactId>
+                            <includeInApplicationXml>true</includeInApplicationXml>
+                        </jarModule>
+                        <jarModule>
+                            <groupId>org.richfaces.framework</groupId>
+                            <artifactId>richfaces-api</artifactId>
+                            <includeInApplicationXml>true</includeInApplicationXml>
+                        </jarModule>
+                        <!-- TODO: remove we don't include Oracle, for legal reasons  
+                        <jarModule>
+                            <groupId>com.oracle</groupId>
+                            <artifactId>ojdbc5</artifactId>
+                            <includeInApplicationXml>true</includeInApplicationXml>
+                        </jarModule>
+                        -->
+                        <jarModule>
+                            <groupId>mysql</groupId>
+                            <artifactId>mysql-connector-java</artifactId>
+                            <includeInApplicationXml>true</includeInApplicationXml>
+                        </jarModule>
+                        <jarModule>
+                            <groupId>postgresql</groupId>
+                            <artifactId>postgresql</artifactId>
+                            <includeInApplicationXml>true</includeInApplicationXml>
+                        </jarModule>
+
+                    </modules>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+    <!--Profiles: insert your profiles here or edit the existing ones to match your configurations-->
+
+    <profiles>
+   <!--=================================
+
+        Database configuration
+
+        =================================-->
+
+	<profile>
+		<!-- This is the default used for tests -->
+		<id>h2</id>
+		<activation>
+			<activeByDefault>false</activeByDefault>
+		</activation>
+		<properties>
+			<jdbc.groupId>com.h2database</jdbc.groupId>
+			<jdbc.artifactId>h2</jdbc.artifactId>
+			<jdbc.version>1.2.132</jdbc.version>
+			<jdbc.driverClassName>org.h2.Driver</jdbc.driverClassName>
+			<jdbc.url><![CDATA[jdbc:h2:/tmp/bii/testdb/bioinvindex]]></jdbc.url>
+			<!--  jdbc.url><![CDATA[jdbc:h2:tcp://localhost/biitestdb]]></jdbc.url -->
+			<jdbc.username>sa</jdbc.username>
+			<jdbc.password/>
+			<hibernate.dialect>uk.ac.ebi.bioinvindex.utils.H2FixedDialect</hibernate.dialect>
+		</properties>
+	</profile>
+
+		<!-- P6SPY is a JDBC wrapper that is able to log all that passes through	-->
+		<profile>
+			<id>h2_p6spy</id>
+			<activation>
+				<activeByDefault>false</activeByDefault>
+			</activation>
+			<properties>
+				<hibernate.dialect>uk.ac.ebi.bioinvindex.utils.H2FixedDialect</hibernate.dialect>
+				<jdbc.groupId>p6spy</jdbc.groupId>
+				<jdbc.artifactId>p6spy</jdbc.artifactId>
+				<jdbc.version>1.3</jdbc.version>
+				<jdbc.driverClassName>com.p6spy.engine.spy.P6SpyDriver</jdbc.driverClassName>
+				<jdbc.url><![CDATA[jdbc:h2:target/testdb/bioinvindex]]></jdbc.url>
+				<jdbc.username>sa</jdbc.username>
+				<jdbc.password/>
+			</properties>
+      <!-- WARNING: You do need this dependency as well for this profile, Maven doesn't accept it here
+			<dependencies>
+				<dependency>
+					<groupId>com.h2database</groupId>
+					<artifactId>h2</artifactId>
+					<version>1.2.132</version>
+				</dependency>
+			</dependencies -->
+		</profile>
+
+
+    <profile>
+        <id>oracle</id>
+        <activation>
+            <activeByDefault>false</activeByDefault>
+        </activation>
+        <properties>
+            <jdbc.groupId>com.oracle</jdbc.groupId>
+            <jdbc.artifactId>ojdbc5</jdbc.artifactId>
+            <jdbc.version>11.1.0.7.0</jdbc.version>
+            <jdbc.driverClassName>oracle.jdbc.driver.OracleDriver</jdbc.driverClassName>
+            <jdbc.url><![CDATA[jdbc:oracle:thin:@localhost:1521:bioinvindex]]></jdbc.url>
+
+            <jdbc.username>bioinvindex</jdbc.username>
+            <jdbc.password>PASSWD</jdbc.password>
+            <hibernate.dialect>org.hibernate.dialect.Oracle10gDialect</hibernate.dialect>
+            <!-- This shoud do something with this Oracle bug: http://forum.hibernate.org/viewtopic.php?t=82 -->
+            <hibernate.max_fetch_depth>0</hibernate.max_fetch_depth>
+        </properties>
+
+      <!-- WARNING: You do need this dependency as well for this profile, Maven doesn't accept it here
+        <dependencies>
+            <dependency>
+                <groupId>com.oracle</groupId>
+                <artifactId>ojdbc5</artifactId>
+                <version>11.1.0.7.0</version>
+            </dependency>
+        </dependencies -->
+    </profile>
+
+
+    <profile>
+        <id>mysql</id>
+        <activation>
+            <activeByDefault>false</activeByDefault>
+        </activation>
+        <properties>
+            <hibernate.dialect>org.hibernate.dialect.MySQL5InnoDBDialect</hibernate.dialect>
+            <jdbc.groupId>mysql</jdbc.groupId>
+            <jdbc.artifactId>mysql-connector-java</jdbc.artifactId>
+            <jdbc.version>5.1.6</jdbc.version>
+            <jdbc.driverClassName>com.mysql.jdbc.Driver</jdbc.driverClassName>
+            <jdbc.url><![CDATA[jdbc:mysql://localhost:3306/bioinvindex?profileSQL=false]]></jdbc.url>
+            <jdbc.username>bioinvindex</jdbc.username>
+            <jdbc.password>PASSWD</jdbc.password>
+        </properties>
+    </profile>
+
+    <profile>
+        <id>postgresql</id>
+        <activation>
+            <activeByDefault>false</activeByDefault>
+        </activation>
+        <properties>
+            <hibernate.dialect>org.hibernate.dialect.PostgreSQLDialect</hibernate.dialect>
+            <jdbc.groupId>postgresql</jdbc.groupId>
+            <jdbc.artifactId>postgresql</jdbc.artifactId>
+            <jdbc.version>8.3-603.jdbc4</jdbc.version>
+            <jdbc.driverClassName>org.postgresql.Driver</jdbc.driverClassName>
+            <jdbc.url>
+                <![CDATA[jdbc:postgresql://localhost/bioinvindex]]>
+            </jdbc.url>
+            <jdbc.username>CHANGEME</jdbc.username>
+            <jdbc.password>CHANGEME</jdbc.password>
+        </properties>
+    </profile>
+
+		<profile>
+		  <id>index_local</id>
+		  <activation>
+		  	<activeByDefault>false</activeByDefault>
+		  </activation>
+		  <properties>
+				<hibernate.search.default.indexBase>/tmp/bii/luceneindex</hibernate.search.default.indexBase>
+		  </properties>
+		</profile>
+
+</profiles>
+    
+
+</project>

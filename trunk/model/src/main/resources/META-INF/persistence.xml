@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence xmlns="http://java.sun.com/xml/ns/persistence" version="1.0">
+
+    <persistence-unit name="BIIEntityManager" transaction-type="RESOURCE_LOCAL">
+        <provider>org.hibernate.ejb.HibernatePersistence</provider>
+        <!-- This line needed when deployed on JBoss. Tests for model will not work with this line, since
+        biiDatasource is defined in ear module -->
+        ${non_jta_ds}
+<!--        <non-jta-data-source>java:/biiDatasource</non-jta-data-source>-->
+    </persistence-unit>
+
+    <persistence-unit name="JBossBIIEntityManager" transaction-type="JTA">
+        <provider>org.hibernate.ejb.HibernatePersistence</provider>
+        <jta-data-source>java:/biiDatasource</jta-data-source>
+        <properties>
+        		<property name="jboss.entity.manager.factory.jndi.name" value="java:/BIIEntityManagerFactory"/>
+        </properties>
+    </persistence-unit>
+</persistence>

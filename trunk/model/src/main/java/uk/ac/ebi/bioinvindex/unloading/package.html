@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+  ~ __________
+  ~ CREDITS
+  ~ __________
+  ~
+  ~ Team page: http://isatab.sf.net/
+  ~ - Marco Brandizi (software engineer: ISAvalidator, ISAconverter, BII data management utility, BII model)
+  ~ - Eamonn Maguire (software engineer: ISAcreator, ISAcreator configurator, ISAvalidator, ISAconverter,  BII data management utility, BII web)
+  ~ - Nataliya Sklyar (software engineer: BII web application, BII model,  BII data management utility)
+  ~ - Philippe Rocca-Serra (technical coordinator: user requirements and standards compliance for ISA software, ISA-tab format specification, BII model, ISAcreator wizard, ontology)
+  ~ - Susanna-Assunta Sansone (coordinator: ISA infrastructure design, standards compliance, ISA-tab format specification, BII model, funds raising)
+  ~
+  ~ Contributors:
+  ~ - Manon Delahaye (ISA team trainee:  BII web services)
+  ~ - Richard Evans (ISA team trainee: rISAtab)
+  ~
+  ~
+  ~ ______________________
+  ~ Contacts and Feedback:
+  ~ ______________________
+  ~
+  ~ Project overview: http://isatab.sourceforge.net/
+  ~
+  ~ To follow general discussion: isatab-devel@list.sourceforge.net
+  ~ To contact the developers: isatools@googlegroups.com
+  ~
+  ~ To report bugs: http://sourceforge.net/tracker/?group_id=215183&atid=1032649
+  ~ To request enhancements:  http://sourceforge.net/tracker/?group_id=215183&atid=1032652
+  ~
+  ~
+  ~ __________
+  ~ License:
+  ~ __________
+  ~
+  ~ Reciprocal Public License 1.5 (RPL1.5)
+  ~ [OSI Approved License]
+  ~
+  ~ Reciprocal Public License (RPL)
+  ~ Version 1.5, July 15, 2007
+  ~ Copyright (C) 2001-2007
+  ~ Technical Pursuit Inc.,
+  ~ All Rights Reserved.
+  ~
+  ~ http://www.opensource.org/licenses/rpl1.5.txt
+  ~
+  ~ __________
+  ~ Sponsors
+  ~ __________
+  ~ This work has been funded mainly by the EU Carcinogenomics (http://www.carcinogenomics.eu) [PL 037712] and in part by the
+  ~ EU NuGO [NoE 503630](http://www.nugo.org/everyone) projects and in part by EMBL-EBI.
+  -->
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>BII Unloader Package</title>
+</head>
+<body>
+This is the BII unloader package, used for building the Study unloader in the Import Layer package. 
+
+This is the chain of dependencies involved for unloading one study: <br/>
+
+<pre>
+study
+  upper levels (annotatable):
+    annotations
+      annotation types -> free-text
+        ontology entries
+          ref-source 
+  publications
+    upper levels (referrer):
+      xrefs
+        ref-source
+      annotations -> see above
+    status -> oe -> see above
+  contacts
+    roles -> oe -> see above
+  assay results
+    property-values
+      type -> free text -> see above
+      unit
+        upper levels (free text) -> see above
+        type -> free text -> see above
+      (characteristic case has material, which is currently not used)
+    data
+      type -> oe -> see above
+  assays
+    upper levels (referrer):
+      xrefs -> see above
+	    annotations -> see above
+    tech, endpoint -> oe -> see above
+  designs -> free text -> see above
+  protocols
+    type -> oe -> see above
+    params -> free text -> see above
+    components -> free text -> see above
+  investigations
+    publication -> see above
+    contacts -> see above
+</pre>
+
+<p>
+These are the dependencies considered before unloading objects, i.e.: an object (that is usually reusable) cannot
+be deleted if there are still instances of its dependants.  
+
+<pre>
+ref-source
+  oe
+  xrefs
+  AssayTypeDataLoc
+  
+oe
+  free-text
+  
+PubStatus
+  StudyPub TODO: we have onetoone in the code, which is wrong
+  InvPub
+  
+ContactRole
+  StudyContact
+  InvConctact 
+
+ProtocolType
+  Protocol
+
+DataType
+  Data
+  TODO: in future we will have Material->Type too
+
+Study
+  Investigation (and vice-versa)
+
+Property
+  PropertyValue
+
+Unit
+  UnitValue but currently we don't reuse units
+   
+UnitValue
+  PropertyValue, but currently we don't reuse units   
+   
+PropertyValue 
+  assayResult.cascadedPropertyValues
+  Same happens for material, protocolapp, but we don't save these yet
+  
+endpoint, tech
+  assay
+
+  
+</pre>
+</p>
+
+</body>
+</html>

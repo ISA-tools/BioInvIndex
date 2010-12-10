@@ -1,0 +1,13 @@
+<project>
+   <modelVersion>4.0.0</modelVersion>
+   <groupId>uk.ac.ebi.bioinvindex</groupId>
+   <artifactId>site</artifactId>
+   <version>${bii.version}</version>
+   <name>Bio-Investigation Index Maven Site</name>
+
+   <parent>
+      <groupId>uk.ac.ebi</groupId>
+      <artifactId>bioinvindex</artifactId>
+      <version>1.2</version>
+   </parent>
+</project>

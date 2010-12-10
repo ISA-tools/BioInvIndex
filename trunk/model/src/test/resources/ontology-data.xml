@@ -1,0 +1,96 @@
+<dataset>
+
+	<REFERENCE_SOURCE
+			ID="100"
+			acc="BII-1"
+			NAME="OBI"
+			/>
+
+	<REFERENCE_SOURCE
+			ID="500"
+			acc="REF_1"
+			NAME="NCBI_TAX"
+			/>
+
+	<ONTOLOGY_ENTRY
+				OBJ_TYPE="CharacteristicValue"
+				ID="500"
+				ACC="OBI-CV1"
+				NAME="homo sapience"
+				SOURCE="500"/>
+
+		<ONTOLOGY_ENTRY
+				OBJ_TYPE="Property"
+				ID="501"
+				ACC="OBI-P1"
+				NAME="organism"
+				SOURCE="100"/>
+
+		<!--old -->
+
+	<ontology_entry
+			id="201"
+			OBJ_TYPE="MaterialRole"
+			ACC="OBI-1"
+			name="SOURCE"
+			SOURCE="100"
+			/>
+
+	<ontology_entry
+			id="202"
+			OBJ_TYPE="MaterialRole"
+			ACC="OBI-2"
+			name="sample"
+			SOURCE="100"
+			/>
+
+	<ONTOLOGY_ENTRY
+			OBJ_TYPE="AssayType"
+			ID="203"
+			ACC="OBI-AT1"
+			NAME="Gene Expression"
+			SOURCE="100"/>
+
+	<ONTOLOGY_ENTRY
+			OBJ_TYPE="AnalyticalPlatform"
+			ID="301"
+			ACC="OBI-AP1"
+			NAME="DNA microarray"
+			SOURCE="100"/>
+
+	<ONTOLOGY_ENTRY
+			OBJ_TYPE="AssayType"
+			ID="206"
+			ACC="OBI-AT2"
+			NAME="Metabolite Characterization"
+			SOURCE="100"/>
+
+	<ONTOLOGY_ENTRY
+			OBJ_TYPE="AnalyticalPlatform"
+			ID="302"
+			ACC="OBI-AP2"
+			NAME="1H NMR spectrometry"
+			SOURCE="100"/>
+
+	<ONTOLOGY_ENTRY
+			OBJ_TYPE="AnalyticalPlatform"
+			ID="304"
+			ACC="OBI-AP4"
+			NAME="NMR spectrometry"
+			SOURCE="100"/>
+
+	<ONTOLOGY_ENTRY
+			OBJ_TYPE="AssayType"
+			ID="207"
+			ACC="OBI-AT3"
+			NAME="Plasmatic lipids"
+			SOURCE="100"/>
+
+	<ONTOLOGY_ENTRY
+			OBJ_TYPE="AnalyticalPlatform"
+			ID="303"
+			ACC="OBI-AP3"
+			NAME="Conventional clinical chemistry"
+			SOURCE="100"/>
+
+</dataset>

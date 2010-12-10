@@ -1,0 +1,151 @@
+<dataset>
+
+	<REFERENCE_SOURCE
+			ID="100"
+			ACC="BII-1"
+			NAME="TEST ONTOLOGY"
+			/>
+
+	<REFERENCE_SOURCE
+			ID="101"
+			ACC="BII-101"
+			NAME="101 Ontology"
+			/>
+
+	<REFERENCE_SOURCE
+			ID="103"
+			ACC="CHEBI"
+			NAME="ChEBI"
+			/>
+
+	<ontology_entry
+			ID="201"
+			OBJ_TYPE="MaterialRole"
+			ACC="OBI-1"
+			NAME="SOURCE"
+			SOURCE="100"
+			/>
+
+	<ontology_entry
+			ID="202"
+			OBJ_TYPE="MaterialRole"
+			ACC="OBI-2"
+			NAME="sample"
+			SOURCE="100"
+			/>
+
+	<ONTOLOGY_ENTRY
+			OBJ_TYPE="EndPoint"
+			ID="203"
+			ACC="OBI-AT1"
+			NAME="Gene Expression"
+			SOURCE="100"/>
+
+	<ONTOLOGY_ENTRY
+			OBJ_TYPE="AssayTechnology"
+			ID="301"
+			ACC="OBI-AP1"
+			NAME="DNA microarray"
+			SOURCE="100"/>
+
+	<ONTOLOGY_ENTRY
+				OBJ_TYPE="EndPoint"
+			ID="206"
+			ACC="OBI-AT2"
+			NAME="Metabolite Characterization"
+			SOURCE="100"/>
+
+	<ONTOLOGY_ENTRY
+				OBJ_TYPE="AssayTechnology"
+			ID="302"
+			ACC="OBI-AP2"
+			NAME="1H NMR spectrometry"
+			SOURCE="100"/>
+
+	<ONTOLOGY_ENTRY
+				OBJ_TYPE="AssayTechnology"
+			ID="304"
+			ACC="OBI-AP4"
+			NAME="NMR spectrometry"
+			SOURCE="100"/>
+
+	<ONTOLOGY_ENTRY
+				OBJ_TYPE="EndPoint"
+			ID="207"
+			ACC="OBI-AT3"
+			NAME="Plasmatic lipids"
+			SOURCE="100"/>
+
+	<ONTOLOGY_ENTRY
+				OBJ_TYPE="AssayTechnology"
+			ID="303"
+			ACC="OBI-AP3"
+			NAME="Conventional clinical chemistry"
+			SOURCE="100"/>
+
+<!--Ontology terms-->
+	<ONTOLOGY_ENTRY
+				OBJ_TYPE="OntologyTerm"
+				ID="501"
+				ACC="OBI-EO1"
+				NAME="organism"
+				SOURCE="100"/>
+	<ONTOLOGY_ENTRY
+				OBJ_TYPE="OntologyTerm"
+				ID="502"
+				ACC="OBI-EO2"
+				NAME="test 2"
+				SOURCE="100"/>
+	<ONTOLOGY_ENTRY
+				OBJ_TYPE="OntologyTerm"
+				ID="503"
+				ACC="OBI-EO3"
+				NAME="test 3"
+				SOURCE="100"/>
+	<ONTOLOGY_ENTRY
+				OBJ_TYPE="OntologyTerm"
+				ID="504"
+				ACC="OBI-EO4"
+				NAME="test 4"
+				SOURCE="100"/>
+	<ONTOLOGY_ENTRY
+				OBJ_TYPE="OntologyTerm"
+				ID="505"
+				ACC="OBI-EO5"
+				NAME="test 5"
+				SOURCE="100"/>
+
+	<ONTOLOGY_ENTRY
+				OBJ_TYPE="ProtocolType"
+				ID="506"
+				ACC="protocol:type:fancy"
+				NAME="My Fancy Protocol"
+				SOURCE="101"/>
+
+	<ONTOLOGY_ENTRY
+				OBJ_TYPE="OntologyTerm"
+				ID="507"
+				ACC="test:101"
+				NAME="Time"
+				SOURCE="101"/>
+
+	<ONTOLOGY_ENTRY
+				OBJ_TYPE="OntologyTerm"
+				ID="508"
+				ACC="CHEBI:30069"
+				NAME="ferric ferrocyanide"
+				SOURCE="103"/>
+
+	<ONTOLOGY_ENTRY
+				OBJ_TYPE="OntologyTerm"
+				ID="509"
+				ACC="CHEBI:15377"
+				NAME="water"
+				SOURCE="103"/>
+
+	<PROPERTY ID="101"  VALUE="organism" POSITION="1" ROLE="1" OBJ_TYPE="Characteristic"/>
+	<PROPERTY ID="102"  VALUE="part" POSITION="2" ROLE="1" OBJ_TYPE="Characteristic"/>
+	<PROPERTY2OE PROPERTY_ID="101" OE_ID="501"/>
+	<PROPERTY2OE PROPERTY_ID="102" OE_ID="501"/>
+
+</dataset>

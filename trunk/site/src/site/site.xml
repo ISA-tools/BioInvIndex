@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<project name="Maven">
+  <bannerLeft>
+    <name>Bio-Investigation Index</name>
+    <src></src>
+    <href></href>
+  </bannerLeft>
+  <bannerRight>
+    <src></src>
+  </bannerRight>
+  <body>
+     <menu ref="parent"/>
+     <menu ref="modules"/>
+     <menu ref="reports"/>
+  </body>
+</project>

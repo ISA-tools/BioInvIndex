@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<components xmlns="http://jboss.com/products/seam/components"
+            xmlns:core="http://jboss.com/products/seam/core"
+            xmlns:persistence="http://jboss.com/products/seam/persistence"
+            xmlns:drools="http://jboss.com/products/seam/drools"
+            xmlns:framework="http://jboss.com/products/seam/framework"
+            xmlns:security="http://jboss.com/products/seam/security"
+            xmlns:mail="http://jboss.com/products/seam/mail"
+            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+            xmlns:transaction="http://jboss.com/products/seam/transaction"
+            xsi:schemaLocation=
+                    "http://jboss.com/products/seam/core http://jboss.com/products/seam/core-2.0.xsd
+                 http://jboss.com/products/seam/persistence http://jboss.com/products/seam/persistence-2.0.xsd
+                 http://jboss.com/products/seam/drools http://jboss.com/products/seam/drools-2.0.xsd
+                 http://jboss.com/products/seam/security http://jboss.com/products/seam/security-2.0.xsd
+                 http://jboss.com/products/seam/mail http://jboss.com/products/seam/mail-2.0.xsd
+                 http://jboss.com/products/seam/framework http://jboss.com/products/seam/framework-2.0.xsd
+                 http://jboss.com/products/seam/components http://jboss.com/products/seam/components-2.0.xsd">
+
+    <core:init debug="true" jndi-pattern="bii-1.2/#{ejbName}/local"/>
+
+    <core:manager concurrent-request-timeout="500"
+                  conversation-timeout="120000"
+                  conversation-id-parameter="cid"/>
+
+    <persistence:managed-persistence-context name="entityManager"
+                                             auto-create="true"
+                                             persistence-unit-jndi-name="java:/BIIEntityManagerFactory"/>
+
+    <!--<drools:rule-base name="securityRules">-->
+    <!--<drools:rule-files>-->
+    <!--<value>/security.drl</value>-->
+    <!--</drools:rule-files>-->
+    <!--</drools:rule-base>-->
+
+    <!--<security:identity authenticate-method="#{authenticator.authenticate}"-->
+    <!--security-rules="#{securityRules}"/>-->
+
+    <!--<framework:entity-home name="studyHome"-->
+    <!--entity-class="uk.ac.ebi.bioinvindex.model.Study"/>-->
+
+    <!--<event type="org.jboss.seam.notLoggedIn">-->
+    <!--<action expression="#{redirect.captureCurrentView}"/>-->
+    <!--</event>-->
+    <!--<event type="org.jboss.seam.postAuthenticate">-->
+    <!--<action expression="#{redirect.returnToCapturedView}"/>-->
+    <!--</event>-->
+
+    <transaction:ejb-transaction/>
+
+    <security:identity authenticate-method="#{authenticator.authenticate}"/>
+
+    <mail:mail-session host="localhost" port="2525" username="test" password="test"/>
+
+    <!--DAOs and Services from "core" module-->
+
+    <component name="studyEJB3DAO" class="uk.ac.ebi.bioinvindex.dao.ejb3.StudyEJB3DAO"
+               auto-create="true">
+        <property name="entityManager">#{entityManager}</property>
+    </component>
+
+    <component name="dataEJB3DAO" class="uk.ac.ebi.bioinvindex.dao.ejb3.DataEJB3DAO"
+               auto-create="true">
+        <property name="entityManager">#{entityManager}</property>
+    </component>
+
+    <component name="ontologyDAO" class="uk.ac.ebi.bioinvindex.dao.ejb3.OntologyEntryEJB3DAO"
+               auto-create="true">
+        <property name="entityManager">#{entityManager}</property>
+    </component>
+
+    <component name="studySearch"
+               class="uk.ac.ebi.bioinvindex.search.hibernatesearch.StudyFreeTextSearchImpl"
+               auto-create="true">
+        <property name="entityManager">#{entityManager}</property>
+    </component>
+
+    <component name="secureStudySearch"
+               class="uk.ac.ebi.bioinvindex.search.hibernatesearch.SecureStudyFreeTextSearch"
+               auto-create="true">
+        <property name="entityManager">#{entityManager}</property>
+    </component>
+
+    <component name="userDAO"
+               class="uk.ac.ebi.bioinvindex.dao.ejb3.UserEJB3DAO"
+               auto-create="true">
+        <property name="entityManager">#{entityManager}</property>
+    </component>
+
+    <component name="dataLocationManager"
+               class="uk.ac.ebi.bioinvindex.utils.datasourceload.DataLocationManager"
+               auto-create="true">
+        <property name="entityManager">#{entityManager}</property>
+    </component>
+
+
+    <!--<component name="studyService"-->
+    <!--class="uk.ac.ebi.bioinvindex.core.services.ejb3.StudyRetrievalServiceImpl"-->
+    <!--auto-create="true">-->
+    <!--<property name="ontologyEntryDAOHelper">#{ontologyHelper}</property>-->
+    <!--<property name="studyDao">#{studyEJB3DAO}</property>-->
+    <!--<property name="freeTextSearcher">#{studySearch}</property>-->
+    <!--</component>-->
+
+    <!--<framework:entity-query name="assayTypes" ejbql="select distinct t.name from AssayTechnology t"/>-->
+    <!--<framework:entity-query name="endPoints" ejbql="select distinct t.name from Measurement t"/>-->
+    <!--<framework:entity-query name="organisms" ejbql="-->
+    <!--SELECT distinct pv.value-->
+    <!--FROM PropertyValueImpl pv, PropertyImpl p-->
+    <!--WHERE pv.type = p.id and p.value = 'organism'"/>-->
+
+</components>

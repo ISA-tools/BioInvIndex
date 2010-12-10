@@ -1,0 +1,17 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:s="http://jboss.com/products/seam/taglib">
+    <div class="prop" align="center">
+<span class="value #{invalid?'error':'info'}">
+<s:validateAll>
+    <ui:insert/>
+</s:validateAll>
+</span>
+
+<span class="error">
+<h:graphicImage value="img/login/error.png" rendered="#{invalid}" styleClass="error"/>
+</span>
+    </div>
+</ui:composition>

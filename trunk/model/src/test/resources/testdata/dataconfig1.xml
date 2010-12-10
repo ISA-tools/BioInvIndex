@@ -1,0 +1,59 @@
+<datasources>
+    <isatab_source>
+        <location
+                filesystem_path="ftp://new/isa"
+                web_url="ftp://new/isa"
+                />
+    </isatab_source>
+
+    <datasource measurement_type="transcription profiling"
+                technology_type="DNA microarray"
+                name="ArrayExpress"
+                url="http://www.ebi.ac.uk/microarray-as/ae/new"
+                description="ArrayExpress"
+    >
+        <raw_data
+                filesystem_path="//raw1_new/acc_goes_here"
+                web_url="ftp://raw1_new/${study-acc}"
+                />
+        <processed_data
+                filesystem_path="//processed3/${study-acc}"
+                web_url="ftp://ftp.ebi.ac.uk/pub/databases/microarray/data/experiment/type_goes_here/${study-acc}/${study-acc}.processed.zip"
+                />
+        <db_entry web_url="http://processed3/${study-acc}"/>
+    </datasource>
+
+    <datasource measurement_type="metabolite profiling"
+                technology_type="NMR spectroscopy">
+        <raw_data
+                filesystem_path="//raw2/${study-acc}"
+                web_url="ftp://raw2/${study-acc}"
+                />
+        <processed_data
+                filesystem_path="processed2/${study-acc}"
+                web_url="ftp://processed2/${study-acc}"
+                />
+    </datasource>
+
+
+    <datasource measurement_type="protein expression profiling"
+                technology_type="mass spectrometry"
+    >
+        <raw_data
+                filesystem_path="//raw2/${study-acc}"
+                web_url="ftp://raw2/${study-acc}"
+                />
+    </datasource>
+    <datasource measurement_type="foo measure"
+                technology_type="foo tech"
+    >
+        <raw_data
+                filesystem_path="//raw_foo/${study-acc}"
+                web_url="ftp://raw_foo/${study-acc}"
+                />
+        <processed_data
+                filesystem_path="//processed_foo/${study-acc}"
+                web_url="ftp://processed_foo/${study-acc}"
+                />
+    </datasource>
+</datasources>

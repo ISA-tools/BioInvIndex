@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+	Default data set used in tests. If you don't want to use it, you have to override
+
+	WARNING: The first time you define a record for a given table, DBUnit will assume the table
+	  has the schema specified in that first record. For instance if you first define
+		 person name = "Foo" then in any subsequent person name = "...", surname = "
+		 .." address = "..." ALL fields but name will be ignored.
+-->
+<dataset>
+
+
+	 <REFERENCE_SOURCE
+            ID="100"
+            acc="BII-1"
+            NAME="OBI"
+            />
+
+
+	<ONTOLOGY_ENTRY
+		  id                         ="-1"
+			OBJ_TYPE                   ="ContactRole"
+			ACC                        ="testsuite:TesterRole"
+			name                       ="Test Role, by Test Suite"
+            SOURCE                     ="100"
+    />
+
+
+
+
+
+	<STUDY
+				id                         ="-1"
+				acc                         ="-1"
+				TITLE                      ="Study2"
+				DESCRIPTION                ="A foo study made by the test suite"
+				OBJECTIVE                  ="Testing this study"
+				submissionDate             ="2007-08-30"
+   />
+
+	<Design
+		  id            ="-1"
+			VALUE         ="test design"
+			STUDY_ID      ="-1"
+	/>
+
+
+	<CONTACT
+		id												= "-2"
+		firstName									=	"Mister"
+		midInitials								= ""
+		lastName									= "Bean"
+		email											=	"mr.bean@comics.net"
+		phone											= "123"
+		fax												= ""
+		affiliation								= "Comics World"
+		URL												= "http://www.mrbean.co.uk/"
+		STUDY_ID									= "-1"
+	/>
+
+	<role2contact	contact_id = "-2" role_id = "-1" />
+
+
+	<CONTACT
+		id												= "-1"
+		firstName									=	"Marco"
+		midInitials								= ""
+		lastName									= "Brandizi"
+		email											=	"find.me@somewhere.net"
+		phone											= ""
+		fax												= ""
+		affiliation								= "European Bioinformatics Institute (EBI)"
+		URL												= "http://www.ebi.ac.uk"
+	/>
+
+	<role2contact	contact_id = "-1" role_id = "-1" />
+
+
+
+
+
+
+	<PUBLICATION
+		id = "-1"
+		TITLE = "A Structure for Deoxyribose Nucleic Acid"
+		authorList = "Watson J.D., Crick F.H.C."
+	/>
+
+
+
+</dataset>

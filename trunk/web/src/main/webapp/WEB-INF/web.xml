@@ -1,0 +1,135 @@
+<?xml version="1.0" ?>
+<web-app xmlns="http://java.sun.com/xml/ns/j2ee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd"
+         version="2.4">
+
+    <!-- Ajax4jsf -->
+
+    <context-param>
+        <param-name>org.ajax4jsf.VIEW_HANDLERS</param-name>
+        <param-value>com.sun.facelets.FaceletViewHandler</param-value>
+    </context-param>
+
+    <context-param>
+        <param-name>org.ajax4jsf.SKIN</param-name>
+        <param-value>blueSky</param-value>
+    </context-param>
+
+    <context-param>
+        <param-name>org.jboss.seam.core.init.debug</param-name>
+        <param-value>true</param-value>
+    </context-param>
+
+    <!-- Seam -->
+
+    <listener>
+        <listener-class>org.jboss.seam.servlet.SeamListener</listener-class>
+    </listener>
+
+    <filter>
+        <display-name>Ajax4jsf Filter</display-name>
+        <filter-name>ajax4jsf</filter-name>
+        <filter-class>org.ajax4jsf.Filter</filter-class>
+    </filter>
+
+    <filter-mapping>
+        <filter-name>ajax4jsf</filter-name>
+        <url-pattern>*.seam</url-pattern>
+        <dispatcher>REQUEST</dispatcher>
+        <dispatcher>FORWARD</dispatcher>
+        <dispatcher>INCLUDE</dispatcher>
+    </filter-mapping>
+
+    <filter>
+        <filter-name>Seam Filter</filter-name>
+        <filter-class>org.jboss.seam.servlet.SeamFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>Seam Filter</filter-name>
+        <url-pattern>*.seam</url-pattern>
+    </filter-mapping>
+
+    <filter>
+        <filter-name>Seam Servlet Filter</filter-name>
+        <filter-class>org.jboss.seam.servlet.SeamServletFilter</filter-class>
+    </filter>
+
+    <filter-mapping>
+        <filter-name>Seam Servlet Filter</filter-name>
+        <url-pattern>/studyWS</url-pattern>
+    </filter-mapping>
+
+    <filter-mapping>
+        <filter-name>Seam Servlet Filter</filter-name>
+        <url-pattern>/dataWS</url-pattern>
+    </filter-mapping>
+
+    <servlet>
+        <servlet-name>Seam Resource Servlet</servlet-name>
+        <servlet-class>org.jboss.seam.servlet.ResourceServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>Seam Resource Servlet</servlet-name>
+        <url-pattern>/seam/resource/*</url-pattern>
+    </servlet-mapping>
+
+    <!-- Facelets development mode (disable in production) -->
+
+    <context-param>
+        <param-name>facelets.DEVELOPMENT</param-name>
+        <param-value>true</param-value>
+    </context-param>
+
+    <!-- JSF -->
+
+    <context-param>
+        <param-name>javax.faces.DEFAULT_SUFFIX</param-name>
+        <param-value>.xhtml</param-value>
+    </context-param>
+
+    <servlet>
+        <servlet-name>Faces Servlet</servlet-name>
+        <servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>Faces Servlet</servlet-name>
+        <url-pattern>*.seam</url-pattern>
+    </servlet-mapping>
+
+
+    <servlet>
+        <servlet-name>studyService</servlet-name>
+        <servlet-class>uk.ac.ebi.bioinvindex.ws.BIIStudyServiceImpl</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>studyService</servlet-name>
+        <url-pattern>/studyWS</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>dataService</servlet-name>
+        <servlet-class>uk.ac.ebi.bioinvindex.ws.BIIDataServiceImpl</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>dataService</servlet-name>
+        <url-pattern>/dataWS</url-pattern>
+    </servlet-mapping>
+
+    <security-constraint>
+        <display-name>Restrict raw XHTML Documents</display-name>
+        <web-resource-collection>
+            <web-resource-name>XHTML</web-resource-name>
+            <url-pattern>*.xhtml</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>NONE</role-name>
+        </auth-constraint>
+    </security-constraint>
+
+</web-app>

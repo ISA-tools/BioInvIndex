@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataset>
+
+	<REFERENCE_SOURCE
+		ID="-1"
+		ACC="foo_onto"
+		NAME="Foo Ontology"
+	/>
+
+	<ONTOLOGY_ENTRY
+		OBJ_TYPE="OntologyTerm"
+		ID="-1"
+		ACC="bii:tests:characteristics:organism"
+		NAME="Organism"
+		SOURCE="-1"
+	/>
+
+</dataset>

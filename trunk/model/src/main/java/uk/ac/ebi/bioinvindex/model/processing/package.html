@@ -1,0 +1,50 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+        "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+    <title></title>
+</head>
+<body>
+Provides classes for sample processing gragh.
+
+<p>
+    The graph structure is decoupled from the actual contents of the the graph. The graph structure consists of Nodes
+    {@see uk.ac.ebi.bioinvindex.model.processing.Node}
+    and Edges {@see uk.ac.ebi.bioinvindex.model.processing.Processing}.
+</p>
+
+<p>
+    Nodes are represented by the following classes (subclasses of {@see
+    uk.ac.ebi.bioinvindex.model.processing.Node}) : {@see
+    uk.ac.ebi.bioinvindex.model.processing.MaterialNode},
+    {@see uk.ac.ebi.bioinvindex.model.processing.DataNode}. A graph node could either include a Material or
+    Data.
+    Hybridization is a subclass of Material.
+    Examples of Materials are: Source, Sample, Extract, LabeledExtract and Hybridization distinguished by attribute
+    {@see uk.ac.ebi.bioinvindex.model.term.MaterialRole} for each Material instance.
+    Any of these could go inside a Material Node. Examples of data are: Scan, Normalization, ArrayData, ArrayDataMatrix,
+    Image,
+    DerivedArrayData, DerivedArrayDataMatrix distinguished by attribute {@see
+    uk.ac.ebi.bioinvindex.model.term.DataType}
+    for each Data instance. Similarly, each Data instance is included in a Data Node if it is part of the graph.
+</p>
+
+<p>
+    Edges are represented by the following classes:
+    {@see uk.ac.ebi.bioinvindex.model.processing.MaterialProcessing}, {@see
+    uk.ac.ebi.bioinvindex.model.processing.DataProcessing}
+    and {@see uk.ac.ebi.bioinvindex.model.processing.DataAcquisition}. An edge between two Material nodes is an
+    instance
+    of MaterialProcessing. An edge between a Material node and a Data node (e.g. Hybridization to Scan or Data) is an
+    instance of DataAcquisition. Similarly, an edge between two Data nodes is an instance of DataProcessing.
+</p>
+
+<p>
+    If in the ISA-TAB file "Protocol REF" column is present between the transition from node to the next,
+    a {@see uk.ac.ebi.bioinvindex.model.processing.ProtocolApplication} is instantiated and is added to its
+    instance of Processing. More than one ProtocolApplication can be added to one Processing if more than one Protocol
+    REF column
+    exists between two nodes. If order is important, each ProtocolApplication can be given an order value.
+</p>
+</body>
+</html>
