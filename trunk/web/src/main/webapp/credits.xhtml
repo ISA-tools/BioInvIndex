@@ -9,39 +9,26 @@
                 template="layout/local-template.xhtml">
 
     <ui:define name="body">
-     <div id="content" class="body">
-         
-        <div align="center">
-            <img src="img/table_images/credits.png" alt="credits"/><br/>
-        </div>
+        <div id="content" class="body">
 
-        <div align="center">
-            <p>Susanna-Assunta Sansone (Coordinator)</p>
-            <p>Philippe Rocca-Serra (Technical coordinator) </p>
-            <p>Marco Brandizi (Software Engineer) </p>
-            <p>Eamonn Maguire (Software Engineer)</p>
+            <div align="center">
+                <br/>
+                <a href="http://isa-tools.org" target="_blank">
+                    <img src="img/credit.png" border="none" alt="Part of ISAtools" usemap="#Map"/>
+                </a>
+            </div>
 
-            <p>Nataliya Sklyar (Software Engineer)</p>
-        </div>
+            <map name="Map" id="Map">
+                <area shape="rect" coords="380,102,458,181" href="https://github.com/ISA-tools/BioInvIndex/issues"
+                      target="_new" alt="Report Issues about the BII"/>
+                <area shape="rect" coords="299,187,377,267" href="https://github.com/ISA-tools/BioInvIndex"
+                      target="_new" alt="Get the source at GitHub"/>
+                <area shape="rect" coords="382,188,461,265" href="mailto:isatools@googlegroups.com?subject=BII"
+                      target="_new" alt="Contact the ISA team"/>
+                <area shape="rect" coords="9,190,293,269" href="http://isa-tools.org" target="_new" alt="ISA tools"/>
+            </map>
 
-        <div align="center">
-            <p>
-                We acknowledge funds from the <a href="http://www.carcinogenomics.eu/"
-                                                     target="_blank">EU IP CarcinoGenomics</a>, <a
-                        href="http://www.nugo.org/everyone" target="_blank">EU NoE NuGO</a>, <a
-                        href="http://nebc.nox.ac.uk/" target="_blank">NERC-NEBC</a>, <a
-                        href="http://www.ebi.ac.uk/net-project/projects.html#workshop"
-                        target="_blank">BBSRC Tool and Resources fund</a> and EMBL-EBI.
-            </p>
-        </div>
 
-        <div align="center" >
-            <p>The <a href="http://www.ebi.ac.uk/net-project/"
-                           target="_blank">BII team</a> would like to acknowledge <strong>Chris Taylor</strong> and
-                    <strong>Gabriella Rustici</strong> for their ongoing guidance and the
-                    <strong>ArrayExpress</strong>, <strong>Pride</strong> and
-                    <strong>ENA-Reads</strong> developer and curator teams for their collaborative participation in various phase of the development.</p>
-        </div>
         </div>
 
     </ui:define>
