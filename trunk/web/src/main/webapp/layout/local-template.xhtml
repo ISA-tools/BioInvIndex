@@ -21,6 +21,7 @@
     <link rel="stylesheet" href="http://www.ebi.ac.uk/inc/css/contents.css" type="text/css"/>
     <link href="stylesheet/theme.css" rel="stylesheet" type="text/css"/>
     <link href="stylesheet/global.css" rel="stylesheet" type="text/css"/>
+    <link href="stylesheet/navigation.css" rel="stylesheet" type="text/css"/>
 
     <script type="text/javascript" src="js/jquery.min.js"></script>
 
@@ -263,8 +264,16 @@
                      style="width: 145px; visibility: visible; display: block; overflow: hidden;">
 
                     <div>
-                        <img src="img/bii_logo_and_menu.png" alt="BII Logo" border="0" usemap="#menu_map"/>
-                        <br/>
+                        <img src="img/navigation/bii-logo.png" alt="BioInvestigationIndex"/>
+                    </div>
+                    <div id="nav">
+
+                        <ul>
+                            <li><a href="browse_studies.seam">Browse Studies</a></li>
+                            <li><a href="submission_portal.seam">Submit to BII</a></li>
+                            <li><a href="credits.seam">Credit</a></li>
+                            <li><a href="mailto:isatools@googlegroups.com">Contact us</a></li>
+                        </ul>
                     </div>
 
 
@@ -287,7 +296,7 @@
                                             </td>
 
                                             <td colspan="4" valign="bottom">
-                                                <img alt="" src="img/searchImages/freetext.png"/>
+                                                <span class="searchText">freetext</span>
                                                 <rich:spacer
                                                         width="10"/>
                                                 <h:inputText id="freetext" value="#{studyBeanProvider.searchPattern}"
@@ -296,17 +305,19 @@
                                         </tr>
 
                                         <tr>
-
-                                            <td width="20%"><img alt="" src="img/searchImages/organism.png"/>
+                                            <td width="20%">
+                                                 <span class="searchText">organism</span>
                                             </td>
-                                            <td width="25%"><img alt="" src="img/searchImages/endpoint.png"/>
-                                            </td>
-
-                                            <td width="25%"><img alt="" src="img/searchImages/techType.png"/>
-                                            </td>
-                                            <td width="25%"><img alt="" src="img/searchImages/platform.png"/>
+                                            <td width="25%">
+                                                 <span class="searchText">measurement</span>
                                             </td>
 
+                                            <td width="25%">
+                                                 <span class="searchText">technology</span>
+                                            </td>
+                                            <td width="25%">
+                                                 <span class="searchText">platform</span>
+                                            </td>
                                         </tr>
 
                                         <tr>
@@ -421,15 +432,6 @@
                 height="35" width="117"/></a>
     </div>
 </div>
-
-<map name="menu_map" id="menu_map">
-    <area shape="rect" coords="-1,123,110,150" href="mailto:isatools@googlegroups.com" target="_blank"
-          alt="Browse studies"/>
-    <area shape="rect" coords="2,94,112,122" href="submission_portal.seam" alt="Submit to BII"/>
-    <area shape="rect" coords="4,67,114,99" href="browse_studies.seam" alt="Contact us"/>
-    <area shape="rect" coords="2,152,111,177" href="credits.seam" alt="credits"/>
-    <area shape="rect" coords="2,4,143,51" href="home.seam" alt="BII Home"/>
-</map>
 
 <map name="view_map" id="view_map">
     <area alt="view compound-centric information" shape="rect" coords="143,1,209,22" href="compound_view.seam"/>

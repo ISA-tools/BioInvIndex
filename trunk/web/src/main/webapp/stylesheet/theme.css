@@ -4,7 +4,7 @@ a:active, a:link, a:visited {
 }
 
 a:hover {
-    color: #4d4d4d;
+    color: #333;
 }
 
 .bii-content {
@@ -37,7 +37,7 @@ a:hover {
     display: none;
     font-size: 10px;
     font-weight: bold;
-    color: #323232;
+    color: #333;
 }
 
 table td.contentsarea {
@@ -113,7 +113,7 @@ table td.contentsarea {
     font-family: Verdana, sans-serif;
     font-size: 12px;
     font-weight: bold;
-    color: #323232;
+    color: #333;
 }
 
 .user-details {
@@ -122,7 +122,7 @@ table td.contentsarea {
     font-weight: normal;
     text-align: center;
     vertical-align: middle;
-    color: #414042;
+    color: #333;
 }
 
 .logout-button {
@@ -143,7 +143,7 @@ table td.contentsarea {
 }
 
 .iconbox2contents {
-    color: #414042;
+    color: #333;
     font-size: 10px;
     background-color: #FFFFFF;
     font-family: Verdana, sans-serif;
@@ -154,7 +154,7 @@ iconbox2contents a:link, .iconbox2contents a:visited, .iconbox2contents_gr a:lin
 
     text-decoration: underline;
 
-    color: #515252;
+    color: #333;
 
     font-size: 10pt;
 
@@ -171,7 +171,7 @@ iconbox2contents a:link, .iconbox2contents a:visited, .iconbox2contents_gr a:lin
 }
 
 .sidemenu a:link, .sidemenu a:visited {
-    color: #515252;
+    color: #333;
     text-decoration: none;
 }
 
@@ -185,7 +185,7 @@ iconbox2contents a:link, .iconbox2contents a:visited, .iconbox2contents_gr a:lin
     font-size: 12px;
     text-align: center;
     font-weight: bold;
-    color: #515252;
+    color: #333;
 }
 
 .table_cell_notfixed {
@@ -206,7 +206,7 @@ iconbox2contents a:link, .iconbox2contents a:visited, .iconbox2contents_gr a:lin
     font-family: Arial, sans-serif;
     font-size: 14px;
     font-weight: bold;
-    color: #515252;
+    color: #333;
 }
 
 .accession_text {
@@ -227,7 +227,7 @@ iconbox2contents a:link, .iconbox2contents a:visited, .iconbox2contents_gr a:lin
     font-family: Arial, sans-serif;
     font-size: 12px;
     font-weight: normal;
-    color: #515252;
+    color: #333;
 }
 
 .tableheader {
@@ -235,7 +235,7 @@ iconbox2contents a:link, .iconbox2contents a:visited, .iconbox2contents_gr a:lin
     font-size: 12px;
     font-weight: bold;
     color: #FFFFFF;
-    background-color: #515252;
+    background-color: #333;
 }
 
 .tableheader_investigation {
@@ -243,7 +243,7 @@ iconbox2contents a:link, .iconbox2contents a:visited, .iconbox2contents_gr a:lin
     font-size: 12px;
     font-weight: bold;
     color: #FFFFFF;
-    background-color: #6D6E71;
+    background-color: #333;
 }
 
 .tableheader_study {
@@ -251,7 +251,7 @@ iconbox2contents a:link, .iconbox2contents a:visited, .iconbox2contents_gr a:lin
     font-size: 12px;
     font-weight: bold;
     color: #FFFFFF;
-    background-color: #939598;
+    background-color: #4D4D4D;
 
 }
 
@@ -260,16 +260,16 @@ iconbox2contents a:link, .iconbox2contents a:visited, .iconbox2contents_gr a:lin
     font-size: 12px;
     font-weight: bold;
     color: #FFFFFF;
-    background-color: #A7A9AC;
+    background-color: #808080;
 
 }
 
 .datacolumn {
     font-family: Arial, sans-serif;
     font-size: 12px;
-    color: #515252;
+    color: #333;
     font-weight: bold; /*background-color: #FFFFFF;*/
-    border: thin solid #515252;
+    border: thin solid #333;
 }
 
 .table_assay {
@@ -280,7 +280,7 @@ iconbox2contents a:link, .iconbox2contents a:visited, .iconbox2contents_gr a:lin
 .datacolumn_internal {
     font-family: Arial, sans-serif;
     font-size: 12px;
-    color: #515252;
+    color: #333;
     font-weight: bold;
     border: none;
 }
@@ -295,13 +295,13 @@ iconbox2contents a:link, .iconbox2contents a:visited, .iconbox2contents_gr a:lin
 .subdata {
     font-family: Arial, sans-serif;
     font-size: 12px; /*background-color: #FFFFFF;*/
-    color: #515252;
+    color: #333;
 }
 
 .sub_data_info {
     font-family: Arial, sans-serif;
     font-size: 12px;
-    color: #515252;
+    color: #333;
 }
 
 .rich-dtascroller-table {
@@ -311,35 +311,35 @@ iconbox2contents a:link, .iconbox2contents a:visited, .iconbox2contents_gr a:lin
 }
 
 .rich-datascr-act {
-    background-color: #CCCCCC;
-    color: #515252;
-    border-color: #515252;
+    background-color: #FFF;
+    color: #333;
+    border-color: #333;
 }
 
 .rich-datascr-inact {
-    background-color: #B3B3B3;
-    color: #CCCCCC;
-    border-color: #515252;
+    background-color: #FFF;
+    color: #CCC;
+    border-color: #333;
 }
 
 .rich-datascr-button {
     background-color: #B3B3B3;
-    color: #666666;
-    border-color: #666666;
+    color: #333;
+    border-color: #333;
 }
 
 .rich-datascr-button-dsbld {
-    background-color: #CCCCCC;
-    color: #B3B3B3;
-    border-color: #666666;
+    background-color: #FFF;
+    color: #CCC;
+    border-color: #333;
 }
 
 .error_top {
-    background-image: url(../img/error_pane/error_top.png);
+    background-image: url(../img/error_pane/error.png);
     background-repeat: no-repeat;
     background-position: center top;
-    height: 153px;
     width: auto;
+    height:217px;
 }
 
 .error_title {
@@ -348,28 +348,15 @@ iconbox2contents a:link, .iconbox2contents a:visited, .iconbox2contents_gr a:lin
     font-weight: bold;
 }
 
-.error_mid {
-    background-image: url(../img/error_pane/error_mid.png);
-    background-repeat: repeat-y;
-    background-position: center top;
-    height: auto;
-    width: auto;
-}
 
 .error_content {
     font-family: Verdana, sans-serif;
     font-size: 14px;
-    color: #515252;
+    color: #333;
     background-position: center top;
-    width: 750px;
+    list-style:none;
+    width: 400px;
     padding: 0;
-}
-
-.error_bottom {
-    background-image: url(../img/error_pane/error_bottom.png);
-    background-repeat: no-repeat;
-    background-position: center top;
-    height: 127px;
 }
 
 .assay_top {
@@ -397,7 +384,7 @@ iconbox2contents a:link, .iconbox2contents a:visited, .iconbox2contents_gr a:lin
     font-family: Verdana, sans-serif;
     font-size: 12px;
     background-color: #FFFFFF;
-    color: #515252;
+    color: #333;
     font-weight: normal;
     border: thin dotted #8CC640;
 }
@@ -452,7 +439,7 @@ iconbox2contents a:link, .iconbox2contents a:visited, .iconbox2contents_gr a:lin
     font-family: Verdana, sans-serif;
     font-size: 12px;
     font-weight: bold;
-    color: #515252;
+    color: #333;
     padding-left: 10px;
 }
 
@@ -470,23 +457,23 @@ iconbox2contents a:link, .iconbox2contents a:visited, .iconbox2contents_gr a:lin
 }
 
 .input_field_search {
-    border-color: #515252;
-    background-color: #CCCCCC;
-    color: #515252;
+    border-color: #333;
+    background-color: #fff;
+    color: #333;
     width: 120px;
     vertical-align: top;
 }
 
 .dropdown_selector {
-    border-color: #515252;
-    background-color: #CCCCCC;
+    border-color: #333;
+    background-color: #fff;
     font-family: Verdana, sans-serif;
 
 }
 
 .subtable_content {
     font-family: Arial, Myriad Pro, sans-serif;
-    color: #515252;
+    color: #333;
     background-color: #E1E1E1;
     font-size: 12px;
     vertical-align: top;
@@ -496,14 +483,14 @@ iconbox2contents a:link, .iconbox2contents a:visited, .iconbox2contents_gr a:lin
 .subtable_head {
     font-family: Arial, Myriad Pro, sans-serif;
     background-color: #8cc640;
-    color: #515252;
+    color: #333;
     font-size: 12px;
     text-align: left;
 }
 
 .table_content {
     font-family: Arial, Myriad Pro, sans-serif;
-    color: #515252;
+    color: #333;
     font-size: 12px;
     vertical-align: top;
     text-align: left;
@@ -512,7 +499,7 @@ iconbox2contents a:link, .iconbox2contents a:visited, .iconbox2contents_gr a:lin
 .table_content_titles {
     font-family: Arial, Myriad Pro, sans-serif;
     font-size: 13px;
-    color: #515252;
+    color: #333;
     font-weight: bold;
     vertical-align: top;
     text-align: left;
@@ -605,7 +592,7 @@ iconbox2contents a:link, .iconbox2contents a:visited, .iconbox2contents_gr a:lin
 
 .rich-fileupload-button-light {
     border-color: #8cc640;
-    color: #808080;
+    color: #333;
 }
 
 .rich-fileupload-button-border {
@@ -624,9 +611,9 @@ iconbox2contents a:link, .iconbox2contents a:visited, .iconbox2contents_gr a:lin
 input, textarea {
     border: thin solid #808080;
     font-size: 12px;
-    font-family: Verdana;
+    font-family: "lucida grande", arial, sans-serif;
     background: #FFFFFF;
-    color: #666666;
+    color: #333;
 }
 
 input[type='submit'], input[type='button'] {
@@ -654,7 +641,7 @@ input[type='submit'], input[type='button'] {
 }
 
 h1 {
-    font-family: Arial, sans-serif;
+    font-family: "lucida grande", arial, sans-serif;
     color: #808080;
     font-size: 1.6em;
     margin-top: 0;
@@ -662,8 +649,8 @@ h1 {
 
 .body {
     margin: 0;
-    font-family: Verdana, sans-serif;
-    color: #616161;
+    font-family: "lucida grande", arial, sans-serif;
+    color: #333;
 }
 
 .body {
@@ -676,7 +663,7 @@ h1 {
 
 .message {
     margin-bottom: 0px;
-    color: #515151;
+    color: #333;
     background-color: #FFF;
     font-size: 11px;
     list-style-image: url(../img/new_login/error_icon.png);
@@ -709,7 +696,7 @@ div.seam-date {
     margin-top: 5px;
     border: 1px solid #AAAAAA;
     background-color: #FFFFFF;
-    color: #505050;
+    color: #333;
     font-family: Tahoma, Arial, Helvetica, sans-serif;
     font-size: 12px;
 }
@@ -723,8 +710,8 @@ table.seam-date td {
 .seam-date-monthNames {
     width: 70px;
     border: 1px solid #dddddd;
-    border-right: 3px solid #444444;
-    border-bottom: 3px solid #444444;
+    border-right: 3px solid #333;
+    border-bottom: 3px solid #333;
     background-color: #ffffff;
     font-size: 12px;
     cursor: pointer;
@@ -748,8 +735,8 @@ a.seam-date-monthNameLink:hover {
     overflow: auto;
     width: 60px;
     border: 1px solid #dddddd;
-    border-right: 3px solid #444444;
-    border-bottom: 3px solid #444444;
+    border-right: 3px solid #333;
+    border-bottom: 3px solid #333;
     background-color: #ffffff;
     font-size: 12px;
     cursor: pointer;
@@ -760,7 +747,7 @@ a.seam-date-monthNameLink:hover {
 a.seam-date-yearLink, a.seam-date-yearLink:visited {
     text-align: center;
     display: block;
-    color: #555555;
+    color: #333;
 }
 
 a.seam-date-yearLink:hover {
@@ -775,7 +762,7 @@ tr.seam-date-header {
 td.seam-date-header {
     padding: 0px 8px 0px 8px;
     text-align: center;
-    color: gray;
+    color: #333;
     font-family: Tahoma, Arial, Helvetica, sans-serif;
     font-weight: bold;
     font-size: 12px;
@@ -796,7 +783,7 @@ tr.seam-date-headerDays > td {
 
 tr.seam-date-footer {
     background-color: white;
-    color: #505050;
+    color: #333;
     font-weight: bold;
 }
 
@@ -851,7 +838,7 @@ td.seam-date-hover {
 }
 
 .login {
-    color: #939598;
+    color: #333;
     font-family: Verdana, "Gill Sans";
     font-size: 12px;
     font-weight: bold;
@@ -887,32 +874,4 @@ td.seam-date-hover {
     top: auto;
 }
 
-#copyright {
-    position: relative;
-    right: 0;
-    color: #d3d3d3;
-    font-family: Helvetica, Arial, sans-serif;
-    text-align: right;
-    z-index: 32;
-    font-size: 11px;
-    line-height: 20px;
-}
 
-#isatools_icon {
-    position: fixed;
-    opacity: .5;
-    padding-top: 7px;
-    margin: 0 2px 0 4px;
-}
-
-.wrapper {
-    min-height: 100%;
-    height: auto !important;
-    height: 100%;
-    margin: 0 auto -50px;
-}
-
-.footer, .push {
-    height: 50px;
-    background-color: #fff;
-}

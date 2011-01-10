@@ -6,7 +6,7 @@ html {
     padding: 0px;
     width: 100%;
     height: 100%;
-    font: 75% Gill Sans, Arial, sans-serif;
+    font: .9em "lucida grande", arial, sans-serif;;
     color: #FFFFFF;
 }
 
@@ -106,8 +106,8 @@ a, a:visited {
     top: 38px;
     left: 180px;
     font-size: 1.3em;
-    font-family: Gill Sans, sans-serif;
-    color: #515151;
+    font-family: "lucida grande", arial, sans-serif;
+    color: #333;
 }
 
 #bii-contents-ebi-deploy {
@@ -270,9 +270,9 @@ a, a:visited {
 }
 
 .label {
-    background: #515252;
+    background: #333;
     padding: 5px;
-    font: bold 10px Arial, sans-serif;
+    font: bold 10px "lucida grande", arial, sans-serif;
     position: absolute;
     top: 0;
     left: 0;
@@ -280,7 +280,7 @@ a, a:visited {
 
 .form {
     padding: 5px 5px 5px;
-    background: #515252;
+    background: #333;
     width: 200px;
     overflow: hidden;
 }
@@ -293,20 +293,20 @@ a, a:visited {
 }
 
 .loginLabel {
-    font: bold 1.0em Helvetica, Arial, sans-serif;
+    font: bold 1.0em "lucida grande", arial, sans-serif;
     color: #8CC63F;
     padding: 0 0 0 0px;
 }
 
 .registerLabel {
-    font: bold 1.0em Helvetica, Arial, sans-serif;
-    color: #515151;
+    font: bold 1.0em "lucida grande", arial, sans-serif;
+    color: #333;
     padding: 0 0 0 0px;
 }
 
 .informationLabel {
-    font: normal 1.1em Helvetica, Arial, sans-serif;
-    color: #515151;
+    font: normal 1.1em "lucida grande", arial, sans-serif;
+    color: #333;
     padding: 0 0 0 0px;
 }
 
@@ -315,7 +315,7 @@ a, a:visited {
     clear: both;
     padding: 0px 0px 0;
     background: #8CC63F;
-    font: bold 0.8em Helvetica, Arial, sans-serif;
+    font: bold 0.8em "lucida grande", arial, sans-serif;
     color: #333;
     overflow: hidden;
 }
@@ -330,7 +330,7 @@ a, a:visited {
     padding: 5px 26px 5px 5px;
     margin: 0 0 3px 0;
     width: 190px;
-    font: bold 1.0em Helvetiva, Arial, sans-serif;
+    font: bold 1.0em "lucida grande", arial, sans-serif;
 }
 
 .form .w label {
@@ -374,4 +374,34 @@ hr {
 .clear {
     clear: both;
     height: 0px;
+}
+
+#copyright {
+    position: relative;
+    right: 0;
+    color: #d3d3d3;
+    font-family: "lucida grande", arial, sans-serif;
+    text-align: right;
+    z-index: 32;
+    font-size: 11px;
+    line-height: 20px;
+}
+
+#isatools_icon {
+    position: fixed;
+    opacity: .5;
+    padding-top: 7px;
+    margin: 0 2px 0 4px;
+}
+
+.wrapper {
+    min-height: 100%;
+    height: auto !important;
+    height: 100%;
+    margin: 0 auto -50px;
+}
+
+.footer, .push {
+    height: 50px;
+    background-color: #fff;
 }
