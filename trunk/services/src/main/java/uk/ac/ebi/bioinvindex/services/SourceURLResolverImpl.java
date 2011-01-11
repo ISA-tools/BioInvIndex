@@ -132,9 +132,11 @@ public class SourceURLResolverImpl implements SourceURLResolver {
 	}
 
 	public boolean hasWebEntry(String measurement, String technology, DataLink dataLink) {
-		try {
-			return dataLink.hasDataOfType(ResourceType.ENTRY.getName()) &&
-					StringUtils.trimToNull(getEntryURL(measurement, technology, dataLink.getAcc())) != null;
+        try {
+			boolean hasWeb = dataLink.hasDataOfType(ResourceType.ENTRY.getName());
+            boolean linkNotBlank = StringUtils.trimToNull(getEntryURL(measurement, technology, dataLink.getAcc())) != null;
+
+            return hasWeb && linkNotBlank;
 		} catch (Exception e) {
 			log.error("Unable to determine if study has a web entry!");
 			return false;
@@ -153,7 +155,9 @@ public class SourceURLResolverImpl implements SourceURLResolver {
 			return "img/download_images/view_embl.png";
 		} else if (sourceName.toUpperCase().indexOf("EMBL:WEB") == 0) {
 			return "img/download_images/view_embl.png";
-		} else {
+		} else if (sourceName.toUpperCase().indexOf("GEO") == 0) {
+			return "img/download_images/view_geo.png";
+		}else {
 			return "img/download_images/view_generic.png";
 		}
 
@@ -170,51 +174,6 @@ public class SourceURLResolverImpl implements SourceURLResolver {
 		}
 
 		return "";
-	}
-
-	//todo remove once ENA place the data for BII-S-3 in a proper location
-
-	public String getWebEntrySpecial(String measurement) {
-		log.info("measurement is :" + measurement);
-		if (measurement.toLowerCase().indexOf("transcription profiling") == 0) {
-			return "http://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE10119";
-		} else if (measurement.toLowerCase().indexOf("metagenome sequencing") == 0) {
-			return "http://www.ncbi.nlm.nih.gov/sites/entrez?db=sra&term=SRA000266";
-		}
-
-		return "";
-	}
-
-	//todo remove once ENA place the data for BII-S-3 in a proper location
-
-	public String getRawDataSpecial(String measurement) {
-		log.info("measurement is :" + measurement);
-		if (measurement.toLowerCase().indexOf("transcription profiling") == 0) {
-			return "ftp://ftp.ncbi.nih.gov/pub/geo/DATA/SOFT/by_series/GSE10119/";
-		} else if (measurement.toLowerCase().indexOf("metagenome sequencing") == 0) {
-			return "ftp://ftp.ncbi.nlm.nih.gov/sra/Submissions/SRA000/SRA000266/";
-		}
-
-		return "";
-	}
-
-	public String getCorrectAccession(String measurement) {
-		log.info("measurement is :" + measurement);
-		if (measurement.toLowerCase().indexOf("transcription profiling") == 0) {
-			return "GSE10119";
-		} else if (measurement.toLowerCase().indexOf("metagenome sequencing") == 0) {
-			return "SRA000266";
-		}
-
-		return "";
-	}
-
-
-	//todo remove once ENA place the data for BII-S-3 in a proper location
-
-	public boolean isStudyAnException(String studyAcc) {
-		log.info("CHECKING FOR STUDY BII-S-3 : " + studyAcc);
-		return studyAcc.toUpperCase().indexOf("BII-S-3") == 0;
 	}
 
 	private String getDataURL(String measurement, String technology, String accession, AnnotationTypes type) {
