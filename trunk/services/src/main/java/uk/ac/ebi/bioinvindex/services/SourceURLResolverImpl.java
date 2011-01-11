@@ -160,7 +160,6 @@ public class SourceURLResolverImpl implements SourceURLResolver {
 		}else {
 			return "img/download_images/view_generic.png";
 		}
-
 	}
 
 	//todo remove once ENA place the data for BII-S-3 in a proper location
