@@ -371,42 +371,6 @@
 
                                             </ui:repeat>
 
-                                            <h:panelGroup
-                                                    rendered="#{sourceURLResolver.isStudyAnException(studyBean.study.acc)}">
-
-                                                <tr>
-                                                    <td width="20%" valign="top">
-                                                        <div align="center">
-                                                            <h:outputLink
-                                                                    value="#{sourceURLResolver.getRawDataSpecial(bean.endPoint)}"
-                                                                    target="_blank">
-                                                                <img src="img/download_images/downloadraw.png"
-                                                                     alt="download raw data" border="0"/>
-                                                            </h:outputLink>
-                                                        </div>
-                                                    </td>
-
-                                                    <td width="30%" valign="top">
-
-                                                    </td>
-
-                                                    <td width="50%" align="right" valign="top">
-                                                        <h:outputLink
-                                                                value="#{sourceURLResolver.getWebEntrySpecial(bean.endPoint)}"
-                                                                target="_blank">
-                                                            <div align="right">
-                                                                <img src="#{sourceURLResolver.getViewImageLocationSpecial(bean.endPoint)}"
-                                                                     alt="View Entry for Experiment" border="0"/>
-                                                            </div>
-                                                        </h:outputLink>
-
-                                                        <div align="right"
-                                                             class="accession_text">#{sourceURLResolver.getCorrectAccession(bean.endPoint)}</div>
-                                                    </td>
-
-                                                </tr>
-                                            </h:panelGroup>
-
                                         </table>
                                     </td>
                                 </tr>
