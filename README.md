@@ -6,12 +6,13 @@
 - Mainline source code: <https://github.com/ISA-tools/BioInvIndex>
 - Twitter: [@isatools](http://twitter.com/isatools)
 - IRC: [irc://irc.freenode.net/#isatab](irc://irc.freenode.net/#isatab)
+- Development blog: [http://isatools.wordpress.com]
 
 ## Development
 
 **Get the source:**
 
-    git clone --recursive https://github.com/ISA-tools/BioInvIndex.git
+    You should ***fork*** the BioInvIndex project to your own GitHub "repository". Then clone this forked repository and start developing. When you make changes to the BioInvIndex code, we can see the changes you made, review the code and merge with the main BioInvIndex repository code base.
 
 **Build dependencies:**
     These are all managed by Maven <http://maven.apache.org/>. 

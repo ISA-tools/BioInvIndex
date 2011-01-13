@@ -108,13 +108,6 @@ mvn clean test -Dtest=IndexBuilder -Pindex,h2_local,index_local -DargLine="-Xms1
     </modules>
 
     <repositories>
-        <repository>
-            <id>local-repo</id>
-            <url>http://bar.ebi.ac.uk:8081/artifactory/local-repo/</url>
-            <snapshots>
-                <enabled>true</enabled>
-            </snapshots>
-        </repository>
 
         <repository>
             <id>jboss-repo</id>
@@ -407,9 +400,9 @@ mvn clean test -Dtest=IndexBuilder -Pindex,h2_local,index_local -DargLine="-Xms1
                 <jdbc.artifactId>mysql-connector-java</jdbc.artifactId>
                 <jdbc.version>5.1.6</jdbc.version>
                 <jdbc.driverClassName>com.mysql.jdbc.Driver</jdbc.driverClassName>
-                <jdbc.url><![CDATA[jdbc:mysql://localhost:3306/bioinvindex?profileSQL=false]]></jdbc.url>
-                <jdbc.username>bioinvindex</jdbc.username>
-                <jdbc.password>PASSWD</jdbc.password>
+                <jdbc.url><![CDATA[jdbc:mysql://localhost:33066/bioinvindex?profileSQL=false]]></jdbc.url>
+                <jdbc.username>root</jdbc.username>
+                <jdbc.password></jdbc.password>
             </properties>
         </profile>
 
