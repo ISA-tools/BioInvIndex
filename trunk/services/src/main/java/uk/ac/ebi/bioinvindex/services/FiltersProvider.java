@@ -122,7 +122,7 @@ public class FiltersProvider implements Serializable {
 			try {
 				organisms = entityManager.createQuery("SELECT distinct pv.value " +
 						"FROM PropertyValue pv, Property p " +
-						"WHERE pv.type = p.id and p.value = 'organism'")
+						"WHERE pv.type = p.id and lower(p.value) = 'organism'")
 						.getResultList();
 			} catch (Exception e) {
 				log.error("Cannot read a list of Organisms from the DB", e);
