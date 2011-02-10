@@ -10,6 +10,7 @@
             xmlns:transaction="http://jboss.com/products/seam/transaction"
             xsi:schemaLocation=
                     "http://jboss.com/products/seam/core http://jboss.com/products/seam/core-2.0.xsd
+                      http://jboss.com/products/seam/transaction http://jboss.com/products/seam/transaction-2.0.xsd      
                  http://jboss.com/products/seam/persistence http://jboss.com/products/seam/persistence-2.0.xsd
                  http://jboss.com/products/seam/drools http://jboss.com/products/seam/drools-2.0.xsd
                  http://jboss.com/products/seam/security http://jboss.com/products/seam/security-2.0.xsd
@@ -17,11 +18,13 @@
                  http://jboss.com/products/seam/framework http://jboss.com/products/seam/framework-2.0.xsd
                  http://jboss.com/products/seam/components http://jboss.com/products/seam/components-2.0.xsd">
 
+
     <core:init debug="true" jndi-pattern="bii-1.2/#{ejbName}/local"/>
 
     <core:manager concurrent-request-timeout="500"
                   conversation-timeout="120000"
                   conversation-id-parameter="cid"/>
+
 
     <persistence:managed-persistence-context name="entityManager"
                                              auto-create="true"
@@ -45,8 +48,8 @@
     <!--<event type="org.jboss.seam.postAuthenticate">-->
     <!--<action expression="#{redirect.returnToCapturedView}"/>-->
     <!--</event>-->
-
     <transaction:ejb-transaction/>
+
 
     <security:identity authenticate-method="#{authenticator.authenticate}"/>
 

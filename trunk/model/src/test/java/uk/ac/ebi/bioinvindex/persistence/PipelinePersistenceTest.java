@@ -159,13 +159,13 @@ public class PipelinePersistenceTest extends TransactionalDBUnitEJB3DAOTest
 		assertNotNull ( "Ops! cv2Unit not saved (retrieval test)!", daoFactory.getIdentifiableDAO (  pip.cv2Unit.getClass () ).getById (  pip.cv2Unit.getId () ) );
 		ReferenceSource fooOntoDB = (ReferenceSource) adao.getByAcc (  pip.fooOnto.getAcc () );
 		assertNotNull ( "Ops! fooOnto not saved!", fooOntoDB );
-		assertEquals ( "Ops! fooOnto #ID is wrong!", -1L,  fooOntoDB.getId ()  );
+		assertEquals ( "Ops! fooOnto #ID is wrong!", -1L,  fooOntoDB.getId ().longValue()  );
 		assertNotNull ( "Ops! srcRole not saved!", oedao.getByAcc (  pip.srcRole.getAcc () ) );
 		assertNotNull ( "Ops! assayRole not saved!", oedao.getByAcc (  pip.assayRole.getAcc () ) );
 		assertNotNull ( "Ops! dataType not saved!", oedao.getByAcc (  pip.dataType.getAcc () ) );
 		OntologyEntry c1OtDB = oedao.getByAcc (  pip.c1Ot.getAcc () );
 		assertNotNull ( "Ops! fooOnto not saved!", c1OtDB );
-		assertEquals ( "Ops! fooOnto #ID is wrong!", -1L,  c1OtDB.getId ()  );
+		assertEquals ( "Ops! fooOnto #ID is wrong!", -1L,  c1OtDB.getId ().longValue()    );
 		
 		pip.nas1 = (MaterialNode) adao.getByAcc ( pip.nas1.getAcc () );
 		pip.p1 = (MaterialProcessing) adao.getByAcc ( pip.p1.getAcc () );
@@ -246,13 +246,13 @@ public class PipelinePersistenceTest extends TransactionalDBUnitEJB3DAOTest
 		
 		ReferenceSource fooOntoDB = (ReferenceSource) adao.getByAcc ( pip.fooOnto.getAcc () );
 		assertNotNull ( "Ops! fooOnto not saved!", fooOntoDB );
-		assertEquals ( "Ops! fooOnto #ID is wrong!", -1L,  fooOntoDB.getId ()  );
+		assertEquals ( "Ops! fooOnto #ID is wrong!", -1L,  fooOntoDB.getId ().longValue()    );
 		assertNotNull ( "Ops! srcRole not saved!", oedao.getByAcc ( pip.srcRole.getAcc () ) );
 		assertNotNull ( "Ops! assayRole not saved!", oedao.getByAcc ( pip.assayRole.getAcc () ) );
 		assertNotNull ( "Ops! dataType not saved!", oedao.getByAcc ( pip.dataType.getAcc () ) );
 		OntologyEntry c1OtDB = oedao.getByAcc ( pip.c1Ot.getAcc () );
 		assertNotNull ( "Ops! fooOnto not saved!", c1OtDB );
-		assertEquals ( "Ops! fooOnto #ID is wrong!", -1L,  c1OtDB.getId ()  );
+		assertEquals ( "Ops! fooOnto #ID is wrong!", -1L,  c1OtDB.getId ().longValue()    );
 		
 		pip.nas1 = (MaterialNode) adao.getByAcc ( pip.nas1.getAcc () );
 		pip.p1 = (MaterialProcessing) adao.getByAcc ( pip.p1.getAcc () );
@@ -332,13 +332,13 @@ public class PipelinePersistenceTest extends TransactionalDBUnitEJB3DAOTest
 		
 		ReferenceSource fooOntoDB = (ReferenceSource) adao.getByAcc ( pip.fooOnto.getAcc () );
 		assertNotNull ( "Ops! fooOnto not saved!", fooOntoDB );
-		assertEquals ( "Ops! fooOnto #ID is wrong!", -1L,  fooOntoDB.getId ()  );
+		assertEquals ( "Ops! fooOnto #ID is wrong!", -1L,  fooOntoDB.getId ().longValue()    );
 		assertNotNull ( "Ops! srcRole not saved!", oedao.getByAcc ( pip.srcRole.getAcc () ) );
 		assertNotNull ( "Ops! assayRole not saved!", oedao.getByAcc ( pip.assayRole.getAcc () ) );
 		assertNotNull ( "Ops! dataType not saved!", oedao.getByAcc ( pip.dataType.getAcc () ) );
 		OntologyEntry c1OtDB = (OntologyEntry) oedao.getByAcc ( pip.c1Ot.getAcc () );
 		assertNotNull ( "Ops! fooOnto not saved!", c1OtDB );
-		assertEquals ( "Ops! fooOnto #ID is wrong!", -1L,  c1OtDB.getId ()  );
+		assertEquals ( "Ops! fooOnto #ID is wrong!", -1L,  c1OtDB.getId ().longValue()    );
 		
 		assertNotNull ( "Ops! as1 not saved!", adao.getByAcc ( pip.as1.getAcc () ) );
 		assertNotNull ( "Ops! ar1 not saved!", pip.ar1.getId () );
@@ -421,10 +421,10 @@ public class PipelinePersistenceTest extends TransactionalDBUnitEJB3DAOTest
 		
 		ReferenceSource fooOntoDB = (ReferenceSource) adao.getByAcc ( pip.fooOnto.getAcc () );
 		assertNotNull ( "Ops! fooOnto not saved!", fooOntoDB );
-		assertEquals ( "Ops! fooOnto #ID is wrong!", -1L,  fooOntoDB.getId ()  );
+		assertEquals ( "Ops! fooOnto #ID is wrong!", -1L,  fooOntoDB.getId ().longValue()    );
 		OntologyEntry c1OtDB = (OntologyEntry) oedao.getByAcc ( pip.c1Ot.getAcc () );
 		assertNotNull ( "Ops! fooOnto not saved!", c1OtDB );
-		assertEquals ( "Ops! fooOnto #ID is wrong!", -1L,  c1OtDB.getId ()  );
+		assertEquals ( "Ops! fooOnto #ID is wrong!", -1L,  c1OtDB.getId ().longValue()    );
 		
 		assertNotNull ( "Ops! as1 not saved!", adao.getByAcc ( pip.as1.getAcc () ) );
 		assertNotNull ( "Ops! ar1 not saved!", pip.ar1.getId () );

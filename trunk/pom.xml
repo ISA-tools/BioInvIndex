@@ -10,431 +10,1854 @@ to reindex existing h2 DB:
 mvn clean test -Dtest=IndexBuilder -Pindex,h2_local,index_local -DargLine="-Xms128m -Xmx512m" -e -DfailIfNoTests=false
 ===============================================-->
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
-    <modelVersion>4.0.0</modelVersion>
-    <groupId>uk.ac.ebi</groupId>
-    <version>1.2</version>
-    <artifactId>bioinvindex</artifactId>
-    <packaging>pom</packaging>
-    <name>Bio-Investigation Index</name>
+	<parent>
+		<groupId>org.jboss.seam</groupId>
+		<artifactId>root</artifactId>
+		<version>2.2.1.Final</version>
+	</parent>
 
-    <properties>
-        <!-- WARNING
-        	For some reason it's not possible to use this property in web/src/main/webapp/WEB-INF, 
-        	so you need to set the bii-X.Y manually (core:init element)
-        	
-        	TODO: is the version-dependency of such identifier necessary?
-        -->
-        <bii.version>1.2</bii.version>
-        <junit.version>4.2</junit.version>
-        <dbunit.dataTypeFactoryName>org.dbunit.ext.hsqldb.HsqldbDataTypeFactory</dbunit.dataTypeFactoryName>
-        <dbunit.version>2.4.3</dbunit.version>
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>uk.ac.ebi</groupId>
+	<version>1.2</version>
+	<artifactId>bioinvindex</artifactId>
+	<packaging>pom</packaging>
+	<name>Bio-Investigation Index</name>
 
-        <seam.version>2.0.2.GA</seam.version>
-        <jboss.version>2.0.1.GA</jboss.version>
-        <richfaces.version>3.3.1.GA</richfaces.version>
+	<properties>
 
-        <!-- Previous was 2.4.0, Hibernate search 3.5 goes with 2.9.2 -->
-        <lucene-core.version>2.4.1</lucene-core.version>
-        <lucene-queries.version>2.4.1</lucene-queries.version>
-        <lucene-misc.version>2.4.1</lucene-misc.version>
+		<bii.version>1.2</bii.version>
 
-        <!--
-  3.5 versions don't work with our code, because of this:  
-  http://opensource.atlassian.com/projects/hibernate/browse/HHH-5098
-  
-  Upgrade postponed.
+		<version.seam>2.2.1.Final</version.seam> <!-- MUST correspond w. seam version in parent tag -->
 
-        <hibernate-search.version>3.2.0.CR1</hibernate-search.version>
-        <hibernate-annotations.version>3.5.0-Final</hibernate-annotations.version>
-        <hibernate-entitymanager.version>3.5.0-Final</hibernate-entitymanager.version>
-                <hibernate-validator.version>4.0.2.GA</hibernate-validator.version>
--->
+		<version.ant>1.8.2</version.ant>
+		<version.antlr>3.3</version.antlr>
+		<version.cglib-nodep>2.2</version.cglib-nodep>
+		<version.commons-beanutils>1.8.3</version.commons-beanutils>
+		<version.commons-collections>3.2.1</version.commons-collections>
+		<version.commons-configuration>1.6</version.commons-configuration>
+		<version.commons-cli>1.2</version.commons-cli>
+		<version.commons-digester>1.8.1</version.commons-digester>
+		<version.commons-lang>2.4</version.commons-lang>
+		<version.groovy>1.7.2</version.groovy>
+		<version.guava>r07</version.guava>
+		<version.hibernate-core>3.3.1.GA</version.hibernate-core>
+		<version.hibernate-entitymanager>3.4.0.GA</version.hibernate-entitymanager>
+		<version.hibernate-search>3.1.1.GA</version.hibernate-search>
+		<version.hibernate-commons-annotations>3.3.0.ga</version.hibernate-commons-annotations>
+		<version.jboss-cache>1.4.1.SP9</version.jboss-cache>
+		<version.jboss-el>1.0_02.CR5</version.jboss-el>
+		<version.jbpm-jpdl>3.2.2</version.jbpm-jpdl>
+		<version.jta>1.1</version.jta>
+		<version.richfaces>3.3.3.Final</version.richfaces>
+		<version.urlrewritefilter>3.1.0</version.urlrewritefilter>
+		<version.xstream>1.3.1</version.xstream>
 
-        <hibernate-annotations.version>3.4.0.GA</hibernate-annotations.version>
-        <hibernate-entitymanager.version>3.4.0.GA</hibernate-entitymanager.version>
-        <hibernate-search.version>3.1.0.GA</hibernate-search.version>
-        <hibernate-validator.version>3.1.0.CR2</hibernate-validator.version>
+		<!-- testing (primarily) -->
+		<version.hamcrest>1.2.1</version.hamcrest>
+		<version.junit>4.8.2</version.junit>
+		<version.mockito>1.8.5</version.mockito>
+		<version.objenesis>1.2</version.objenesis>
+		<version.powermock>1.4.7</version.powermock>
+		<version.spock>0.5</version.spock>
+		<version.spock-groovy-1.7>0.5-groovy-1.7</version.spock-groovy-1.7>
+		<version.testng>5.14.1</version.testng>
+		<version.dbunit>2.4.3</version.dbunit>
 
-        <!-- We need to set this default to 0 for the Oracle driver -->
-        <hibernate.max_fetch_depth>0</hibernate.max_fetch_depth>
+		<!-- OpenEJB -->
+		<version.openejb-javaee-api>5.0-3</version.openejb-javaee-api>
+		<version.openejb-core>3.1.4</version.openejb-core>
 
-        <!-- 
-          This must be null when testing and building the tools, while it must be set properly when 
-          deploying into JBOSS, as it is done in the corresponding profiles. Do not change this default if you're not
-          looking for troubles. 
-        -->
-        <non_jta_ds></non_jta_ds>
+		<!-- JDBC -->
+		<version.h2>1.3.150</version.h2>
+		<version.hsqldb>2.0.0</version.hsqldb>
+		<version.mysql>5.1.14</version.mysql>
 
-    </properties>
+		<!-- plugins -->
+		<version.gmaven>1.3</version.gmaven>
 
-    <developers>
-        <developer>
-            <id>nsklyar</id>
-            <name>Nataliya Sklyar</name>
-            <email>nsklyar@ebi.ac.uk</email>
-            <organization>NET Team - EBI</organization>
-            <organizationUrl>http://www.ebi.ac.uk/net-project</organizationUrl>
-            <timezone>0</timezone>
-        </developer>
-        <developer>
-            <id>brandizi</id>
-            <name>Marco Brandizi</name>
-            <email>brandizi@ebi.ac.uk</email>
-            <organization>NET Team - EBI</organization>
-            <organizationUrl>http://www.ebi.ac.uk/net-project</organizationUrl>
-            <timezone>0</timezone>
-        </developer>
-        <developer>
-            <id>maguire</id>
-            <name>Eamonn Maguire</name>
-            <email>maguire@ebi.ac.uk</email>
-            <organization>NET Team - EBI</organization>
-            <organizationUrl>http://www.ebi.ac.uk/net-project</organizationUrl>
-            <timezone>0</timezone>
-        </developer>
-    </developers>
+		<!-- -->
+		<jdk.debug>true</jdk.debug>
+		<jdk.optimize>false</jdk.optimize>
+		<jdk.source>1.5</jdk.source>
+		<jdk.target>1.5</jdk.target>
 
-    <modules>
-        <module>model</module>
-        <module>services</module>
-        <module>webservices</module>
-        <module>web</module>
-        <module>ear</module>
-        <module>site</module>
-        <module>test_utils</module>
-        <module>jutils</module>
-    </modules>
+		<!-- http://docs.codehaus.org/display/MAVENUSER/POM+Element+for+Source+File+Encoding -->
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-    <repositories>
-
-        <repository>
-            <id>jboss-repo</id>
-            <url>http://repository.jboss.com/maven2</url>
-            <snapshots>
-                <enabled>true</enabled>
-            </snapshots>
-        </repository>
-
-        <repository>
-            <id>java.net</id>
-            <url>http://download.java.net/maven/2</url>
-        </repository>
-
-        <repository>
-            <id>ebi-repo</id>
-            <name>EBI repo</name>
-            <url>http://www.ebi.ac.uk/~maven/m2repo</url>
-        </repository>
-
-        <repository>
-            <snapshots>
-                <enabled>true</enabled>
-            </snapshots>
-            <id>ebi-repo-snapshots</id>
-            <name>EBI repo snapshots</name>
-            <url>http://www.ebi.ac.uk/~maven/m2repo_snapshots</url>
-        </repository>
-
-        <repository>
-            <id>repo1</id>
-            <url>http://repo1.maven.org/maven2/</url>
-        </repository>
-
-    </repositories>
-
-    <pluginRepositories>
-
-    </pluginRepositories>
+		<dbunit.dataTypeFactoryName>org.dbunit.ext.hsqldb.HsqldbDataTypeFactory</dbunit.dataTypeFactoryName>
 
 
-    <distributionManagement>
 
-        <repository>
-            <id>ebi-repo</id>
-            <name>EBI Repository</name>
-            <url>scp://parrot.ebi.ac.uk/homes/maven/public_html/m2repo</url>
-        </repository>
-
-        <snapshotRepository>
-            <uniqueVersion>false</uniqueVersion>
-            <id>ebi-repo-snapshots</id>
-            <name>EBI Snapshots Repository</name>
-            <url>scp://parrot.ebi.ac.uk/homes/maven/public_html/m2repo_snapshots</url>
-        </snapshotRepository>
-
-    </distributionManagement>
+		<!-- 3.5 versions don't work with our code, because of this: http://opensource.atlassian.com/projects/hibernate/browse/HHH-5098 
+			Upgrade postponed. <hibernate-search.version>3.2.0.CR1</hibernate-search.version> 
+			<hibernate-annotations.version>3.5.0-Final</hibernate-annotations.version> 
+			<hibernate-entitymanager.version>3.5.0-Final</hibernate-entitymanager.version> 
+			<hibernate-validator.version>4.0.2.GA</hibernate-validator.version> -->
 
 
-    <reporting>
-        <plugins>
-            <plugin>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <configuration>
-                    <source>1.5</source>
-                    <target>1.5</target>
-                    <encoding>utf-8</encoding>
-                </configuration>
-            </plugin>
-        </plugins>
-    </reporting>
+		<!-- We need to set this default to 0 for the Oracle driver -->
+		<hibernate.max_fetch_depth>0</hibernate.max_fetch_depth>
 
-    <dependencyManagement>
-        <dependencies>
-            <dependency>
-                <groupId>uk.ac.ebi.bioinvindex</groupId>
-                <artifactId>model</artifactId>
-                <version>${bii.version}</version>
-                <type>ejb</type>
-            </dependency>
-            <dependency>
-                <groupId>uk.ac.ebi.bioinvindex</groupId>
-                <artifactId>services</artifactId>
-                <version>${bii.version}</version>
-                <type>ejb</type>
-            </dependency>
-            <dependency>
-                <groupId>uk.ac.ebi.bioinvindex</groupId>
-                <artifactId>webservices</artifactId>
-                <version>${bii.version}</version>
-                <type>ejb</type>
-            </dependency>
-            <dependency>
-                <groupId>uk.ac.ebi.bioinvindex</groupId>
-                <artifactId>web</artifactId>
-                <version>${bii.version}</version>
-                <type>war</type>
-            </dependency>
+		<!-- This must be null when testing and building the tools, while it must 
+			be set properly when deploying into JBOSS, as it is done in the corresponding 
+			profiles. Do not change this default if you're not looking for troubles. -->
+		<non_jta_ds></non_jta_ds>
+
+	</properties>
+
+	<developers>
+		<developer>
+			<id>nsklyar</id>
+			<name>Nataliya Sklyar</name>
+			<email>nsklyar@ebi.ac.uk</email>
+			<organization>NET Team - EBI</organization>
+			<organizationUrl>http://www.ebi.ac.uk/net-project</organizationUrl>
+			<timezone>0</timezone>
+		</developer>
+		<developer>
+			<id>brandizi</id>
+			<name>Marco Brandizi</name>
+			<email>brandizi@ebi.ac.uk</email>
+			<organization>NET Team - EBI</organization>
+			<organizationUrl>http://www.ebi.ac.uk/net-project</organizationUrl>
+			<timezone>0</timezone>
+		</developer>
+		<developer>
+			<id>maguire</id>
+			<name>Eamonn Maguire</name>
+			<email>maguire@ebi.ac.uk</email>
+			<organization>NET Team - EBI</organization>
+			<organizationUrl>http://www.ebi.ac.uk/net-project</organizationUrl>
+			<timezone>0</timezone>
+		</developer>
+	</developers>
+
+	<modules>
+		<module>model</module>
+		<module>services</module>
+		<module>webservices</module>
+		<module>web</module>
+		<module>ear</module>
+		<module>site</module>
+		<module>test_utils</module>
+		<module>jutils</module>
+	</modules>
+
+	<repositories>
+		<repository>
+			<id>local-repo</id>
+			<url>http://bar.ebi.ac.uk:8081/artifactory/local-repo/</url>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+		</repository>
+
+		<!-- <repository> <id>jboss-repo</id> <url>http://repository.jboss.com/maven2</url> 
+			<snapshots> <enabled>true</enabled> </snapshots> </repository> -->
+
+		<repository>
+			<id>java.net</id>
+			<url>http://download.java.net/maven/2</url>
+		</repository>
+
+		<repository>
+			<id>ebi-repo</id>
+			<name>EBI repo</name>
+			<url>http://www.ebi.ac.uk/~maven/m2repo</url>
+		</repository>
+
+		<repository>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+			<id>ebi-repo-snapshots</id>
+			<name>EBI repo snapshots</name>
+			<url>http://www.ebi.ac.uk/~maven/m2repo_snapshots</url>
+		</repository>
+
+		<repository>
+			<id>repo1</id>
+			<url>http://repo1.maven.org/maven2/</url>
+		</repository>
+
+		<repository>
+			<id>jboss</id>
+			<url>https://repository.jboss.org/nexus/content/groups/public-jboss/</url>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+		</repository>
+
+		<repository>
+			<id>repository.codehaus</id>
+			<name>Codehaus Repository</name>
+			<url>http://repository.codehaus.org</url>
+		</repository>
+
+		<!-- for openejb -->
+		<repository>
+			<id>apache-m2-snapshot</id>
+			<name>Apache Snapshot Repository</name>
+			<url>http://repository.apache.org/snapshots</url>
+		</repository>
 
 
-        </dependencies>
-    </dependencyManagement>
+	</repositories>
 
-    <build>
-        <!-- Needed in Maven 3 for deployment via SCP, no longer into core Maven -->
-        <extensions>
-            <extension>
-                <groupId>org.apache.maven.wagon</groupId>
-                <artifactId>wagon-ssh</artifactId>
-                <version>1.0-beta-6</version>
-            </extension>
-        </extensions>
-    </build>
+	<pluginRepositories>
 
-    <profiles>
-
-        <!--
-
-              PLEASE NOTE: DO NOT DEFINE CUSTOM PROFILES HERE! Use a file names profiles.xml, which is ha file having
-              the <profiles></profiles> block as structure (or you can define them in settings.xml)
-
-             -->
+	</pluginRepositories>
 
 
-        <!--=================================
+	<distributionManagement>
 
-										Default
-                    Execution profiles
+		<repository>
+			<id>ebi-repo</id>
+			<name>EBI Repository</name>
+			<url>scp://parrot.ebi.ac.uk/homes/maven/public_html/m2repo</url>
+		</repository>
 
-                    =================================-->
+		<snapshotRepository>
+			<uniqueVersion>false</uniqueVersion>
+			<id>ebi-repo-snapshots</id>
+			<name>EBI Snapshots Repository</name>
+			<url>scp://parrot.ebi.ac.uk/homes/maven/public_html/m2repo_snapshots</url>
+		</snapshotRepository>
 
-        <!-- WARNING! removes existing DB, don't run it with production DB -->
-        <profile>
-            <id>test</id>
-            <activation>
-                <activeByDefault>false</activeByDefault>
-            </activation>
-            <properties>
-                <hbm2ddl.drop>true</hbm2ddl.drop>
-                <hibernate.hbm2ddl.auto>create</hibernate.hbm2ddl.auto>
-            </properties>
-        </profile>
+	</distributionManagement>
 
-        <!-- Use this profile when building ear for deployment. -->
-        <profile>
-            <id>deploy</id>
-            <activation>
-                <activeByDefault>false</activeByDefault>
-            </activation>
-            <properties>
-                <hibernate.hbm2ddl.auto>update</hibernate.hbm2ddl.auto>
-                <hbm2ddl.drop>false</hbm2ddl.drop>
-                <hibernate.search.indexing_strategy>manual</hibernate.search.indexing_strategy>
-                <non_jta_ds>
+
+	<reporting>
+		<plugins>
+			<plugin>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<source>1.5</source>
+					<target>1.5</target>
+					<encoding>utf-8</encoding>
+				</configuration>
+			</plugin>
+		</plugins>
+	</reporting>
+
+	<dependencyManagement>
+
+		<dependencies>
+			<dependency>
+				<groupId>uk.ac.ebi.bioinvindex</groupId>
+				<artifactId>model</artifactId>
+				<version>${bii.version}</version>
+				<type>ejb</type>
+			</dependency>
+			<dependency>
+				<groupId>uk.ac.ebi.bioinvindex</groupId>
+				<artifactId>services</artifactId>
+				<version>${bii.version}</version>
+				<type>ejb</type>
+			</dependency>
+			<dependency>
+				<groupId>uk.ac.ebi.bioinvindex</groupId>
+				<artifactId>webservices</artifactId>
+				<version>${bii.version}</version>
+				<type>ejb</type>
+			</dependency>
+			<dependency>
+				<groupId>uk.ac.ebi.bioinvindex</groupId>
+				<artifactId>web</artifactId>
+				<version>${bii.version}</version>
+				<type>war</type>
+			</dependency>
+
+			<dependency>
+				<groupId>org.jboss.seam</groupId>
+				<artifactId>jboss-seam</artifactId>
+				<version>${version.seam}</version>
+				<type>ejb</type>
+				<exclusions>
+					<!-- ** -->
+					<exclusion>
+						<groupId>javax.el</groupId>
+						<artifactId>el-api</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>javax.servlet</groupId>
+						<artifactId>servlet-api</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>jboss</groupId>
+						<artifactId>javassist</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>org.jboss.el</groupId>
+						<artifactId>jboss-el</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>dom4j</groupId>
+						<artifactId>dom4j</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>javassist</groupId>
+						<artifactId>javassist</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>commons-collections</groupId>
+						<artifactId>commons-collections</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>org.jboss.seam</groupId>
+						<artifactId>jboss-seam-pdf</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>com.sun.facelets</groupId>
+						<artifactId>jsf-facelets</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>com.thoughtworks.xstream</groupId>
+						<artifactId>xstream</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>xpp3</groupId>
+						<artifactId>xpp3_min</artifactId>
+					</exclusion>
+				</exclusions>
+			</dependency>
+
+			<dependency>
+				<groupId>org.jboss.seam</groupId>
+				<artifactId>jboss-seam-ioc</artifactId>
+				<version>${version.seam}</version>
+				<exclusions>
+					<!-- ** -->
+					<exclusion>
+						<groupId>org.jboss.seam</groupId>
+						<artifactId>jboss-seam</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>org.jboss.el</groupId>
+						<artifactId>jboss-el</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>javax.servlet</groupId>
+						<artifactId>servlet-api</artifactId>
+					</exclusion>
+				</exclusions>
+			</dependency>
+
+			<dependency>
+				<groupId>org.jboss.seam</groupId>
+				<artifactId>jboss-seam-mail</artifactId>
+				<version>${version.seam}</version>
+				<exclusions>
+					<!-- ** -->
+					<exclusion>
+						<groupId>org.jboss.seam</groupId>
+						<artifactId>jboss-seam</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>org.jboss.el</groupId>
+						<artifactId>jboss-el</artifactId>
+					</exclusion>
+				</exclusions>
+			</dependency>
+
+			<dependency>
+				<groupId>org.jboss.seam</groupId>
+				<artifactId>jboss-seam-pdf</artifactId>
+				<version>${version.seam}</version>
+				<exclusions>
+					<!-- ** -->
+					<exclusion>
+						<groupId>org.jboss.seam</groupId>
+						<artifactId>jboss-seam</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>org.jboss.el</groupId>
+						<artifactId>jboss-el</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>com.lowagie</groupId>
+						<artifactId>itext</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>com.lowagie</groupId>
+						<artifactId>itext-rtf</artifactId>
+					</exclusion>
+				</exclusions>
+			</dependency>
+
+			<dependency>
+				<groupId>org.jboss.seam</groupId>
+				<artifactId>jboss-seam-remoting</artifactId>
+				<version>${version.seam}</version>
+				<exclusions>
+					<!-- ** -->
+					<exclusion>
+						<groupId>org.jboss.seam</groupId>
+						<artifactId>jboss-seam</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>org.jboss.el</groupId>
+						<artifactId>jboss-el</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>jboss</groupId>
+						<artifactId>javassist</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>javax.el</groupId>
+						<artifactId>el-api</artifactId>
+					</exclusion>
+					<exclusion>
+						<artifactId>dom4j</artifactId>
+						<groupId>dom4j</groupId>
+					</exclusion>
+				</exclusions>
+			</dependency>
+
+			<dependency>
+				<groupId>org.jboss.seam</groupId>
+				<artifactId>jboss-seam-resteasy</artifactId>
+				<version>${version.seam}</version>
+				<exclusions>
+					<!-- ** -->
+					<exclusion>
+						<groupId>org.jboss.seam</groupId>
+						<artifactId>jboss-seam</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>org.jboss.el</groupId>
+						<artifactId>jboss-el</artifactId>
+					</exclusion>
+				</exclusions>
+			</dependency>
+
+			<dependency>
+				<groupId>org.jboss.seam</groupId>
+				<artifactId>jboss-seam-ui</artifactId>
+				<version>${version.seam}</version>
+				<exclusions>
+					<exclusion>
+						<groupId>commons-logging</groupId>
+						<artifactId>commons-logging</artifactId>
+					</exclusion>
+					<!-- ** -->
+					<exclusion>
+						<groupId>org.jboss.seam</groupId>
+						<artifactId>jboss-seam</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>org.jboss.el</groupId>
+						<artifactId>jboss-el</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>org.jboss.seam</groupId>
+						<artifactId>jboss-seam-jul</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>javax.servlet</groupId>
+						<artifactId>servlet-api</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>commons-beanutils</groupId>
+						<artifactId>commons-beanutils</artifactId>
+					</exclusion>
+					<exclusion>
+						<artifactId>commons-digester</artifactId>
+						<groupId>commons-digester</groupId>
+					</exclusion>
+				</exclusions>
+			</dependency>
+
+			<dependency>
+				<groupId>org.jboss.seam</groupId>
+				<artifactId>jboss-seam-debug</artifactId>
+				<version>${version.seam}</version>
+				<exclusions>
+					<!-- ** -->
+					<exclusion>
+						<groupId>org.jboss.seam</groupId>
+						<artifactId>jboss-seam</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>org.jboss.seam</groupId>
+						<artifactId>jboss-seam-pdf</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>org.jboss.el</groupId>
+						<artifactId>jboss-el</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>javax.servlet</groupId>
+						<artifactId>servlet-api</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>javax.el</groupId>
+						<artifactId>el-api</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>com.sun.facelets</groupId>
+						<artifactId>jsf-facelets</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>commons-collections</groupId>
+						<artifactId>commons-collections</artifactId>
+					</exclusion>
+				</exclusions>
+			</dependency>
+
+			<dependency>
+				<groupId>org.jboss.seam</groupId>
+				<artifactId>jboss-seam-excel</artifactId>
+				<version>${version.seam}</version>
+				<exclusions>
+					<!-- ** -->
+					<exclusion>
+						<groupId>org.jboss.seam</groupId>
+						<artifactId>jboss-seam</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>org.jboss.el</groupId>
+						<artifactId>jboss-el</artifactId>
+					</exclusion>
+				</exclusions>
+			</dependency>
+
+			<dependency>
+				<groupId>org.jboss.seam</groupId>
+				<artifactId>jboss-seam-jul</artifactId>
+				<version>${version.seam}</version>
+				<exclusions>
+					<!-- ** -->
+					<exclusion>
+						<groupId>org.jboss.seam</groupId>
+						<artifactId>jboss-seam</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>org.jboss.el</groupId>
+						<artifactId>jboss-el</artifactId>
+					</exclusion>
+				</exclusions>
+			</dependency>
+
+
+			<dependency>
+				<groupId>org.apache.ant</groupId>
+				<artifactId>ant</artifactId>
+				<version>${version.ant}</version>
+				<exclusions>
+					<exclusion>
+						<groupId>org.apache.ant</groupId>
+						<artifactId>ant-launcher</artifactId>
+					</exclusion>
+				</exclusions>
+			</dependency>
+
+			<dependency>
+				<groupId>org.apache.ant</groupId>
+				<artifactId>ant-antlr</artifactId>
+				<version>${version.ant}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.richfaces.framework</groupId>
+				<artifactId>richfaces-api</artifactId>
+				<version>${version.richfaces}</version>
+				<exclusions>
+					<exclusion>
+						<groupId>commons-logging</groupId>
+						<artifactId>commons-logging</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>junit</groupId>
+						<artifactId>junit</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>javax.faces</groupId>
+						<artifactId>jsf-impl</artifactId>
+					</exclusion>
+					<!-- ** -->
+					<exclusion>
+						<groupId>commons-beanutils</groupId>
+						<artifactId>commons-beanutils</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>commons-collections</groupId>
+						<artifactId>commons-collections</artifactId>
+					</exclusion>
+				</exclusions>
+			</dependency>
+
+			<dependency>
+				<groupId>org.richfaces.framework</groupId>
+				<artifactId>richfaces-impl</artifactId>
+				<version>${version.richfaces}</version>
+				<exclusions>
+					<exclusion>
+						<groupId>commons-logging</groupId>
+						<artifactId>commons-logging</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>junit</groupId>
+						<artifactId>junit</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>xml-apis</groupId>
+						<artifactId>xml-apis</artifactId>
+					</exclusion>
+					<!-- ** -->
+					<exclusion>
+						<groupId>org.richfaces.framework</groupId>
+						<artifactId>richfaces-api</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>javax.faces</groupId>
+						<artifactId>jsf-api</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>javax.faces</groupId>
+						<artifactId>jsf-impl</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>javax.servlet</groupId>
+						<artifactId>servlet-api</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>commons-digester</groupId>
+						<artifactId>commons-digester</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>commons-beanutils</groupId>
+						<artifactId>commons-beanutils</artifactId>
+					</exclusion>
+				</exclusions>
+			</dependency>
+
+			<dependency>
+				<groupId>org.richfaces.ui</groupId>
+				<artifactId>richfaces-ui</artifactId>
+				<version>${version.richfaces}</version>
+				<exclusions>
+					<exclusion>
+						<groupId>commons-logging</groupId>
+						<artifactId>commons-logging</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>javax.faces</groupId>
+						<artifactId>jsf-impl</artifactId>
+					</exclusion>
+					<!-- ** -->
+					<exclusion>
+						<groupId>org.richfaces.framework</groupId>
+						<artifactId>richfaces-api</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>javax.servlet</groupId>
+						<artifactId>jstl</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>commons-digester</groupId>
+						<artifactId>commons-digester</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>commons-beanutils</groupId>
+						<artifactId>commons-beanutils</artifactId>
+					</exclusion>
+				</exclusions>
+			</dependency>
+
+			<dependency>
+				<groupId>org.jbpm</groupId>
+				<artifactId>jbpm-jpdl</artifactId>
+				<version>${version.jbpm-jpdl}</version>
+				<exclusions>
+					<!-- ** -->
+					<exclusion>
+						<groupId>commons-logging</groupId>
+						<artifactId>commons-logging</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>javax.servlet</groupId>
+						<artifactId>servlet-api</artifactId>
+					</exclusion>
+				</exclusions>
+			</dependency>
+
+			<dependency>
+				<groupId>jboss</groupId>
+				<artifactId>jboss-cache</artifactId>
+				<version>${version.jboss-cache}</version>
+				<exclusions>
+					<!-- ** -->
+					<exclusion>
+						<groupId>jboss</groupId>
+						<artifactId>jboss-system</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>jboss</groupId>
+						<artifactId>jboss-jmx</artifactId>
+					</exclusion>
+				</exclusions>
+			</dependency>
+
+			<dependency>
+				<groupId>org.jboss.resteasy</groupId>
+				<artifactId>resteasy-jaxrs</artifactId>
+				<version>${version.resteasy}</version>
+				<exclusions>
+					<exclusion>
+						<groupId>commons-codec</groupId>
+						<artifactId>commons-codec</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>com.sun.xml.bind</groupId>
+						<artifactId>jaxb-impl</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>javax.annotation</groupId>
+						<artifactId>jsr250-api</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>commons-httpclient</groupId>
+						<artifactId>commons-httpclient</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>tjws</groupId>
+						<artifactId>webserver</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>org.scannotation</groupId>
+						<artifactId>scannotation</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>org.slf4j</groupId>
+						<artifactId>slf4j-api</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>org.slf4j</groupId>
+						<artifactId>slf4j-simple</artifactId>
+					</exclusion>
+					<!-- ** -->
+					<exclusion>
+						<groupId>org.codehaus.jettison</groupId>
+						<artifactId>jettison</artifactId>
+					</exclusion>
+				</exclusions>
+			</dependency>
+
+			<dependency>
+				<groupId>org.jboss.resteasy</groupId>
+				<artifactId>resteasy-jaxb-provider</artifactId>
+				<version>${version.resteasy}</version>
+				<exclusions>
+					<exclusion>
+						<groupId>com.sun.xml.bind</groupId>
+						<artifactId>jaxb-impl</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>com.sun.xml.stream</groupId>
+						<artifactId>sjsxp</artifactId>
+					</exclusion>
+					<!-- ** -->
+					<exclusion>
+						<groupId>org.codehaus.jettison</groupId>
+						<artifactId>jettison</artifactId>
+					</exclusion>
+				</exclusions>
+			</dependency>
+
+
+			<dependency>
+				<groupId>org.hibernate</groupId>
+				<artifactId>hibernate-core</artifactId>
+				<version>${version.hibernate-core}</version>
+				<exclusions>
+					<exclusion>
+						<groupId>commons-collections</groupId>
+						<artifactId>commons-collections</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>commons-logging</groupId>
+						<artifactId>commons-logging</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>net.sf.ehcache</groupId>
+						<artifactId>ehcache</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>junit</groupId>
+						<artifactId>junit</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>org.slf4j</groupId>
+						<artifactId>slf4j-api</artifactId>
+					</exclusion>
+					<!-- ** -->
+					<exclusion>
+						<groupId>javax.transaction</groupId>
+						<artifactId>jta</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>asm</groupId>
+						<artifactId>asm</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>asm</groupId>
+						<artifactId>asm-attrs</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>dom4j</groupId>
+						<artifactId>dom4j</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>antlr</groupId>
+						<artifactId>antlr</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>cglib</groupId>
+						<artifactId>cglib</artifactId>
+					</exclusion>
+				</exclusions>
+			</dependency>
+
+			<dependency>
+				<groupId>org.hibernate</groupId>
+				<artifactId>hibernate-entitymanager</artifactId>
+				<version>${version.hibernate-entitymanager}</version>
+				<exclusions>
+					<exclusion>
+						<groupId>commons-logging</groupId>
+						<artifactId>commons-logging</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>org.hibernate</groupId>
+						<artifactId>ejb3-persistence</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>jboss</groupId>
+						<artifactId>javassist</artifactId>
+					</exclusion>
+					<!-- ** -->
+					<exclusion>
+						<groupId>javax.persistence</groupId>
+						<artifactId>persistence-api</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>javax.transaction</groupId>
+						<artifactId>jta</artifactId>
+					</exclusion>
+				</exclusions>
+			</dependency>
+
+			<dependency>
+				<groupId>commons-beanutils</groupId>
+				<artifactId>commons-beanutils</artifactId>
+				<version>${version.commons-beanutils}</version>
+				<exclusions>
+					<exclusion>
+						<groupId>commons-logging</groupId>
+						<artifactId>commons-logging</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>junit</groupId>
+						<artifactId>junit</artifactId>
+					</exclusion>
+				</exclusions>
+			</dependency>
+
+			<dependency>
+				<groupId>commons-collections</groupId>
+				<artifactId>commons-collections</artifactId>
+				<version>${version.commons-collections}</version>
+			</dependency>
+
+
+			<!-- groovy-all-1.5.4 provided by Seam-2.1.2, seam-2.2.0 and seam-2.2.1 
+				root POM does not work with the gmaven-1.2 and 1.3 plugin, must use groovy-1.7.x. -->
+			<dependency>
+				<groupId>org.codehaus.groovy</groupId>
+				<artifactId>groovy-all</artifactId>
+				<version>${version.groovy}</version>
+				<exclusions>
+					<!-- groovy-all imports a lot of stuff, would be better to just use 
+						specific bits -->
+					<exclusion>
+						<groupId>bsf</groupId>
+						<artifactId>bsf</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>commons-cli</groupId>
+						<artifactId>commons-cli</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>commons-logging</groupId>
+						<artifactId>commons-logging</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>hsqldb</groupId>
+						<artifactId>hsqldb</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>junit</groupId>
+						<artifactId>junit</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>mx4j</groupId>
+						<artifactId>mx4j</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>xml-resolver</groupId>
+						<artifactId>xml-resolver</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>com.thoughtworks.xstream</groupId>
+						<artifactId>xstream</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>mockobjects</groupId>
+						<artifactId>mockobjects-core</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>org.apache.ant</groupId>
+						<artifactId>ant</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>org.apache.ant</groupId>
+						<artifactId>ant-launcher</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>org.apache.ant</groupId>
+						<artifactId>ant-junit</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>castor</groupId>
+						<artifactId>castor</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>openejb</groupId>
+						<artifactId>openejb</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>openejb</groupId>
+						<artifactId>openejb-loader</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>javax.servlet</groupId>
+						<artifactId>jsp-api</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>xerces</groupId>
+						<artifactId>xercesImpl</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>xml-apis</groupId>
+						<artifactId>xml-apis</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>jline</groupId>
+						<artifactId>jline</artifactId>
+					</exclusion>
+				</exclusions>
+			</dependency>
+
+
+			<dependency>
+				<groupId>org.drools</groupId>
+				<artifactId>drools-core</artifactId>
+				<version>${version.drools}</version>
+				<exclusions>
+					<exclusion>
+						<groupId>junit</groupId>
+						<artifactId>junit</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>xpp3</groupId>
+						<artifactId>xpp3</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>com.thoughtworks.xstream</groupId>
+						<artifactId>xstream</artifactId>
+					</exclusion>
+					<!-- ** -->
+					<exclusion>
+						<groupId>joda-time</groupId>
+						<artifactId>joda-time</artifactId>
+					</exclusion>
+				</exclusions>
+			</dependency>
+
+			<dependency>
+				<groupId>org.jboss.el</groupId>
+				<artifactId>jboss-el</artifactId>
+				<version>${version.jboss-el}</version>
+				<exclusions>
+					<!-- ** -->
+					<exclusion>
+						<groupId>javax.el</groupId>
+						<artifactId>el-api</artifactId>
+					</exclusion>
+				</exclusions>
+			</dependency>
+
+			<dependency>
+				<groupId>cglib</groupId>
+				<artifactId>cglib-nodep</artifactId>
+				<version>${version.cglib-nodep}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.tuckey</groupId>
+				<artifactId>urlrewritefilter</artifactId>
+				<version>${version.urlrewritefilter}</version>
+				<exclusions>
+					<exclusion>
+						<groupId>junit</groupId>
+						<artifactId>junit</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>ant</groupId>
+						<artifactId>ant</artifactId>
+					</exclusion>
+				</exclusions>
+			</dependency>
+
+
+			<!-- Dependecies not listed in Seam root pom. Some dependencies are required 
+				bc. we have removed them while solving transitive dependencies in Seam root 
+				pom. -->
+
+			<!-- richfaces -->
+			<dependency>
+				<groupId>org.richfaces.samples</groupId>
+				<artifactId>glassX</artifactId>
+				<version>${version.richfaces}</version>
+				<exclusions>
+					<exclusion>
+						<groupId>javax.servlet</groupId>
+						<artifactId>jstl</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>nekohtml</groupId>
+						<artifactId>nekohtml</artifactId>
+					</exclusion>
+				</exclusions>
+			</dependency>
+
+			<dependency>
+				<groupId>org.richfaces.samples</groupId>
+				<artifactId>darkX</artifactId>
+				<version>${version.richfaces}</version>
+				<exclusions>
+					<exclusion>
+						<groupId>javax.servlet</groupId>
+						<artifactId>jstl</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>nekohtml</groupId>
+						<artifactId>nekohtml</artifactId>
+					</exclusion>
+				</exclusions>
+			</dependency>
+
+			<!-- drools Why is not this in seam-root? -->
+			<dependency>
+				<groupId>org.drools</groupId>
+				<artifactId>drools-api</artifactId>
+				<version>${version.drools}</version>
+			</dependency>
+
+			<!-- hibernate -->
+			<dependency>
+				<groupId>org.hibernate</groupId>
+				<artifactId>hibernate-commons-annotations</artifactId>
+				<version>${version.hibernate-commons-annotations}</version>
+			</dependency>
+
+			<!-- antlr -->
+			<dependency>
+				<groupId>org.antlr</groupId>
+				<artifactId>antlr</artifactId>
+				<version>${version.antlr}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.antlr</groupId>
+				<artifactId>antlr-runtime</artifactId>
+				<version>${version.antlr}</version>
+				<exclusions>
+					<exclusion>
+						<groupId>org.antlr</groupId>
+						<artifactId>stringtemplate</artifactId>
+					</exclusion>
+				</exclusions>
+			</dependency>
+
+			<!-- guava -->
+			<dependency>
+				<groupId>com.google.guava</groupId>
+				<artifactId>guava</artifactId>
+				<version>r07</version>
+			</dependency>
+
+			<!-- commons -->
+			<dependency>
+				<groupId>commons-beanutils</groupId>
+				<artifactId>commons-beanutils-core</artifactId>
+				<version>${version.commons-beanutils}</version>
+				<exclusions>
+					<exclusion>
+						<groupId>commons-logging</groupId>
+						<artifactId>commons-logging</artifactId>
+					</exclusion>
+				</exclusions>
+			</dependency>
+
+			<dependency>
+				<groupId>commons-cli</groupId>
+				<artifactId>commons-cli</artifactId>
+				<version>${version.commons-cli}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>commons-configuration</groupId>
+				<artifactId>commons-configuration</artifactId>
+				<version>${version.commons-configuration}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>commons-digester</groupId>
+				<artifactId>commons-digester</artifactId>
+				<version>${version.commons-digester}</version>
+				<exclusions>
+					<exclusion>
+						<groupId>commons-logging</groupId>
+						<artifactId>commons-logging</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>commons-beanutils</groupId>
+						<artifactId>commons-beanutils</artifactId>
+					</exclusion>
+				</exclusions>
+			</dependency>
+
+			<dependency>
+				<groupId>commons-lang</groupId>
+				<artifactId>commons-lang</artifactId>
+				<version>${version.commons-lang}</version>
+			</dependency>
+
+			<!-- h2 database -->
+			<dependency>
+				<groupId>com.h2database</groupId>
+				<artifactId>h2</artifactId>
+				<version>${version.h2}</version>
+			</dependency>
+
+			<!-- hsql database -->
+			<dependency>
+				<groupId>org.hsqldb</groupId>
+				<artifactId>hsqldb</artifactId>
+				<version>${version.hsqldb}</version>
+			</dependency>
+
+			<!-- MySQL database -->
+			<dependency>
+				<groupId>mysql</groupId>
+				<artifactId>mysql-connector-java</artifactId>
+				<version>${version.mysql}</version>
+			</dependency>
+
+			<!-- spec apis such as javax.persistence, needed to run OpenEjb in tests -->
+			<dependency>
+				<groupId>org.apache.openejb</groupId>
+				<artifactId>javaee-api</artifactId>
+				<version>${version.openejb-javaee-api}</version>
+			</dependency>
+
+			<!-- openejb embedded container -->
+			<dependency>
+				<groupId>org.apache.openejb</groupId>
+				<artifactId>openejb-core</artifactId>
+				<version>${version.openejb-core}</version>
+				<exclusions>
+					<exclusion>
+						<groupId>org.apache.openjpa</groupId>
+						<artifactId>openjpa</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>hsqldb</groupId>
+						<artifactId>hsqldb</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>junit</groupId>
+						<artifactId>junit</artifactId>
+					</exclusion>
+				</exclusions>
+			</dependency>
+
+			<!-- test -->
+
+			<!-- see: http://code.google.com/p/hamcrest/ -->
+			<dependency>
+				<groupId>org.hamcrest</groupId>
+				<artifactId>hamcrest-core</artifactId>
+				<version>${version.hamcrest}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>junit</groupId>
+				<artifactId>junit</artifactId>
+				<version>${version.junit}</version>
+			</dependency>
+
+			<!-- see: http://code.google.com/p/mockito/ -->
+			<dependency>
+				<groupId>org.mockito</groupId>
+				<artifactId>mockito-all</artifactId>
+				<version>${version.mockito}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.mockito</groupId>
+				<artifactId>mockito-core</artifactId>
+				<version>${version.mockito}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.dbunit</groupId>
+				<artifactId>dbunit</artifactId>
+				<version>${version.dbunit}</version>
+			</dependency>
+
+
+			<!-- enables mocking of classes without default constructor (together 
+				with CGLIB) -->
+			<dependency>
+				<groupId>org.objenesis</groupId>
+				<artifactId>objenesis</artifactId>
+				<version>${version.objenesis}</version>
+			</dependency>
+
+			<!-- see: http://code.google.com/p/powermock/ -->
+			<dependency>
+				<groupId>org.powermock</groupId>
+				<artifactId>powermock-module-junit4</artifactId>
+				<version>${version.powermock}</version>
+				<scope>test</scope>
+			</dependency>
+
+			<dependency>
+				<groupId>org.powermock</groupId>
+				<artifactId>powermock-module-testng</artifactId>
+				<version>${version.powermock}</version>
+				<scope>test</scope>
+			</dependency>
+
+			<dependency>
+				<groupId>org.powermock</groupId>
+				<artifactId>powermock-api-mockito</artifactId>
+				<version>${version.powermock}</version>
+			</dependency>
+
+			<!-- see: http://code.google.com/p/spock/ see: http://code.google.com/p/spock/source/browse/branches/groovy-1.7/spock-example/pom.xml -->
+			<dependency>
+				<groupId>org.spockframework</groupId>
+				<artifactId>spock-core</artifactId>
+				<version>${version.spock-groovy-1.7}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.testng</groupId>
+				<artifactId>testng</artifactId>
+				<version>${version.testng}</version>
+			</dependency>
+			<dependency>
+				<groupId>hibernate-annotations</groupId>
+				<artifactId>hibernate-annotations</artifactId>
+				<version>3.4.0.GA</version>
+			</dependency>
+			<dependency>
+				<groupId>org.hibernate</groupId>
+				<artifactId>hibernate-search</artifactId>
+				<version>${version.hibernate-search}</version>
+				<exclusions>
+					<!-- ** -->
+					<exclusion>
+						<groupId>org.hibernate</groupId>
+						<artifactId>ejb3-persistence</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>org.hibernate</groupId>
+						<artifactId>hibernate-commons-annotations</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>org.slf4j</groupId>
+						<artifactId>slf4j-api</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>hsqldb</groupId>
+						<artifactId>hsqldb</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>org.apache.lucene</groupId>
+						<artifactId>lucene-core</artifactId>
+					</exclusion>
+				</exclusions>
+			</dependency>
+
+			<!-- Hibernate Search 3part Lib -->
+			<dependency>
+				<groupId>org.apache.lucene</groupId>
+				<artifactId>lucene-core</artifactId>
+				<version>2.9.2</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.apache.lucene</groupId>
+				<artifactId>lucene-highlighter</artifactId>
+				<version>2.9.2</version>
+				<exclusions>
+					<!-- ** -->
+					<exclusion>
+						<groupId>org.apache.lucene</groupId>
+						<artifactId>lucene-memory</artifactId>
+					</exclusion>
+				</exclusions>
+			</dependency>
+
+			<dependency>
+				<groupId>org.apache.lucene</groupId>
+				<artifactId>lucene-memory</artifactId>
+				<version>2.9.2</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.apache.lucene</groupId>
+				<artifactId>lucene-misc</artifactId>
+				<version>2.9.2</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.apache.lucene</groupId>
+				<artifactId>lucene-queries</artifactId>
+				<version>2.9.2</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.apache.lucene</groupId>
+				<artifactId>lucene-snowball</artifactId>
+				<version>2.9.2</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.apache.lucene</groupId>
+				<artifactId>lucene-spatial</artifactId>
+				<version>2.9.2</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.apache.lucene</groupId>
+				<artifactId>lucene-spellchecker</artifactId>
+				<version>2.9.2</version>
+			</dependency>
+
+
+			<!-- Solr's Analyzer Framework -->
+			<dependency>
+				<groupId>org.apache.solr</groupId>
+				<artifactId>solr-core</artifactId>
+				<version>1.4.0</version>
+				<exclusions>
+					<!-- ** -->
+					<exclusion>
+						<groupId>commons-codec</groupId>
+						<artifactId>commons-codec</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>commons-fileupload</groupId>
+						<artifactId>commons-fileupload</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>commons-httpclient</groupId>
+						<artifactId>commons-httpclient</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>commons-io</groupId>
+						<artifactId>commons-io</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>org.apache.geronimo.specs</groupId>
+						<artifactId>geronimo-stax-api_1.0_spec</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>org.apache.solr</groupId>
+						<artifactId>solr-commons-csv</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>org.codehaus.woodstox</groupId>
+						<artifactId>wstx-asl</artifactId>
+					</exclusion>
+				</exclusions>
+			</dependency>
+
+			<dependency>
+				<groupId>org.apache.solr</groupId>
+				<artifactId>solr-solrj</artifactId>
+				<version>1.4.0</version>
+				<exclusions>
+					<!-- ** -->
+					<exclusion>
+						<groupId>commons-codec</groupId>
+						<artifactId>commons-codec</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>commons-fileupload</groupId>
+						<artifactId>commons-fileupload</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>commons-httpclient</groupId>
+						<artifactId>commons-httpclient</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>commons-io</groupId>
+						<artifactId>commons-io</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>org.apache.geronimo.specs</groupId>
+						<artifactId>geronimo-stax-api_1.0_spec</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>org.slf4j</groupId>
+						<artifactId>slf4j-api</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>org.apache.solr</groupId>
+						<artifactId>solr-solrj</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>stax</groupId>
+						<artifactId>stax-api</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>org.codehaus.woodstox</groupId>
+						<artifactId>wstx-asl</artifactId>
+					</exclusion>
+				</exclusions>
+			</dependency>
+
+		</dependencies>
+	</dependencyManagement>
+
+	<dependencies>
+		<!-- seam -->
+		<dependency>
+			<groupId>org.jboss.seam</groupId>
+			<artifactId>jboss-seam</artifactId>
+			<scope>provided</scope>
+			<type>ejb</type>
+		</dependency>
+
+		<dependency>
+			<groupId>org.jboss.el</groupId>
+			<artifactId>jboss-el</artifactId>
+			<scope>provided</scope>
+		</dependency>
+
+		<!-- richfaces -->
+		<dependency>
+			<groupId>org.richfaces.framework</groupId>
+			<artifactId>richfaces-api</artifactId>
+			<scope>provided</scope>
+		</dependency>
+
+		<!-- hibernate -->
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-core</artifactId>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-annotations</artifactId>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-validator</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-search</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.lucene</groupId>
+			<artifactId>lucene-core</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		<!-- DB drivers--> 
+		<dependency>
+			<groupId>com.h2database</groupId>
+			<artifactId>h2</artifactId>
+			<scope>provided</scope>
+		</dependency>
+
+		<!-- hsql database 
+		<dependency>
+			<groupId>org.hsqldb</groupId>
+			<artifactId>hsqldb</artifactId>
+			<scope>provided</scope>
+		</dependency>-->
+
+		<!-- MySQL database 
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+			<scope>provided</scope>
+		</dependency>-->
+		<!-- jee -->
+		<dependency>
+			<groupId>javax.ejb</groupId>
+			<artifactId>ejb-api</artifactId>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>javax.el</groupId>
+			<artifactId>el-api</artifactId>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>javax.faces</groupId>
+			<artifactId>jsf-api</artifactId>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>javax.faces</groupId>
+			<artifactId>jsf-impl</artifactId>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>javax.persistence</groupId>
+			<artifactId>persistence-api</artifactId>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>servlet-api</artifactId>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>javax.transaction</groupId>
+			<artifactId>jta</artifactId>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>javax.jms</groupId>
+			<artifactId>jms</artifactId>
+			<scope>provided</scope>
+		</dependency>
+
+		<!-- commons -->
+		<dependency>
+			<groupId>commons-collections</groupId>
+			<artifactId>commons-collections</artifactId>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>commons-logging</groupId>
+			<artifactId>commons-logging</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		<!-- JBoss Rules. JBoss Rules. Needed to be listed here if you have seam 
+			identity integration tests, see samples/jboss-seam/examlpes/seamspace -->
+		<dependency>
+			<groupId>org.drools</groupId>
+			<artifactId>drools-core</artifactId>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.drools</groupId>
+			<artifactId>drools-compiler</artifactId>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.drools</groupId>
+			<artifactId>drools-api</artifactId>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.drools</groupId>
+			<artifactId>drools-decisiontables</artifactId>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.drools</groupId>
+			<artifactId>drools-templates</artifactId>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>com.thoughtworks.xstream</groupId>
+			<artifactId>xstream</artifactId>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>xpp3</groupId>
+			<artifactId>xpp3_min</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		<!-- JBoss jBPM -->
+		<dependency>
+			<groupId>org.jbpm</groupId>
+			<artifactId>jbpm-jpdl</artifactId>
+			<scope>provided</scope>
+		</dependency>
+
+		<!-- log4j -->
+		<dependency>
+			<groupId>log4j</groupId>
+			<artifactId>log4j</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		<!-- logging -->
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-log4j12</artifactId>
+			<scope>test</scope>
+		</dependency>
+
+		<!-- -->
+		<dependency>
+			<groupId>javassist</groupId>
+			<artifactId>javassist</artifactId>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<!-- Needed in Maven 3 for deployment via SCP, no longer into core Maven -->
+		<extensions>
+			<extension>
+				<groupId>org.apache.maven.wagon</groupId>
+				<artifactId>wagon-ssh</artifactId>
+				<version>1.0-beta-6</version>
+			</extension>
+		</extensions>
+	</build>
+
+	<profiles>
+
+		<!-- PLEASE NOTE: DO NOT DEFINE CUSTOM PROFILES HERE! Use a file names 
+			profiles.xml, which is ha file having the <profiles></profiles> block as 
+			structure (or you can define them in settings.xml) -->
+
+
+		<!--================================= Default Execution profiles ================================= -->
+
+		<!-- WARNING! removes existing DB, don't run it with production DB -->
+		<profile>
+			<id>test</id>
+			<activation>
+				<activeByDefault>false</activeByDefault>
+			</activation>
+			<properties>
+				<hbm2ddl.drop>true</hbm2ddl.drop>
+				<hibernate.hbm2ddl.auto>create</hibernate.hbm2ddl.auto>
+			</properties>
+		</profile>
+
+		<!-- Use this profile when building ear for deployment. -->
+		<profile>
+			<id>deploy</id>
+			<activation>
+				<activeByDefault>false</activeByDefault>
+			</activation>
+			<properties>
+				<hibernate.hbm2ddl.auto>update</hibernate.hbm2ddl.auto>
+				<hbm2ddl.drop>false</hbm2ddl.drop>
+				<hibernate.search.indexing_strategy>manual</hibernate.search.indexing_strategy>
+				<non_jta_ds>
                     <![CDATA[<non-jta-data-source>java:/biiDatasource</non-jta-data-source>]]>
-                </non_jta_ds>
-            </properties>
-        </profile>
+				</non_jta_ds>
+			</properties>
+		</profile>
 
-        <!-- Use this to build the ISA_tools -->
-        <profile>
-            <id>tools</id>
-            <activation>
-                <activeByDefault>false</activeByDefault>
-            </activation>
-            <properties>
-                <hibernate.hbm2ddl.auto>update</hibernate.hbm2ddl.auto>
-                <hbm2ddl.drop>false</hbm2ddl.drop>
-                <hibernate.search.indexing_strategy>manual</hibernate.search.indexing_strategy>
-                <non_jta_ds></non_jta_ds>
-                <!-- Uses H2 by default. It is only needed for certain compilations, not actually used. -->
-                <hibernate.dialect>uk.ac.ebi.bioinvindex.utils.H2FixedDialect</hibernate.dialect>
-                <jdbc.groupId>com.h2database</jdbc.groupId>
-                <jdbc.artifactId>h2</jdbc.artifactId>
-                <jdbc.version>1.2.132</jdbc.version>
-                <jdbc.driverClassName>org.h2.Driver</jdbc.driverClassName>
-                <jdbc.url><![CDATA[jdbc:h2:target/testdb]]></jdbc.url>
-                <jdbc.username>sa</jdbc.username>
-                <jdbc.password/>
-                <hibernate.search.default.indexBase>target/testidx</hibernate.search.default.indexBase>
-            </properties>
-        </profile>
-
-
-        <!-- Leaves the database untoutched -->
-        <profile>
-            <id>index</id>
-            <activation>
-                <activeByDefault>false</activeByDefault>
-            </activation>
-            <properties>
-                <hbm2ddl.drop>false</hbm2ddl.drop>
-                <hibernate.hbm2ddl.auto>update</hibernate.hbm2ddl.auto>
-            </properties>
-        </profile>
+		<!-- Use this to build the ISA_tools -->
+		<profile>
+			<id>tools</id>
+			<activation>
+				<activeByDefault>false</activeByDefault>
+			</activation>
+			<properties>
+				<hibernate.hbm2ddl.auto>update</hibernate.hbm2ddl.auto>
+				<hbm2ddl.drop>false</hbm2ddl.drop>
+				<hibernate.search.indexing_strategy>manual</hibernate.search.indexing_strategy>
+				<non_jta_ds></non_jta_ds>
+				<!-- Uses H2 by default. It is only needed for certain compilations, 
+					not actually used. -->
+				<hibernate.dialect>uk.ac.ebi.bioinvindex.utils.H2FixedDialect</hibernate.dialect>
+				<jdbc.groupId>com.h2database</jdbc.groupId>
+				<jdbc.artifactId>h2</jdbc.artifactId>
+				<jdbc.version>1.2.132</jdbc.version>
+				<jdbc.driverClassName>org.h2.Driver</jdbc.driverClassName>
+				<jdbc.url><![CDATA[jdbc:h2:target/testdb]]></jdbc.url>
+				<jdbc.username>sa</jdbc.username>
+				<jdbc.password />
+				<hibernate.search.default.indexBase>target/testidx</hibernate.search.default.indexBase>
+			</properties>
+		</profile>
 
 
-        <!--Other profiles-->
-
-        <!--=================================
-
-        Database configuration
-
-        =================================-->
-
-        <profile>
-            <!-- This is the default used for tests -->
-            <id>h2</id>
-            <activation>
-                <activeByDefault>false</activeByDefault>
-            </activation>
-            <properties>
-                <jdbc.groupId>com.h2database</jdbc.groupId>
-                <jdbc.artifactId>h2</jdbc.artifactId>
-                <jdbc.version>1.2.132</jdbc.version>
-                <jdbc.driverClassName>org.h2.Driver</jdbc.driverClassName>
-                <jdbc.url><![CDATA[jdbc:h2:/tmp/bii/testdb/bioinvindex]]></jdbc.url>
-                <!--  jdbc.url><![CDATA[jdbc:h2:tcp://localhost/biitestdb]]></jdbc.url -->
-                <jdbc.username>sa</jdbc.username>
-                <jdbc.password/>
-                <hibernate.dialect>uk.ac.ebi.bioinvindex.utils.H2FixedDialect</hibernate.dialect>
-            </properties>
-        </profile>
-
-        <!-- P6SPY is a JDBC wrapper that is able to log all that passes through	-->
-        <profile>
-            <id>h2_p6spy</id>
-            <activation>
-                <activeByDefault>false</activeByDefault>
-            </activation>
-            <properties>
-                <hibernate.dialect>uk.ac.ebi.bioinvindex.utils.H2FixedDialect</hibernate.dialect>
-                <jdbc.groupId>p6spy</jdbc.groupId>
-                <jdbc.artifactId>p6spy</jdbc.artifactId>
-                <jdbc.version>1.3</jdbc.version>
-                <jdbc.driverClassName>com.p6spy.engine.spy.P6SpyDriver</jdbc.driverClassName>
-                <jdbc.url><![CDATA[jdbc:h2:target/testdb/bioinvindex]]></jdbc.url>
-                <jdbc.username>sa</jdbc.username>
-                <jdbc.password/>
-            </properties>
-            <!-- WARNING: You do need this dependency as well for this profile, Maven doesn't accept it here
-               <dependencies>
-                   <dependency>
-                       <groupId>com.h2database</groupId>
-                       <artifactId>h2</artifactId>
-                       <version>1.2.132</version>
-                   </dependency>
-               </dependencies -->
-        </profile>
+		<!-- Leaves the database untoutched -->
+		<profile>
+			<id>index</id>
+			<activation>
+				<activeByDefault>false</activeByDefault>
+			</activation>
+			<properties>
+				<hbm2ddl.drop>false</hbm2ddl.drop>
+				<hibernate.hbm2ddl.auto>update</hibernate.hbm2ddl.auto>
+			</properties>
+		</profile>
 
 
-        <profile>
-            <id>oracle</id>
-            <activation>
-                <activeByDefault>false</activeByDefault>
-            </activation>
-            <properties>
-                <jdbc.groupId>com.oracle</jdbc.groupId>
-                <jdbc.artifactId>ojdbc5</jdbc.artifactId>
-                <jdbc.version>11.1.0.7.0</jdbc.version>
-                <jdbc.driverClassName>oracle.jdbc.driver.OracleDriver</jdbc.driverClassName>
-                <jdbc.url><![CDATA[jdbc:oracle:thin:@localhost:1521:bioinvindex]]></jdbc.url>
+		<!--Other profiles -->
 
-                <jdbc.username>bioinvindex</jdbc.username>
-                <jdbc.password>PASSWD</jdbc.password>
-                <hibernate.dialect>org.hibernate.dialect.Oracle10gDialect</hibernate.dialect>
-                <!-- This shoud do something with this Oracle bug: http://forum.hibernate.org/viewtopic.php?t=82 -->
-                <hibernate.max_fetch_depth>0</hibernate.max_fetch_depth>
-            </properties>
+		<!--================================= Database configuration ================================= -->
 
-            <!-- WARNING: You do need this dependency as well for this profile, Maven doesn't accept it here
-           <dependencies>
-               <dependency>
-                   <groupId>com.oracle</groupId>
-                   <artifactId>ojdbc5</artifactId>
-                   <version>11.1.0.7.0</version>
-               </dependency>
-           </dependencies -->
-        </profile>
+		<profile>
+			<!-- This is the default used for tests -->
+			<id>h2</id>
+			<activation>
+				<activeByDefault>false</activeByDefault>
+			</activation>
+			<properties>
+				<jdbc.groupId>com.h2database</jdbc.groupId>
+				<jdbc.artifactId>h2</jdbc.artifactId>
+				<jdbc.version>1.2.132</jdbc.version>
+				<jdbc.driverClassName>org.h2.Driver</jdbc.driverClassName>
+				<jdbc.url><![CDATA[jdbc:h2:file:/tmp/bii/testdb/bioinvindex]]></jdbc.url>
+				<!-- jdbc.url><![CDATA[jdbc:h2:tcp://localhost/biitestdb]]></jdbc.url -->
+				<jdbc.username>sa</jdbc.username>
+				<jdbc.password />
+				<hibernate.dialect>uk.ac.ebi.bioinvindex.utils.H2FixedDialect</hibernate.dialect>
+			</properties>
+		</profile>
+
+		<!-- P6SPY is a JDBC wrapper that is able to log all that passes through -->
+		<profile>
+			<id>h2_p6spy</id>
+			<activation>
+				<activeByDefault>false</activeByDefault>
+			</activation>
+			<properties>
+				<hibernate.dialect>uk.ac.ebi.bioinvindex.utils.H2FixedDialect</hibernate.dialect>
+				<jdbc.groupId>p6spy</jdbc.groupId>
+				<jdbc.artifactId>p6spy</jdbc.artifactId>
+				<jdbc.version>1.3</jdbc.version>
+				<jdbc.driverClassName>com.p6spy.engine.spy.P6SpyDriver</jdbc.driverClassName>
+				<jdbc.url><![CDATA[jdbc:h2:target/testdb/bioinvindex]]></jdbc.url>
+				<jdbc.username>sa</jdbc.username>
+				<jdbc.password />
+			</properties>
+			<!-- WARNING: You do need this dependency as well for this profile, Maven 
+				doesn't accept it here <dependencies> <dependency> <groupId>com.h2database</groupId> 
+				<artifactId>h2</artifactId> <version>1.2.132</version> </dependency> </dependencies -->
+		</profile>
 
 
-        <profile>
-            <id>mysql</id>
-            <activation>
-                <activeByDefault>false</activeByDefault>
-            </activation>
-            <properties>
-                <hibernate.dialect>org.hibernate.dialect.MySQL5InnoDBDialect</hibernate.dialect>
-                <jdbc.groupId>mysql</jdbc.groupId>
-                <jdbc.artifactId>mysql-connector-java</jdbc.artifactId>
-                <jdbc.version>5.1.6</jdbc.version>
-                <jdbc.driverClassName>com.mysql.jdbc.Driver</jdbc.driverClassName>
-                <jdbc.url><![CDATA[jdbc:mysql://localhost:33066/bioinvindex?profileSQL=false]]></jdbc.url>
-                <jdbc.username>root</jdbc.username>
+		<profile>
+			<id>oracle</id>
+			<activation>
+				<activeByDefault>false</activeByDefault>
+			</activation>
+			<properties>
+				<jdbc.groupId>com.oracle</jdbc.groupId>
+				<jdbc.artifactId>ojdbc5</jdbc.artifactId>
+				<jdbc.version>11.1.0.7.0</jdbc.version>
+				<jdbc.driverClassName>oracle.jdbc.driver.OracleDriver</jdbc.driverClassName>
+				<jdbc.url><![CDATA[jdbc:oracle:thin:@localhost:1521:bioinvindex]]></jdbc.url>
+
+				<jdbc.username>bioinvindex</jdbc.username>
+				<jdbc.password>PASSWD</jdbc.password>
+				<hibernate.dialect>org.hibernate.dialect.Oracle10gDialect</hibernate.dialect>
+				<!-- This shoud do something with this Oracle bug: http://forum.hibernate.org/viewtopic.php?t=82 -->
+				<hibernate.max_fetch_depth>0</hibernate.max_fetch_depth>
+			</properties>
+
+			<!-- WARNING: You do need this dependency as well for this profile, Maven 
+				doesn't accept it here <dependencies> <dependency> <groupId>com.oracle</groupId> 
+				<artifactId>ojdbc5</artifactId> <version>11.1.0.7.0</version> </dependency> 
+				</dependencies -->
+		</profile>
+
+
+		<profile>
+			<id>mysql</id>
+			<activation>
+				<activeByDefault>false</activeByDefault>
+			</activation>
+			<properties>
+				<hibernate.dialect>org.hibernate.dialect.MySQL5InnoDBDialect</hibernate.dialect>
+				<jdbc.groupId>mysql</jdbc.groupId>
+				<jdbc.artifactId>mysql-connector-java</jdbc.artifactId>
+				<jdbc.version>5.1.6</jdbc.version>
+				<jdbc.driverClassName>com.mysql.jdbc.Driver</jdbc.driverClassName>
+				<jdbc.url><![CDATA[jdbc:mysql://localhost:3306/bioinvindex?profileSQL=false]]></jdbc.url>
+			    <jdbc.username>root</jdbc.username>
                 <jdbc.password></jdbc.password>
-            </properties>
-        </profile>
+			</properties>
+		</profile>
 
-        <profile>
-            <id>postgresql</id>
-            <activation>
-                <activeByDefault>false</activeByDefault>
-            </activation>
-            <properties>
-                <hibernate.dialect>org.hibernate.dialect.PostgreSQLDialect</hibernate.dialect>
-                <jdbc.groupId>postgresql</jdbc.groupId>
-                <jdbc.artifactId>postgresql</jdbc.artifactId>
-                <jdbc.version>8.3-603.jdbc4</jdbc.version>
-                <jdbc.driverClassName>org.postgresql.Driver</jdbc.driverClassName>
-                <jdbc.url>
+		<profile>
+			<id>postgresql</id>
+			<activation>
+				<activeByDefault>false</activeByDefault>
+			</activation>
+			<properties>
+				<hibernate.dialect>org.hibernate.dialect.PostgreSQLDialect</hibernate.dialect>
+				<jdbc.groupId>postgresql</jdbc.groupId>
+				<jdbc.artifactId>postgresql</jdbc.artifactId>
+				<jdbc.version>8.3-603.jdbc4</jdbc.version>
+				<jdbc.driverClassName>org.postgresql.Driver</jdbc.driverClassName>
+				<jdbc.url>
                     <![CDATA[jdbc:postgresql://localhost/bioinvindex]]>
-                </jdbc.url>
-                <jdbc.username>CHANGEME</jdbc.username>
-                <jdbc.password>CHANGEME</jdbc.password>
-            </properties>
-        </profile>
+				</jdbc.url>
+				<jdbc.username>CHANGEME</jdbc.username>
+				<jdbc.password>CHANGEME</jdbc.password>
+			</properties>
+		</profile>
 
-        <profile>
-            <id>index_local</id>
-            <activation>
-                <activeByDefault>false</activeByDefault>
-            </activation>
-            <properties>
-                <hibernate.search.default.indexBase>/tmp/bii/luceneindex</hibernate.search.default.indexBase>
-            </properties>
-        </profile>
+		<profile>
+			<id>index_local</id>
+			<activation>
+				<activeByDefault>false</activeByDefault>
+			</activation>
+			<properties>
+				<hibernate.search.default.indexBase>/tmp/bii/luceneindex</hibernate.search.default.indexBase>
+			</properties>
+		</profile>
 
-    </profiles>
+	</profiles>
 
 </project>

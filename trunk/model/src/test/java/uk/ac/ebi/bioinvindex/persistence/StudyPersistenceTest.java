@@ -254,12 +254,12 @@ public class StudyPersistenceTest extends TransactionalDBUnitEJB3DAOTest
 		Long id = roleDB.getId ();
 		assertTrue ( "Arg! Wrong role #0 for the persisted contact", id != null );
 		ReferenceSource roleSrcDB = roleDB.getSource ();
-		assertEquals ( "Arg! Wrong role source for the persisted contact", (long) 100, roleSrcDB.getId () );
+		assertEquals ( "Arg! Wrong role source for the persisted contact", (long) 100, roleSrcDB.getId ().longValue()   );
 		roleDB = rolesItr.next ();
 		Long id1 = roleDB.getId ();
 		assertNotNull ( "Arg! Wrong role #1 for the persisted contact", id1 != null || ( id == -7 || id1 == -7 ) );
 		roleSrcDB = roleDB.getSource ();
-		assertEquals ( "Arg! Wrong role source for the persisted contact", (long) 100, roleSrcDB.getId () );
+		assertEquals ( "Arg! Wrong role source for the persisted contact", (long) 100, roleSrcDB.getId ().longValue()   );
 		
 		out.println ( "\n\nPersisted study: " + studyDB );
 
