@@ -21,6 +21,7 @@
     <link rel="stylesheet" href="http://www.ebi.ac.uk/inc/css/contents.css" type="text/css"/>
     <link href="stylesheet/theme.css" rel="stylesheet" type="text/css"/>
     <link href="stylesheet/global.css" rel="stylesheet" type="text/css"/>
+    <link href="stylesheet/navigation.css" rel="stylesheet" type="text/css"/>
 
     <script type="text/javascript" src="js/jquery.min.js"></script>
 
@@ -189,7 +190,7 @@
                             <a4j:commandButton id="register" value="Register"
                                                action="#{register.register}" styleClass="search_button"
 
-                                               reRender="registration, informationPanel"
+                                               reRender="registration, informationPanel, info_panel, welcomePanel"
                                                image="img/new_login/register_button.png"/>
                         </p>
 
@@ -263,8 +264,16 @@
                      style="width: 145px; visibility: visible; display: block; overflow: hidden;">
 
                     <div>
-                        <img src="img/nerc-menu.png" alt="NERC NEBC BII" border="0" usemap="#menu_map"/>
-                        <br/>
+                        <img src="img/nerc_logo.png" alt="GSC BioInvestigationIndex"/>
+                    </div>
+                    <div id="nav">
+
+                        <ul>
+                            <li><a href="browse_studies.seam">Browse Studies</a></li>
+                            <li><a href="submission_portal.seam">Submit to BII</a></li>
+                            <li><a href="credits.seam">Credit</a></li>
+                            <li><a href="mailto:isatools@googlegroups.com?subject=BII">Contact us</a></li>
+                        </ul>
                     </div>
 
 
@@ -287,7 +296,7 @@
                                             </td>
 
                                             <td colspan="4" valign="bottom">
-                                                <img alt="" src="img/searchImages/freetext.png"/>
+                                                <span class="searchText">freetext</span>
                                                 <rich:spacer
                                                         width="10"/>
                                                 <h:inputText id="freetext" value="#{studyBeanProvider.searchPattern}"
@@ -296,17 +305,19 @@
                                         </tr>
 
                                         <tr>
-
-                                            <td width="20%"><img alt="" src="img/searchImages/organism.png"/>
+                                            <td width="20%">
+                                                 <span class="searchText">organism</span>
                                             </td>
-                                            <td width="25%"><img alt="" src="img/searchImages/endpoint.png"/>
-                                            </td>
-
-                                            <td width="25%"><img alt="" src="img/searchImages/techType.png"/>
-                                            </td>
-                                            <td width="25%"><img alt="" src="img/searchImages/platform.png"/>
+                                            <td width="25%">
+                                                 <span class="searchText">measurement</span>
                                             </td>
 
+                                            <td width="25%">
+                                                 <span class="searchText">technology</span>
+                                            </td>
+                                            <td width="25%">
+                                                 <span class="searchText">platform</span>
+                                            </td>
                                         </tr>
 
                                         <tr>
@@ -421,14 +432,6 @@
                 height="35" width="117"/></a>
     </div>
 </div>
-
-<map name="menu_map" id="menu_map">
-    <area shape="rect" coords="6,134,117,161" href="browse_studies.seam" alt="Browse studies"/>
-    <area shape="rect" coords="7,167,117,195" href="submission_portal.seam" alt="Submit to BII"/>
-    <area shape="rect" coords="9,201,118,224" href="mailto:datasets@nebc.nerc.ac.uk?subject=BII" alt="Contact us"/>
-    <area shape="rect" coords="8,234,116,261" href="credits.seam" alt="credits"/>
-    <area shape="rect" coords="7,5,142,124" href="http://www.hsph.harvard.edu/" target="_blank" alt="HSPH Home"/>
-</map>
 
 <map name="view_map" id="view_map">
     <area alt="view compound-centric information" shape="rect" coords="143,1,209,22" href="compound_view.seam"/>
