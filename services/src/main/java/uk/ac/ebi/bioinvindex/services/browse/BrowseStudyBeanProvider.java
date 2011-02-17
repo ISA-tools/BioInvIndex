@@ -66,8 +66,6 @@ import java.util.*;
 @Scope(ScopeType.CONVERSATION)
 public class BrowseStudyBeanProvider /*implements IStudyBeanProvider<BrowseStudyBean>*/ {
 
-    private static final Log log = LogFactory.getLog(BrowseStudyBeanProvider.class);
-
 	@In
 	private StudyFreeTextSearch studySearch;
 
