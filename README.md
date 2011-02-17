@@ -6,7 +6,7 @@
 - Mainline source code: <https://github.com/ISA-tools/BioInvIndex>
 - Twitter: [@isatools](http://twitter.com/isatools)
 - IRC: [irc://irc.freenode.net/#isatab](irc://irc.freenode.net/#isatab)
-- Development blog: [http://isatools.wordpress.com]
+- Development blog: <http://isatools.wordpress.com]>
 
 ## Development
 
