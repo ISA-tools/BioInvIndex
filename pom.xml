@@ -1,14 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- =============== Usage examples: ============
-to deploy application localy:
-mvn clean package -Dmaven.test.skip=true -Pdeploy,h2_local,index_local
-
-to create index/DB:
-mvn clean test -Dtest=IndexBuilderTest -Ptest,h2_local,index_local -DargLine="-Xms128m -Xmx512m"
-
-to reindex existing h2 DB:
-mvn clean test -Dtest=IndexBuilder -Pindex,h2_local,index_local -DargLine="-Xms128m -Xmx512m" -e -DfailIfNoTests=false
-===============================================-->
+<!-- =============== Usage examples: ============ to deploy application localy: 
+	mvn clean package -Dmaven.test.skip=true -Pdeploy,h2_local,index_local to 
+	create index/DB: mvn clean test -Dtest=IndexBuilderTest -Ptest,h2_local,index_local 
+	-DargLine="-Xms128m -Xmx512m" to reindex existing h2 DB: mvn clean test -Dtest=IndexBuilder 
+	-Pindex,h2_local,index_local -DargLine="-Xms128m -Xmx512m" -e -DfailIfNoTests=false 
+	=============================================== -->
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
@@ -46,6 +42,8 @@ mvn clean test -Dtest=IndexBuilder -Pindex,h2_local,index_local -DargLine="-Xms1
 		<version.hibernate-entitymanager>3.4.0.GA</version.hibernate-entitymanager>
 		<version.hibernate-search>3.1.1.GA</version.hibernate-search>
 		<version.hibernate-commons-annotations>3.3.0.ga</version.hibernate-commons-annotations>
+		<version.hibernate-validator>3.1.0.ga</version.hibernate-validator>
+
 		<version.jboss-cache>1.4.1.SP9</version.jboss-cache>
 		<version.jboss-el>1.0_02.CR5</version.jboss-el>
 		<version.jbpm-jpdl>3.2.2</version.jbpm-jpdl>
@@ -1075,6 +1073,12 @@ mvn clean test -Dtest=IndexBuilder -Pindex,h2_local,index_local -DargLine="-Xms1
 				<groupId>org.hibernate</groupId>
 				<artifactId>hibernate-commons-annotations</artifactId>
 				<version>${version.hibernate-commons-annotations}</version>
+				<exclusions>
+					<exclusion>
+						<artifactId>hibernate</artifactId>
+						<groupId>org.hibernate</groupId>
+					</exclusion>
+				</exclusions>
 			</dependency>
 
 			<!-- antlr -->
@@ -1480,7 +1484,6 @@ mvn clean test -Dtest=IndexBuilder -Pindex,h2_local,index_local -DargLine="-Xms1
 			<artifactId>hibernate-core</artifactId>
 			<scope>provided</scope>
 		</dependency>
-
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-annotations</artifactId>
@@ -1494,6 +1497,11 @@ mvn clean test -Dtest=IndexBuilder -Pindex,h2_local,index_local -DargLine="-Xms1
 		</dependency>
 		<dependency>
 			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-commons-annotations</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-search</artifactId>
 			<scope>provided</scope>
 		</dependency>
@@ -1502,26 +1510,18 @@ mvn clean test -Dtest=IndexBuilder -Pindex,h2_local,index_local -DargLine="-Xms1
 			<artifactId>lucene-core</artifactId>
 			<scope>provided</scope>
 		</dependency>
-		<!-- DB drivers--> 
+		<!-- DB drivers -->
 		<dependency>
 			<groupId>com.h2database</groupId>
 			<artifactId>h2</artifactId>
 			<scope>provided</scope>
 		</dependency>
 
-		<!-- hsql database 
-		<dependency>
-			<groupId>org.hsqldb</groupId>
-			<artifactId>hsqldb</artifactId>
-			<scope>provided</scope>
-		</dependency>-->
+		<!-- hsql database <dependency> <groupId>org.hsqldb</groupId> <artifactId>hsqldb</artifactId> 
+			<scope>provided</scope> </dependency> -->
 
-		<!-- MySQL database 
-		<dependency>
-			<groupId>mysql</groupId>
-			<artifactId>mysql-connector-java</artifactId>
-			<scope>provided</scope>
-		</dependency>-->
+		<!-- MySQL database <dependency> <groupId>mysql</groupId> <artifactId>mysql-connector-java</artifactId> 
+			<scope>provided</scope> </dependency> -->
 		<!-- jee -->
 		<dependency>
 			<groupId>javax.ejb</groupId>
@@ -1740,8 +1740,33 @@ mvn clean test -Dtest=IndexBuilder -Pindex,h2_local,index_local -DargLine="-Xms1
 			</properties>
 		</profile>
 
-
-
+		<profile>
+			<!-- This is the default used for tests -->
+			<id>h2</id>
+			<activation>
+				<activeByDefault>false</activeByDefault>
+			</activation>
+			<properties>
+				<jdbc.groupId>com.h2database</jdbc.groupId>
+				<jdbc.artifactId>h2</jdbc.artifactId>
+				<jdbc.version>1.2.132</jdbc.version>
+				<jdbc.driverClassName>org.h2.Driver</jdbc.driverClassName>
+				<jdbc.url><![CDATA[jdbc:h2:/tmp/bii/testdb/bioinvindex]]></jdbc.url>
+				<!-- jdbc.url><![CDATA[jdbc:h2:tcp://localhost/biitestdb]]></jdbc.url -->
+				<jdbc.username>sa</jdbc.username>
+				<jdbc.password />
+				<hibernate.dialect>uk.ac.ebi.bioinvindex.utils.H2FixedDialect</hibernate.dialect>
+			</properties>
+		</profile>
+		<profile>
+		  <id>index_local</id>
+		  <activation>
+		  	<activeByDefault>false</activeByDefault>
+		  </activation>
+		  <properties>
+				<hibernate.search.default.indexBase>/tmp/bii/luceneindex</hibernate.search.default.indexBase>
+		  </properties>
+		</profile>
 	</profiles>
 
 </project>
