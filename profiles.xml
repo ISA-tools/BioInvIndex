@@ -118,6 +118,7 @@
             </properties>
         </profile>
 
+  <!-- remember to edit the path to lucene index to match the one declared in the hibernate.properties -->
         <profile>
             <id>index_local</id>
             <activation>
