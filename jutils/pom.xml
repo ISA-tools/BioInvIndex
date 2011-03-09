@@ -3,19 +3,11 @@
   
   <groupId>uk.ac.ebi</groupId>
   <artifactId>jutils</artifactId>
-  <version>1.0</version>
+  <version>1.1</version>
   
   <name>JUtils - Miscellanea of Java Utils</name>
   <description>General utilitiy code for several purposes, developed for the BII/ISA-Tools project and reusable elsewhere.</description>
   <url>http://isatab.sf.net/</url>
-
-  <parent>
-  	<!-- It's only used for basic definitions of POM properties -->
-    <artifactId>bioinvindex</artifactId>
-    <groupId>uk.ac.ebi</groupId>
-    <version>1.2</version>
-  </parent>
-
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -26,11 +18,13 @@
 		<dependency>
 			<groupId>log4j</groupId>
 			<artifactId>log4j</artifactId>
+			<version>1.2.16</version>
     </dependency>
 
     <dependency>
       <groupId>commons-lang</groupId>
       <artifactId>commons-lang</artifactId>
+      <version>2.4</version>
     </dependency>
 
 
@@ -39,22 +33,23 @@
 	  <dependency>
 	    <groupId>junit</groupId>
 	    <artifactId>junit</artifactId>
+	    <version>4.8.2</version>
 	    <scope>test</scope>
 	  </dependency>
 
 	</dependencies>
 	
 	<build>
-	
 		<plugins>
+		
       <plugin>
-        <artifactId>maven-compiler-plugin</artifactId>
-        <configuration>
-          <source>1.5</source>
-          <target>1.5</target>
-          <encoding>utf-8</encoding>
-        </configuration>
-      </plugin>
+	      <artifactId>maven-compiler-plugin</artifactId>
+	      <configuration>
+	        <source>1.5</source>
+	        <target>1.5</target>
+	        <encoding>utf-8</encoding>
+	      </configuration>
+	    </plugin>
 	
 	    <plugin>
 		    <artifactId>maven-source-plugin</artifactId>
@@ -68,7 +63,7 @@
 		    </executions>
 	    </plugin>
 		
-		</plugins>
+    </plugins>
 	
     <testResources>
 	    <testResource>
@@ -84,6 +79,31 @@
 	    </resource>
     </resources>
 
+    <extensions>
+	    <extension>
+	      <groupId>org.apache.maven.wagon</groupId>
+	      <artifactId>wagon-ssh</artifactId>
+	      <version>1.0-beta-6</version>
+	    </extension>
+    </extensions>    
+
 	</build>
 	
+  <distributionManagement>
+
+	  <repository>
+		  <id>ebi-repo</id>
+		  <name>EBI Repository</name>
+		  <url>scp://parrot.ebi.ac.uk/homes/maven/public_html/m2repo</url>
+	  </repository>
+		
+	  <snapshotRepository>
+		  <uniqueVersion>false</uniqueVersion>
+		  <id>ebi-repo-snapshots</id>
+		  <name>EBI Snapshots Repository</name>
+		  <url>scp://parrot.ebi.ac.uk/homes/maven/public_html/m2repo_snapshots</url>
+	  </snapshotRepository>
+	
+  </distributionManagement>
+    
 </project>
