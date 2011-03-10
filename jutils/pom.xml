@@ -89,6 +89,17 @@
 
 	</build>
 	
+  <repositories>
+
+		<repository>
+			<id>ebi-repo</id>
+			<name>EBI repo</name>
+			<url>http://www.ebi.ac.uk/~maven/m2repo</url>
+		</repository>
+
+  </repositories>
+	
+	
   <distributionManagement>
 
 	  <repository>
