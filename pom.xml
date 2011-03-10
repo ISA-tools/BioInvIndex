@@ -140,7 +140,6 @@
 		<module>ear</module>
 		<module>site</module>
 		<module>test_utils</module>
-		<module>jutils</module>
 	</modules>
 
 	<repositories>

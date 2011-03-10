@@ -1,4 +1,4 @@
-mvn -DargLine="-Xms256m -Xmx2048m -XX:PermSize=64m -XX:MaxPermSize=128m" \
+mvn -DargLine="-Xms512m -Xmx4G -XX:PermSize=128m -XX:MaxPermSize=256m" \
     -Dsurefire.useFile=true \
     -Ph2,test clean test
 
