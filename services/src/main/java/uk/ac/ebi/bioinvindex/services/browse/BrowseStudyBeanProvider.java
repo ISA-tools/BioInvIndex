@@ -43,9 +43,13 @@ package uk.ac.ebi.bioinvindex.services.browse;
  * EU NuGO [NoE 503630](http://www.nugo.org/everyone) projects and in part by EMBL-EBI.
  */
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.AutoCreate;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
+import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.security.Identity;
 import uk.ac.ebi.bioinvindex.model.Study;
 import uk.ac.ebi.bioinvindex.search.StudyFreeTextSearch;
@@ -59,6 +63,7 @@ import java.util.*;
  */
 @Name("studyBeanProvider")
 @AutoCreate
+@Scope(ScopeType.CONVERSATION)
 public class BrowseStudyBeanProvider /*implements IStudyBeanProvider<BrowseStudyBean>*/ {
 
 	@In
@@ -87,7 +92,7 @@ public class BrowseStudyBeanProvider /*implements IStudyBeanProvider<BrowseStudy
 		List<Map<StudyBrowseField, String[]>> fieldValues =
 				secureStudySearch.getAllStudyBrowseFieldValuesForUser(buildBiiFilterQuery(), identity.getUsername());
 
-		//Convert a a field-values map retured by search into a collection of browse beans for view.
+		//Convert a a field-values map returned by search into a collection of browse beans for view.
 		List<BrowseStudyBeanImpl> answer = new ArrayList<BrowseStudyBeanImpl>(fieldValues.size());
 		for (Map<StudyBrowseField, String[]> fieldValue : fieldValues) {
 			BrowseStudyBeanImpl bean = new BrowseStudyBeanImpl(fieldValue);
