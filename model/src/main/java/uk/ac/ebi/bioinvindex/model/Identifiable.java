@@ -45,6 +45,7 @@ package uk.ac.ebi.bioinvindex.model;
 
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.search.annotations.DocumentId;
+import org.hibernate.search.annotations.Field;
 
 import javax.persistence.Column;
 import javax.persistence.GeneratedValue;

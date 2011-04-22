@@ -76,14 +76,16 @@ public class BrowseStudyBeanModel implements BrowseBean<BrowseStudyBean> {
 	}
 
 	public List<BrowseStudyBean> getItemList() {
-		try {
-			if (studyBeans == null) {
-				studyBeans = (List<BrowseStudyBean>) getStudyBeanProvider().getItems();
-				// todo sort list by accession
-			}
+		log.info("In getItemList()");
+        try {
+//			if (studyBeans == null) {
+				log.info("Getting study items");
+                studyBeans = (List<BrowseStudyBean>) getStudyBeanProvider().getItems();
+//			}
 			return studyBeans;
 		} catch (Exception e) {
-			return new ArrayList<BrowseStudyBean>();
+            log.error("Exception thrown...oh no! -> " + e.getMessage());
+            return new ArrayList<BrowseStudyBean>();
 		}
 	}
 

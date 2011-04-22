@@ -16,14 +16,14 @@
 
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>uk.ac.ebi</groupId>
-	<version>1.3</version>
+	<version>1.3.1</version>
 	<artifactId>bioinvindex</artifactId>
 	<packaging>pom</packaging>
 	<name>Bio-Investigation Index</name>
 
 	<properties>
 
-		<bii.version>1.3</bii.version>
+		<bii.version>1.3.1</bii.version>
 
 		<version.seam>2.2.1.Final</version.seam> <!-- MUST correspond w. seam version in parent tag -->
 
@@ -143,13 +143,7 @@
 	</modules>
 
 	<repositories>
-		<repository>
-			<id>local-repo</id>
-			<url>http://bar.ebi.ac.uk:8081/artifactory/local-repo/</url>
-			<snapshots>
-				<enabled>true</enabled>
-			</snapshots>
-		</repository>
+
 
 		<!-- <repository> <id>jboss-repo</id> <url>http://repository.jboss.com/maven2</url> 
 			<snapshots> <enabled>true</enabled> </snapshots> </repository> -->

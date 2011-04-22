@@ -94,8 +94,8 @@
                 <jdbc.version>5.1.6</jdbc.version>
                 <jdbc.driverClassName>com.mysql.jdbc.Driver</jdbc.driverClassName>
                 <jdbc.url><![CDATA[jdbc:mysql://localhost:33066/bioinvindex?profileSQL=false]]></jdbc.url>
-                <jdbc.username>USERNAME</jdbc.username>
-                <jdbc.password>PASSWD</jdbc.password>
+                <jdbc.username>root</jdbc.username>
+                <jdbc.password></jdbc.password>
             </properties>
         </profile>
 

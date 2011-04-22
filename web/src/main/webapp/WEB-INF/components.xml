@@ -19,7 +19,7 @@
                  http://jboss.com/products/seam/components http://jboss.com/products/seam/components-2.0.xsd">
 
 
-    <core:init debug="true" jndi-pattern="bii-1.3/#{ejbName}/local"/>
+    <core:init debug="true" jndi-pattern="bii-1.3.1/#{ejbName}/local"/>
 
     <core:manager concurrent-request-timeout="500"
                   conversation-timeout="120000"
