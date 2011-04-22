@@ -9,6 +9,19 @@
   <description>General utilitiy code for several purposes, developed for the BII/ISA-Tools project and reusable elsewhere.</description>
   <url>http://isatab.sf.net/</url>
 
+  <!-- Developer Listing -->
+  <developers>
+    <developer>
+      <id>brandizi</id>
+      <name>Marco Brandizi</name>
+      <email>brandizi@ebi.ac.uk</email>
+      <organization>EBI - Functional Genomics Group</organization>
+      <organizationUrl>http://www.ebi.ac.uk/fg</organizationUrl>
+      <timezone>0</timezone>
+      <properties />
+    </developer>
+  </developers>
+
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
