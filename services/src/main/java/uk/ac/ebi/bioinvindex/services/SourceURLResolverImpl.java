@@ -79,6 +79,7 @@ public class SourceURLResolverImpl implements SourceURLResolver {
 
 	public String getProcessedDataURL(String measurement, String technology, String accession) {
 		try {
+            log.info("Getting processed data url for " + accession + "measuring " + measurement + " using " + technology);
 			return getDataURL(measurement, technology, accession, AnnotationTypes.PROCESSED_DATA_FILE_LINK);
 		} catch (Exception e) {
 			log.error("Unable to resolve Processed data URL");
@@ -177,9 +178,13 @@ public class SourceURLResolverImpl implements SourceURLResolver {
 
 	private String getDataURL(String measurement, String technology, String accession, AnnotationTypes type) {
 		try {
-			String location = dataLocationManager.getDataLocation(measurement, technology, type);
+            log.info("Getting data location for " + accession);
 
-			if (!StringUtils.isEmpty(location) && !StringUtils.isEmpty(accession)) {
+			String location = dataLocationManager.getCleanDataLocation(measurement, technology, accession, type);
+
+            log.info("Location is " + location);
+
+            if (!StringUtils.isEmpty(location) && !StringUtils.isEmpty(accession)) {
 				String locationWithAcc = location.replace(DataSourceConfigFields.ACCESSION_PLACEHOLDER.getName(), accession);
 
 				//For AE links
