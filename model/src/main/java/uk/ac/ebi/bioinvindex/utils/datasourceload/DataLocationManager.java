@@ -86,9 +86,9 @@ public class DataLocationManager {
         technology = StringUtils.trimToNull(technology);
         if (measurement == null && technology == null) return "";
 
-        for (AssayTypeDataLocation assayTypeDataLocation : getAssayTypeDataSources()) {
-            // e.g. ArrayExpress, GEO, EMBL-BANK. Generic
+        String location = "";
 
+        for (AssayTypeDataLocation assayTypeDataLocation : getAssayTypeDataSources()) {
 
             String thisMeas = StringUtils.trimToNull(assayTypeDataLocation.getMeasurementType());
             if (thisMeas == null)
@@ -97,40 +97,28 @@ public class DataLocationManager {
                 );
             String thisTech = StringUtils.trimToNull(assayTypeDataLocation.getTechnologyType());
 
-
-            log.info("\t Checking AssayDataTypeLocation -> measurement: " + assayTypeDataLocation.getMeasurementType() + " technology: " + assayTypeDataLocation.getTechnologyType() + " reference source: " + assayTypeDataLocation.getReferenceSource().getName());
-
             if (thisMeas.equalsIgnoreCase(measurement)
                     && StringUtils.equalsIgnoreCase(thisTech, technology)) {
                 ReferenceSource referenceSource = assayTypeDataLocation.getReferenceSource();
                 if (referenceSource != null) {
-                    log.info("Now going to check what is contained in the Annotation object of the reference source");
-                    log.info("-------");
-
-                    String toReturn = "";
 
                     for (Annotation annotation : referenceSource.getAnnotations()) {
 
-                        // todo need some logic which can distinguish between URLs.
-
-                        log.info("\tChecking if annotation value: " + annotation.getType().getValue() + " matches datatype name: " + dataType.getName());
-                        log.info("\t\t Annotation value: " + annotation.getType().getValue() + " -> " + annotation.getText());
-
-
+                        // we will go through all the links to ensure we pick up a file location if it exists.
                         if (annotation.getType().getValue().trim().equalsIgnoreCase(dataType.getName().trim())) {
-                            toReturn = annotation.getText();
+                            if (StringUtils.trimToNull(annotation.getText()) != null) {
+                                location = annotation.getText();
+                            }
                         }
                     }
 
-                    return toReturn;
                 }
             }
-
         }
-        return "";
+        return location.equals("") ? null : location;
     }
 
-    public String getCleanDataLocation(String measurement, String technology, String accession, AnnotationTypes dataType) {
+    public String getDataLocationLink(String measurement, String technology, String accession, AnnotationTypes dataType) {
         measurement = StringUtils.trimToNull(measurement);
         technology = StringUtils.trimToNull(technology);
         if (measurement == null && technology == null) return "";

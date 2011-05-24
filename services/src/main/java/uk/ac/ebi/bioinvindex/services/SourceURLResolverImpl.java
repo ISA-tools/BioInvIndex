@@ -180,7 +180,7 @@ public class SourceURLResolverImpl implements SourceURLResolver {
 		try {
             log.info("Getting data location for " + accession);
 
-			String location = dataLocationManager.getCleanDataLocation(measurement, technology, accession, type);
+			String location = dataLocationManager.getDataLocationLink(measurement, technology, accession, type);
 
             log.info("Location is " + location);
 

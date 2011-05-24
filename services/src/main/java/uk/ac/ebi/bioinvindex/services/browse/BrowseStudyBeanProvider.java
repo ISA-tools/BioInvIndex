@@ -100,6 +100,23 @@ public class BrowseStudyBeanProvider /*implements IStudyBeanProvider<BrowseStudy
 		}
 
 		Collections.sort(answer, new AlphanumComparator<BrowseStudyBeanImpl>());
+
+
+        Iterator<BrowseStudyBeanImpl> iterator = answer.iterator();
+
+        Set<String> addedAccessions = new HashSet<String>();
+
+        while (iterator.hasNext()) {
+            BrowseStudyBeanImpl bean = iterator.next();
+
+            if(addedAccessions.contains(bean.getAcc())) {
+               iterator.remove();
+            } else {
+                addedAccessions.add(bean.getAcc());
+            }
+        }
+
+
 		return answer;
 	}
 
