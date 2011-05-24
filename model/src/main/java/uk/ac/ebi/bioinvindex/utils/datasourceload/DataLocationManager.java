@@ -322,6 +322,12 @@ public class DataLocationManager {
      * Simply replaces the place-holder with rawPAram, this is intended to be used at low level
      */
     public static String buildLocationFromRawParam(String pattern, String rawParam) {
+        if(pattern == null)
+            return "";
+
+        if(rawParam == null) {
+            return pattern;
+        }
         return pattern.replace(
                 DataSourceConfigFields.ACCESSION_PLACEHOLDER.getName(),
                 rawParam
