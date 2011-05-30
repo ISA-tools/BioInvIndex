@@ -16,4 +16,5 @@ public interface Cache<V, T> {
     public T find(V key);
     public T detach(V key);
     public Set<V> getKeys();
+    public void clearCache();
 }

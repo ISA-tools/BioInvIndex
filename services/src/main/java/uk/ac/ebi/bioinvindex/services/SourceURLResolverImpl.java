@@ -208,4 +208,13 @@ public class SourceURLResolverImpl implements SourceURLResolver {
         }
         return "";
     }
+
+    public boolean clearCache() {
+        log.info("******");
+        log.info("Cleaning up SourceURLResolvers cache");
+
+        cache.clearCache();
+
+        return true;
+    }
 }

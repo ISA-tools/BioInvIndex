@@ -47,5 +47,9 @@ public class BIICache<V, T> extends HashMap<V, T> implements Cache<V, T> {
         return keySet();
     }
 
+    public void clearCache() {
+        clear();
+    }
+
 
 }

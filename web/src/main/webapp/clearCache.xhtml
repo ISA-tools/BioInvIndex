@@ -1,0 +1,22 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!--suppress ALL -->
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:rich="http://richfaces.org/rich"
+                template="layout/local-template.xhtml">
+
+    <ui:define name="body">
+        <h:panelGroup rendered="#{studyBean.clearCache()}">
+            Study cache has been cleared...
+        </h:panelGroup>
+
+        <br/>
+
+        <h:panelGroup rendered="#{sourceURLResolver.clearCache()}">
+            URLresolver cache has been cleared...
+        </h:panelGroup>
+    </ui:define>
+
+</ui:composition>

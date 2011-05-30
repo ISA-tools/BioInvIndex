@@ -486,5 +486,12 @@ public class StudyBeanImpl implements StudyBean {
 
     }
 
+    public boolean clearCache() {
+        log.info("******");
+        log.info("Cleaning up StudyBeanImpl cache");
+        cache.clearCache();
+
+        return true;
+    }
 }
 
