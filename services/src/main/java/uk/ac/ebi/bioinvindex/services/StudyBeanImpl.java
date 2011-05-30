@@ -58,6 +58,8 @@ import uk.ac.ebi.bioinvindex.model.term.*;
 import uk.ac.ebi.bioinvindex.model.xref.ReferenceSource;
 import uk.ac.ebi.bioinvindex.model.xref.ResourceType;
 import uk.ac.ebi.bioinvindex.model.xref.Xref;
+import uk.ac.ebi.bioinvindex.services.cache.BIICache;
+import uk.ac.ebi.bioinvindex.services.cache.Cache;
 import uk.ac.ebi.bioinvindex.services.ontologyhandling.Ontology;
 import uk.ac.ebi.bioinvindex.services.utils.CommonActions;
 import uk.ac.ebi.bioinvindex.services.utils.StringFormating;
@@ -67,15 +69,12 @@ import java.util.*;
 import static org.jboss.seam.ScopeType.PAGE;
 
 
-/**
- * Nataliya Sklyar (nsklyar@ebi.ac.uk)
- * Date: Oct 8, 2007
- */
 @Name("studyBean")
 @Scope(PAGE)
 public class StudyBeanImpl implements StudyBean {
 
     private static final Log log = LogFactory.getLog(StudyBeanImpl.class);
+    private static final Cache<String, List<String>> cache = new BIICache<String, List<String>>();
 
     private Study study;
 
@@ -105,6 +104,8 @@ public class StudyBeanImpl implements StudyBean {
     private Collection<Investigation> investigations;
 
     private List<String> relatedStudies;
+
+    // todo store study items in the BII cache...
 
     public StudyBeanImpl() {
     }
@@ -163,12 +164,29 @@ public class StudyBeanImpl implements StudyBean {
     }
 
     public List<String> getFactors() {
-        log.info("Getting factors for " + study.getAcc());
-        if (factorsToValues == null) {
-            buildFactorsMap();
-        }
         log.info("StudyBeanImpl.getFactors");
-        return new ArrayList<String>(factorsToValues.keySet());
+        log.info("Getting factors for " + study.getAcc());
+
+
+        System.out.println("Keys in cache");
+        for (String v : cache.getKeys()) {
+            System.out.println(v);
+        }
+
+
+        List<String> factors;
+        if ((factors = cache.find(studyId + "/factors")) == null) {
+
+            log.info("Nothing was contained in the cache for " + studyId + "/factors. Now building factor map");
+
+            if (factorsToValues == null) {
+                buildFactorsMap();
+            }
+
+            factors = new ArrayList<String>(factorsToValues.keySet());
+            cache.attach(studyId + "/factors", factors);
+        }
+        return factors;
     }
 
     public List<Ontology> getFactorValues(String factorName) {
@@ -181,10 +199,18 @@ public class StudyBeanImpl implements StudyBean {
     public List<String> getCharacteristics() {
         log.info("StudyBeanImpl.getCharacteristics");
         log.info("Getting characteristics for " + study.getAcc());
-        if (characteristicsToValues == null) {
-            buildCharacteristicsMap();
+        List<String> characteristics;
+
+        if ((characteristics = cache.find(studyId + "/characteristics")) == null) {
+            log.info("Nothing was contained in the cache for " + studyId + "/characteristics. Now building characteristic map");
+
+            if (characteristicsToValues == null) {
+                buildCharacteristicsMap();
+            }
+            characteristics = new ArrayList<String>(characteristicsToValues.keySet());
+            cache.attach(studyId + "/characteristics", characteristics);
         }
-        return new ArrayList<String>(characteristicsToValues.keySet());
+        return characteristics;
     }
 
     public List<Ontology> getCharacteristicValues(String characteristic) {
@@ -318,8 +344,6 @@ public class StudyBeanImpl implements StudyBean {
         }
         return relatedStudies;
     }
-
-
 
 
     private String buildStringFromFreeTextTerms(Collection<? extends FreeTextTerm> terms) {

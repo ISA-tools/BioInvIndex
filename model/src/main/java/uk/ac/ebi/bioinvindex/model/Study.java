@@ -74,13 +74,7 @@ import javax.persistence.Transient;
 import javax.persistence.CascadeType;
 import javax.persistence.UniqueConstraint;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 /**
  * Study is the central unit, containing information on the subject under study, its characteristics and any treatments
@@ -294,7 +288,16 @@ public class Study extends HasReferences {
 
 	@OneToMany(targetEntity = Publication.class, mappedBy = "study")
 	public Collection<Publication> getPublications() {
-		return this.publications;
+
+        Map<String, Publication> toReturn = new HashMap<String, Publication>();
+
+        for(Publication p : this.publications) {
+            if(!toReturn.containsKey(p.getTitle())) {
+                toReturn.put(p.getTitle(), p);
+            }
+        }
+
+        return toReturn.values();
 	}
 
 	protected void setPublications(Collection<Publication> publications) {
