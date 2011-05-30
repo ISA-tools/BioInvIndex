@@ -289,15 +289,8 @@ public class Study extends HasReferences {
 	@OneToMany(targetEntity = Publication.class, mappedBy = "study")
 	public Collection<Publication> getPublications() {
 
-        Map<String, Publication> toReturn = new HashMap<String, Publication>();
 
-        for(Publication p : this.publications) {
-            if(!toReturn.containsKey(p.getTitle())) {
-                toReturn.put(p.getTitle(), p);
-            }
-        }
-
-        return toReturn.values();
+        return this.publications;
 	}
 
 	protected void setPublications(Collection<Publication> publications) {

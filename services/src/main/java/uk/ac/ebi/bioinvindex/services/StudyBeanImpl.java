@@ -167,13 +167,6 @@ public class StudyBeanImpl implements StudyBean {
         log.info("StudyBeanImpl.getFactors");
         log.info("Getting factors for " + study.getAcc());
 
-
-        System.out.println("Keys in cache");
-        for (String v : cache.getKeys()) {
-            System.out.println(v);
-        }
-
-
         List<String> factors;
         if ((factors = cache.find(studyId + "/factors")) == null) {
 

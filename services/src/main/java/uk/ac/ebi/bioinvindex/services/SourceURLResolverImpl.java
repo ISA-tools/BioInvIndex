@@ -51,6 +51,8 @@ import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
 import uk.ac.ebi.bioinvindex.model.term.AnnotationTypes;
 import uk.ac.ebi.bioinvindex.model.xref.ResourceType;
+import uk.ac.ebi.bioinvindex.services.cache.BIICache;
+import uk.ac.ebi.bioinvindex.services.cache.Cache;
 import uk.ac.ebi.bioinvindex.utils.datasourceload.DataLocationManager;
 import uk.ac.ebi.bioinvindex.utils.datasourceload.DataSourceConfigFields;
 
@@ -63,137 +65,147 @@ import uk.ac.ebi.bioinvindex.utils.datasourceload.DataSourceConfigFields;
 @AutoCreate
 public class SourceURLResolverImpl implements SourceURLResolver {
 
-	private static final Log log = LogFactory.getLog(SourceURLResolverImpl.class);
+    private static Cache<String, String> cache = new BIICache<String, String>();
 
-	@In
-	private DataLocationManager dataLocationManager;
+    private static final Log log = LogFactory.getLog(SourceURLResolverImpl.class);
 
-	public String getRawDataURL(String measurement, String technology, String accession) {
-		try {
-			return getDataURL(measurement, technology, accession, AnnotationTypes.RAW_DATA_FILE_LINK);
-		} catch (Exception e) {
-			log.error("Unable to resolve Raw data URL");
-			return "";
-		}
-	}
+    @In
+    private DataLocationManager dataLocationManager;
 
-	public String getProcessedDataURL(String measurement, String technology, String accession) {
-		try {
-
-			return getDataURL(measurement, technology, accession, AnnotationTypes.PROCESSED_DATA_FILE_LINK);
-		} catch (Exception e) {
-			log.error("Unable to resolve Processed data URL");
-			return "";
-		}
-	}
-
-	public String getEntryURL(String measurement, String technology, String accession) {
-		try {
-			String location = dataLocationManager.getDataLocation(measurement, technology, AnnotationTypes.WEB_ENTRY_URL);
-			if (!StringUtils.isEmpty(location) && !StringUtils.isEmpty(accession)) {
-				return location.replace(DataSourceConfigFields.ACCESSION_PLACEHOLDER.getName(), accession);
-			}
-		} catch (Exception e) {
-			log.error("Cannot read data location URL");
-
-		}
-		return "";
-	}
-
-	public String getIsaTabLocation(String studyAcc) {
-		try {
-			String location = dataLocationManager.getISATabMetaDataWebLink();
-			if (!StringUtils.isEmpty(location) && !StringUtils.isEmpty(studyAcc)) {
-				return location.replace(DataSourceConfigFields.ACCESSION_PLACEHOLDER.getName(), studyAcc);
-			}
-		} catch (Exception e) {
-			log.error("Cannot read data location URL");
-		}
-		return "";
-	}
-
-	public boolean hasRawData(String measurement, String technology, DataLink dataLink) {
-		try {
-			return dataLink.hasDataOfType(ResourceType.RAW.getName()) &&
-					StringUtils.trimToNull(getRawDataURL(measurement, technology, dataLink.getAcc())) != null;
-		} catch (Exception e) {
-			log.error("Unable to determine if study has raw data!");
-			return false;
-		}
-	}
-
-	public boolean hasProcessedData(String measurement, String technology, DataLink dataLink) {
-		try {
-			return dataLink.hasDataOfType(ResourceType.PROCESSED.getName()) &&
-					StringUtils.trimToNull(getProcessedDataURL(measurement, technology, dataLink.getAcc())) != null;
-		} catch (Exception e) {
-			log.error("Unable to determine if study has Processed data!");
-			return false;
-		}
-	}
-
-	public boolean hasWebEntry(String measurement, String technology, DataLink dataLink) {
+    public String getRawDataURL(String measurement, String technology, String accession) {
         try {
-			boolean hasWeb = dataLink.hasDataOfType(ResourceType.ENTRY.getName());
+            return getDataURL(measurement, technology, accession, AnnotationTypes.RAW_DATA_FILE_LINK);
+        } catch (Exception e) {
+            log.error("Unable to resolve Raw data URL");
+            return "";
+        }
+    }
+
+    public String getProcessedDataURL(String measurement, String technology, String accession) {
+        try {
+
+            return getDataURL(measurement, technology, accession, AnnotationTypes.PROCESSED_DATA_FILE_LINK);
+        } catch (Exception e) {
+            log.error("Unable to resolve Processed data URL");
+            return "";
+        }
+    }
+
+    public String getEntryURL(String measurement, String technology, String accession) {
+        try {
+            String location = dataLocationManager.getDataLocation(measurement, technology, AnnotationTypes.WEB_ENTRY_URL);
+            if (!StringUtils.isEmpty(location) && !StringUtils.isEmpty(accession)) {
+                return location.replace(DataSourceConfigFields.ACCESSION_PLACEHOLDER.getName(), accession);
+            }
+        } catch (Exception e) {
+            log.error("Cannot read data location URL");
+
+        }
+        return "";
+    }
+
+    public String getIsaTabLocation(String studyAcc) {
+        try {
+            String location = dataLocationManager.getISATabMetaDataWebLink();
+            if (!StringUtils.isEmpty(location) && !StringUtils.isEmpty(studyAcc)) {
+                return location.replace(DataSourceConfigFields.ACCESSION_PLACEHOLDER.getName(), studyAcc);
+            }
+        } catch (Exception e) {
+            log.error("Cannot read data location URL");
+        }
+        return "";
+    }
+
+    public boolean hasRawData(String measurement, String technology, DataLink dataLink) {
+        try {
+            return dataLink.hasDataOfType(ResourceType.RAW.getName()) &&
+                    StringUtils.trimToNull(getRawDataURL(measurement, technology, dataLink.getAcc())) != null;
+        } catch (Exception e) {
+            log.error("Unable to determine if study has raw data!");
+            return false;
+        }
+    }
+
+    public boolean hasProcessedData(String measurement, String technology, DataLink dataLink) {
+        try {
+            return dataLink.hasDataOfType(ResourceType.PROCESSED.getName()) &&
+                    StringUtils.trimToNull(getProcessedDataURL(measurement, technology, dataLink.getAcc())) != null;
+        } catch (Exception e) {
+            log.error("Unable to determine if study has Processed data!");
+            return false;
+        }
+    }
+
+    public boolean hasWebEntry(String measurement, String technology, DataLink dataLink) {
+        try {
+            boolean hasWeb = dataLink.hasDataOfType(ResourceType.ENTRY.getName());
             boolean linkNotBlank = StringUtils.trimToNull(getEntryURL(measurement, technology, dataLink.getAcc())) != null;
 
             return hasWeb && linkNotBlank;
-		} catch (Exception e) {
-			log.error("Unable to determine if study has a web entry!");
-			return false;
-		}
-	}
+        } catch (Exception e) {
+            log.error("Unable to determine if study has a web entry!");
+            return false;
+        }
+    }
 
-	public String getViewImageLocation(String sourceName) {
-		log.info("source name is : " + sourceName);
-		if (sourceName.toUpperCase().indexOf("AE") == 0 || sourceName.toUpperCase().indexOf("ARRAYEXPRESS") == 0) {
-			return "img/download_images/view_ae.png";
-		} else if (sourceName.toUpperCase().indexOf("PRIDE") == 0) {
-			return "img/download_images/view_pride.png";
-		} else if (sourceName.toUpperCase().indexOf("ENA") == 0) {
-			return "img/download_images/view_ena.png";
-		} else if (sourceName.toUpperCase().indexOf("EMBL_BANK") == 0) {
-			return "img/download_images/view_embl.png";
-		} else if (sourceName.toUpperCase().indexOf("EMBL:WEB") == 0) {
-			return "img/download_images/view_embl.png";
-		} else if (sourceName.toUpperCase().indexOf("GEO") == 0) {
-			return "img/download_images/view_geo.png";
-		}else {
-			return "img/download_images/view_generic.png";
-		}
-	}
+    public String getViewImageLocation(String sourceName) {
+        log.info("source name is : " + sourceName);
+        if (sourceName.toUpperCase().indexOf("AE") == 0 || sourceName.toUpperCase().indexOf("ARRAYEXPRESS") == 0) {
+            return "img/download_images/view_ae.png";
+        } else if (sourceName.toUpperCase().indexOf("PRIDE") == 0) {
+            return "img/download_images/view_pride.png";
+        } else if (sourceName.toUpperCase().indexOf("ENA") == 0) {
+            return "img/download_images/view_ena.png";
+        } else if (sourceName.toUpperCase().indexOf("EMBL_BANK") == 0) {
+            return "img/download_images/view_embl.png";
+        } else if (sourceName.toUpperCase().indexOf("EMBL:WEB") == 0) {
+            return "img/download_images/view_embl.png";
+        } else if (sourceName.toUpperCase().indexOf("GEO") == 0) {
+            return "img/download_images/view_geo.png";
+        } else {
+            return "img/download_images/view_generic.png";
+        }
+    }
 
-	//todo remove once ENA place the data for BII-S-3 in a proper location
+    //todo remove once ENA place the data for BII-S-3 in a proper location
 
-	public String getViewImageLocationSpecial(String measurement) {
-		log.info("measurement is :" + measurement);
-		if (measurement.toLowerCase().indexOf("transcription profiling") == 0) {
-			return "img/download_images/view_geo.png";
-		} else if (measurement.toLowerCase().indexOf("metagenome sequencing") == 0) {
-			return "img/download_images/view_ena.png";
-		}
+    public String getViewImageLocationSpecial(String measurement) {
+        log.info("measurement is :" + measurement);
+        if (measurement.toLowerCase().indexOf("transcription profiling") == 0) {
+            return "img/download_images/view_geo.png";
+        } else if (measurement.toLowerCase().indexOf("metagenome sequencing") == 0) {
+            return "img/download_images/view_ena.png";
+        }
 
-		return "";
-	}
+        return "";
+    }
 
-	private String getDataURL(String measurement, String technology, String accession, AnnotationTypes type) {
-		try {
+    private String getDataURL(String measurement, String technology, String accession, AnnotationTypes type) {
+        try {
 
-			String location = dataLocationManager.getDataLocationLink(measurement, technology, accession, type);
+            String location;
+            if ((location = cache.find(accession + "/" + measurement + "/" + (technology == null ? "noTechnology" : technology))) == null) {
 
-            if (!StringUtils.isEmpty(location) && !StringUtils.isEmpty(accession)) {
-				String locationWithAcc = location.replace(DataSourceConfigFields.ACCESSION_PLACEHOLDER.getName(), accession);
+                String tmpLocation = dataLocationManager.getDataLocationLink(measurement, technology, accession, type);
 
-				//For AE links
-				if (locationWithAcc.indexOf(DataSourceConfigFields.ACCESSION_PREFIX_PLACEHOLDER.getName()) > 0 && accession.indexOf("-") > -1) {
-					String dataType = accession.substring(accession.indexOf("-") + 1, accession.lastIndexOf("-"));
-					return locationWithAcc.replace(DataSourceConfigFields.ACCESSION_PREFIX_PLACEHOLDER.getName(), dataType);
-				}
-				return locationWithAcc;
-			}
-		} catch (Exception e) {
-			log.error("Cannot read data location URL");
-		}
-		return "";
-	}
+                if (!StringUtils.isEmpty(tmpLocation) && !StringUtils.isEmpty(accession)) {
+                    String locationWithAcc = tmpLocation.replace(DataSourceConfigFields.ACCESSION_PLACEHOLDER.getName(), accession);
+
+                    location = locationWithAcc;
+                    //For AE links
+                    if (locationWithAcc.indexOf(DataSourceConfigFields.ACCESSION_PREFIX_PLACEHOLDER.getName()) > 0 && accession.indexOf("-") > -1) {
+                        String dataType = accession.substring(accession.indexOf("-") + 1, accession.lastIndexOf("-"));
+                        location = locationWithAcc.replace(DataSourceConfigFields.ACCESSION_PREFIX_PLACEHOLDER.getName(), dataType);
+                    }
+
+                    cache.attach(accession + "/" + measurement + "/" + (technology == null ? "noTechnology" : technology), location);
+                }
+            }
+
+            return location;
+        } catch (Exception e) {
+            log.error("Cannot read data location URL");
+        }
+        return "";
+    }
 }
