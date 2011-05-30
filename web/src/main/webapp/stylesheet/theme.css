@@ -471,10 +471,17 @@ iconbox2contents a:link, .iconbox2contents a:visited, .iconbox2contents_gr a:lin
 
 }
 
+.subtable_title {
+    font-family: Arial, Myriad Pro, sans-serif;
+    font-weight:bold;
+    font-size: 12px;
+    vertical-align: top;
+    text-align: left;
+}
+
 .subtable_content {
     font-family: Arial, Myriad Pro, sans-serif;
-    color: #333;
-    background-color: #E1E1E1;
+
     font-size: 12px;
     vertical-align: top;
     text-align: left;
