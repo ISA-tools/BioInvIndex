@@ -380,33 +380,20 @@ public class StudyBeanImpl implements StudyBean {
 
         for (PropertyValue value : values) {
             Ontology ontologyTerm;
-            if (value.getSingleOntologyTerm() != null) {
-                ontologyTerm = new Ontology(value.getSingleOntologyTerm().getAcc(),
-                        value.getSingleOntologyTerm().getSource().getName(), value.getValue());
-            } else {
-                ontologyTerm = new Ontology("", "", value.getValue());
+
+            String unit = "";
+            if (value.getUnit() != null) {
+                unit = value.getUnit().getValue();
             }
 
-            if (!ontologies.contains(ontologyTerm)) {
+            ontologyTerm = new Ontology("", "", value.getValue() + (unit.equals("") ? "" : " " + unit));
 
+            if (!ontologies.contains(ontologyTerm)) {
                 ontologies.add(ontologyTerm);
             }
 
-            if (value.getUnit() != null) {
-                Ontology ontologyUnit;
-                if (value.getUnit().getSingleOntologyTerm() != null) {
-                    ontologyUnit = new Ontology(value.getUnit().getSingleOntologyTerm().getAcc(),
-                            value.getUnit().getSingleOntologyTerm().getSource().getName(),
-                            value.getUnit().getValue());
-                } else {
-                    ontologyUnit = new Ontology("", "", value.getUnit().getValue());
-                }
-
-                if (!ontologies.contains(ontologyUnit)) {
-                    ontologies.add(ontologyUnit);
-                }
-            }
         }
+
         return ontologies;
     }
 

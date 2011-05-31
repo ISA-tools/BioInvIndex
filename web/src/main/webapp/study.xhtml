@@ -49,23 +49,11 @@
     </td>
 </tr>
 
-<tr>
-    <td>
-
-    </td>
-</tr>
 
 <tr>
     <td width="15%" class="table_content_titles">Title:</td>
     <td class="table_content">
         <h:outputText value="#{studyBean.study.title}"/>
-
-    </td>
-</tr>
-
-<tr>
-    <td>
-
     </td>
 </tr>
 
@@ -73,12 +61,6 @@
     <td width="15%" class="table_content_titles">Organism(s):</td>
     <td width="85%" class="table_content">
         <h:outputText value="#{studyBean.organism}"/>
-
-    </td>
-</tr>
-
-<tr>
-    <td>
 
     </td>
 </tr>
@@ -92,18 +74,68 @@
 </tr>
 
 <tr>
-    <td>
-
-    </td>
-</tr>
-
-<tr>
     <td width="15%" class="table_content_titles">Design(s):</td>
     <td width="85%" class="table_content">
         <h:outputText value="#{studyBean.design}"/>
-
     </td>
 </tr>
+
+
+<h:panelGroup rendered="#{studyBean.hasFactors()}">
+    <tr>
+        <td width="15%" class="table_content_titles">Experimental factor(s):</td>
+        <td width="85%" class="attrs">
+
+
+            <table id="factors" width="100%" border="0" cellpadding="0" cellspacing="2">
+                <thead>
+                <tr></tr>
+                </thead>
+
+                <tbody>
+                <ui:repeat var="property" value="#{studyBean.factors}">
+                    <tr>
+                        <td class="subtable_title">
+                            <h:outputText value="#{property}"/>
+
+                            <div class="subtable_value_count"><h:outputText
+                                    value="#{studyBean.getFactorValues(property).size} "/> recorded
+                            </div>
+                        </td>
+                        <td>
+                        </td>
+                        <td align="right">
+                            <div class="arrow"></div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="3" width="100%" class="subtable_content">
+
+                            <ui:repeat var="factorValue" value="#{studyBean.getFactorValues(property)}">
+                                <span class="green-tag">
+                                <h:panelGroup rendered="#{factorValue.hasURL()}">
+                                    <h:outputLink value="#{factorValue.url}" target="_blank">
+                                        <h:outputText value="#{factorValue.term} "/>
+                                    </h:outputLink>
+                                </h:panelGroup>
+
+                                <h:panelGroup rendered="#{not factorValue.hasURL()}">
+                                    <h:outputText value="#{factorValue.term} "/>
+                                </h:panelGroup>
+                                </span>
+                            </ui:repeat>
+                        </td>
+                    </tr>
+                </ui:repeat>
+                </tbody>
+            </table>
+
+
+        </td>
+    </tr>
+
+
+</h:panelGroup>
 
 <tr>
     <td>
@@ -138,16 +170,36 @@
 <tr>
     <td width="15%" class="table_content_titles">Sample attribute(s):</td>
     <td width="85%" class="attrs">
-        <table width="100%" border="0" cellpadding="0" cellspacing="2" style="table-layout:fixed">
+        <table id="characteristics" width="100%" border="0" cellpadding="0" cellspacing="2" style="table-layout:fixed">
+            <!-- Need a blank header for the row expansion code to work -->
+            <thead>
+            <tr></tr>
+            </thead>
 
             <tbody>
+
             <ui:repeat var="property" value="#{studyBean.characteristics}">
                 <tr>
 
-                    <td width="100%" class="subtable_title"><h:outputText value="#{property}"/></td>
+                    <td class="subtable_title">
+                        <h:outputText value="#{property}"/>
+
+                        <div class="subtable_value_count"><h:outputText
+                                value="#{studyBean.getCharacteristicValues(property).size} "/> recorded
+                        </div>
+                    </td>
+
+                    <td>
+                    </td>
+
+                    <td align="right">
+                        <div class="arrow"></div>
+                    </td>
+
                 </tr>
+
                 <tr>
-                    <td width="100%" class="subtable_content">
+                    <td colspan="3" width="100%" class="subtable_content">
 
                         <ui:repeat var="characteristicValue" value="#{studyBean.getCharacteristicValues(property)}">
                             <span class="green-tag">
@@ -183,58 +235,6 @@
     </td>
 </tr>
 
-<h:panelGroup rendered="#{studyBean.hasFactors()}">
-    <tr>
-        <td width="15%" class="table_content_titles">Experimental factor(s):</td>
-        <td width="85%" class="attrs">
-
-
-            <table id="factors" width="100%" border="0" cellpadding="0" cellspacing="2">
-
-                <tbody>
-                <ui:repeat var="property" value="#{studyBean.factors}">
-                    <tr>
-                        <td width="100%" class="subtable_title">
-                            <h:outputText value="#{property}"/>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td width="100%" class="subtable_content">
-
-                            <ui:repeat var="factorValue" value="#{studyBean.getFactorValues(property)}">
-                                <span class="green-tag">
-                                <h:panelGroup rendered="#{factorValue.hasURL()}">
-                                    <h:outputLink value="#{factorValue.url}" target="_blank">
-                                        <h:outputText value="#{factorValue.term} "/>
-                                    </h:outputLink>
-                                </h:panelGroup>
-
-                                <h:panelGroup rendered="#{not factorValue.hasURL()}">
-                                    <h:outputText value="#{factorValue.term} "/>
-                                </h:panelGroup>
-                                </span>
-                            </ui:repeat>
-                        </td>
-                    </tr>
-                </ui:repeat>
-                </tbody>
-            </table>
-
-
-        </td>
-    </tr>
-
-    <tr>
-        <td>
-
-        </td>
-    </tr>
-    <tr>
-        <td>
-
-        </td>
-    </tr>
-</h:panelGroup>
 
 <h:panelGroup rendered="#{studyBean.hasMIBBILinks()}">
     <tr>
@@ -451,20 +451,29 @@
     <area alt="Download ISAcreator" shape="rect" coords="504,15,605,34" href="submission_portal.seam" target="_blank"/>
 </map>
 
-</ui:define>
-
 <script type="text/javascript">
-    $(document).ready(function() {
-        $("#factors tr:odd").addClass("odd");
-        $("#factors tr:not(.odd)").hide();
-        $("#factors tr:first-child").show();
+    jQuery(document).ready(function() {
+        jQuery("#factors tr:odd").addClass("odd");
+        jQuery("#factors tr:not(.odd)").hide();
+        jQuery("#factors tr:first-child").show();
 
-        $("#factors tr.odd").click(function() {
-            $(this).next("tr").toggle();
-            $(this).find(".arrow").toggleClass("up");
+        jQuery("#factors tr.odd").click(function() {
+            jQuery(this).next("tr").toggle();
+            jQuery(this).find(".arrow").toggleClass("up");
         });
-        $("#factors").jExpand();
+
+        jQuery("#characteristics tr:odd").addClass("odd");
+        jQuery("#characteristics tr:not(.odd)").hide();
+        jQuery("#characteristics tr:first-child").show();
+
+        jQuery("#characteristics tr.odd").click(function() {
+            jQuery(this).next("tr").toggle();
+            jQuery(this).find(".arrow").toggleClass("up");
+        });
     });
 </script>
+
+</ui:define>
+
 
 </ui:composition>
