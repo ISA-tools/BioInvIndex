@@ -147,7 +147,7 @@
     <td width="15%" class="table_content_titles">Publication(s):</td>
     <td width="85%" class="table_content">
         <ui:repeat var="publication" value="#{studyBean.study.publications}">
-            <h:outputText value="#{publication.authorList}"/>,
+            <h:outputText value="#{publication.authorList}"/><br/>
             <h:outputText value="#{publication.title}"/>
             <h:panelGroup rendered="#{studyBean.hasPubmedId(publication)}">
                 CiteXplore:

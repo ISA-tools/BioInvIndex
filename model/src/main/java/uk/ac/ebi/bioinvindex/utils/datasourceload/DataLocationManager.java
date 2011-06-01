@@ -150,11 +150,14 @@ public class DataLocationManager {
                 ReferenceSource referenceSource = assayTypeDataLocation.getReferenceSource();
                 if (referenceSource != null) {
 
-
+                    log.info("Looking for " + dataType.getName());
 
                     for (Annotation annotation : referenceSource.getAnnotations()) {
 
                         if (annotation.getType().getValue().trim().equalsIgnoreCase(dataType.getName().trim())) {
+
+                            log.info("Found match for datatype, it is " + annotation.getText());
+
                             if (DataSourceUtils.matchForAssayRecord(targetRepo, assayTypeDataLocation)) {
                                 preferredLocation = annotation.getText();
                             } else {

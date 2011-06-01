@@ -219,6 +219,7 @@ public class StudyBeanImpl implements StudyBean {
                 sb.append(", ");
             }
             contacts = StringFormating.removeLastComma(sb.toString());
+            contacts = contacts.replaceAll("null", "");
         }
         log.info("StudyBeanImpl.getContacts " + contacts);
         return contacts;

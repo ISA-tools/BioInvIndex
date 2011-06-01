@@ -167,24 +167,11 @@ public class SourceURLResolverImpl implements SourceURLResolver {
         }
     }
 
-    //todo remove once ENA place the data for BII-S-3 in a proper location
-
-    public String getViewImageLocationSpecial(String measurement) {
-        log.info("measurement is :" + measurement);
-        if (measurement.toLowerCase().indexOf("transcription profiling") == 0) {
-            return "img/download_images/view_geo.png";
-        } else if (measurement.toLowerCase().indexOf("metagenome sequencing") == 0) {
-            return "img/download_images/view_ena.png";
-        }
-
-        return "";
-    }
-
     private String getDataURL(String measurement, String technology, String accession, AnnotationTypes type) {
         try {
 
             String location;
-            if ((location = cache.find(accession + "/" + measurement + "/" + (technology == null ? "noTechnology" : technology))) == null) {
+            if ((location = cache.find(accession + "/" + measurement + "/" + (technology == null ? "noTechnology" : technology) + "/" + type.getName())) == null) {
 
                 String tmpLocation = dataLocationManager.getDataLocationLink(measurement, technology, accession, type);
 
@@ -198,7 +185,7 @@ public class SourceURLResolverImpl implements SourceURLResolver {
                         location = locationWithAcc.replace(DataSourceConfigFields.ACCESSION_PREFIX_PLACEHOLDER.getName(), dataType);
                     }
 
-                    cache.attach(accession + "/" + measurement + "/" + (technology == null ? "noTechnology" : technology), location);
+                    cache.attach(accession + "/" + measurement + "/" + (technology == null ? "noTechnology" : technology) + "/" + type.getName(), location);
                 }
             }
 
