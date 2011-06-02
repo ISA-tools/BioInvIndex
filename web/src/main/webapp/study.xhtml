@@ -242,9 +242,11 @@
         </td>
         <td width="85%" class="table_content">
             <ui:repeat var="link" value="#{studyBean.getMIBBILinks()}">
+                <span class="green-tag">
                 <h:outputLink value="#{link.url}" target="_blank">
                     <h:outputText value="#{link.acronym}"/>
                 </h:outputLink>
+                </span>
                 <rich:spacer width="10"/>
             </ui:repeat>
         </td>

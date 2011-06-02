@@ -126,6 +126,11 @@ public class DataLocationManager {
         // this should now tell me what I'm looking for
         Repository targetRepo = DataSourceUtils.resolveRepositoryFromAccession(accession);
 
+        log.info("Target repo is " + targetRepo);
+
+        log.info("Looking for " + dataType.getName() + " for " + measurement + " using " + technology + " for study with accession " + accession);
+
+
         String preferredLocation = "";
         String otherLocation = "";
 
@@ -133,6 +138,8 @@ public class DataLocationManager {
             // i want to see that for each assay, if I can predict the link to be shown, based on what is in the DataLocations.xml file
             // and the form of the Accession. e/g. GSE = GEO, E- = ArrayExpress & SRA = ENA
             // e.g. ArrayExpress, GEO, EMBL-BANK. Generic
+            log.info("AssayTypeDataLocation reference source is " + assayTypeDataLocation.getReferenceSource().getName());
+
 
             String assayMeasurement = StringUtils.trimToNull(assayTypeDataLocation.getMeasurementType());
             if (assayMeasurement == null)
@@ -142,7 +149,7 @@ public class DataLocationManager {
 
             String assayTechnology = StringUtils.trimToNull(assayTypeDataLocation.getTechnologyType());
 
-            if (assayMeasurement.equalsIgnoreCase(measurement)
+            if (StringUtils.equalsIgnoreCase(assayMeasurement, measurement)
                     && StringUtils.equalsIgnoreCase(assayTechnology, technology)) {
 
                 // for now, we're just going to check what's available to me for querying/constructing the URL
@@ -150,19 +157,24 @@ public class DataLocationManager {
                 ReferenceSource referenceSource = assayTypeDataLocation.getReferenceSource();
                 if (referenceSource != null) {
 
-                    log.info("Looking for " + dataType.getName());
 
                     for (Annotation annotation : referenceSource.getAnnotations()) {
+
+                        log.info(annotation.getType().getValue() + " -> has URL -> " + annotation.getText());
 
                         if (annotation.getType().getValue().trim().equalsIgnoreCase(dataType.getName().trim())) {
 
                             log.info("Found match for datatype, it is " + annotation.getText());
 
                             if (DataSourceUtils.matchForAssayRecord(targetRepo, assayTypeDataLocation)) {
+                                log.info("Preferred location recorded" + annotation.getText());
                                 preferredLocation = annotation.getText();
                             } else {
                                 otherLocation = annotation.getText();
+                                log.info("other location recorded" + annotation.getText());
                             }
+
+
                         }
                     }
                 }
@@ -170,7 +182,8 @@ public class DataLocationManager {
 
 
         }
-
+        log.info("other location is " + otherLocation);
+        log.info("preferred location is " + otherLocation);
         // return a default URL for now
         return preferredLocation.equals("") ? otherLocation : preferredLocation;
 

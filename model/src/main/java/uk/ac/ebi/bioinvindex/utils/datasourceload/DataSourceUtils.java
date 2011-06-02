@@ -35,7 +35,7 @@ public class DataSourceUtils {
         }
 
         for(String alias : repository.getAliases()) {
-           if(assayTypeDataLocation.getReferenceSource().getName().equalsIgnoreCase(alias)) {
+           if(assayTypeDataLocation.getReferenceSource().getName().trim().equalsIgnoreCase(alias.trim())) {
                return true;
            }
         }
@@ -45,6 +45,9 @@ public class DataSourceUtils {
     }
 
     public static void main(String[] args) {
-        System.out.println(DataSourceUtils.resolveRepositoryFromAccession("era5675").getAliases()[0]);
+        System.out.println(DataSourceUtils.resolveRepositoryFromAccession("BII-S-8_3fLM7L9fnh").getAliases()[0]);
     }
+
+
+
 }
