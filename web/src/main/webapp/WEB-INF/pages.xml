@@ -19,7 +19,8 @@
     <page view-id="/compound_view.xhtml">
     </page>
 
-    <page view-id="/clearCache.xhtml"/>
+    <page view-id="/clearStudyCache.xhtml"/>
+    <page view-id="/clearFilterCache.xhtml"/>
 
     <page view-id="/study.xhtml">
         <param name="studyId"

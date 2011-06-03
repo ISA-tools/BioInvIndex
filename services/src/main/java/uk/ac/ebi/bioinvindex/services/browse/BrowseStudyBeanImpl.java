@@ -162,21 +162,7 @@ public class BrowseStudyBeanImpl implements BrowseStudyBean, AssayInfoDelimiters
 		}
 		sb.delete(sb.length() - 2, sb.length());
 		return sb.toString();
-	}
-
-	private DBLink createLink(String toParse) {
-		DBLink link = new DBLink();
-
-		StringTokenizer tokenizer = new StringTokenizer(toParse, ACC_URL_DELIM);
-		if (tokenizer.hasMoreTokens()) {
-			link.setAcc(tokenizer.nextToken());
-		}
-
-		if (tokenizer.hasMoreTokens()) {
-			link.setUrl(tokenizer.nextToken() + link.getAcc());
-		}
-		return link;
-	}
+    }
 
 	public int compareTo(Object o) {
 		return getAcc().compareTo(((BrowseStudyBean) o).getAcc());
