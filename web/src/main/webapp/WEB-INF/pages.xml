@@ -26,6 +26,8 @@
         <param name="studyId"
                value="#{studyBean.studyId}"/>
 
+        <param name="studyId" value="#{viewStudyBeanModel.accession}"/>
+
         <action execute="#{studyBean.studyExist()}"/>
 
     </page>
@@ -42,6 +44,8 @@
         <param name="platform"
                value="#{studyBeanProvider.platform}"/>
     </page>
+
+
 
 
     <page view-id="/home.xhtml">

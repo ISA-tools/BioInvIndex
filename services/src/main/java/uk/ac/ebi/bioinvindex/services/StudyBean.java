@@ -64,14 +64,6 @@ public interface StudyBean extends Serializable {
 
 	public String getDesign();
 
-	public List<String> getFactors();
-
-	public List<Ontology> getFactorValues(String factorName);
-
-	public List<String> getCharacteristics();
-
-	public List<Ontology> getCharacteristicValues(String characteristic);
-
 	public String getContacts();
 
 //	public List<AssayTechnology> getAssayTypes();

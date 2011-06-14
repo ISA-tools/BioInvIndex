@@ -43,6 +43,7 @@ package uk.ac.ebi.bioinvindex.services.browse;
  * EU NuGO [NoE 503630](http://www.nugo.org/everyone) projects and in part by EMBL-EBI.
  */
 
+import uk.ac.ebi.bioinvindex.model.term.Measurement;
 import uk.ac.ebi.bioinvindex.services.DBLink;
 
 import java.util.Collection;
@@ -126,9 +127,15 @@ public class AssayInfoBean {
 		this.sourceName = sourceName;
 	}
 
+    public String getDisplayLabel() {
+        return getEndPoint() + (!getTechnology().equals("") ? " using " + getTechnology() : "");
+    }
+
 	public Collection<DBLink> getDbLinks() {
 		return dbLinks;
 	}
+
+
 
 	public void addDBLink(DBLink link) {
 		dbLinks.add(link);

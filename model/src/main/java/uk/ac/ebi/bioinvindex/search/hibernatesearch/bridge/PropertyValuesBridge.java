@@ -48,73 +48,110 @@ import org.apache.lucene.document.Field;
 import org.hibernate.search.bridge.FieldBridge;
 import org.hibernate.search.bridge.LuceneOptions;
 
-import uk.ac.ebi.bioinvindex.model.term.Factor;
-import uk.ac.ebi.bioinvindex.model.term.OntologyTerm;
-import uk.ac.ebi.bioinvindex.model.term.Property;
-import uk.ac.ebi.bioinvindex.model.term.PropertyValue;
+import org.jboss.seam.util.Conversions;
+import uk.ac.ebi.bioinvindex.model.term.*;
 import uk.ac.ebi.bioinvindex.search.hibernatesearch.StudyBrowseField;
 
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
  * @author Nataliya Sklyar (nsklyar@ebi.ac.uk)
- * Date: Feb 20, 2008
+ *         Date: Feb 20, 2008
  */
 public class PropertyValuesBridge implements FieldBridge {
 
-	public void set(String s, Object value, Document document, LuceneOptions luceneOptions) {
-		Set<String> factors = new HashSet<String>();
+    public void set(String s, Object value, Document document, LuceneOptions luceneOptions) {
 
-		Collection<PropertyValue> values = (Collection<PropertyValue>) value;
+        Collection<PropertyValue> values = (Collection<PropertyValue>) value;
 
-		for (PropertyValue propertyValue : values) {
-			String propValue = propertyValue.getValue();
+        Map<StudyBrowseField, Map<String, Set<String>>> allPropertyToValues = new HashMap<StudyBrowseField, Map<String, Set<String>>>();
 
-			if (propValue != null) {
-				Property type = propertyValue.getType();
-				Collection<OntologyTerm> terms = propertyValue.getOntologyTerms();
 
-				if (type instanceof Factor) {
-					factors.add(propertyValue.getType().getValue());
+        for (PropertyValue propertyValue : values) {
+            String propValue = propertyValue.getValue();
 
-					Field fvField = new Field("factor_value", propValue, luceneOptions.getStore(), luceneOptions.getIndex());
-					document.add(fvField);
-					indexOntologyTerm(terms, "factor_value", document, luceneOptions.getStore(), luceneOptions.getIndex());
-				}
+            Map<String, Set<String>> propertyToValues = new HashMap<String, Set<String>>();
 
-				if (!isNumber(propValue)) {
-					Field pvField = new Field("property_value", propValue, luceneOptions.getStore(), luceneOptions.getIndex());
-					document.add(pvField);
-					indexOntologyTerm(terms, "property_value", document, luceneOptions.getStore(), luceneOptions.getIndex());
-				}
-			}
-		}
+            if (propValue != null) {
+                Property type = propertyValue.getType();
 
-		for (String factor : factors) {
-			Field factorField = new Field(StudyBrowseField.FACTOR_NAME.getName(), factor, luceneOptions.getStore(), luceneOptions.getIndex());
-			document.add(factorField);
-		}
+                if (!propertyToValues.containsKey(type.getValue())) {
+                    propertyToValues.put(type.getValue(), new HashSet<String>());
+                }
 
-	}
+                String unit = "";
+                if (propertyValue.getUnit() != null) {
+                    unit = propertyValue.getUnit().getValue();
+                }
 
-	private boolean isNumber(String value) {
-		Pattern integerPattern = Pattern.compile("^-?\\d*\\.?\\d*$");
-		Matcher matchesInteger = integerPattern.matcher(value);
-		return matchesInteger.matches();
-	}
+                propertyToValues.get(type.getValue()).add(propValue + (unit.equals("") ? "" : " " + unit));
 
-	private void indexOntologyTerm(Collection<OntologyTerm> terms, String fieldName,
-																 Document document, Field.Store store, Field.Index index) {
+                if (type instanceof Factor) {
 
-		for (OntologyTerm term : terms) {
-			Field fieldN = new Field(fieldName, term.getName(), store, index);
-			document.add(fieldN);
-			Field fieldAcc = new Field(fieldName, term.getAcc(), store, index);
-			document.add(fieldAcc);
-		}
-	}
+                    if (!allPropertyToValues.containsKey(StudyBrowseField.FACTORS)) {
+                        allPropertyToValues.put(StudyBrowseField.FACTORS, new HashMap<String, Set<String>>());
+                    }
+
+                    allPropertyToValues.get(StudyBrowseField.FACTORS).putAll(propertyToValues);
+                } else {
+                    if (!allPropertyToValues.containsKey(StudyBrowseField.CHARACTERISTICS)) {
+                        allPropertyToValues.put(StudyBrowseField.CHARACTERISTICS, new HashMap<String, Set<String>>());
+                    }
+
+                    allPropertyToValues.get(StudyBrowseField.CHARACTERISTICS).putAll(propertyToValues);
+                }
+            }
+        }
+
+        for (StudyBrowseField dataType : allPropertyToValues.keySet()) {
+            for (String propertyType : allPropertyToValues.get(dataType).keySet()) {
+                Field factorField = new Field(dataType.getName(),
+                        buildPropertyValueCompositeRepresentation(propertyType,
+                                allPropertyToValues.get(dataType).get(propertyType)),
+                        luceneOptions.getStore(), luceneOptions.getIndex());
+
+                document.add(factorField);
+            }
+        }
+    }
+
+    private String buildPropertyValueCompositeRepresentation(String valueType, Set<String> values) {
+        StringBuilder representation = new StringBuilder();
+
+        representation.append(valueType);
+        representation.append("[");
+
+        int count = 0;
+        for (String value : values) {
+            representation.append(value);
+            if (count < (values.size() - 1)) {
+                representation.append(":?:");
+            }
+            count++;
+        }
+
+        representation.append("]");
+
+        return representation.toString();
+    }
+
+
+    private boolean isNumber(String value) {
+        Pattern integerPattern = Pattern.compile("^-?\\d*\\.?\\d*$");
+        Matcher matchesInteger = integerPattern.matcher(value);
+        return matchesInteger.matches();
+    }
+
+    private void indexOntologyTerm(Collection<OntologyTerm> terms, String fieldName,
+                                   Document document, Field.Store store, Field.Index index) {
+
+        for (OntologyTerm term : terms) {
+            Field fieldN = new Field(fieldName, term.getName(), store, index);
+            document.add(fieldN);
+            Field fieldAcc = new Field(fieldName, term.getAcc(), store, index);
+            document.add(fieldAcc);
+        }
+    }
 }

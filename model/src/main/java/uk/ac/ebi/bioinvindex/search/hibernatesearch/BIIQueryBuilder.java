@@ -85,8 +85,10 @@ public class BIIQueryBuilder<T extends Identifiable> {
 						"assay_token_technology_name",
 						"assay_token_platform",
 
-						"property_value",
-						"factor_value",
+						"characteristics",
+						"factors",
+                        "factor_value",
+
 
 						"contact_firstname",
 						"contact_lastname",
@@ -136,31 +138,12 @@ public class BIIQueryBuilder<T extends Identifiable> {
 
 
 			for (String value : values) {
-				//This was for TOKENIZED fields
-//				StringReader reader = new StringReader(value);
-//				TokenStream tokenStream = analyzer.tokenStream(null, reader);
-//
-//				try {
-//					while (true) {
-//						Token token = tokenStream.next();
-//						if (token == null) break;
-//
-//						Term term = new Term(field.getName(), token.termText());
-//						TermsFilter filter = new TermsFilter();
-//						filter.addTerm(term);
-//						filters.add(filter);
-//					}
 
-				//This was for UN_TOKENIZED fields
+
 				Term term = new Term(field.getName(), value);
 				TermsFilter filter = new TermsFilter();
 				filter.addTerm(term);
 				filters.add(filter);
-
-//				} catch (IOException e) {
-//					//ToDo: add exception handling
-//					e.printStackTrace();
-//				}
 
 			}
 

@@ -56,9 +56,10 @@ import uk.ac.ebi.bioinvindex.model.term.*;
 import uk.ac.ebi.bioinvindex.model.xref.ReferenceSource;
 import uk.ac.ebi.bioinvindex.model.xref.ResourceType;
 import uk.ac.ebi.bioinvindex.model.xref.Xref;
+import uk.ac.ebi.bioinvindex.services.browse.BrowseStudyBeanModel;
 import uk.ac.ebi.bioinvindex.services.cache.BIICache;
 import uk.ac.ebi.bioinvindex.services.cache.Cache;
-import uk.ac.ebi.bioinvindex.services.ontologyhandling.Ontology;
+import uk.ac.ebi.bioinvindex.services.studyview.StudyIndexLocatorImpl;
 import uk.ac.ebi.bioinvindex.services.utils.CommonActions;
 import uk.ac.ebi.bioinvindex.services.utils.StringFormating;
 
@@ -72,7 +73,9 @@ import static org.jboss.seam.ScopeType.PAGE;
 public class StudyBeanImpl implements StudyBean {
 
     private static final Log log = LogFactory.getLog(StudyBeanImpl.class);
-    private static final Cache<String, Map<String, List<Ontology>>> characteristicFactorCache = new BIICache<String, Map<String, List<Ontology>>>();
+    private static final Cache<String, Map<String, List<String>>> characteristicFactorCache
+            = new BIICache<String, Map<String, List<String>>>();
+
     private static final Cache<String, Study> studyObjectCache = new BIICache<String, Study>();
 
     private Study study;
@@ -86,13 +89,17 @@ public class StudyBeanImpl implements StudyBean {
     @In
     private Identity identity;
 
+    @In (required = false)
+    private StudyIndexLocatorImpl studyIndexLocator;
+
+
     private String organism;
 
     private String design;
 
-    private Map<String, List<Ontology>> factorsToValues;
+    private Map<String, List<String>> factorsToValues;
 
-    private Map<String, List<Ontology>> characteristicsToValues;
+    private Map<String, List<String>> characteristicsToValues;
 
     private String contacts;
 
@@ -103,8 +110,6 @@ public class StudyBeanImpl implements StudyBean {
     private Collection<Investigation> investigations;
 
     private List<String> relatedStudies;
-
-    // todo store study items in the BII cache...
 
     public StudyBeanImpl() {
     }
@@ -161,49 +166,49 @@ public class StudyBeanImpl implements StudyBean {
         return design;
     }
 
-    public boolean hasFactors() {
+//    public boolean hasFactors() {
+//
+//        if (factorsToValues == null) {
+//            buildFactorsMap();
+//        }
+//        return factorsToValues.size() > 0;
+//    }
 
-        if (factorsToValues == null) {
-            buildFactorsMap();
-        }
-        return factorsToValues.size() > 0;
-    }
+//    public List<String> getFactors() {
+//        log.info("StudyBeanImpl.getFactors");
+//        log.info("Getting factors for " + study.getAcc());
+//
+//        if (factorsToValues == null) {
+//            buildFactorsMap();
+//        }
+//
+//        return new ArrayList<String>(factorsToValues.keySet());
+//    }
+//
+//    public List<String> getFactorValues(String factorName) {
+//        if (factorsToValues == null) {
+//            buildFactorsMap();
+//        }
+//        return factorsToValues.get(factorName);
+//    }
 
-    public List<String> getFactors() {
-        log.info("StudyBeanImpl.getFactors");
-        log.info("Getting factors for " + study.getAcc());
-
-        if (factorsToValues == null) {
-            buildFactorsMap();
-        }
-
-        return new ArrayList<String>(factorsToValues.keySet());
-    }
-
-    public List<Ontology> getFactorValues(String factorName) {
-        if (factorsToValues == null) {
-            buildFactorsMap();
-        }
-        return factorsToValues.get(factorName);
-    }
-
-    public List<String> getCharacteristics() {
-        log.info("StudyBeanImpl.getCharacteristics");
-        log.info("Getting characteristics for " + study.getAcc());
-
-        if (characteristicsToValues == null) {
-            buildCharacteristicsMap();
-        }
-        return new ArrayList<String>(characteristicsToValues.keySet());
-    }
-
-    public List<Ontology> getCharacteristicValues(String characteristic) {
-
-        if (characteristicsToValues == null) {
-            buildCharacteristicsMap();
-        }
-        return characteristicsToValues.get(characteristic);
-    }
+//    public List<String> getCharacteristics() {
+//        log.info("StudyBeanImpl.getCharacteristics");
+//        log.info("Getting characteristics for " + study.getAcc());
+//
+//        if (characteristicsToValues == null) {
+//            buildCharacteristicsMap();
+//        }
+//        return new ArrayList<String>(characteristicsToValues.keySet());
+//    }
+//
+//    public List<String> getCharacteristicValues(String characteristic) {
+//
+//        if (characteristicsToValues == null) {
+//            buildCharacteristicsMap();
+//        }
+//        return characteristicsToValues.get(characteristic);
+//    }
 
     public String getObfuscatedAccession() {
         return study.getAcc() + "_" + study.getObfuscationCode();
@@ -335,103 +340,45 @@ public class StudyBeanImpl implements StudyBean {
         StringBuilder sb = new StringBuilder();
 
         for (FreeTextTerm term : terms) {
-            sb.append(term.getValue());
-            sb.append(", ");
+            if (term.getValue() != null && !term.getValue().equals("")) {
+                sb.append(term.getValue());
+                sb.append(", ");
+            }
         }
 
         return StringFormating.removeLastComma(sb.toString());
     }
 
-    private void buildFactorsMap() {
-
-        if ((this.factorsToValues = characteristicFactorCache.find(studyId + "/factors")) == null) {
-            factorsToValues = new HashMap<String, List<Ontology>>();
-
-            Map<String, Set<PropertyValue>> factorsToValueSet = new HashMap<String, Set<PropertyValue>>();
-
-            List<Property<FactorValue>> factors = studyEJB3DAO.getFactorsForStudy(study.getId());
-
-            for (Property<FactorValue> factor : factors) {
-
-                Set<PropertyValue> values = factorsToValueSet.get(factor.getValue());
-                if (values == null) {
-                    values = new HashSet<PropertyValue>();
-                    factorsToValueSet.put(factor.getValue().toLowerCase(), values);
-                }
-                for (FactorValue factorValue : factor.getPropertyValues()) {
-
-                    values.add(factorValue);
-                }
-            }
-
-            for (String factorName : factorsToValueSet.keySet()) {
-                Set<PropertyValue> values = factorsToValueSet.get(factorName);
-                factorsToValues.put(factorName, buildOntologyTermsFromValues(values));
-            }
-
-            characteristicFactorCache.attach(studyId + "/factors", this.factorsToValues);
-        }
-    }
-
-    // todo look at this and correct to make it return each value with it's associated unit
-    private List<Ontology> buildOntologyTermsFromValues(Set<PropertyValue> values) {
-
-        List<Ontology> ontologies = new ArrayList<Ontology>();
-
-
-        for (PropertyValue value : values) {
-            Ontology ontologyTerm;
-
-            String unit = "";
-            if (value.getUnit() != null) {
-                unit = value.getUnit().getValue();
-            }
-
-            ontologyTerm = new Ontology("", "", value.getValue() + (unit.equals("") ? "" : " " + unit));
-
-            if (!ontologies.contains(ontologyTerm)) {
-                ontologies.add(ontologyTerm);
-            }
-
-        }
-
-        return ontologies;
-    }
-
-    private void buildCharacteristicsMap() {
-
-        if ((this.characteristicsToValues = characteristicFactorCache.find(studyId + "/characteristics")) == null) {
-
-            this.characteristicsToValues = new HashMap<String, List<Ontology>>();
-            Map<String, Set<PropertyValue>> characteristicsToValues = new HashMap<String, Set<PropertyValue>>();
-
-            List<Property<CharacteristicValue>> studyCharacteristicValues = studyEJB3DAO.getCharacteristicsForStudy(study.getId());
-
-            for (Property<CharacteristicValue> characteristicValueProperty : studyCharacteristicValues) {
-
-                Set<PropertyValue> values = characteristicsToValues.get(characteristicValueProperty.getValue());
-
-                if (values == null) {
-                    values = new HashSet<PropertyValue>();
-                    characteristicsToValues.put(
-                            characteristicValueProperty.getValue().toLowerCase(),
-                            values);
-                }
-
-                for (CharacteristicValue characteristicValue : characteristicValueProperty.getPropertyValues()) {
-                    values.add(characteristicValue);
-                }
-            }
-
-            for (String characteristic : characteristicsToValues.keySet()) {
-                Set<PropertyValue> values = characteristicsToValues.get(characteristic);
-
-                this.characteristicsToValues.put(characteristic, buildOntologyTermsFromValues(values));
-            }
-
-            characteristicFactorCache.attach(studyId + "/characteristics", this.characteristicsToValues);
-        }
-    }
+//    private void buildFactorsMap() {
+//
+//        if ((this.factorsToValues = characteristicFactorCache.find(studyId + "/factors")) == null) {
+//            factorsToValues = new HashMap<String, List<String>>();
+//
+//            if (studyBeanProvider == null) {
+//
+//                log.info("Getting factors for " + studyId);
+//
+//                studyBeanProvider = browseStudyBeanModel.getStudy(studyId);
+//            }
+//
+//            factorsToValues.putAll(studyBeanProvider.getFactorToValues());
+//            characteristicFactorCache.attach(studyId + "/factors", this.factorsToValues);
+//        }
+//    }
+//
+//    private void buildCharacteristicsMap() {
+//
+//        if ((this.characteristicsToValues = characteristicFactorCache.find(studyId + "/characteristics")) == null) {
+//
+//            characteristicsToValues = new HashMap<String, List<String>>();
+//
+//            studyBeanProvider = browseStudyBeanModel.getStudy(studyId);
+//
+//            characteristicsToValues.putAll(studyBeanProvider.getCharacteristicToValues());
+//
+//            characteristicFactorCache.attach(studyId + "/characteristics", this.characteristicsToValues);
+//        }
+//    }
 
     public StudyDAO getStudyEJB3DAO() {
         if (studyEJB3DAO == null) {
@@ -469,6 +416,17 @@ public class StudyBeanImpl implements StudyBean {
             throw new BIIException("Study with id = " + studyId + " is not available");
         }
 
+    }
+
+    public StudyIndexLocatorImpl getBrowseStudyBeanModel() {
+        return studyIndexLocator;
+    }
+
+    public void setBrowseStudyBeanModel(StudyIndexLocatorImpl browseStudyBeanModel) {
+        if (browseStudyBeanModel == null) {
+            throw new IllegalStateException("sourceURLResolver is required but has not been set");
+        }
+        this.studyIndexLocator = browseStudyBeanModel;
     }
 
     public boolean clearCache() {

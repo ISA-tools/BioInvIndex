@@ -45,7 +45,9 @@
 <tr>
     <td width="15%" class="table_content_titles">Study ID:</td>
     <td width="85%" class="table_content">
-        <h:outputText value="#{studyBean.study.acc}"/>
+        <span class="green-tag">
+            <h:outputText value="#{studyBean.study.acc}"/>
+        </span>
     </td>
 </tr>
 
@@ -81,7 +83,7 @@
 </tr>
 
 
-<h:panelGroup rendered="#{studyBean.hasFactors()}">
+<h:panelGroup rendered="#{viewStudyBeanModel.studyBean.hasFactors()}">
     <tr>
         <td width="15%" class="table_content_titles">Experimental factor(s):</td>
         <td width="85%" class="attrs">
@@ -93,13 +95,13 @@
                 </thead>
 
                 <tbody>
-                <ui:repeat var="property" value="#{studyBean.factors}">
+                <ui:repeat var="property" value="#{viewStudyBeanModel.studyBean.factorNames}">
                     <tr>
                         <td class="subtable_title">
                             <h:outputText value="#{property}"/>
 
                             <div class="subtable_value_count"><h:outputText
-                                    value="#{studyBean.getFactorValues(property).size} "/> recorded
+                                    value="#{viewStudyBeanModel.studyBean.getFactorValues(property).size} "/> recorded
                             </div>
                         </td>
                         <td>
@@ -111,17 +113,10 @@
                     <tr>
                         <td colspan="3" width="100%" class="subtable_content">
 
-                            <ui:repeat var="factorValue" value="#{studyBean.getFactorValues(property)}">
+                            <ui:repeat var="factorValue"
+                                       value="#{viewStudyBeanModel.studyBean.getFactorValues(property)}">
                                 <span class="green-tag">
-                                <h:panelGroup rendered="#{factorValue.hasURL()}">
-                                    <h:outputLink value="#{factorValue.url}" target="_blank">
-                                        <h:outputText value="#{factorValue.term} "/>
-                                    </h:outputLink>
-                                </h:panelGroup>
-
-                                <h:panelGroup rendered="#{not factorValue.hasURL()}">
-                                    <h:outputText value="#{factorValue.term} "/>
-                                </h:panelGroup>
+                                    <h:outputText value="#{factorValue} "/>
                                 </span>
                             </ui:repeat>
                         </td>
@@ -178,14 +173,14 @@
 
             <tbody>
 
-            <ui:repeat var="property" value="#{studyBean.characteristics}">
+            <ui:repeat var="property" value="#{viewStudyBeanModel.studyBean.characteristicNames}">
                 <tr>
 
                     <td class="subtable_title">
                         <h:outputText value="#{property}"/>
 
                         <div class="subtable_value_count"><h:outputText
-                                value="#{studyBean.getCharacteristicValues(property).size} "/> recorded
+                                value="#{viewStudyBeanModel.studyBean.getCharacteristicValues(property).size} "/> recorded
                         </div>
                     </td>
 
@@ -201,18 +196,10 @@
                 <tr>
                     <td colspan="3" width="100%" class="subtable_content">
 
-                        <ui:repeat var="characteristicValue" value="#{studyBean.getCharacteristicValues(property)}">
+                        <ui:repeat var="characteristicValue"
+                                   value="#{viewStudyBeanModel.studyBean.getCharacteristicValues(property)}">
                             <span class="green-tag">
-                            <h:panelGroup rendered="#{characteristicValue.hasURL()}">
-                                <h:outputLink value="#{characteristicValue.url}" target="_blank">
-                                    <h:outputText value="#{characteristicValue.term} "/>
-                                </h:outputLink>
-                            </h:panelGroup>
-
-                                <h:panelGroup rendered="#{not characteristicValue.hasURL()}">
-                                    <h:outputText value="#{characteristicValue.term} "/>
-                                </h:panelGroup>
-
+                                    <h:outputText value="#{characteristicValue} "/>
                             </span>
                         </ui:repeat>
                     </td>
@@ -425,7 +412,9 @@
 <tr>
     <td width="15%" class="table_content_titles">Release Date:</td>
     <td width="85%" class="table_content">
+
         <h:outputText value="#{studyBean.study.releaseDate}"/>
+
 
     </td>
 </tr>

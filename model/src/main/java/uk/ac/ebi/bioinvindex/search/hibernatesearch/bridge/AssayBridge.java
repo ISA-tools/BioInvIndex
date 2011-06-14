@@ -43,15 +43,12 @@ package uk.ac.ebi.bioinvindex.search.hibernatesearch.bridge;
  * EU NuGO [NoE 503630](http://www.nugo.org/everyone) projects and in part by EMBL-EBI.
  */
 
-import org.apache.commons.lang.StringUtils;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
 import org.hibernate.search.bridge.FieldBridge;
 import org.hibernate.search.bridge.LuceneOptions;
 import uk.ac.ebi.bioinvindex.model.processing.Assay;
-import uk.ac.ebi.bioinvindex.model.term.AssayTechnology;
 import uk.ac.ebi.bioinvindex.model.xref.Xref;
-import uk.ac.ebi.bioinvindex.search.hibernatesearch.bridge.AssayInfoDelimiters;
 import uk.ac.ebi.bioinvindex.search.hibernatesearch.StudyBrowseField;
 
 import java.util.Collection;
@@ -67,16 +64,16 @@ import java.util.Set;
 public class AssayBridge implements FieldBridge, AssayInfoDelimiters {
 
 	public void set(String s, Object o, Document document, LuceneOptions luceneOptions) {
-		Map<String, AssyaTypeInfo> assayTypeToInfo = new HashMap<String, AssyaTypeInfo>();
+		Map<String, AssayTypeInfo> assayTypeToInfo = new HashMap<String, AssayTypeInfo>();
 
 		Collection<Assay> assays = (Collection<Assay>) o;
 		for (Assay assay : assays) {
 
 			String type = buildType(assay);
 
-			AssyaTypeInfo info = assayTypeToInfo.get(type);
+			AssayTypeInfo info = assayTypeToInfo.get(type);
 			if (info == null) {
-				info = new AssyaTypeInfo();
+				info = new AssayTypeInfo();
 				assayTypeToInfo.put(type, info);
 			}
 
@@ -85,6 +82,11 @@ public class AssayBridge implements FieldBridge, AssayInfoDelimiters {
 				sb.append(xref.getAcc());
 				if (xref.getSource() != null) {
 					sb.append(ACC_URL_DELIM);
+					// todo this method is getting the XRefs. So, we should be able to get the URLs required to
+					// construct the data file locations, or build up the possible locations from here. Also, if
+                    // I integrate the code I use to determine data locations as it is now, that should make things
+                    // a lot quicker.
+
 					//ToDO: use annotation which contains url regexp instead
 					sb.append(xref.getSource().getUrl());
 				}
@@ -99,7 +101,7 @@ public class AssayBridge implements FieldBridge, AssayInfoDelimiters {
 			StringBuilder fullInfo = new StringBuilder();
 			fullInfo.append(type);
 			fullInfo.append(FIELDS_DELIM);
-			AssayBridge.AssyaTypeInfo info = assayTypeToInfo.get(type);
+			AssayTypeInfo info = assayTypeToInfo.get(type);
 			fullInfo.append(info.getCount());
 			fullInfo.append(FIELDS_DELIM);
 			for (String acc : info.getAccessions()) {
@@ -118,7 +120,7 @@ public class AssayBridge implements FieldBridge, AssayInfoDelimiters {
 	}
 
 	
-	private class AssyaTypeInfo {
+	private class AssayTypeInfo {
 
 		private int count = 0;
 

@@ -208,12 +208,12 @@ public class StudyFreeTextSearchImpl implements StudyFreeTextSearch {
 
 	private FullTextSession getSession() {
 		FullTextSession session;
-		Session deligate = (Session) entityManager.getDelegate();
+		Session delegate = (Session) entityManager.getDelegate();
 
-		if (deligate instanceof FullTextSession) {
-			session = (FullTextSession) deligate;
+		if (delegate instanceof FullTextSession) {
+			session = (FullTextSession) delegate;
 		} else {
-			session = Search.createFullTextSession(deligate);
+			session = Search.getFullTextSession(delegate);
 		}
 		return session;
 	}
