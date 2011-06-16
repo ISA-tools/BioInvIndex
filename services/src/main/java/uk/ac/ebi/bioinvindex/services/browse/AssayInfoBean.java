@@ -179,35 +179,4 @@ public class AssayInfoBean {
 		return result;
 	}
 
-	//	public static class DBLink {
-//
-//		private String acc;
-//		private String url;
-//
-//		public DBLink() {
-//		}
-//
-//		public String getAcc() {
-//			return acc;
-//		}
-//
-//		public void setAcc(String acc) {
-//			this.acc = acc;
-//		}
-//
-//		public String getUrl() {
-//			return url;
-//		}
-//
-//		public void setUrl(String url) {
-//			this.url = url;
-//		}
-//
-//		public String toString() {
-//			return "DBLink{" +
-//					"acc='" + acc + '\'' +
-//					", url='" + url + '\'' +
-//					'}';
-//		}
-//	}
 }

@@ -127,7 +127,7 @@ public class PropertyValuesBridge implements FieldBridge {
         for (String value : values) {
             representation.append(value);
             if (count < (values.size() - 1)) {
-                representation.append(":?:");
+                representation.append(":?");
             }
             count++;
         }

@@ -43,6 +43,8 @@ package uk.ac.ebi.bioinvindex.services.browse;
  * EU NuGO [NoE 503630](http://www.nugo.org/everyone) projects and in part by EMBL-EBI.
  */
 
+import uk.ac.ebi.bioinvindex.services.AssayGroupInfo;
+
 import java.util.List;
 import java.util.Map;
 
@@ -75,5 +77,7 @@ public interface BrowseStudyBean {
     public List<String> getCharacteristicValues(String characteristicName);
 
 	public List<AssayInfoBean> getAssayBeans();
+
+    public List<AssayGroupInfo> getAssayGroups();
 
 }

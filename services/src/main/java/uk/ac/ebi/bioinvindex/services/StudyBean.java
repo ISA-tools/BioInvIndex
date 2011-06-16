@@ -66,13 +66,7 @@ public interface StudyBean extends Serializable {
 
 	public String getContacts();
 
-//	public List<AssayTechnology> getAssayTypes();
-//
-//	public List<Assay> getAssaysByType(AssayTechnology type);
-
 	public DBLink getPubmedLink(Publication publication);
-
-	public List<AssayGroupInfo> getAssayInfos();
 
 	public boolean hasInvestigation();
 

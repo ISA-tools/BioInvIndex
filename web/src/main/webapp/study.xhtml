@@ -10,7 +10,10 @@
 <ui:define name="body">
 
 <div align="center">
-    <img alt="view study information" src="img/table_images/study_information_header.png"/>
+   <span class="green-tag">
+            <h:outputText value="#{studyBean.study.acc}"/>
+   </span>
+
 </div>
 
 <p/>
@@ -18,14 +21,13 @@
 <h:form>
 
 
-<table width="95%" align="center" border="0" cellpadding="0" cellspacing="2" style="table-layout:fixed">
+<table width="100%" align="center" border="0" cellpadding="0" cellspacing="2" style="table-layout:fixed">
 <tbody>
+
 <h:panelGroup rendered="#{studyBean.hasInvestigation()}">
-    <tr>
+    <tr class="spaceUnder">
         <td width="15%" class="table_content_titles">Investigation:</td>
         <td width="85%" class="table_content">
-
-
             This Study is part of an Investigation, which also includes:<rich:spacer width="10"/>
             <ui:repeat var="acc" value="#{studyBean.relatedStudies}">
                 <h:outputLink value="study.seam?studyId=#{acc}">
@@ -35,31 +37,17 @@
             </ui:repeat>
         </td>
     </tr>
-    <tr>
-        <td>
-        </td>
-    </tr>
+
 </h:panelGroup>
 
-
-<tr>
-    <td width="15%" class="table_content_titles">Study ID:</td>
-    <td width="85%" class="table_content">
-        <span class="green-tag">
-            <h:outputText value="#{studyBean.study.acc}"/>
-        </span>
-    </td>
-</tr>
-
-
-<tr>
+<tr class="spaceUnder">
     <td width="15%" class="table_content_titles">Title:</td>
     <td class="table_content">
         <h:outputText value="#{studyBean.study.title}"/>
     </td>
 </tr>
 
-<tr>
+<tr class="spaceUnder">
     <td width="15%" class="table_content_titles">Organism(s):</td>
     <td width="85%" class="table_content">
         <h:outputText value="#{studyBean.organism}"/>
@@ -67,15 +55,14 @@
     </td>
 </tr>
 
-<tr>
+<tr class="spaceUnder">
     <td width="15%" class="table_content_titles">Description:</td>
     <td width="85%" class="table_content">
         <h:outputText value="#{studyBean.study.description}"/>
-
     </td>
 </tr>
 
-<tr>
+<tr class="spaceUnder">
     <td width="15%" class="table_content_titles">Design(s):</td>
     <td width="85%" class="table_content">
         <h:outputText value="#{studyBean.design}"/>
@@ -84,7 +71,7 @@
 
 
 <h:panelGroup rendered="#{viewStudyBeanModel.studyBean.hasFactors()}">
-    <tr>
+    <tr class="spaceUnder">
         <td width="15%" class="table_content_titles">Experimental factor(s):</td>
         <td width="85%" class="attrs">
 
@@ -132,13 +119,7 @@
 
 </h:panelGroup>
 
-<tr>
-    <td>
-
-    </td>
-</tr>
-
-<tr>
+<tr class="spaceUnder">
     <td width="15%" class="table_content_titles">Publication(s):</td>
     <td width="85%" class="table_content">
         <ui:repeat var="publication" value="#{studyBean.study.publications}">
@@ -156,13 +137,7 @@
     </td>
 </tr>
 
-<tr>
-    <td>
-
-    </td>
-</tr>
-
-<tr>
+<tr class="spaceUnder">
     <td width="15%" class="table_content_titles">Sample attribute(s):</td>
     <td width="85%" class="attrs">
         <table id="characteristics" width="100%" border="0" cellpadding="0" cellspacing="2" style="table-layout:fixed">
@@ -211,20 +186,9 @@
     </td>
 </tr>
 
-<tr>
-    <td>
-
-    </td>
-</tr>
-<tr>
-    <td>
-
-    </td>
-</tr>
-
 
 <h:panelGroup rendered="#{studyBean.hasMIBBILinks()}">
-    <tr>
+    <tr class="spaceUnder">
         <td width="15%" class="table_content_titles">Guideline(s) followed:
         </td>
         <td width="85%" class="table_content">
@@ -239,89 +203,88 @@
         </td>
     </tr>
 
-    <tr>
-        <td>
-
-        </td>
-    </tr>
-
 </h:panelGroup>
 
-<tr>
-    <td width="15%" class="table_content_titles">Download:</td>
+<tr class="spaceUnder">
+    <td width="15%" class="table_content_titles">Contact(s):</td>
     <td width="85%" class="table_content">
-        <div align="left">
-            <h:outputLink
-                    value="#{sourceURLResolver.getIsaTabLocation(studyBean.getObfuscatedAccession())}" target="_blank">
-                <img alt="download study"
-                     src="img/table_images/dl_study_top.png"
-                     border="0"/>
-            </h:outputLink>
-            <br/>
-        </div>
-        <div>
-            <img src="img/table_images/dl_study_bottom.png" alt="" usemap="#download_isa" border="0"/>
-        </div>
-
-
-        <p/>
-
-        <p/>
-        <img src="img/download_images/download_assay_things.png" alt="Assay download section"/>
-    </td>
-</tr>
-
-
-<tr>
-    <td>
+        <h:outputText value="#{studyBean.contacts}"/>
 
     </td>
 </tr>
 
-<tr>
-    <td width="15%" class="table_content_titles"></td>
+<tr class="spaceUnder">
+    <td width="15%" class="table_content_titles">Release Date:</td>
+    <td width="85%" class="table_content">
+
+        <h:outputText value="#{studyBean.study.releaseDate}"/>
+
+
+    </td>
+</tr>
+
+<tr class="bigSpaceUnder">
+    <td width="15%" class="table_content_titles">Submission Date:</td>
+    <td width="85%" class="table_content">
+        <h:outputText value="#{studyBean.study.submissionDate}"/>
+    </td>
+</tr>
+
+<tr class="spaceUnder">
+    <td class="table_content_titles" width="15%">Metadata Downloads</td>
+    <td width="85%" class="table_content">
+        <h:outputLink
+                value="#{sourceURLResolver.getIsaTabLocation(studyBean.getObfuscatedAccession())}" target="_blank"
+                styleClass="download-study-button">
+            <span>download study metadata as ISAtab</span><span>open in ISAcreator...</span>
+        </h:outputLink>
+    </td>
+</tr>
+
+
+<tr class="spaceUnder">
+    <td width="15%" class="table_content_titles">Assay Downloads</td>
     <td width="85%" class="attrs">
-        <table align="center" width="720" cellpadding="0" cellspacing="2" style="table-layout:fixed">
+        <table align="center" width="100%" cellpadding="0" cellspacing="2" style="table-layout:fixed">
 
+            <ui:repeat var="bean" value="#{viewStudyBeanModel.studyBean.assayGroups}">
 
-            <ui:repeat var="bean" value="#{studyBean.assayInfos}">
-
-                <tr class="download_assay_contents">
+                <tr>
                     <td>
-                        <div class="assay_top"></div>
-                        <div class="assay_mid">
-                            <table width="95%" border="0" align="center">
+                        <div class="assay-tag">
+
+                            <table width="100%" border="0" align="center">
                                 <tr>
-                                    <td width="50%" valign="top">
+                                    <td width="60%" valign="top">
                                         <table width="100%" border="0" align="left" style="table-layout:fixed;">
                                             <tr>
-                                                <td width="35%" valign="top">Measurement:</td>
-                                                <td width="65%"><strong>#{bean.endPoint}</strong></td>
+                                                <td width="100%" valign="top"
+                                                    class="subtable_title">#{bean.getDisplayLabel()}</td>
                                             </tr>
+
                                             <tr>
-                                                <td width="35%" valign="top">Technology:</td>
-                                                <td width="65%"><strong>#{bean.technology}</strong></td>
+                                                <td width="100%" class="subtable_value_count">#{bean.platform}</td>
                                             </tr>
+
                                             <tr>
-                                                <td width="35%" valign="top">Platform:</td>
-                                                <td width="65%"><strong>#{bean.platform}</strong></td>
+                                                <td width="65%"><span class="green-tag">#{bean.count} assays</span></td>
                                             </tr>
                                         </table>
                                     </td>
-                                    <td width="50%" valign="top">
+                                    <td width="40%" valign="middle">
                                         <table width="100%" border="0" align="center" style="table-layout:fixed;">
                                             <ui:repeat var="dataLink" value="#{bean.dataLinks}">
                                                 <tr>
 
-                                                    <td width="20%" valign="top">
+                                                    <td width="30%" valign="top">
                                                         <h:panelGroup
                                                                 rendered="#{sourceURLResolver.hasRawData(bean.endPoint, bean.technology, dataLink)}">
                                                             <div align="center">
                                                                 <h:outputLink
                                                                         value="#{sourceURLResolver.getRawDataURL(bean.endPoint, bean.technology, dataLink.acc)}"
-                                                                        target="_blank">
-                                                                    <img src="img/download_images/downloadraw.png"
-                                                                         alt="download raw data" border="0"/>
+                                                                        target="_blank" styleClass="button">
+                                                                    <span>raw data</span>
+                                                                    <span>download</span>
                                                                 </h:outputLink>
                                                             </div>
                                                         </h:panelGroup>
@@ -330,19 +293,20 @@
                                                     <td width="30%" valign="top">
                                                         <h:panelGroup
                                                                 rendered="#{sourceURLResolver.hasProcessedData(bean.endPoint, bean.technology, dataLink)}">
-                                                            <div align="right">
+                                                            <div align="center">
                                                                 <h:outputLink
                                                                         value="#{sourceURLResolver.getProcessedDataURL(bean.endPoint, bean.technology, dataLink.acc)}"
-                                                                        target="_blank">
-                                                                    <img src="img/download_images/downloadprocessed.png"
-                                                                         alt="download processed data" border="0"/>
+                                                                        target="_blank" styleClass="button">
+                                                                    <span>processed data</span>
+                                                                    <span>download</span>
+
                                                                 </h:outputLink>
                                                             </div>
 
                                                         </h:panelGroup>
                                                     </td>
 
-                                                    <td width="50%" align="right" valign="top">
+                                                    <td width="40%" align="center" valign="top">
                                                         <h:panelGroup
                                                                 rendered="#{sourceURLResolver.hasWebEntry(bean.endPoint, bean.technology, dataLink)}">
                                                             <h:outputLink
@@ -363,6 +327,10 @@
 
                                                 </tr>
 
+                                                <tr>
+                                                    <td/>
+                                                </tr>
+
                                             </ui:repeat>
 
                                         </table>
@@ -370,7 +338,7 @@
                                 </tr>
                             </table>
                         </div>
-                        <div class="assay_bottom"></div>
+
                     </td>
                 </tr>
 
@@ -382,65 +350,10 @@
     </td>
 </tr>
 
-<tr>
-    <td>
-
-    </td>
-</tr>
-
-<tr>
-    <td>
-
-    </td>
-</tr>
-
-<tr>
-    <td width="15%" class="table_content_titles">Contact(s):</td>
-    <td width="85%" class="table_content">
-        <h:outputText value="#{studyBean.contacts}"/>
-
-    </td>
-</tr>
-
-<tr>
-    <td>
-
-    </td>
-</tr>
-
-
-<tr>
-    <td width="15%" class="table_content_titles">Release Date:</td>
-    <td width="85%" class="table_content">
-
-        <h:outputText value="#{studyBean.study.releaseDate}"/>
-
-
-    </td>
-</tr>
-
-<tr>
-    <td>
-
-    </td>
-</tr>
-
-<tr>
-    <td width="15%" class="table_content_titles">Submission Date:</td>
-    <td width="85%" class="table_content">
-        <h:outputText value="#{studyBean.study.submissionDate}"/>
-
-    </td>
-</tr>
-
 
 </tbody>
 </table>
 </h:form>
-
-<map name="download_isa" id="download_isa">
-    <area alt="Download ISAcreator" shape="rect" coords="504,15,605,34" href="submission_portal.seam" target="_blank"/>
-</map>
 
 <script type="text/javascript">
     jQuery(document).ready(function() {

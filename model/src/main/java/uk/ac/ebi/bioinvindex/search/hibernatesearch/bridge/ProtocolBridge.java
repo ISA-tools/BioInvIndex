@@ -57,44 +57,47 @@ import java.util.Collection;
 
 /**
  * @author Nataliya Sklyar (nsklyar@ebi.ac.uk)
- * Date: Feb 22, 2008
+ *         Date: Feb 22, 2008
  */
 public class ProtocolBridge implements FieldBridge, AssayInfoDelimiters {
 
 
-	public void set(String s, Object o, Document document, LuceneOptions luceneOptions) {
-		if (o == null) return;
+    public void set(String s, Object o, Document document, LuceneOptions luceneOptions) {
+        if (o == null) return;
 
-		Collection<Protocol> protocols = (Collection<Protocol>) o;
+        Collection<Protocol> protocols = (Collection<Protocol>) o;
 
-		for (Protocol protocol : protocols) {
+        for (Protocol protocol : protocols) {
 
-			Field field = new Field(s + "acc", protocol.getAcc(), luceneOptions.getStore(), luceneOptions.getIndex());
-			document.add(field);
+            if (protocol.getName() != null) {
 
-			field = new Field(s + "name", protocol.getName(), luceneOptions.getStore(), luceneOptions.getIndex());
-			document.add(field);
+                Field field = new Field(s + "acc", protocol.getAcc(), luceneOptions.getStore(), luceneOptions.getIndex());
+                document.add(field);
 
-			String description = protocol.getDescription();
-			if (description != null) {
-				field = new Field(s + "description", description, luceneOptions.getStore(), luceneOptions.getIndex());
-				document.add(field);
-			}
+                field = new Field(s + "name", protocol.getName(), luceneOptions.getStore(), luceneOptions.getIndex());
+                document.add(field);
 
-			ProtocolType type = protocol.getType();
-			if (type != null) {
-				field = new Field(s + "type_acc", type.getAcc(), luceneOptions.getStore(), luceneOptions.getIndex());
-				document.add(field);
+                String description = protocol.getDescription();
+                if (description != null) {
+                    field = new Field(s + "description", description, luceneOptions.getStore(), luceneOptions.getIndex());
+                    document.add(field);
+                }
 
-				field = new Field(s + "type_name", protocol.getType().getName(), luceneOptions.getStore(), luceneOptions.getIndex());
-				document.add(field);
-			}
+                ProtocolType type = protocol.getType();
+                if (type != null) {
+                    field = new Field(s + "type_acc", type.getAcc(), luceneOptions.getStore(), luceneOptions.getIndex());
+                    document.add(field);
 
-			for (Parameter parameter : protocol.getParameters()) {
-				field = new Field(s + "parameter_name", parameter.getValue(), luceneOptions.getStore(), luceneOptions.getIndex());
-				document.add(field);
-			}
+                    field = new Field(s + "type_name", protocol.getType().getName(), luceneOptions.getStore(), luceneOptions.getIndex());
+                    document.add(field);
+                }
 
-		}
-	}
+                for (Parameter parameter : protocol.getParameters()) {
+                    field = new Field(s + "parameter_name", parameter.getValue(), luceneOptions.getStore(), luceneOptions.getIndex());
+                    document.add(field);
+                }
+            }
+
+        }
+    }
 }

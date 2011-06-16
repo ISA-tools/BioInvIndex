@@ -45,8 +45,12 @@ package uk.ac.ebi.bioinvindex.services.browse;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import uk.ac.ebi.bioinvindex.model.xref.ResourceType;
 import uk.ac.ebi.bioinvindex.search.hibernatesearch.StudyBrowseField;
 import uk.ac.ebi.bioinvindex.search.hibernatesearch.bridge.AssayInfoDelimiters;
+import uk.ac.ebi.bioinvindex.services.AssayGroupInfo;
+import uk.ac.ebi.bioinvindex.services.DBLink;
+import uk.ac.ebi.bioinvindex.services.DataLink;
 
 import java.util.*;
 
@@ -154,13 +158,6 @@ public class BrowseStudyBeanImpl implements BrowseStudyBean, AssayInfoDelimiters
      */
     private Map<String, List<String>> processPropertyValues(StudyBrowseField fieldToProcess) {
 
-        log.info("Getting " + fieldToProcess.getName() + " in processproperty values");
-
-        System.out.println("Keys are:");
-        for (StudyBrowseField field : values.keySet()) {
-            System.out.println("\t" + field.getName());
-        }
-
         String[] strings = values.get(fieldToProcess);
 
         if (strings == null || strings.length < 1) {
@@ -169,8 +166,6 @@ public class BrowseStudyBeanImpl implements BrowseStudyBean, AssayInfoDelimiters
 
         Map<String, List<String>> processedValues = new HashMap<String, List<String>>();
         Map<String, Set<String>> addedValues = new HashMap<String, Set<String>>();
-
-        log.info("There are " + strings.length + " property values");
 
         for (String string : strings) {
             if (string.contains("[")) {
@@ -195,6 +190,12 @@ public class BrowseStudyBeanImpl implements BrowseStudyBean, AssayInfoDelimiters
         return processedValues;
     }
 
+
+    /**
+     * Retrieves the AssayInfoBean, required for the Browse view
+     *
+     * @return List<AssayInfoBean>
+     */
     public List<AssayInfoBean> getAssayBeans() {
         // a check to prevent fetching the assays twice, since the first time it is need to get the total number of assays for display in the page
 
@@ -206,6 +207,26 @@ public class BrowseStudyBeanImpl implements BrowseStudyBean, AssayInfoDelimiters
         List<AssayInfoBean> answer = new ArrayList<AssayInfoBean>(strings.length);
         for (String string : strings) {
             answer.add(processAssayInfoResultString(string));
+        }
+        return answer;
+    }
+
+    /**
+     * Retrieves the AssayInfoBean, required for the Browse view
+     *
+     * @return List<AssayInfoBean>
+     */
+    public List<AssayGroupInfo> getAssayGroups() {
+        // a check to prevent fetching the assays twice, since the first time it is need to get the total number of assays for display in the page
+
+        String[] strings = values.get(StudyBrowseField.ASSAY_INFO);
+        if (strings == null) {
+            return new ArrayList<AssayGroupInfo>(1);
+        }
+
+        List<AssayGroupInfo> answer = new ArrayList<AssayGroupInfo>(strings.length);
+        for (String string : strings) {
+            answer.add(processAssayGroupInfoFromString(string));
         }
         return answer;
     }
@@ -222,7 +243,75 @@ public class BrowseStudyBeanImpl implements BrowseStudyBean, AssayInfoDelimiters
     private AssayInfoBean processAssayInfoResultString(String assayInfoString) {
         AssayInfoBean assayInfoBean = new AssayInfoBean();
 
-        Scanner scanner = new Scanner(assayInfoString);
+        System.out.println("The assay info string is: " + assayInfoString);
+
+        String[] infoSections;
+
+        if (assayInfoString.contains(":?")) {
+            infoSections = assayInfoString.split(":\\?");
+        } else {
+            infoSections = new String[]{assayInfoString};
+        }
+
+        // at this point we now have an array where the first element should be the assay and all others are the DB links
+
+        assayInfoBean = createAssayInfoBean(assayInfoBean, infoSections[0]);
+
+        return assayInfoBean;
+    }
+
+    private AssayGroupInfo processAssayGroupInfoFromString(String assayGroupInfoString) {
+        AssayGroupInfo assayGroupInfo = new AssayGroupInfo();
+        String[] infoSections;
+
+        if (assayGroupInfoString.contains(":?")) {
+            infoSections = assayGroupInfoString.split(":\\?");
+        } else {
+            infoSections = new String[]{assayGroupInfoString};
+        }
+
+        // at this point we now have an array where the first element should be the assay and all others are the DB links
+
+        AssayInfoBean assay = new AssayInfoBean();
+
+        assay = createAssayInfoBean(assay, infoSections[0]);
+
+        assayGroupInfo.setEndPoint(assay.getEndPoint());
+        assayGroupInfo.setTechnology(assay.getTechnology());
+        assayGroupInfo.setPlatform(assay.getPlatform());
+
+        try {
+            assayGroupInfo.setCount(Integer.valueOf(assay.getCount()));
+        } catch (NumberFormatException nfe) {
+            assayGroupInfo.setCount(0);
+        }
+
+        Map<String, DataLink> accessionToDataLink = new HashMap<String, DataLink>();
+
+        for (int dbLinkIndex = 1; dbLinkIndex < infoSections.length; dbLinkIndex++) {
+
+            DataLink link = createDBLink(infoSections[dbLinkIndex]);
+
+            if (!accessionToDataLink.containsKey(link.getAcc())) {
+                accessionToDataLink.put(link.getAcc(), link);
+            }
+
+            accessionToDataLink.get(link.getAcc()).addDataOfType(determineDataType(link.getSourceName()));
+
+        }
+
+        for (String accession : accessionToDataLink.keySet()) {
+            assayGroupInfo.addDataLink(accessionToDataLink.get(accession));
+        }
+
+        return assayGroupInfo;
+    }
+
+    private AssayInfoBean createAssayInfoBean(AssayInfoBean assayInfoBean, String assayRepresentation) {
+
+        assayRepresentation = assayRepresentation.replace("assay(", "").replace(")", "");
+
+        Scanner scanner = new Scanner(assayRepresentation);
         scanner.useDelimiter("\\|");
 
         if (scanner.hasNext()) {
@@ -249,6 +338,32 @@ public class BrowseStudyBeanImpl implements BrowseStudyBean, AssayInfoDelimiters
         }
 
         return assayInfoBean;
+    }
+
+    private DataLink createDBLink(String dbLinkRepresentation) {
+        DataLink link = new DataLink();
+
+        dbLinkRepresentation = dbLinkRepresentation.replace("xref(", "").replace(")", "");
+
+        if (dbLinkRepresentation.contains("->")) {
+            String[] dbLinkParts = dbLinkRepresentation.split("->");
+            link.setAcc(dbLinkParts[0]);
+            link.setSourceName(dbLinkParts[1]);
+        }
+
+        return link;
+    }
+
+    private ResourceType determineDataType(String sourceName) {
+        if (sourceName.contains(ResourceType.RAW.getName())) {
+            return ResourceType.RAW;
+        } else if (sourceName.contains(ResourceType.PROCESSED.getName())) {
+            return ResourceType.PROCESSED;
+        } else if (sourceName.contains(ResourceType.ENTRY.getName())) {
+            return ResourceType.ENTRY;
+        }
+
+        return null;
     }
 
     private String getConcatValues(StudyBrowseField field) {

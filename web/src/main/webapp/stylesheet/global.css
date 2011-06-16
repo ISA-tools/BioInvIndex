@@ -397,7 +397,7 @@ a, a:visited {
 }
 
 .account-user {
-    color: #414042);
+    color: #414042 );
     text-transform: lowercase;
     font-size: 12px;
     font-weight: bold;
@@ -559,7 +559,6 @@ hr {
     color: rgb(140, 198, 63);
 }
 
-
 .assaycount-tag {
     padding: 3px 5px;
     -webkit-border-radius: 3px 3px;
@@ -578,7 +577,7 @@ hr {
 
 .assay-tag {
     padding: 3px 5px;
-    -webkit-border-radius: 3px 3px;
+    -webkit-border-radius: 3px 5px;
     width: 100%;
     border: none;
     background: #f2f2f2;
@@ -620,6 +619,96 @@ hr {
     margin-left: 138px;
     padding: 3px 5px;
     -webkit-border-radius: 5px 5px;
-    border: 1px solid rgb(242,242,242);
-    background: rgb(250,250,250);
+    border: 1px solid rgb(242, 242, 242);
+    background: rgb(250, 250, 250);
 }
+
+.button span {
+    font-size: 10px;
+    font-weight: lighter;
+    position: absolute;
+    text-align: center;
+    opacity: 1;
+    color: #F2F2F2;
+    background-color: #666666;
+    padding: 3px 5px;
+    -webkit-border-radius: 3px 5px;
+    -webkit-transition: opacity .5s linear;
+    -moz-transition: opacity .5s linear;
+    -o-transition: opacity .5s linear;
+}
+
+.button span + span {
+    opacity: 0;
+}
+
+.button:hover {
+
+}
+
+.button:hover span {
+    opacity: 0;
+    background-color: rgb(140, 198, 63);
+    color: #F2F2F2;
+
+}
+
+.button:hover span + span {
+    opacity: 1;
+    background-color: rgb(140, 198, 63);
+    color: #F2F2F2;
+}
+
+.button:active {
+    top: 1px;
+}
+
+.download-study-button span {
+    font-size: 11px;
+    font-weight: bold;
+    position: absolute;
+    opacity: 1;
+    color: #F2F2F2;
+    background-color: #666666;
+    padding: 3px 5px;
+    -webkit-border-radius: 3px 5px;
+    -webkit-transition: opacity .5s linear;
+    -moz-transition: opacity .5s linear;
+    -o-transition: opacity .5s linear;
+}
+
+.download-study-button span + span {
+    opacity: 0;
+}
+
+.download-study-button:hover {
+
+}
+
+.download-study-button:hover span {
+    opacity: 0;
+    background-color: rgb(140, 198, 63);
+    color: #F2F2F2;
+
+}
+
+.download-study-button:hover span + span {
+    opacity: 1;
+    background-color: rgb(140, 198, 63);
+    color: #F2F2F2;
+}
+
+.download-study-button:active {
+    top: 1px;
+}
+
+tr.spaceUnder > td
+{
+  padding-bottom: 10px;
+}
+
+tr.bigSpaceUnder > td
+{
+  padding-bottom: 30px;
+}
+

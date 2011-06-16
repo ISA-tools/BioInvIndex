@@ -78,10 +78,8 @@ public class BrowseStudyBeanModel implements BrowseBean<BrowseStudyBean> {
     }
 
     public List<BrowseStudyBean> getItemList() {
-        log.info("In getItemList()");
         try {
 
-            log.info("Getting study items");
             studyBeans = (List<BrowseStudyBean>) getStudyBeanProvider().getItems();
 
             return studyBeans;

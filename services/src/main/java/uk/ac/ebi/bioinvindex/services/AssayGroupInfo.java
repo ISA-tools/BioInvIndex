@@ -58,14 +58,13 @@ public class AssayGroupInfo {
 
 	private String platform;
 
+    private int count;
+
 	private List<DataLink> dataLinks = new ArrayList<DataLink>();
 
 	private List<String> accessions = new ArrayList<String>();
 
-//	private Collection<DBLink> dbLinks= new ArrayList<DBLink>();
-
 	private String sourceName;
-
 
 	public String getEndPoint() {
 		return endPoint;
@@ -95,13 +94,25 @@ public class AssayGroupInfo {
 		return accessions;
 	}
 
+    public String getDisplayLabel() {
+        return getEndPoint() + (!getTechnology().equals("") ? " using " + getTechnology() : "");
+    }
+
 	public void addAccession(String accession) {
 		if (!accessions.contains(accession)) {
 			accessions.add(accession);
 		}
 	}
 
-	public List<DataLink> getDataLinks() {
+    public int getCount() {
+        return count;
+    }
+
+    public void setCount(int count) {
+        this.count = count;
+    }
+
+    public List<DataLink> getDataLinks() {
 		return dataLinks;
 	}
 

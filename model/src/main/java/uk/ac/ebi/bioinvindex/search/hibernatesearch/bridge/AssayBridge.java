@@ -57,89 +57,98 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-/** Creates a  String template: endpoint|technology|number|&&&acc1!!!url1&&&acc2!!!url2
+/**
+ * Creates a  String template: endpoint|technology|number|&&&acc1!!!url1&&&acc2!!!url2
+ *
  * @author Nataliya Sklyar (nsklyar@ebi.ac.uk)
- * Date: Feb 22, 2008
+ *         Date: Feb 22, 2008
  */
 public class AssayBridge implements FieldBridge, AssayInfoDelimiters {
 
-	public void set(String s, Object o, Document document, LuceneOptions luceneOptions) {
-		Map<String, AssayTypeInfo> assayTypeToInfo = new HashMap<String, AssayTypeInfo>();
+    public void set(String s, Object o, Document document, LuceneOptions luceneOptions) {
+        Map<String, AssayTypeInfo> assayTypeToInfo = new HashMap<String, AssayTypeInfo>();
 
-		Collection<Assay> assays = (Collection<Assay>) o;
-		for (Assay assay : assays) {
+        Collection<Assay> assays = (Collection<Assay>) o;
 
-			String type = buildType(assay);
+        for (Assay assay : assays) {
 
-			AssayTypeInfo info = assayTypeToInfo.get(type);
-			if (info == null) {
-				info = new AssayTypeInfo();
-				assayTypeToInfo.put(type, info);
-			}
+            String type = buildType(assay);
 
-			for (Xref xref : assay.getXrefs()) {
-				StringBuilder sb = new  StringBuilder();
-				sb.append(xref.getAcc());
-				if (xref.getSource() != null) {
-					sb.append(ACC_URL_DELIM);
-					// todo this method is getting the XRefs. So, we should be able to get the URLs required to
-					// construct the data file locations, or build up the possible locations from here. Also, if
-                    // I integrate the code I use to determine data locations as it is now, that should make things
-                    // a lot quicker.
+            if (!assayTypeToInfo.containsKey(type)) {
+                AssayTypeInfo info  = new AssayTypeInfo();
+                assayTypeToInfo.put(type, info);
+            }
 
-					//ToDO: use annotation which contains url regexp instead
-					sb.append(xref.getSource().getUrl());
-				}
+            for (Xref xref : assay.getXrefs()) {
+                System.out.println("Adding XREF to AssayTypeInfo: " + xref.getSource().getAcc() + "(" + xref.getAcc() +  ") for " + type);
 
-				info.addAccession(sb.toString());
-			}
+                StringBuilder sb = new StringBuilder();
+                sb.append("xref(").append(xref.getAcc()).append("->");
+                sb.append(xref.getSource().getAcc()).append(")");
 
-			info.increaseCount();
-		}
+                assayTypeToInfo.get(type).addAccession(sb.toString());
+            }
 
-		for (String type : assayTypeToInfo.keySet()) {
-			StringBuilder fullInfo = new StringBuilder();
-			fullInfo.append(type);
-			fullInfo.append(FIELDS_DELIM);
-			AssayTypeInfo info = assayTypeToInfo.get(type);
-			fullInfo.append(info.getCount());
-			fullInfo.append(FIELDS_DELIM);
-			for (String acc : info.getAccessions()) {
-				fullInfo.append(ACC_DELIM);
-				fullInfo.append(acc);
-			}
-			Field fvField = new Field(StudyBrowseField.ASSAY_INFO.getName(), fullInfo.toString(), luceneOptions.getStore(), luceneOptions.getIndex());
-			document.add(fvField);
+            assayTypeToInfo.get(type).increaseCount();
+        }
+        // each data link should be stored perhaps, or at least whatever is required to make it display in the Study page.
 
-		}
-	}
+        for (String type : assayTypeToInfo.keySet()) {
+            StringBuilder fullInfo = new StringBuilder();
+            fullInfo.append("assay(").append(type);
+            fullInfo.append(FIELDS_DELIM);
 
-	private String buildType(Assay assay) {
-		String type = assay.getMeasurement().getName() + "|" + assay.getTechnologyName ();
-		return type;
-	}
+            AssayTypeInfo info = assayTypeToInfo.get(type);
 
-	
-	private class AssayTypeInfo {
+            fullInfo.append(info.getCount());
+            fullInfo.append(")");
 
-		private int count = 0;
+            fullInfo.append(":?");
 
-		private Set<String> accessions = new HashSet<String>();
+            int outputCount = 0;
 
-		public int getCount() {
-			return count;
-		}
+            System.out.println("There are " + info.getAccessions().size() + " accessions associated with this...");
+            for (String acc : info.getAccessions()) {
 
-		public Set<String> getAccessions() {
-			return accessions;
-		}
+                fullInfo.append(acc);
 
-		public void increaseCount() {
-			count++;
-		}
+                if (outputCount != info.getAccessions().size() - 1) {
+                    fullInfo.append(":?");
+                }
 
-		public void addAccession(String acc) {
-			accessions.add(acc);
-		}
-	}
+                outputCount++;
+            }
+            Field fvField = new Field(StudyBrowseField.ASSAY_INFO.getName(), fullInfo.toString(), luceneOptions.getStore(), luceneOptions.getIndex());
+            document.add(fvField);
+
+        }
+    }
+
+    private String buildType(Assay assay) {
+        return assay.getMeasurement().getName() + "|" + assay.getTechnologyName();
+    }
+
+
+    private class AssayTypeInfo {
+
+        private int count = 0;
+
+        private Set<String> accessions = new HashSet<String>();
+
+        public int getCount() {
+            return count;
+        }
+
+        public Set<String> getAccessions() {
+            return accessions;
+        }
+
+        public void increaseCount() {
+            count++;
+        }
+
+        public void addAccession(String acc) {
+            accessions.add(acc);
+        }
+    }
 }

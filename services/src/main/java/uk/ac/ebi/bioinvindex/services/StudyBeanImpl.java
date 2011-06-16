@@ -89,7 +89,7 @@ public class StudyBeanImpl implements StudyBean {
     @In
     private Identity identity;
 
-    @In (required = false)
+    @In(required = false)
     private StudyIndexLocatorImpl studyIndexLocator;
 
 
@@ -166,50 +166,6 @@ public class StudyBeanImpl implements StudyBean {
         return design;
     }
 
-//    public boolean hasFactors() {
-//
-//        if (factorsToValues == null) {
-//            buildFactorsMap();
-//        }
-//        return factorsToValues.size() > 0;
-//    }
-
-//    public List<String> getFactors() {
-//        log.info("StudyBeanImpl.getFactors");
-//        log.info("Getting factors for " + study.getAcc());
-//
-//        if (factorsToValues == null) {
-//            buildFactorsMap();
-//        }
-//
-//        return new ArrayList<String>(factorsToValues.keySet());
-//    }
-//
-//    public List<String> getFactorValues(String factorName) {
-//        if (factorsToValues == null) {
-//            buildFactorsMap();
-//        }
-//        return factorsToValues.get(factorName);
-//    }
-
-//    public List<String> getCharacteristics() {
-//        log.info("StudyBeanImpl.getCharacteristics");
-//        log.info("Getting characteristics for " + study.getAcc());
-//
-//        if (characteristicsToValues == null) {
-//            buildCharacteristicsMap();
-//        }
-//        return new ArrayList<String>(characteristicsToValues.keySet());
-//    }
-//
-//    public List<String> getCharacteristicValues(String characteristic) {
-//
-//        if (characteristicsToValues == null) {
-//            buildCharacteristicsMap();
-//        }
-//        return characteristicsToValues.get(characteristic);
-//    }
-
     public String getObfuscatedAccession() {
         return study.getAcc() + "_" + study.getObfuscationCode();
     }
@@ -255,59 +211,6 @@ public class StudyBeanImpl implements StudyBean {
         return (List<MIProject>) study.getMiProjects();
     }
 
-
-    public List<AssayGroupInfo> getAssayInfos() {
-
-        log.info("StudyBeanImpl.getAssayInfos " + study.getAcc());
-        if (assayInfos == null) {
-            HashMap<String, AssayGroupInfo> groups = new HashMap<String, AssayGroupInfo>();
-
-            for (Assay assay : study.getAssays()) {
-
-                String key = assay.getMeasurement().getName() + assay.getTechnologyName() + assay.getAssayPlatform();
-
-                AssayGroupInfo bean;
-
-                if (groups.containsKey(key)) {
-                    bean = groups.get(key);
-                } else {
-                    bean = new AssayGroupInfo();
-                    bean.setEndPoint(assay.getMeasurement().getName());
-                    bean.setTechnology(assay.getTechnologyName());
-                    bean.setPlatform(assay.getAssayPlatform());
-
-                    groups.put(key, bean);
-                }
-
-                if (assay.getXrefs().size() > 0) {
-                    DataLink dataLink = new DataLink();
-
-                    Collection<Xref> xrefs = assay.getXrefs();
-
-                    for (Xref xref : xrefs) {
-                        ReferenceSource source = xref.getSource();
-                        if (source.getAcc().indexOf(ResourceType.RAW.getName()) > -1) {
-                            dataLink.addDataOfType(ResourceType.RAW);
-                        } else if (source.getAcc().indexOf(ResourceType.PROCESSED.getName()) > -1) {
-                            dataLink.addDataOfType(ResourceType.PROCESSED);
-                        } else if (source.getAcc().indexOf(ResourceType.ENTRY.getName()) > -1) {
-                            dataLink.addDataOfType(ResourceType.ENTRY);
-                        }
-
-                        dataLink.setSourceName(source.getAcc());
-                        dataLink.setAcc(xref.getAcc());
-                    }
-
-                    bean.addDataLink(dataLink);
-                }
-            }
-            assayInfos = new ArrayList<AssayGroupInfo>(groups.values());
-        }
-
-
-        return assayInfos;
-    }
-
     public boolean hasInvestigation() {
         log.info("Checking if study has an investigation " + study.getAcc());
         return getRelatedStudies().size() > 0;
@@ -348,37 +251,6 @@ public class StudyBeanImpl implements StudyBean {
 
         return StringFormating.removeLastComma(sb.toString());
     }
-
-//    private void buildFactorsMap() {
-//
-//        if ((this.factorsToValues = characteristicFactorCache.find(studyId + "/factors")) == null) {
-//            factorsToValues = new HashMap<String, List<String>>();
-//
-//            if (studyBeanProvider == null) {
-//
-//                log.info("Getting factors for " + studyId);
-//
-//                studyBeanProvider = browseStudyBeanModel.getStudy(studyId);
-//            }
-//
-//            factorsToValues.putAll(studyBeanProvider.getFactorToValues());
-//            characteristicFactorCache.attach(studyId + "/factors", this.factorsToValues);
-//        }
-//    }
-//
-//    private void buildCharacteristicsMap() {
-//
-//        if ((this.characteristicsToValues = characteristicFactorCache.find(studyId + "/characteristics")) == null) {
-//
-//            characteristicsToValues = new HashMap<String, List<String>>();
-//
-//            studyBeanProvider = browseStudyBeanModel.getStudy(studyId);
-//
-//            characteristicsToValues.putAll(studyBeanProvider.getCharacteristicToValues());
-//
-//            characteristicFactorCache.attach(studyId + "/characteristics", this.characteristicsToValues);
-//        }
-//    }
 
     public StudyDAO getStudyEJB3DAO() {
         if (studyEJB3DAO == null) {
@@ -438,4 +310,3 @@ public class StudyBeanImpl implements StudyBean {
         return true;
     }
 }
-

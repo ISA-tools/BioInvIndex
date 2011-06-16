@@ -118,11 +118,8 @@ public class BrowseStudyBeanProvider /*implements IStudyBeanProvider<BrowseStudy
 
     public BrowseStudyBean getStudy(String accession) {
 
-
-        log.info("Getting index record for " + accession);
         List<Map<StudyBrowseField, String[]>> fieldValues =
                 secureStudySearch.getAllStudyBrowseFieldValuesForUser(buildStudyInfoFilterQuery(accession), identity.getUsername());
-
 
         List<BrowseStudyBeanImpl> answer = new ArrayList<BrowseStudyBeanImpl>(fieldValues.size());
 
