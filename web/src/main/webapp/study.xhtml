@@ -235,8 +235,8 @@
     <td width="85%" class="table_content">
         <h:outputLink
                 value="#{sourceURLResolver.getIsaTabLocation(studyBean.getObfuscatedAccession())}" target="_blank"
-                styleClass="download-study-button">
-            <span>download study metadata as ISAtab</span><span>open in ISAcreator...</span>
+                styleClass="download-button">
+            <span>Download Study Metadata as ISAtab</span><span>Download Study Metadata as ISAtab</span>
         </h:outputLink>
     </td>
 </tr>
@@ -255,7 +255,7 @@
 
                             <table width="100%" border="0" align="center">
                                 <tr>
-                                    <td width="60%" valign="top">
+                                    <td width="55%" valign="top">
                                         <table width="100%" border="0" align="left" style="table-layout:fixed;">
                                             <tr>
                                                 <td width="100%" valign="top"
@@ -271,7 +271,7 @@
                                             </tr>
                                         </table>
                                     </td>
-                                    <td width="40%" valign="middle">
+                                    <td width="45%" valign="middle">
                                         <table width="100%" border="0" align="center" style="table-layout:fixed;">
                                             <ui:repeat var="dataLink" value="#{bean.dataLinks}">
                                                 <tr>
@@ -282,9 +282,9 @@
                                                             <div align="center">
                                                                 <h:outputLink
                                                                         value="#{sourceURLResolver.getRawDataURL(bean.endPoint, bean.technology, dataLink.acc)}"
-                                                                        target="_blank" styleClass="button">
-                                                                    <span>raw data</span>
-                                                                    <span>download</span>
+                                                                        target="_blank" styleClass="download-button">
+                                                                    <span>Raw Data</span>
+                                                                    <span>Raw Data</span>
                                                                 </h:outputLink>
                                                             </div>
                                                         </h:panelGroup>
@@ -296,9 +296,9 @@
                                                             <div align="center">
                                                                 <h:outputLink
                                                                         value="#{sourceURLResolver.getProcessedDataURL(bean.endPoint, bean.technology, dataLink.acc)}"
-                                                                        target="_blank" styleClass="button">
-                                                                    <span>processed data</span>
-                                                                    <span>download</span>
+                                                                        target="_blank" styleClass="download-button">
+                                                                    <span>Processed Data</span>
+                                                                    <span>Processed Data</span>
 
                                                                 </h:outputLink>
                                                             </div>
@@ -311,15 +311,14 @@
                                                                 rendered="#{sourceURLResolver.hasWebEntry(bean.endPoint, bean.technology, dataLink)}">
                                                             <h:outputLink
                                                                     value="#{sourceURLResolver.getEntryURL(bean.endPoint, bean.technology, dataLink.acc)}"
-                                                                    target="_blank">
+                                                                    target="_blank" styleClass="download-button">
                                                                 <div align="right">
-                                                                    <img src="#{sourceURLResolver.getViewImageLocation(dataLink.sourceName)}"
-                                                                         alt="View Entry for Experiment" border="0"/>
+                                                                    <span>#{dataLink.acc}</span>
+                                                                    <span>View in #{sourceURLResolver.getViewImageLocation(dataLink.sourceName)}</span>
+
                                                                 </div>
                                                             </h:outputLink>
 
-                                                            <div align="right"
-                                                                 class="accession_text">#{dataLink.acc}</div>
                                                         </h:panelGroup>
 
 

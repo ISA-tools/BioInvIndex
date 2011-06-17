@@ -62,10 +62,10 @@
                 <jdbc.artifactId>ojdbc5</jdbc.artifactId>
                 <jdbc.version>11.1.0.7.0</jdbc.version>
                 <jdbc.driverClassName>oracle.jdbc.driver.OracleDriver</jdbc.driverClassName>
-                <jdbc.url><![CDATA[jdbc:oracle:thin:@localhost:1521:bioinvindex]]></jdbc.url>
+                <jdbc.url><![CDATA[jdbc:oracle:thin:@apu.ebi.ac.uk:1521:AE2TST]]></jdbc.url>
 
-                <jdbc.username>bioinvindex</jdbc.username>
-                <jdbc.password>PASSWD</jdbc.password>
+                <jdbc.username>bii</jdbc.username>
+                <jdbc.password>bii</jdbc.password>
                 <hibernate.dialect>org.hibernate.dialect.Oracle10gDialect</hibernate.dialect>
                 <!-- This shoud do something with this Oracle bug: http://forum.hibernate.org/viewtopic.php?t=82 -->
                 <hibernate.max_fetch_depth>0</hibernate.max_fetch_depth>
@@ -125,7 +125,27 @@
                 <activeByDefault>false</activeByDefault>
             </activation>
             <properties>
-                <hibernate.search.default.indexBase>/tmp/bii/luceneindex</hibernate.search.default.indexBase>
+                <hibernate.search.default.indexBase>/Users/eamonnmaguire/dev/bii-test</hibernate.search.default.indexBase>
+            </properties>
+        </profile>
+
+     <profile>
+            <id>index_test</id>
+            <activation>
+                <activeByDefault>false</activeByDefault>
+            </activation>
+            <properties>
+                <hibernate.search.default.indexBase>/Users/eamonnmaguire/dev/index-test-june</hibernate.search.default.indexBase>
+            </properties>
+        </profile>
+
+    <profile>
+            <id>index_deploy</id>
+            <activation>
+                <activeByDefault>false</activeByDefault>
+            </activation>
+            <properties>
+                <hibernate.search.default.indexBase>/nfs/ma/home/bii_data/bii-index</hibernate.search.default.indexBase>
             </properties>
         </profile>
 

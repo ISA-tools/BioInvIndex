@@ -149,21 +149,21 @@ public class SourceURLResolverImpl implements SourceURLResolver {
     }
 
     public String getViewImageLocation(String sourceName) {
-        log.info("source name is : " + sourceName);
+
         if (sourceName.toUpperCase().indexOf("AE") == 0 || sourceName.toUpperCase().indexOf("ARRAYEXPRESS") == 0) {
-            return "img/download_images/view_ae.png";
+            return "ArrayExpress";
         } else if (sourceName.toUpperCase().indexOf("PRIDE") == 0) {
-            return "img/download_images/view_pride.png";
+            return "PRIDE";
         } else if (sourceName.toUpperCase().indexOf("ENA") == 0) {
-            return "img/download_images/view_ena.png";
+            return "ENA";
         } else if (sourceName.toUpperCase().indexOf("EMBL_BANK") == 0) {
-            return "img/download_images/view_embl.png";
+            return "EMBL-Bank";
         } else if (sourceName.toUpperCase().indexOf("EMBL:WEB") == 0) {
-            return "img/download_images/view_embl.png";
+            return "EMBL";
         } else if (sourceName.toUpperCase().indexOf("GEO") == 0) {
-            return "img/download_images/view_geo.png";
+            return "GEO";
         } else {
-            return "img/download_images/view_generic.png";
+            return "External link";
         }
     }
 

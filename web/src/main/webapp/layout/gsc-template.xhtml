@@ -3,10 +3,8 @@
 <html xml:lang="en" lang="eng" xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:f="http://java.sun.com/jsf/core"
       xmlns:s="http://jboss.com/products/seam/taglib"
-      xmlns:a4j="http://richfaces.org/a4j"
-      xmlns:rich="http://richfaces.org/rich">
+      xmlns:a4j="http://richfaces.org/a4j">
 
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
@@ -188,7 +186,7 @@
 
                         <p align="right">
                             <a4j:commandButton id="register" value="Register"
-                                               action="#{register.register}" styleClass="search_button"
+                                               action="#{register.register}" styleClass="search-button"
 
                                                reRender="registration, informationPanel, info_panel, welcomePanel"
                                                image="img/new_login/register_button.png"/>
@@ -225,7 +223,7 @@
 
             <a4j:outputPanel rendered="#{identity.loggedIn}">
 
-                <div id="gsc_logged_in_section"></div>
+                <div id="logged_in_section"></div>
 
                 <div id="info_logged_in" align="left">
                     <p>welcome <span class="username-text">#{identity.username}</span></p>
@@ -250,178 +248,54 @@
 
 
 <div align="right" class="login_button_section" style="height:40px">
-    <div id="info_btn"></div>
+    <a4j:outputPanel rendered="#{identity.loggedIn}">
+        <span id="info_btn" class="account-grey-text">logged in as <span class="account-user"><h:outputText
+                value=" #{identity.username} "/></span> | click here to logout...</span>
+    </a4j:outputPanel>
+
+    <a4j:outputPanel rendered="#{not identity.loggedIn}">
+        <span id="info_btn" class="account-user">log in</span>
+    </a4j:outputPanel>
+
 </div>
 
 
 <div class="bii-content" id="contents">
-    <table class="contentspane" id="contentspane" summary="The main content pane of the page">
-        <tr>
-            <td class="leftmargin"><img src="http://www.ebi.ac.uk/inc/images/spacer.gif" class="spacer" alt="spacer"/>
-            </td>
-            <td class="leftmenucell" id="leftmenucell">
-                <div class="leftmenu" id="leftmenu"
-                     style="width: 145px; visibility: visible; display: block; overflow: hidden;">
 
-                    <div>
-                        <img src="img/gsc_logo.png" alt="GSC BioInvestigationIndex"/>
-                    </div>
-                    <div id="nav">
+    <div id="center">
+        <div id="header">
+            <div id="logo"></div>
+            <div id="menu">
+                <div class="menu_inner">
+                    <ul>
+                        <li class="browse">
+                            <a href="browse_studies.seam">Browse</a>
+                        </li>
+                        <li class="submit">
+                            <a href="submission_portal.seam">Submit</a>
+                        </li>
+                        <li class="credit">
+                            <a href="credits.seam">Credit</a>
+                        </li>
+                        <li class="contact">
+                            <a href="mailto:isatools@googlegroups.com?subject=BII" class="">Contact</a>
+                        </li>
 
-                        <ul>
-                            <li><a href="browse_studies.seam">Browse Studies</a></li>
-                            <li><a href="submission_portal.seam">Submit to BII</a></li>
-                            <li><a href="credits.seam">Credit</a></li>
-                            <li><a href="mailto:isatools@googlegroups.com?subject=BII">Contact us</a></li>
-                        </ul>
-                    </div>
-
-
-                    <script type="text/javascript" src="http://www.ebi.ac.uk/inc/js/sidebars.js"></script>
-                    <img src="http://www.ebi.ac.uk/inc/images/spacer.gif" class="spacer" alt="spacer"/></div>
-            </td>
-            <td class="contentsarea" id="contentsarea">
-
-
-                <table width="950" border="0" align="center" style="table-layout:fixed;">
-
-                    <tr>
-                        <td colspan="3" width="72%">
-                            <h:form>
-                                <a4j:region renderRegionOnly="true">
-                                    <table border="0" style="table-layout:fixed">
-                                        <tr>
-                                            <td width="5%" rowspan="4" valign="top" style="overflow: hidden;">
-                                                <img alt="" src="img/menu_css/search_im.png"/>
-                                            </td>
-
-                                            <td colspan="4" valign="bottom">
-                                                <span class="searchText">freetext</span>
-                                                <rich:spacer
-                                                        width="10"/>
-                                                <h:inputText id="freetext" value="#{studyBeanProvider.searchPattern}"
-                                                             styleClass="input_field_search"/>
-                                            </td>
-                                        </tr>
-
-                                        <tr>
-                                            <td width="20%">
-                                                 <span class="searchText">organism</span>
-                                            </td>
-                                            <td width="25%">
-                                                 <span class="searchText">measurement</span>
-                                            </td>
-
-                                            <td width="25%">
-                                                 <span class="searchText">technology</span>
-                                            </td>
-                                            <td width="25%">
-                                                 <span class="searchText">platform</span>
-                                            </td>
-                                        </tr>
-
-                                        <tr>
-
-                                            <td width="25%">
-
-                                                <h:selectOneMenu id="organism" value="#{studyBeanProvider.organism}"
-                                                                 styleClass="dropdown_selector" style="width:150px">
-                                                    <s:selectItems value="#{filterProvider.organisms}"
-                                                                   var="organism"
-                                                                   label="#{organism}"
-                                                                   noSelectionLabel="Filter on organisms"/>
-                                                    <!--<s:convertEntity/>-->
-                                                </h:selectOneMenu>
-
-                                            </td>
-
-                                            <td width="25%">
-                                                <h:selectOneMenu id="endpoint" value="#{studyBeanProvider.endPoint}"
-                                                                 styleClass="dropdown_selector" style="width:165px">
-                                                    <s:selectItems value="#{filterProvider.endPoints}"
-                                                                   var="endPoint"
-                                                                   label="#{endPoint}"
-                                                                   noSelectionLabel="Filter on measurement"/>
-                                                    <a4j:support event="onchange" reRender="technology"/>
-                                                    <!--<s:convertEntity/>-->
-                                                </h:selectOneMenu>
-                                            </td>
+                    </ul>
+                </div>
+                <div class="menu_trigger">
+                    <a class="hidden" href="#"></a>
+                </div>
+            </div>
+        </div>
 
 
-                                            <td width="25%">
-                                                <h:selectOneMenu id="technology" value="#{studyBeanProvider.assayType}"
-                                                                 styleClass="dropdown_selector" style="width:150px">
-                                                    <s:selectItems
-                                                            value="#{filterProvider.getAssayTechnologies(studyBeanProvider.endPoint)}"
-                                                            var="assayType"
-                                                            label="#{assayType}"
-                                                            noSelectionLabel="Filter on technology"/>
-                                                    <!--<a4j:support event="onchange" reRender="endpoint"/>-->
-                                                    <!--<s:convertEntity/>-->
-                                                </h:selectOneMenu>
+        <ui:insert name="body"/>
 
-                                            </td>
-
-
-                                            <td width="28%">
-                                                <h:selectOneMenu id="platform" value="#{studyBeanProvider.platform}"
-                                                                 styleClass="dropdown_selector" style="width:150px">
-                                                    <s:selectItems value="#{filterProvider.platforms}"
-                                                                   var="platform"
-                                                                   label="#{platform}"
-                                                                   noSelectionLabel="Filter on Platform"/>
-                                                    <!--<s:convertEntity/>-->
-                                                </h:selectOneMenu>
-                                            </td>
-                                        </tr>
-
-                                        <tr>
-                                            <td colspan="4" valign="top" align="right">
-                                                <img alt="" src="img/searchImages/clear_fields.png" border="0"
-                                                     usemap="#clear_fields_map"/>
-
-
-                                                <h:commandButton value="Search"
-                                                                 action="/browse_studies.seam"
-                                                                 image="img/searchImages/search_index.png"
-                                                                 styleClass="search_button"/>
-                                            </td>
-                                        </tr>
-                                    </table>
-                                </a4j:region>
-                            </h:form>
-                        </td>
-                        <td width="28%">
-                            <table width="100%" border="0">
-                                <tr>
-                                    <td valign="bottom"><img alt="possible views" src="img/menu_css/views_im.png"/>
-                                    </td>
-                                    <td valign="top"><img alt="" src="img/menu_css/compoundInfo.png" border="0"
-                                                          usemap="#view_map"/>
-                                    </td>
-                                </tr>
-                            </table>
-
-                        </td>
-                    </tr>
-                    <tr>
-                        <td colspan="4" width="95%" align="center">
-                            <br/>
-                            <ui:insert name="body"/>
-                            <br/>
-                        </td>
-                    </tr>
-
-                </table>
-
-            </td>
-            <td class="rightmenucell" id="rightmenucell">
-                <div class="rightmenu" id="rightmenu"></div>
-            </td>
-        </tr>
-    </table>
+    </div>
 </div>
 </div>
+
 
 <div class="footer">
 
@@ -433,13 +307,6 @@
     </div>
 </div>
 
-<map name="view_map" id="view_map">
-    <area alt="view compound-centric information" shape="rect" coords="143,1,209,22" href="compound_view.seam"/>
-</map>
-
-<map name="clear_fields_map" id="clear_fields_map">
-    <area alt="" shape="rect" coords="0,0,88,20" href="browse_studies.seam"/>
-</map>
 
 </body>
 </html>

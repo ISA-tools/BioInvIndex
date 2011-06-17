@@ -121,7 +121,8 @@
 
             <p align="right" class="static_info_text">
                 <span class="green-tag"><h:outputText value="#{browseStudyBeanModel.rowCount} "/></span>
-                studies containing &nbsp;<span class="green-tag"><h:outputText value="#{browseStudyBeanModel.totalAssays}"/></span>
+                studies containing &nbsp;<span class="green-tag"><h:outputText
+                    value="#{browseStudyBeanModel.totalAssays}"/></span>
                 assays
 
             </p>
@@ -141,25 +142,21 @@
                     var="bean"
                     value="#{browseStudyBeanModel.itemList}">
 
-                <rich:column width="65%">
-                    <span class="green-tag">
-                        <h:outputText value="#{bean.acc}"/>
-                    </span>
+                <rich:column width="60%" style="vertical-align: top">
+                    <h:outputLink value="study.seam?studyId=#{bean.acc}" styleClass="green-button">
+                        <span>#{bean.acc}</span><span>View record</span>
+                    </h:outputLink>
                 </rich:column>
 
-                <rich:column width="35%" style="align:right">
-                    <div class="moreinformation" align="right">
-                        <h:outputLink value="study.seam?studyId=#{bean.acc}">
-                            view record for <h:outputText value=" #{bean.acc}"/>
-                        </h:outputLink>
+                <rich:column style="vertical-align: top">
+                     <div align="right">
+                        <span class="feature-tag"><h:outputText value="#{bean.organism}"/></span>
                     </div>
-
                 </rich:column>
+
 
                 <rich:column breakBefore="true" styleClass="study-info" style="vertical-align: top">
-                    <div align="left">
-                        <span class="feature-tag"><h:outputText value="#{bean.organism}"/></span><br/><br/>
-                    </div>
+
                     <h:outputText value="#{bean.title}"/>
                 </rich:column>
 
