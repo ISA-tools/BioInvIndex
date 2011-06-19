@@ -46,6 +46,7 @@ package uk.ac.ebi.bioinvindex.search.hibernatesearch;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.KeywordAnalyzer;
 import org.apache.lucene.analysis.PerFieldAnalyzerWrapper;
+import org.apache.lucene.analysis.TokenStream;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.index.Term;
 import org.apache.lucene.misc.ChainedFilter;
@@ -56,10 +57,12 @@ import org.apache.lucene.search.CachingWrapperFilter;
 import org.apache.lucene.search.Filter;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.search.TermsFilter;
+import org.apache.lucene.util.Version;
 import org.hibernate.annotations.common.AssertionFailure;
 
 import uk.ac.ebi.bioinvindex.model.Identifiable;
 
+import java.io.Reader;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -70,10 +73,10 @@ import java.util.List;
 public class BIIQueryBuilder<T extends Identifiable> {
 
 
-	private Analyzer analyzer = new StandardAnalyzer();
+	private Analyzer analyzer = new StandardAnalyzer(Version.LUCENE_29);
 
 	public Query buildQuery(String searchPattern) throws ParseException {
-
+        System.out.println("Search pattern: " + searchPattern);
 		String[] productFields =
 				{"title",
 						"description",
@@ -114,10 +117,13 @@ public class BIIQueryBuilder<T extends Identifiable> {
 		aWrapper.addAnalyzer("investigation_acc", new KeywordAnalyzer());
 		aWrapper.addAnalyzer("protocol_acc", new KeywordAnalyzer());
 
-		QueryParser parser = new MultiFieldQueryParser(productFields, aWrapper);
+		QueryParser parser = new MultiFieldQueryParser(Version.LUCENE_29, productFields, aWrapper);
 		parser.setAllowLeadingWildcard(true);
 		parser.setLowercaseExpandedTerms(false);
+
+
 		org.apache.lucene.search.Query luceneQuery = parser.parse(searchPattern);
+
 
 		System.out.println("luceneQuery = " + luceneQuery);
 		return luceneQuery;

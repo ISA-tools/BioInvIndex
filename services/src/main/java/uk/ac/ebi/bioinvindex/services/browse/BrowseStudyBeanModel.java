@@ -82,6 +82,7 @@ public class BrowseStudyBeanModel implements BrowseBean<BrowseStudyBean> {
             studyBeans = (List<BrowseStudyBean>) getStudyBeanProvider().getItems();
             return studyBeans;
         } catch (Exception e) {
+            e.printStackTrace();
             log.error("Exception thrown...oh no! -> " + e.getMessage());
             return new ArrayList<BrowseStudyBean>();
         }

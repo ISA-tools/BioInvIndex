@@ -43,6 +43,7 @@ package uk.ac.ebi.bioinvindex.services.browse;
  * EU NuGO [NoE 503630](http://www.nugo.org/everyone) projects and in part by EMBL-EBI.
  */
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.jboss.seam.ScopeType;
@@ -52,7 +53,6 @@ import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.security.Identity;
 import uk.ac.ebi.bioinvindex.model.Study;
-import uk.ac.ebi.bioinvindex.search.StudyFreeTextSearch;
 import uk.ac.ebi.bioinvindex.search.hibernatesearch.*;
 import uk.ac.ebi.bioinvindex.services.utils.AlphanumComparator;
 
@@ -63,7 +63,8 @@ import java.util.*;
  */
 @Name("studyBeanProvider")
 @AutoCreate
-public class BrowseStudyBeanProvider /*implements IStudyBeanProvider<BrowseStudyBean>*/ {
+@Scope(ScopeType.CONVERSATION)
+public class BrowseStudyBeanProvider {
     private static final Log log = LogFactory.getLog(BrowseStudyBeanProvider.class);
 
     @In(create = true)
@@ -87,7 +88,7 @@ public class BrowseStudyBeanProvider /*implements IStudyBeanProvider<BrowseStudy
     public Collection<? extends BrowseStudyBean> getItems() {
 
         List<Map<StudyBrowseField, String[]>> fieldValues =
-                secureStudySearch.getAllStudyBrowseFieldValuesForUser(buildBiiFilterQuery(), identity.getUsername());
+                secureStudySearch.getAllStudyBrowseFieldValuesForUser(buildBiiFilterQuery(), identity.getCredentials().getUsername());
 
         //Convert a a field-values map returned by search into a collection of browse beans for view.
         List<BrowseStudyBeanImpl> answer = new ArrayList<BrowseStudyBeanImpl>(fieldValues.size());
@@ -119,7 +120,7 @@ public class BrowseStudyBeanProvider /*implements IStudyBeanProvider<BrowseStudy
     public BrowseStudyBean getStudy(String accession) {
 
         List<Map<StudyBrowseField, String[]>> fieldValues =
-                secureStudySearch.getAllStudyBrowseFieldValuesForUser(buildStudyInfoFilterQuery(accession), identity.getUsername());
+                secureStudySearch.getAllStudyBrowseFieldValuesForUser(buildStudyInfoFilterQuery(accession), identity.getCredentials().getUsername());
 
         List<BrowseStudyBeanImpl> answer = new ArrayList<BrowseStudyBeanImpl>(fieldValues.size());
 
@@ -175,9 +176,7 @@ public class BrowseStudyBeanProvider /*implements IStudyBeanProvider<BrowseStudy
     // Boiler plate code: getters and setters.
 
     public String getSearchPattern() {
-        if (searchPattern != null) {
-            return searchPattern.toLowerCase();
-        }
+
         return searchPattern;
     }
 
@@ -216,6 +215,54 @@ public class BrowseStudyBeanProvider /*implements IStudyBeanProvider<BrowseStudy
 
     public void setPlatform(String platform) {
         this.platform = platform;
+    }
+
+    public boolean hasFilterApplied() {
+
+        return !StringUtils.trimToEmpty(searchPattern).equals("") || !StringUtils.trimToEmpty(organism).equals("")
+                || !StringUtils.trimToEmpty(endPoint).equals("") || !StringUtils.trimToEmpty(assayType).equals("")
+                || !StringUtils.trimToEmpty(platform).equals("");
+
+    }
+
+    public String getFilterString() {
+        StringBuilder filterString = new StringBuilder();
+
+        String space = ", ";
+
+        if (!StringUtils.trimToEmpty(searchPattern).equals("")) {
+            filterString.append(searchPattern);
+        }
+
+        if (!StringUtils.trimToEmpty(organism).equals("")) {
+            if (!filterString.toString().equals("")) {
+                filterString.append(space);
+            }
+            filterString.append(organism);
+        }
+
+        if (!StringUtils.trimToEmpty(endPoint).equals("")) {
+            if (!filterString.toString().equals("")) {
+                filterString.append(space);
+            }
+            filterString.append(endPoint);
+        }
+
+        if (!StringUtils.trimToEmpty(assayType).equals("")) {
+            if (!filterString.toString().equals("")) {
+                filterString.append(space);
+            }
+            filterString.append(assayType);
+        }
+
+        if (!StringUtils.trimToEmpty(platform).equals("")) {
+            if (!filterString.toString().equals("")) {
+                filterString.append(space);
+            }
+            filterString.append(platform);
+        }
+
+        return "Results filtered on: " + filterString.toString();
     }
 
     //Support for multiple selection

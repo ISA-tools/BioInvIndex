@@ -624,6 +624,18 @@ hr {
     background: rgb(250, 250, 250);
 }
 
+.filtersPane {
+    font-size: 9px;
+    font-weight: lighter;
+    margin-left: 138px;
+    margin-top: 5px;
+    padding: 3px 5px;
+    width:auto;
+    -webkit-border-radius: 5px 5px;
+    border: 1px solid rgb(242, 242, 242);
+    background: rgb(250, 250, 250);
+}
+
 /*Used for the download section to allow users to download a Study page */
 .download-button span {
     font-size: 11px;
