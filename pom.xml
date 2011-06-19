@@ -1682,7 +1682,7 @@
 			</activation>
 			<properties>
 				<hbm2ddl.drop>true</hbm2ddl.drop>
-				<hibernate.hbm2ddl.auto>update</hibernate.hbm2ddl.auto>
+				<hibernate.hbm2ddl.auto>create</hibernate.hbm2ddl.auto>
 			</properties>
 		</profile>
 
