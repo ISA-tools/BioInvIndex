@@ -274,7 +274,7 @@
                                     <td width="45%" valign="middle">
                                         <table width="100%" border="0" align="center" style="table-layout:fixed;">
                                             <ui:repeat var="dataLink" value="#{bean.dataLinks}">
-                                                <tr>
+                                                <tr class="bigSpaceUnder">
 
                                                     <td width="30%" valign="top">
                                                         <h:panelGroup
@@ -306,7 +306,7 @@
                                                         </h:panelGroup>
                                                     </td>
 
-                                                    <td width="40%" align="center" valign="top">
+                                                    <td width="40%" valign="top">
                                                         <h:panelGroup
                                                                 rendered="#{sourceURLResolver.hasWebEntry(bean.endPoint, bean.technology, dataLink)}">
                                                             <h:outputLink
@@ -324,10 +324,6 @@
 
                                                     </td>
 
-                                                </tr>
-
-                                                <tr>
-                                                    <td/>
                                                 </tr>
 
                                             </ui:repeat>
