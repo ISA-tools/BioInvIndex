@@ -1,12 +1,3 @@
-/*
- * IOUtils.java
- *
- * Created on July 29, 2007, 1:03 PM
- *
- * To change this template, choose Tools | Template Manager
- * and open the template in the editor.
- */
-
 package uk.ac.ebi.utils.io;
 
 /*
@@ -64,8 +55,10 @@ import java.security.NoSuchAlgorithmException;
 
 /**
  * Miscellanea of small IO utilities 
- *
+ * 
+ * <dl><dt>date</dt><dd>July 29, 2007, 1:03 PM</dd></dl>
  * @author brandizi
+ *
  */
 public class IOUtils 
 {
