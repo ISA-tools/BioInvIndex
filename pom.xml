@@ -202,6 +202,11 @@
 			<url>http://repository.apache.org/snapshots</url>
 		</repository>
 
+		<repository>
+	    <id>oerc</id>
+	    <name>Oxford e-Research Center</name>
+	  	<url>http://frog.oerc.ox.ac.uk:8080/artifactory/repo/</url>
+		</repository>			
 
 	</repositories>
 
