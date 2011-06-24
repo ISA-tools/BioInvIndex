@@ -33,7 +33,7 @@ a:hover {
 .info {
     border: none;
     padding: 0;
-    font-family: Verdana;
+    font-family: Verdana, sans-serif;
     display: none;
     font-size: 10px;
     font-weight: bold;
@@ -54,7 +54,7 @@ table td.contentsarea {
     vertical-align: top;
     width: 200px;
     height: 60px;
-    font-family: sans-serif;
+    font-family: Verdana, sans-serif;
     font-size: 11px;
     font-weight: bold;
     color: #C1272D;
@@ -65,7 +65,7 @@ table td.contentsarea {
     vertical-align: top;
     width: 160px;
     height: 90px;
-    font-family: sans-serif;
+    font-family: Verdana, sans-serif;
     font-size: 11px;
     font-weight: bold;
     color: #C1272D;
@@ -74,7 +74,7 @@ table td.contentsarea {
 
 .messages-panel-white {
     vertical-align: top;
-    font-family: sans-serif;
+    font-family: Verdana, sans-serif;
     font-size: 11px;
     font-weight: bold;
 
@@ -181,7 +181,7 @@ iconbox2contents a:link, .iconbox2contents a:visited, .iconbox2contents_gr a:lin
 }
 
 .std_content {
-    font-family: Verdana, Arial, sans-serif;
+    font-family: Verdana, sans-serif;
     font-size: 12px;
     text-align: center;
     font-weight: bold;
@@ -189,49 +189,48 @@ iconbox2contents a:link, .iconbox2contents a:visited, .iconbox2contents_gr a:lin
 }
 
 .table_cell_notfixed {
-    font-family: Verdanda, Arial, sans-serif;
+    font-family: Verdanda, sans-serif;
     font-size: 12px;
     text-align: center;
     font-weight: bold;
 }
 
 .dynamic_info_text {
-    font-family: Verdanda, Arial, sans-serif;
-    font-size: 14px;
+    font-family: Verdanda, sans-serif;
+    font-size: 12px;
     font-weight: bold;
     color: #8cc640;
 }
 
 .static_info_text {
-    font-family: Arial, sans-serif;
-    font-size: 14px;
-    font-weight: bold;
+    font-family: Verdana, sans-serif;
+    font-size: 12px;
     color: #333;
 }
 
 .accession_text {
-    font-family: Verdanda, Arial, sans-serif;
+    font-family: Verdanda, sans-serif;
     font-size: 11px;
     font-weight: bold;
     color: #8CC640;
 }
 
 .sub_info_title {
-    font-family: Arial, sans-serif;
+    font-family: Verdana, sans-serif;
     font-size: 12px;
     font-weight: bold;
     color: #8cc640;
 }
 
 .sub_info_data {
-    font-family: Arial, sans-serif;
+    font-family: Verdana, sans-serif;
     font-size: 12px;
     font-weight: normal;
     color: #333;
 }
 
 .tableheader {
-    font-family: Arial, sans-serif;
+    font-family: Verdana, sans-serif;
     font-size: 12px;
     font-weight: bold;
     color: #FFFFFF;
@@ -278,7 +277,7 @@ iconbox2contents a:link, .iconbox2contents a:visited, .iconbox2contents_gr a:lin
 }
 
 .datacolumn_internal {
-    font-family: Arial, sans-serif;
+    font-family: Verdana, sans-serif;
     font-size: 12px;
     color: #333;
     font-weight: bold;
@@ -286,20 +285,20 @@ iconbox2contents a:link, .iconbox2contents a:visited, .iconbox2contents_gr a:lin
 }
 
 .infocell {
-    font-family: Arial, sans-serif;
+    font-family: Verdana, sans-serif;
     font-size: 12px;
     color: #056839;
     border: thin dashed #939598;
 }
 
 .subdata {
-    font-family: Arial, sans-serif;
+    font-family: Verdana, sans-serif;
     font-size: 12px; /*background-color: #FFFFFF;*/
     color: #333;
 }
 
 .sub_data_info {
-    font-family: Arial, sans-serif;
+    font-family: Verdana, sans-serif;
     font-size: 12px;
     color: #333;
 }
@@ -312,26 +311,27 @@ iconbox2contents a:link, .iconbox2contents a:visited, .iconbox2contents_gr a:lin
 
 .rich-datascr-act {
     background-color: #FFF;
-    color: #333;
-    border-color: #333;
+    color: rgb(140,198,63);
+    font-weight: bold;
+    border: none;
 }
 
 .rich-datascr-inact {
     background-color: #FFF;
-    color: #CCC;
-    border-color: #333;
+    color: rgb(240,240,240);
+    border: none;
 }
 
 .rich-datascr-button {
-    background-color: #B3B3B3;
+    background-color: rgb(240,240,240);
     color: #333;
-    border-color: #333;
+    border:none;
 }
 
 .rich-datascr-button-dsbld {
     background-color: #FFF;
     color: #CCC;
-    border-color: #333;
+    border:none;
 }
 
 .error_top {
@@ -339,7 +339,7 @@ iconbox2contents a:link, .iconbox2contents a:visited, .iconbox2contents_gr a:lin
     background-repeat: no-repeat;
     background-position: center top;
     width: auto;
-    height:217px;
+    height: 217px;
 }
 
 .error_title {
@@ -348,13 +348,12 @@ iconbox2contents a:link, .iconbox2contents a:visited, .iconbox2contents_gr a:lin
     font-weight: bold;
 }
 
-
 .error_content {
     font-family: Verdana, sans-serif;
     font-size: 14px;
     color: #333;
     background-position: center top;
-    list-style:none;
+    list-style: none;
     width: 400px;
     padding: 0;
 }
@@ -382,7 +381,7 @@ iconbox2contents a:link, .iconbox2contents a:visited, .iconbox2contents_gr a:lin
 
 .download_assay_contents {
     font-family: Verdana, sans-serif;
-    font-size: 12px;
+    font-size: 11px;
     background-color: #FFFFFF;
     color: #333;
     font-weight: normal;
@@ -445,15 +444,52 @@ iconbox2contents a:link, .iconbox2contents a:visited, .iconbox2contents_gr a:lin
 
 .processed_content {
     font-family: Verdana, sans-serif;
-    font-size: 12px;
+    font-size: 11px;
     font-weight: bold;
     color: #8CC640;
     padding-left: 10px;
 }
 
-.search_button {
-    border-color: #FFFFFF;
-    background-color: #FFFFFF;
+.dropdown_selector {
+    border-color: #333;
+    background-color: #fff;
+    font-family: Verdana, sans-serif;
+    font-size: 9px;
+}
+
+
+.table_content {
+    font-family: Verdana, sans-serif;
+    color: #333;
+    font-size: 11px;
+    vertical-align: top;
+    text-align: left;
+}
+
+.table_content_titles {
+    font-family: Verdana, sans-serif;
+    font-size: 12px;
+    color: #333;
+    font-weight: bold;
+    vertical-align: top;
+    text-align: left;
+}
+
+
+input, textarea {
+    padding: 3px 5px;
+    -webkit-border-radius: 3px 3px;
+    border: thin solid #333;
+    font-size: 11px;
+    font-family: Verdana, sans-serif;
+    background: #FFFFFF;
+    color: #333;
+}
+
+.search-button {
+    margin-top: 5px;
+    border: none;
+    background: transparent;
 }
 
 .input_field_search {
@@ -462,165 +498,8 @@ iconbox2contents a:link, .iconbox2contents a:visited, .iconbox2contents_gr a:lin
     color: #333;
     width: 120px;
     vertical-align: top;
-}
-
-.dropdown_selector {
-    border-color: #333;
-    background-color: #fff;
     font-family: Verdana, sans-serif;
-
-}
-
-.subtable_content {
-    font-family: Arial, Myriad Pro, sans-serif;
-    color: #333;
-    background-color: #E1E1E1;
-    font-size: 12px;
-    vertical-align: top;
-    text-align: left;
-}
-
-.subtable_head {
-    font-family: Arial, Myriad Pro, sans-serif;
-    background-color: #8cc640;
-    color: #333;
-    font-size: 12px;
-    text-align: left;
-}
-
-.table_content {
-    font-family: Arial, Myriad Pro, sans-serif;
-    color: #333;
-    font-size: 12px;
-    vertical-align: top;
-    text-align: left;
-}
-
-.table_content_titles {
-    font-family: Arial, Myriad Pro, sans-serif;
-    font-size: 13px;
-    color: #333;
-    font-weight: bold;
-    vertical-align: top;
-    text-align: left;
-}
-
-.rich-fileupload-list-decor {
-    border: none;
-    background-color: #FFFFFF;
-}
-
-.rich-fileupload-table-td {
-    border-bottom-width: 1px;
-    border-bottom-style: solid;
-    border-bottom-color: #FFFFFF;
-    background-color: #FFFFFF;
-    font-size: 12px;
-}
-
-.rich-fileupload-toolbar-decor {
-    background-color: #FFFFFF;
-    border: none;
-
-}
-
-.rich-fileupload-list-overflow {
-    font-weight: bold;
-    font-size: 13px;
-    font-family: Arial, sans-serif;
-    color: #8cc640;
-}
-
-.rich-fileupload-ico-add {
-    background-image: url(../img/filechooser_images/addfile.png);
-    background-repeat: no-repeat;
-    background-color: #FFFFFF;
-    border-color: #8cc640;
-}
-
-.rich-fileupload-ico-start {
-    background-image: url(../img/filechooser_images/upload.png);
-    background-repeat: no-repeat;
-    background-color: #FFFFFF;
-    border-color: #8cc640;
-}
-
-.rich-fileupload-ico-stop {
-    background-image: url(../img/filechooser_images/stop.png);
-    background-repeat: no-repeat;
-    background-color: #FFFFFF;
-    border-color: #8cc640;
-}
-
-.rich-fileupload-ico-clear {
-    background-image: url(../img/filechooser_images/clear.png);
-    background-repeat: no-repeat;
-    background-color: #FFFFFF;
-    border-color: #8cc640;
-}
-
-.rich-fileupload-button-selection {
-    border-color: #8cc640;
-    background-color: #FFFFFF;
-}
-
-.rich-fileupload-ico-add-dis {
-    background-image: url(../img/filechooser_images/addfile.png);
-    background-repeat: no-repeat;
-    background-color: #FFFFFF;
-    color: #CCCCCC;
-    opacity: 20;
-}
-
-.rich-fileupload-font {
-    font-weight: bold;
-    font-family: Arial, sans-serif;
-    font-size: 13px;
-    color: #8cc640;
-}
-
-.rich-fileupload-button {
-    background-color: #FFFFFF;
-    border-color: #8cc640;
-    background-image: none;
-}
-
-.rich-fileupload-button-content {
-    background-color: #FFFFFF;
-    border-color: #FFFFFF;
-}
-
-.rich-fileupload-button-light {
-    border-color: #8cc640;
-    color: #333;
-}
-
-.rich-fileupload-button-border {
-    border-color: #FFFFFF;
-}
-
-.dashed_panel {
-    border: thin dashed #8cc640;
-}
-
-.rich-fileupload-button-press {
-    border-color: #8cc640;
-    background-color: #FFFFFF;
-}
-
-input, textarea {
-    border: thin solid #808080;
-    font-size: 12px;
-    font-family: "lucida grande", arial, sans-serif;
-    background: #FFFFFF;
-    color: #333;
-}
-
-input[type='submit'], input[type='button'] {
-    background: #4477AA;
-    color: white;
-    margin: 5px;
-    border-color: gray;
+    font-size: 8px;
 }
 
 .tableControl, .actionButtons {
@@ -641,7 +520,7 @@ input[type='submit'], input[type='button'] {
 }
 
 h1 {
-    font-family: "lucida grande", arial, sans-serif;
+    font-family: Verdana, sans-serif;
     color: #808080;
     font-size: 1.6em;
     margin-top: 0;
@@ -649,12 +528,13 @@ h1 {
 
 .body {
     margin: 0;
-    font-family: "lucida grande", arial, sans-serif;
+    font-family: Verdana, sans-serif;
     color: #333;
 }
 
 .body {
-    padding: 30px;
+    padding-top: 30px;
+    padding-bottom: 30px;
 }
 
 .columnHeader:hover {
@@ -691,155 +571,10 @@ h1 {
     padding-left: 2px;
 }
 
-/* date picker style */
-div.seam-date {
-    margin-top: 5px;
-    border: 1px solid #AAAAAA;
-    background-color: #FFFFFF;
-    color: #333;
-    font-family: Tahoma, Arial, Helvetica, sans-serif;
-    font-size: 12px;
-}
-
-table.seam-date td {
-    font-family: Tahoma, Arial, Helvetica, sans-serif;
-    font-size: 12px;
-    font-weight: bold;
-}
-
-.seam-date-monthNames {
-    width: 70px;
-    border: 1px solid #dddddd;
-    border-right: 3px solid #333;
-    border-bottom: 3px solid #333;
-    background-color: #ffffff;
-    font-size: 12px;
-    cursor: pointer;
-    font-family: Tahoma, Arial, Helvetica, sans-serif;
-    font-weight: normal;
-}
-
-a.seam-date-monthNameLink, a.seam-date-monthNameLink:visited {
-    text-align: center;
-    display: block;
-    color: #555555;
-}
-
-a.seam-date-monthNameLink:hover {
-    background-color: #CCCCCC;
-    color: red;
-}
-
-.seam-date-years {
-    height: 10em;
-    overflow: auto;
-    width: 60px;
-    border: 1px solid #dddddd;
-    border-right: 3px solid #333;
-    border-bottom: 3px solid #333;
-    background-color: #ffffff;
-    font-size: 12px;
-    cursor: pointer;
-    font-family: Tahoma, Arial, Helvetica, sans-serif;
-    font-weight: normal;
-}
-
-a.seam-date-yearLink, a.seam-date-yearLink:visited {
-    text-align: center;
-    display: block;
-    color: #333;
-}
-
-a.seam-date-yearLink:hover {
-    background-color: #CCCCCC;
-    color: red;
-}
-
-tr.seam-date-header {
-    padding: 2px 0px 2px 0px;
-}
-
-td.seam-date-header {
-    padding: 0px 8px 0px 8px;
-    text-align: center;
-    color: #333;
-    font-family: Tahoma, Arial, Helvetica, sans-serif;
-    font-weight: bold;
-    font-size: 12px;
-}
-
-tr.seam-date-headerDays {
-    color: white;
-    font-weight: normal;
-}
-
-tr.seam-date-headerDays > td {
-    background-color: #CCCCCC;
-    border: 1px solid #AAAAAA;
-    color: white;
-    text-align: center;
-    width: 26px;
-}
-
-tr.seam-date-footer {
-    background-color: white;
-    color: #333;
-    font-weight: bold;
-}
-
-tr.seam-date-footer > td {
-    text-align: center;
-}
-
-td.seam-date-inMonth {
-    background-color: white;
-    color: black;
-    font-weight: normal;
-    cursor: pointer;
-    border: 1px solid #ece9d8;
-}
-
-td.seam-date-outMonth {
-    background-color: white;
-    color: #999999;
-    font-weight: normal;
-    cursor: pointer;
-    border: 1px solid #ece9d8;
-}
-
-td.seam-date-selected {
-    background-color: #CCCCCC;
-    border: 1px solid #AAAAAA;
-    color: black;
-    font-weight: normal;
-}
-
-td.seam-date-dayOff-inMonth {
-    background-color: #efefef;
-    color: black;
-    font-weight: normal;
-    cursor: pointer;
-    border: 1px solid #ece9d8;
-}
-
-td.seam-date-dayOff-outMonth {
-    background-color: #efefef;
-    color: #999999;
-    font-weight: normal;
-    cursor: pointer;
-    border: 1px solid #ece9d8;
-}
-
-td.seam-date-hover {
-    background-color: #CCCCCC;
-    border: 1px solid #AAAAAA;
-    cursor: pointer;
-    color: red;
-}
 
 .login {
     color: #333;
-    font-family: Verdana, "Gill Sans";
+    font-family: Verdana, sans-serif;
     font-size: 12px;
     font-weight: bold;
 }
@@ -863,7 +598,7 @@ td.seam-date-hover {
 }
 
 .login {
-    font-family: Verdana, Geneva, sans-serif;
+    font-family: Verdana, sans-serif;
     font-size: 14px;
     font-style: normal;
     font-weight: bold;
@@ -873,5 +608,19 @@ td.seam-date-hover {
     position: relative;
     top: auto;
 }
+
+.rich-table-cell {
+    border: none;
+    font-size: 11px;
+    font-family: Verdana, sans-serif;
+    background: transparent;
+}
+
+.rich-table {
+    border: none;
+    background: transparent;
+}
+
+
 
 

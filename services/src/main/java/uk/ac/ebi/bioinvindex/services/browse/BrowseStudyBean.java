@@ -27,7 +27,7 @@ package uk.ac.ebi.bioinvindex.services.browse;
  * To contact the developers: isatools@googlegroups.com
  *
  * To report bugs: http://sourceforge.net/tracker/?group_id=215183&atid=1032649
- * To request enhancements:  http://sourceforge.net/tracker/?group_id=215183&atid=1032652
+ * To request enhancements:  http://sourceforge.net/tracker/?group_ifactod=215183&atid=1032652
  *
  *
  * __________
@@ -43,7 +43,10 @@ package uk.ac.ebi.bioinvindex.services.browse;
  * EU NuGO [NoE 503630](http://www.nugo.org/everyone) projects and in part by EMBL-EBI.
  */
 
+import uk.ac.ebi.bioinvindex.services.AssayGroupInfo;
+
 import java.util.List;
+import java.util.Map;
 
 /**
  * User: Nataliya Sklyar (nsklyar@ebi.ac.uk)
@@ -61,6 +64,20 @@ public interface BrowseStudyBean {
 
 	public String getFactor();
 
+    public boolean hasFactors();
+
+    public boolean hasCharacteristics();
+
+    public List<String> getFactorNames();
+
+    public List<String> getCharacteristicNames();
+
+    public List<String> getFactorValues(String factorName);
+
+    public List<String> getCharacteristicValues(String characteristicName);
+
 	public List<AssayInfoBean> getAssayBeans();
+
+    public List<AssayGroupInfo> getAssayGroups();
 
 }

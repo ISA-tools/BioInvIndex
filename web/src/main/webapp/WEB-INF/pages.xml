@@ -4,7 +4,7 @@
        xsi:schemaLocation="http://jboss.com/products/seam/pages http://jboss.com/products/seam/pages-2.0.xsd"
 
        no-conversation-view-id="/browse_studies.xhtml"
-       >
+        >
 
     <page view-id="/contact.xhtml">
         <param name="contactId" value="#{contactHome.id}"/>
@@ -19,9 +19,14 @@
     <page view-id="/compound_view.xhtml">
     </page>
 
+    <page view-id="/clearStudyCache.xhtml"/>
+    <page view-id="/clearFilterCache.xhtml"/>
+
     <page view-id="/study.xhtml">
         <param name="studyId"
                value="#{studyBean.studyId}"/>
+
+        <param name="studyId" value="#{viewStudyBeanModel.accession}"/>
 
         <action execute="#{studyBean.studyExist()}"/>
 
@@ -41,6 +46,8 @@
     </page>
 
 
+
+
     <page view-id="/home.xhtml">
 
         <navigation>
@@ -50,6 +57,8 @@
         </navigation>
 
     </page>
+
+
 
     <page view-id="*">
         <navigation>

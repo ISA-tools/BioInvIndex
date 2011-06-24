@@ -47,10 +47,15 @@ import org.jboss.seam.annotations.AutoCreate;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
+
 import static org.jboss.seam.ScopeType.SESSION;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import uk.ac.ebi.bioinvindex.search.StudyFreeTextSearch;
+import uk.ac.ebi.bioinvindex.services.cache.BIICache;
+import uk.ac.ebi.bioinvindex.services.cache.Cache;
+import uk.ac.ebi.bioinvindex.services.ontologyhandling.Ontology;
 
 import javax.persistence.EntityManager;
 import java.util.Collection;
@@ -69,98 +74,124 @@ import java.io.Serializable;
 @Scope(SESSION)
 public class FiltersProvider implements Serializable {
 
-	private static final Log log = LogFactory.getLog(FiltersProvider.class);
+    private static final Cache<String, Collection<String>> cache = new BIICache<String, Collection<String>>();
 
-	@In
-	private EntityManager entityManager;
+    private static final Log log = LogFactory.getLog(FiltersProvider.class);
 
+    @In
+    private EntityManager entityManager;
 
-	private Collection<String> organisms;
-	private Collection<String> assayPlatforms;
-	private Collection<String> endPoints;
-	private Collection<String> assayTechnologies;
+    private Collection<String> organisms;
+    private Collection<String> assayPlatforms;
+    private Collection<String> endPoints;
+    private Collection<String> assayTechnologies;
 
-	public Collection<String> getAssayTechnologies(String measurement) {
-		try {
-			if (measurement == null || measurement.equals("")) {
+    public Collection<String> getAssayTechnologies(String measurement) {
+        try {
 
-				assayTechnologies = entityManager.createQuery("SELECT distinct t.name from AssayTechnology t " +
-						"where t.name is not null")
-						.getResultList();
+            if ((assayTechnologies = cache.find("filters/technologies")) == null) {
 
-			} else {
-				assayTechnologies = entityManager.createQuery("SELECT distinct a.technology.name " +
-						"FROM Assay a " +
-						"WHERE a.measurement.name =:endpoint and lower(a.technology.name) is not null")
-						.setParameter("endpoint", measurement)
-						.getResultList();
-			}
-		} catch (Exception e) {
-			log.error("Cannot read a list of AssayTechnologies from the DB", e);
-			assayTechnologies = new ArrayList<String>(1);
-			assayTechnologies.add("Not available");
-		}
-
-		return extractNulls(assayTechnologies);
-	}
+                if (measurement == null || measurement.equals("")) {
 
 
-	public Collection<String> getEndPoints() {
+                    assayTechnologies = entityManager.createQuery("SELECT distinct t.name from AssayTechnology t " +
+                            "where t.name is not null")
+                            .getResultList();
 
-		try {
-			endPoints = entityManager.createQuery("SELECT distinct t.name from Measurement t where lower(t.name) is not null")
-					.getResultList();
-		} catch (Exception e) {
-			log.error("Cannot read a list of EndPoints from the DB", e);
-			endPoints = new ArrayList<String>(1);
-			endPoints.add("Not available");
-		}
-		return extractNulls(endPoints);
-	}
+                } else {
+                    assayTechnologies = entityManager.createQuery("SELECT distinct a.technology.name " +
+                            "FROM Assay a " +
+                            "WHERE a.measurement.name =:endpoint and lower(a.technology.name) is not null")
+                            .setParameter("endpoint", measurement)
+                            .getResultList();
+                }
 
-	public Collection<String> getOrganisms() {
-			try {
-				organisms = entityManager.createQuery("SELECT distinct pv.value " +
-						"FROM PropertyValue pv, Property p " +
-						"WHERE pv.type = p.id and lower(p.value) = 'organism'")
-						.getResultList();
-			} catch (Exception e) {
-				log.error("Cannot read a list of Organisms from the DB", e);
-				organisms = new ArrayList<String>(1);
-				organisms.add("Not available");
-			}
+                cache.attach("filters/technologies", assayTechnologies);
+            }
+        } catch (Exception e) {
+            log.error("Cannot read a list of AssayTechnologies from the DB", e);
+            assayTechnologies = new ArrayList<String>(1);
+            assayTechnologies.add("Not available");
+        }
 
-		return extractNulls(organisms);
-	}
-
-	public Collection<String> getPlatforms() {
-		try {
-			assayPlatforms = entityManager.createQuery("SELECT distinct assay.assayPlatform " +
-					"FROM Assay assay")
-					.getResultList();
-		} catch (Exception e) {
-			log.error("Cannot read a list of Assay Platform from the DB");
-			assayPlatforms = new ArrayList<String>(1);
-			assayPlatforms.add("Not available");
-		}
-		return extractNulls(assayPlatforms);
-	}
+        return extractNulls(assayTechnologies);
+    }
 
 
-	/**
-	 * Extracts any null values from the collection so as not to cause any problems in the web interface.
-	 * @param collection - the Collection to check for Null values in.
-	 * @return a Collection with no Null values contained within it.
-	 */
-	private Collection<String> extractNulls(Collection<String> collection) {
-		Collection<String> toReturn = new ArrayList<String>();
-		for(String s : collection) {
-			if(s != null) {
-				toReturn.add(s);
-			}
-		}
-		return toReturn;
-	}
+    public Collection<String> getEndPoints() {
+
+        try {
+            if ((endPoints = cache.find("filters/endpoints")) == null) {
+                endPoints = entityManager.createQuery("SELECT distinct t.name from Measurement t where lower(t.name) is not null")
+                        .getResultList();
+
+                cache.attach("filters/endpoints", endPoints);
+            }
+        } catch (Exception e) {
+            log.error("Cannot read a list of EndPoints from the DB", e);
+            endPoints = new ArrayList<String>(1);
+            endPoints.add("Not available");
+        }
+        return extractNulls(endPoints);
+    }
+
+    public Collection<String> getOrganisms() {
+        try {
+            if ((organisms = cache.find("filters/organisms")) == null) {
+                organisms = entityManager.createQuery("SELECT distinct pv.value " +
+                        "FROM PropertyValue pv, Property p " +
+                        "WHERE pv.type = p.id and lower(p.value) = 'organism'")
+                        .getResultList();
+
+                cache.attach("filters/organisms", organisms);
+            }
+        } catch (Exception e) {
+            log.error("Cannot read a list of Organisms from the DB", e);
+            organisms = new ArrayList<String>(1);
+            organisms.add("Not available");
+        }
+
+        return extractNulls(organisms);
+    }
+
+    public Collection<String> getPlatforms() {
+        try {
+            if ((assayPlatforms = cache.find("filters/assayPlatforms")) == null) {
+                assayPlatforms = entityManager.createQuery("SELECT distinct assay.assayPlatform " +
+                        "FROM Assay assay")
+                        .getResultList();
+
+                cache.attach("filters/assayPlatforms", assayPlatforms);
+            }
+        } catch (Exception e) {
+            log.error("Cannot read a list of Assay Platform from the DB");
+            assayPlatforms = new ArrayList<String>(1);
+            assayPlatforms.add("Not available");
+        }
+        return extractNulls(assayPlatforms);
+    }
+
+
+    /**
+     * Extracts any null values from the collection so as not to cause any problems in the web interface.
+     *
+     * @param collection - the Collection to check for Null values in.
+     * @return a Collection with no Null values contained within it.
+     */
+    private Collection<String> extractNulls(Collection<String> collection) {
+        Collection<String> toReturn = new ArrayList<String>();
+        for (String s : collection) {
+            if (s != null && !s.trim().equals("")) {
+                toReturn.add(s);
+            }
+        }
+        return toReturn;
+    }
+
+    public boolean clearCache() {
+        cache.clearCache();
+        return true;
+    }
 
 
 }

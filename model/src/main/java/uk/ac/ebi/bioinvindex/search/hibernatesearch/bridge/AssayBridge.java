@@ -43,15 +43,12 @@ package uk.ac.ebi.bioinvindex.search.hibernatesearch.bridge;
  * EU NuGO [NoE 503630](http://www.nugo.org/everyone) projects and in part by EMBL-EBI.
  */
 
-import org.apache.commons.lang.StringUtils;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
 import org.hibernate.search.bridge.FieldBridge;
 import org.hibernate.search.bridge.LuceneOptions;
 import uk.ac.ebi.bioinvindex.model.processing.Assay;
-import uk.ac.ebi.bioinvindex.model.term.AssayTechnology;
 import uk.ac.ebi.bioinvindex.model.xref.Xref;
-import uk.ac.ebi.bioinvindex.search.hibernatesearch.bridge.AssayInfoDelimiters;
 import uk.ac.ebi.bioinvindex.search.hibernatesearch.StudyBrowseField;
 
 import java.util.Collection;
@@ -60,84 +57,98 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-/** Creates a  String template: endpoint|technology|number|&&&acc1!!!url1&&&acc2!!!url2
+/**
+ * Creates a  String template: endpoint|technology|number|&&&acc1!!!url1&&&acc2!!!url2
+ *
  * @author Nataliya Sklyar (nsklyar@ebi.ac.uk)
- * Date: Feb 22, 2008
+ *         Date: Feb 22, 2008
  */
 public class AssayBridge implements FieldBridge, AssayInfoDelimiters {
 
-	public void set(String s, Object o, Document document, LuceneOptions luceneOptions) {
-		Map<String, AssyaTypeInfo> assayTypeToInfo = new HashMap<String, AssyaTypeInfo>();
+    public void set(String s, Object o, Document document, LuceneOptions luceneOptions) {
+        Map<String, AssayTypeInfo> assayTypeToInfo = new HashMap<String, AssayTypeInfo>();
 
-		Collection<Assay> assays = (Collection<Assay>) o;
-		for (Assay assay : assays) {
+        Collection<Assay> assays = (Collection<Assay>) o;
 
-			String type = buildType(assay);
+        for (Assay assay : assays) {
 
-			AssyaTypeInfo info = assayTypeToInfo.get(type);
-			if (info == null) {
-				info = new AssyaTypeInfo();
-				assayTypeToInfo.put(type, info);
-			}
+            String type = buildType(assay);
 
-			for (Xref xref : assay.getXrefs()) {
-				StringBuilder sb = new  StringBuilder();
-				sb.append(xref.getAcc());
-				if (xref.getSource() != null) {
-					sb.append(ACC_URL_DELIM);
-					//ToDO: use annotation which contains url regexp instead
-					sb.append(xref.getSource().getUrl());
-				}
+            if (!assayTypeToInfo.containsKey(type)) {
+                AssayTypeInfo info  = new AssayTypeInfo();
+                assayTypeToInfo.put(type, info);
+            }
 
-				info.addAccession(sb.toString());
-			}
+            for (Xref xref : assay.getXrefs()) {
+                System.out.println("Adding XREF to AssayTypeInfo: " + xref.getSource().getAcc() + "(" + xref.getAcc() +  ") for " + type);
 
-			info.increaseCount();
-		}
+                StringBuilder sb = new StringBuilder();
+                sb.append("xref(").append(xref.getAcc()).append("->");
+                sb.append(xref.getSource().getAcc()).append(")");
 
-		for (String type : assayTypeToInfo.keySet()) {
-			StringBuilder fullInfo = new StringBuilder();
-			fullInfo.append(type);
-			fullInfo.append(FIELDS_DELIM);
-			AssayBridge.AssyaTypeInfo info = assayTypeToInfo.get(type);
-			fullInfo.append(info.getCount());
-			fullInfo.append(FIELDS_DELIM);
-			for (String acc : info.getAccessions()) {
-				fullInfo.append(ACC_DELIM);
-				fullInfo.append(acc);
-			}
-			Field fvField = new Field(StudyBrowseField.ASSAY_INFO.getName(), fullInfo.toString(), luceneOptions.getStore(), luceneOptions.getIndex());
-			document.add(fvField);
+                assayTypeToInfo.get(type).addAccession(sb.toString());
+            }
 
-		}
-	}
+            assayTypeToInfo.get(type).increaseCount();
+        }
+        // each data link should be stored perhaps, or at least whatever is required to make it display in the Study page.
 
-	private String buildType(Assay assay) {
-		String type = assay.getMeasurement().getName() + "|" + assay.getTechnologyName ();
-		return type;
-	}
+        for (String type : assayTypeToInfo.keySet()) {
+            StringBuilder fullInfo = new StringBuilder();
+            fullInfo.append("assay(").append(type);
+            fullInfo.append(FIELDS_DELIM);
 
-	
-	private class AssyaTypeInfo {
+            AssayTypeInfo info = assayTypeToInfo.get(type);
 
-		private int count = 0;
+            fullInfo.append(info.getCount());
+            fullInfo.append(")");
 
-		private Set<String> accessions = new HashSet<String>();
+            fullInfo.append(":?");
 
-		public int getCount() {
-			return count;
-		}
+            int outputCount = 0;
 
-		public Set<String> getAccessions() {
-			return accessions;
-		}
+            System.out.println("There are " + info.getAccessions().size() + " accessions associated with this...");
+            for (String acc : info.getAccessions()) {
 
-		public void increaseCount() {
-			count++;
-		}
+                fullInfo.append(acc);
 
-		public void addAccession(String acc) {
-			accessions.add(acc);
-		}
-	}
+                if (outputCount != info.getAccessions().size() - 1) {
+                    fullInfo.append(":?");
+                }
+
+                outputCount++;
+            }
+            Field fvField = new Field(StudyBrowseField.ASSAY_INFO.getName(), fullInfo.toString(), luceneOptions.getStore(), luceneOptions.getIndex());
+            document.add(fvField);
+
+        }
+    }
+
+    private String buildType(Assay assay) {
+        return assay.getMeasurement().getName() + "|" + assay.getTechnologyName();
+    }
+
+
+    private class AssayTypeInfo {
+
+        private int count = 0;
+
+        private Set<String> accessions = new HashSet<String>();
+
+        public int getCount() {
+            return count;
+        }
+
+        public Set<String> getAccessions() {
+            return accessions;
+        }
+
+        public void increaseCount() {
+            count++;
+        }
+
+        public void addAccession(String acc) {
+            accessions.add(acc);
+        }
+    }
 }

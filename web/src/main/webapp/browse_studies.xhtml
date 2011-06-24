@@ -3,138 +3,202 @@
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:h="http://java.sun.com/jsf/html"
-                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:rich="http://richfaces.org/rich"
+                xmlns:s="http://jboss.com/products/seam/taglib"
                 xmlns:a4j="http://richfaces.org/a4j"
-                xmlns:rich="http://richfaces.org/rich" xmlns:s="http://jboss.com/products/seam/taglib"
                 template="layout/local-template.xhtml">
 
-    <ui:define name="body">
+<ui:define name="body">
 
-        <div>
-            <img alt="browse studies" src="img/table_images/browse_studies_header.png"/>
-
-            <p align="center" class="static_info_text">
-                <h:outputText styleClass="dynamic_info_text" value="#{browseStudyBeanModel.rowCount}"/>
-                public studies containing
-                <h:outputText styleClass="dynamic_info_text" value=" #{browseStudyBeanModel.totalAssays}"/>
-                assays
-
-            </p>
-        </div>
-
-
+    <div class="searchPane">
         <h:form>
-            <!--<a4j:region>-->
-            <rich:datascroller for="studies" renderIfSinglePage="false"/>
-            <rich:spacer height="5"/>
-            <rich:dataTable
-                    width="95%" border="0" align="center"
-                    id="studies"
-                    rows="20"
-                    cellpadding="0" cellspacing="0"
-                    var="bean"
-                    value="#{browseStudyBeanModel.itemList}">
+            <a4j:region renderRegionOnly="true">
+                <table border="0" style="table-layout:fixed">
 
-                <f:facet name="header">
-                    <rich:columnGroup>
+                    <tr>
+                        <td width="20%">
+                            <span class="searchText">freetext</span>
+                        </td>
 
-                        <rich:column width="10%" styleClass="tableheader_investigation">
-                            <h:outputText value="Investigation"/>
-                        </rich:column>
+                        <td width="20%">
+                            <span class="searchText">organism</span>
+                        </td>
+                        <td width="20%">
+                            <span class="searchText">measurement</span>
+                        </td>
 
-                        <rich:column colspan="4" width="45%" styleClass="tableheader_study">
-                            <h:outputText value="Study"/>
-                        </rich:column>
+                        <td width="20%">
+                            <span class="searchText">technology</span>
+                        </td>
+                        <td width="20%">
+                            <span class="searchText">platform</span>
+                        </td>
+                    </tr>
 
-                        <rich:column colspan="4" width="45%" styleClass="tableheader_assay">
-                            <h:outputText value="Assay"/>
-                        </rich:column>
+                    <tr>
 
-                        <rich:column breakBefore="true" width="10%" styleClass="tableheader_investigation">
-                            <h:outputText value="Acc"/>
-                        </rich:column>
+                        <td width="20%">
+                            <h:inputText autocomplete="on" id="freetext"
+                                         value="#{studyBeanProvider.searchPattern}"
+                                         styleClass="input_field_search"
+                                         label="#{freetext}"/>
+                        </td>
 
-                        <rich:column width="8%" styleClass="tableheader_study">
-                            <h:outputText value="Acc"/>
-                        </rich:column>
+                        <td width="20%">
 
-                        <rich:column width="25%" styleClass="tableheader_study">
-                            <h:outputText value="Title"/>
-                        </rich:column>
+                            <h:selectOneMenu id="selOrganism" value="#{studyBeanProvider.organism}"
+                                             styleClass="dropdown_selector" style="width:150px">
+                                <s:selectItems value="#{filterProvider.organisms }"
+                                               var="organism"
+                                               label="#{organism}"
+                                               noSelectionLabel="Filter on organisms"/>
+                                <!--<s:convertEntity/>-->
+                            </h:selectOneMenu>
 
-                        <rich:column width="15%" styleClass="tableheader_study">
-                            <h:outputText value="Organism"/>
-                        </rich:column>
+                        </td>
 
-                        <rich:column width="10%" styleClass="tableheader_study">
-                            <h:outputText value="Factor"/>
-                        </rich:column>
-
-                        <rich:column width="15%" styleClass="tableheader_assay">
-                            <h:outputText value="Measurement"/>
-                        </rich:column>
-
-                        <rich:column width="13%" styleClass="tableheader_assay">
-                            <h:outputText value="Technology"/>
-                        </rich:column>
-
-                        <rich:column width="4%" styleClass="tableheader_assay">
-                            <h:outputText value="#"/>
-                        </rich:column>
-
-                        <!--<rich:column width="13%" styleClass="tableheader">-->
-                        <!--<h:outputText value="Acc"/>-->
-                        <!--</rich:column>-->
-
-                    </rich:columnGroup>
-                </f:facet>
-
-                <rich:column styleClass="datacolumn">
-                    <h:outputText value="#{bean.investigation}"/>
-                </rich:column>
-
-                <rich:column styleClass="datacolumn">
-                    <!--<h:outputText value="#{bean.acc}"/>-->
-                    <h:outputLink value="study.seam?studyId=#{bean.acc}">
-                        <h:outputText value="#{bean.acc}"/>
-                        <!--<s:conversationName value="ViewStudy"/>-->
-                    </h:outputLink>
-
-                </rich:column>
-
-                <rich:column styleClass="datacolumn">
-                    <h:outputText value="#{bean.title}"/>
-                </rich:column>
-
-                <rich:column styleClass="datacolumn">
-                    <h:outputText value="#{bean.organism}"/>
-                </rich:column>
-
-                <rich:column styleClass="datacolumn">
-                    <h:outputText value="#{bean.factor}"/>
-                </rich:column>
+                        <td width="20%">
+                            <h:selectOneMenu id="endpoint" value="#{studyBeanProvider.endPoint}"
+                                             styleClass="dropdown_selector" style="width:165px">
+                                <s:selectItems value="#{filterProvider.endPoints}"
+                                               var="endPoint"
+                                               label="#{endPoint}"
+                                               noSelectionLabel="Filter on measurement"/>
+                                <a4j:support event="onchange" reRender="technology"/>
+                                <!--<s:convertEntity/>-->
+                            </h:selectOneMenu>
+                        </td>
 
 
-                <rich:column colspan="3" styleClass="datacolumn">
-                    <rich:dataTable width="100%" styleClass="table_assay" align="center"
-                                    value="#{bean.assayBeans}" var="assayBean" style="table-layout:fixed">
-                        <rich:column width="47%" styleClass="datacolumn_internal">
-                            <h:outputText value="#{assayBean.endPoint}"/>
-                        </rich:column>
-                        <rich:column width="42%" styleClass="datacolumn_internal">
-                            <h:outputText value="#{assayBean.technology}"/>
-                        </rich:column>
-                        <rich:column width="11%" styleClass="datacolumn_internal">
-                            <h:outputText value="#{assayBean.count}"/>
-                        </rich:column>
-                    </rich:dataTable>
+                        <td width="20%">
+                            <h:selectOneMenu id="technology"
+                                             value="#{studyBeanProvider.assayType}"
+                                             styleClass="dropdown_selector" style="width:150px">
+                                <s:selectItems
+                                        value="#{filterProvider.getAssayTechnologies(studyBeanProvider.endPoint)}"
+                                        var="assayType"
+                                        label="#{assayType}"
+                                        noSelectionLabel="Filter on technology"/>
+                                <!--<a4j:support event="onchange" reRender="endpoint"/>-->
+                                <!--<s:convertEntity/>-->
+                            </h:selectOneMenu>
 
-                </rich:column>
+                        </td>
 
-            </rich:dataTable>
-            <!--</a4j:region>-->
+
+                        <td width="20%">
+                            <h:selectOneMenu id="selPlatform" value="#{studyBeanProvider.platform}"
+                                             styleClass="dropdown_selector" style="width:150px">
+                                <s:selectItems value="#{filterProvider.platforms}"
+                                               var="platform"
+                                               label="#{platform}"
+                                               noSelectionLabel="Filter on Platform"/>
+                                <!--<s:convertEntity/>-->
+                            </h:selectOneMenu>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td colspan="5" valign="top" align="right">
+                            <!--<span class="moreinformation"><a href="browse_studies.seam">clear fields</a></span>-->
+
+                            <h:commandButton value="Search"
+                                             action="/browse_studies.seam"
+                                             image="img/menu_css/search.png"
+                                             styleClass="search-button"/>
+                        </td>
+                    </tr>
+                </table>
+            </a4j:region>
         </h:form>
 
-    </ui:define>
+    </div>
+
+
+    <a4j:outputPanel rendered="#{studyBeanProvider.hasFilterApplied()}">
+        <div class="filtersPane" align="right">
+            #{studyBeanProvider.getFilterString()}
+            <span class="green-button">
+                <a href="browse_studies.seam?searchPattern=&amp;platform=&amp;organism=&amp;endPoint=&amp;assayType=">
+                    Clear
+                </a>
+            </span>
+        </div>
+    </a4j:outputPanel>
+
+    <div>
+        <p align="right" class="static_info_text">
+            <span class="green-tag"><h:outputText value="#{browseStudyBeanModel.rowCount} "/></span>
+            studies containing &nbsp;<span class="green-tag"><h:outputText
+                value="#{browseStudyBeanModel.totalAssays}"/></span>
+            assays
+
+        </p>
+    </div>
+
+
+    <h:form styleClass="body">
+        <!--<a4j:region>-->
+        <rich:datascroller for="studies" renderIfSinglePage="false"/>
+        <rich:spacer height="5"/>
+        <rich:dataTable
+                width="100%" border="0" align="center"
+                id="studies"
+                rows="15"
+                rowClasses="even"
+                cellpadding="0" cellspacing="0" style="table-layout:fixed; vertical-align:top;"
+                var="bean"
+                value="#{browseStudyBeanModel.itemList}">
+
+            <rich:column width="60%" style="vertical-align: top">
+                <h:outputLink value="study.seam?studyId=#{bean.acc}" styleClass="green-button">
+                    <span>#{bean.acc}</span><span>View record</span>
+                </h:outputLink>
+            </rich:column>
+
+            <rich:column style="vertical-align: top">
+                <div align="right">
+                    <span class="feature-tag"><h:outputText value="#{bean.organism}"/></span>
+                </div>
+            </rich:column>
+
+
+            <rich:column breakBefore="true" styleClass="study-info" style="vertical-align: top">
+
+                <h:outputText value="#{bean.title}"/>
+            </rich:column>
+
+
+            <rich:column style="align:right" styleClass="study-info">
+
+                <div class="assay-tag" align="right">
+
+                    <rich:dataTable style="align:right" width="100%"
+                                    value="#{bean.assayBeans}" var="assayBean">
+                        <rich:column width="100%">
+                            <span class="assaycount-tag">
+                                <h:outputText value="#{assayBean.count}"/>
+                            </span>
+                            <span class="assay-information">
+                                <h:outputText value="#{assayBean.getDisplayLabel()}"/>
+                            </span>
+                        </rich:column>
+
+                    </rich:dataTable>
+
+                </div>
+
+
+            </rich:column>
+
+            <rich:column breakBefore="true">
+                <br/>
+            </rich:column>
+
+        </rich:dataTable>
+        <!--</a4j:region>-->
+    </h:form>
+
+</ui:define>
 
 </ui:composition>

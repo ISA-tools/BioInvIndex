@@ -45,9 +45,12 @@ package uk.ac.ebi.bioinvindex.services.browse;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import uk.ac.ebi.bioinvindex.model.xref.ResourceType;
 import uk.ac.ebi.bioinvindex.search.hibernatesearch.StudyBrowseField;
 import uk.ac.ebi.bioinvindex.search.hibernatesearch.bridge.AssayInfoDelimiters;
+import uk.ac.ebi.bioinvindex.services.AssayGroupInfo;
 import uk.ac.ebi.bioinvindex.services.DBLink;
+import uk.ac.ebi.bioinvindex.services.DataLink;
 
 import java.util.*;
 
@@ -56,134 +59,338 @@ import java.util.*;
  * Date: Feb 26, 2008
  */
 public class BrowseStudyBeanImpl implements BrowseStudyBean, AssayInfoDelimiters, Comparable {
-	private static final Log log = LogFactory.getLog(BrowseStudyBeanImpl.class);
+    private static final Log log = LogFactory.getLog(BrowseStudyBeanImpl.class);
 
-	private Map<StudyBrowseField, String[]> values;
+    private Map<String, List<String>> characteristics;
+    private Map<String, List<String>> factors;
 
-	public BrowseStudyBeanImpl(Map<StudyBrowseField, String[]> values) {
-		this.values = values;
-	}
+    private Map<StudyBrowseField, String[]> values;
 
-	public String getInvestigation() {
-		return getFirstValue(StudyBrowseField.INVESTIGATION_ACC);
-	}
+    public BrowseStudyBeanImpl(Map<StudyBrowseField, String[]> values) {
+        this.values = values;
+    }
 
-	public String getAcc() {
-		return getFirstValue(StudyBrowseField.STUDY_ACC);
-	}
+    public String getInvestigation() {
+        return getFirstValue(StudyBrowseField.INVESTIGATION_ACC);
+    }
 
-	public String getTitle() {
-		return getFirstValue(StudyBrowseField.TITLE);
-	}
+    public String getAcc() {
+        return getFirstValue(StudyBrowseField.STUDY_ACC);
+    }
 
-	public String getOrganism() {
-		return getConcatValues(StudyBrowseField.ORGANISM);
-	}
+    public String getTitle() {
+        return getFirstValue(StudyBrowseField.TITLE);
+    }
 
-	public String getFactor() {
-		return getConcatValues(StudyBrowseField.FACTOR_NAME);
-	}
+    public String getOrganism() {
+        return getConcatValues(StudyBrowseField.ORGANISM);
+    }
+
+    public String getFactor() {
+        return getConcatValues(StudyBrowseField.FACTOR_NAME);
+    }
+
+    public boolean hasFactors() {
+        buildFactorsIfNecessary();
+
+        return factors != null && factors.size() > 0;
+    }
+
+    public boolean hasCharacteristics() {
+        buildCharacteristicsIfNecessary();
+
+        return characteristics != null && characteristics.size() > 0;
+    }
+
+    public List<String> getFactorNames() {
+        buildFactorsIfNecessary();
+        if (factors.size() > 0) {
+            return new ArrayList<String>(factors.keySet());
+        }
+        return new ArrayList<String>();
+    }
+
+    public List<String> getCharacteristicNames() {
+        buildCharacteristicsIfNecessary();
+        if (characteristics.size() > 0) {
+            return new ArrayList<String>(characteristics.keySet());
+        }
+
+        return new ArrayList<String>();
+    }
+
+    public List<String> getFactorValues(String factorName) {
+        buildFactorsIfNecessary();
+        if (factors.containsKey(factorName)) {
+            return factors.get(factorName);
+        }
+
+        return new ArrayList<String>();
+    }
+
+    public List<String> getCharacteristicValues(String characteristicName) {
+        buildCharacteristicsIfNecessary();
+        if (characteristics.containsKey(characteristicName)) {
+            return characteristics.get(characteristicName);
+        }
+
+        return new ArrayList<String>();
+    }
+
+    private void buildCharacteristicsIfNecessary() {
+        if (characteristics == null) {
+            log.info("Building characteristics!");
+            characteristics = processPropertyValues(StudyBrowseField.CHARACTERISTICS);
+        }
+    }
+
+    private void buildFactorsIfNecessary() {
+        if (factors == null) {
+            log.info("Building factors!");
+            factors = processPropertyValues(StudyBrowseField.FACTORS);
+        }
+    }
+
+    /**
+     * Takes the factors and characteristics which
+     *
+     * @return Map from the factor names to the list of associated values (e.g. dose -> 0.1g, 0.2g)
+     */
+    private Map<String, List<String>> processPropertyValues(StudyBrowseField fieldToProcess) {
+
+        String[] strings = values.get(fieldToProcess);
+
+        if (strings == null || strings.length < 1) {
+            return new HashMap<String, List<String>>();
+        }
+
+        Map<String, List<String>> processedValues = new HashMap<String, List<String>>();
+        Map<String, Set<String>> addedValues = new HashMap<String, Set<String>>();
+
+        for (String string : strings) {
+            if (string.contains("[")) {
+                String factorName = string.substring(0, string.indexOf("["));
+                // Should be enough to remove all the extra artifacts.
+                String factorValue = string.replace(factorName, "").replace("[", "").replaceAll("]", "");
+
+                if (!processedValues.containsKey(factorName)) {
+                    processedValues.put(factorName, new ArrayList<String>());
+                    addedValues.put(factorName, new HashSet<String>());
+                }
+
+                if (!addedValues.get(factorName).contains(factorValue)) {
+                    processedValues.get(factorName).add(factorValue);
+                    addedValues.get(factorName).add(factorValue);
+                }
+
+            }
+        }
 
 
-	public List<AssayInfoBean> getAssayBeans() {
-		// a check to prevent fetching the assays twice, since the first time it is need to get the total number of assays for display in the page
+        return processedValues;
+    }
 
-		String[] strings = values.get(StudyBrowseField.ASSAY_INFO);
-		if (strings == null) {
-			return new ArrayList<AssayInfoBean>(1);
-		}
 
-		List<AssayInfoBean> answer = new ArrayList<AssayInfoBean>(strings.length);
-		for (String string : strings) {
-			answer.add(processAssayInfoResultString(string));
-		}
-		return answer;
-	}
+    /**
+     * Retrieves the AssayInfoBean, required for the Browse view
+     *
+     * @return List<AssayInfoBean>
+     */
+    public List<AssayInfoBean> getAssayBeans() {
+        // a check to prevent fetching the assays twice, since the first time it is need to get the total number of assays for display in the page
 
-	private String getFirstValue(StudyBrowseField fieldName) {
-		String[] strings = values.get(fieldName);
-		if (strings != null && strings.length >= 1) {
-			return strings[0];
-		} else {
-			return "";
-		}
-	}
+        String[] strings = values.get(StudyBrowseField.ASSAY_INFO);
+        if (strings == null) {
+            return new ArrayList<AssayInfoBean>(1);
+        }
 
-	private AssayInfoBean processAssayInfoResultString(String assayInfoString) {
-		AssayInfoBean assayInfoBean = new AssayInfoBean();
+        List<AssayInfoBean> answer = new ArrayList<AssayInfoBean>(strings.length);
+        for (String string : strings) {
+            answer.add(processAssayInfoResultString(string));
+        }
+        return answer;
+    }
 
-		// String template: endpoint|technology|number|&&&acc1!!!url1&&&acc2!!!url2
-//		System.out.println("AssayInfoString: " + assayInfoString);
-//		log.error("AssayInfoString: " + assayInfoString);
+    /**
+     * Retrieves the AssayInfoBean, required for the Browse view
+     *
+     * @return List<AssayInfoBean>
+     */
+    public List<AssayGroupInfo> getAssayGroups() {
+        // a check to prevent fetching the assays twice, since the first time it is need to get the total number of assays for display in the page
 
-		Scanner scanner = new Scanner(assayInfoString);
-		scanner.useDelimiter("\\|");
+        String[] strings = values.get(StudyBrowseField.ASSAY_INFO);
+        if (strings == null) {
+            return new ArrayList<AssayGroupInfo>(1);
+        }
 
-		if (scanner.hasNext()) {
-			assayInfoBean.setEndPoint(scanner.next());
-		} else {
-			assayInfoBean.setEndPoint("");
-		}
+        List<AssayGroupInfo> answer = new ArrayList<AssayGroupInfo>(strings.length);
+        for (String string : strings) {
+            answer.add(processAssayGroupInfoFromString(string));
+        }
+        return answer;
+    }
 
-		if (scanner.hasNext()) {
-			String token = scanner.next();
-			try {
-				// check to see if the String can be made into a number.
-				Integer.valueOf(token);
-				assayInfoBean.setCount(token);
-				assayInfoBean.setTechnology("");
-			} catch (NumberFormatException nfe) {
-				assayInfoBean.setTechnology(token);
-				if (scanner.hasNext()) {
-					assayInfoBean.setCount(scanner.next());
-				} else {
-					assayInfoBean.setCount("0");
-				}
-			}
-		}
+    private String getFirstValue(StudyBrowseField fieldName) {
+        String[] strings = values.get(fieldName);
+        if (strings != null && strings.length >= 1) {
+            return strings[0];
+        } else {
+            return "";
+        }
+    }
 
-		return assayInfoBean;
-	}
+    private AssayInfoBean processAssayInfoResultString(String assayInfoString) {
+        AssayInfoBean assayInfoBean = new AssayInfoBean();
 
-	private String getConcatValues(StudyBrowseField field) {
-		String[] strings = values.get(field);
-		if (strings == null || strings.length < 1) {
-			return "";
-		}
+        System.out.println("The assay info string is: " + assayInfoString);
 
-		StringBuilder sb = new StringBuilder();
-		Set<String> values = new HashSet<String>(strings.length);
-		for (String string : strings) {
-			if (!"".equals(string) && !values.contains(string)) {
-				sb.append(string);
-				sb.append(", ");
-				values.add(string);
-			}
-		}
-		sb.delete(sb.length() - 2, sb.length());
-		return sb.toString();
-	}
+        String[] infoSections;
 
-	private DBLink createLink(String toParse) {
-		DBLink link = new DBLink();
+        if (assayInfoString.contains(":?")) {
+            infoSections = assayInfoString.split(":\\?");
+        } else {
+            infoSections = new String[]{assayInfoString};
+        }
 
-		StringTokenizer tokenizer = new StringTokenizer(toParse, ACC_URL_DELIM);
-		if (tokenizer.hasMoreTokens()) {
-			link.setAcc(tokenizer.nextToken());
-		}
+        // at this point we now have an array where the first element should be the assay and all others are the DB links
 
-		if (tokenizer.hasMoreTokens()) {
-			link.setUrl(tokenizer.nextToken() + link.getAcc());
-		}
-		return link;
-	}
+        assayInfoBean = createAssayInfoBean(assayInfoBean, infoSections[0]);
 
-	public int compareTo(Object o) {
-		return getAcc().compareTo(((BrowseStudyBean) o).getAcc());
-	}
+        return assayInfoBean;
+    }
 
-	@Override
-	public String toString() {
-		return getAcc();
-	}
+    private AssayGroupInfo processAssayGroupInfoFromString(String assayGroupInfoString) {
+        AssayGroupInfo assayGroupInfo = new AssayGroupInfo();
+        String[] infoSections;
+
+        if (assayGroupInfoString.contains(":?")) {
+            infoSections = assayGroupInfoString.split(":\\?");
+        } else {
+            infoSections = new String[]{assayGroupInfoString};
+        }
+
+        // at this point we now have an array where the first element should be the assay and all others are the DB links
+
+        AssayInfoBean assay = new AssayInfoBean();
+
+        assay = createAssayInfoBean(assay, infoSections[0]);
+
+        assayGroupInfo.setEndPoint(assay.getEndPoint());
+        assayGroupInfo.setTechnology(assay.getTechnology());
+        assayGroupInfo.setPlatform(assay.getPlatform());
+
+        try {
+            assayGroupInfo.setCount(Integer.valueOf(assay.getCount()));
+        } catch (NumberFormatException nfe) {
+            assayGroupInfo.setCount(0);
+        }
+
+        Map<String, DataLink> accessionToDataLink = new HashMap<String, DataLink>();
+
+        for (int dbLinkIndex = 1; dbLinkIndex < infoSections.length; dbLinkIndex++) {
+
+            DataLink link = createDBLink(infoSections[dbLinkIndex]);
+
+            if (!accessionToDataLink.containsKey(link.getAcc())) {
+                accessionToDataLink.put(link.getAcc(), link);
+            }
+
+            accessionToDataLink.get(link.getAcc()).addDataOfType(determineDataType(link.getSourceName()));
+
+        }
+
+        for (String accession : accessionToDataLink.keySet()) {
+            assayGroupInfo.addDataLink(accessionToDataLink.get(accession));
+        }
+
+        return assayGroupInfo;
+    }
+
+    private AssayInfoBean createAssayInfoBean(AssayInfoBean assayInfoBean, String assayRepresentation) {
+
+        assayRepresentation = assayRepresentation.replace("assay(", "").replace(")", "");
+
+        Scanner scanner = new Scanner(assayRepresentation);
+        scanner.useDelimiter("\\|");
+
+        if (scanner.hasNext()) {
+            assayInfoBean.setEndPoint(scanner.next());
+        } else {
+            assayInfoBean.setEndPoint("");
+        }
+
+        if (scanner.hasNext()) {
+            String token = scanner.next();
+            try {
+                // check to see if the String can be made into a number.
+                Integer.valueOf(token);
+                assayInfoBean.setCount(token);
+                assayInfoBean.setTechnology("");
+            } catch (NumberFormatException nfe) {
+                assayInfoBean.setTechnology(token);
+                if (scanner.hasNext()) {
+                    assayInfoBean.setCount(scanner.next());
+                } else {
+                    assayInfoBean.setCount("0");
+                }
+            }
+        }
+
+        return assayInfoBean;
+    }
+
+    private DataLink createDBLink(String dbLinkRepresentation) {
+        DataLink link = new DataLink();
+
+        dbLinkRepresentation = dbLinkRepresentation.replace("xref(", "").replace(")", "");
+
+        if (dbLinkRepresentation.contains("->")) {
+            String[] dbLinkParts = dbLinkRepresentation.split("->");
+            link.setAcc(dbLinkParts[0]);
+            link.setSourceName(dbLinkParts[1]);
+        }
+
+        return link;
+    }
+
+    private ResourceType determineDataType(String sourceName) {
+        if (sourceName.contains(ResourceType.RAW.getName())) {
+            return ResourceType.RAW;
+        } else if (sourceName.contains(ResourceType.PROCESSED.getName())) {
+            return ResourceType.PROCESSED;
+        } else if (sourceName.contains(ResourceType.ENTRY.getName())) {
+            return ResourceType.ENTRY;
+        }
+
+        return null;
+    }
+
+    private String getConcatValues(StudyBrowseField field) {
+        String[] strings = values.get(field);
+        if (strings == null || strings.length < 1) {
+            return "";
+        }
+
+        StringBuilder sb = new StringBuilder();
+        Set<String> values = new HashSet<String>(strings.length);
+        for (String string : strings) {
+            if (!"".equals(string) && !values.contains(string)) {
+                sb.append(string);
+                sb.append(", ");
+                values.add(string);
+            }
+        }
+        sb.delete(sb.length() - 2, sb.length());
+        return sb.toString();
+    }
+
+    public int compareTo(Object o) {
+        return getAcc().compareTo(((BrowseStudyBean) o).getAcc());
+    }
+
+    @Override
+    public String toString() {
+        return getAcc();
+    }
 }

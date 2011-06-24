@@ -79,7 +79,8 @@ public class DataLink {
 
 
 	public boolean hasDataOfType(String type) {
-		return types.contains(ResourceType.getInstanceByName(type));
+
+        return types.contains(ResourceType.getInstanceByName(type));
 	}
 
 	@Override

@@ -1,5 +1,6 @@
 package uk.ac.ebi.bioinvindex.search.hibernatesearch;
 
+import org.apache.lucene.search.*;
 import uk.ac.ebi.bioinvindex.search.hibernatesearch.StudyBrowseField;
 import uk.ac.ebi.bioinvindex.search.hibernatesearch.BIIFilterQuery;
 import uk.ac.ebi.bioinvindex.search.SearchException;
@@ -19,12 +20,6 @@ import java.io.IOException;
 
 import org.apache.lucene.document.Document;
 import org.apache.lucene.index.IndexReader;
-import org.apache.lucene.search.Filter;
-import org.apache.lucene.search.DocIdSet;
-import org.apache.lucene.search.DocIdSetIterator;
-import org.apache.lucene.search.IndexSearcher;
-import org.apache.lucene.search.Query;
-import org.apache.lucene.search.Hits;
 import org.apache.lucene.queryParser.ParseException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -78,9 +73,6 @@ import org.hibernate.Session;
  * EU NuGO [NoE 503630](http://www.nugo.org/everyone) projects and in part by EMBL-EBI.
  */
 
-/**
- * @author: Nataliya Sklyar (nsklyar@ebi.ac.uk) Date: Oct 27, 2009
- */
 public class SecureStudyFreeTextSearch {
 
 	private static final Log log = LogFactory.getLog(SecureStudyFreeTextSearch.class);
@@ -114,7 +106,7 @@ public class SecureStudyFreeTextSearch {
 		if (filterQuery.getSearchText() != null && !filterQuery.getSearchText().equals("")) {
 			//Search index
 			search(filterQuery, directoryProvider, answer);
-
+            System.out.println("Results are " + answer.size() + " in length");
 		} else {
 			//Browse/filter Index
 			browse(filterQuery, searchFactory, directoryProvider, answer);
@@ -156,12 +148,13 @@ public class SecureStudyFreeTextSearch {
 
 				DocIdSetIterator iterator = docIdSet.iterator();
 
-				while (iterator.next()) {
-					int i = iterator.doc();
+                int docNumber;
 
-					if (reader.isDeleted(i)) continue;
+				while ((docNumber = iterator.nextDoc()) != DocIdSetIterator.NO_MORE_DOCS) {
 
-					Document document = reader.document(i);
+					if (reader.isDeleted(docNumber)) continue;
+
+					Document document = reader.document(docNumber);
 					processDocument(answer, document);
 				}
 
@@ -186,22 +179,23 @@ public class SecureStudyFreeTextSearch {
 	private void search(BIIFilterQuery filterQuery, DirectoryProvider directoryProvider, List<Map<StudyBrowseField, String[]>> answer) {
 		IndexSearcher indexSearcher = null;
 		try {
-			indexSearcher = new IndexSearcher(directoryProvider.getDirectory());
+			indexSearcher = new IndexSearcher(directoryProvider.getDirectory(), true);
 
 			Query query = queryBuilder.buildQuery(filterQuery.getSearchText());
 
-			Hits hits;
+			TopDocs topScoringDocuments;
 
 			if (filterQuery.getFilters().size() > 0) {
 				Filter filter = queryBuilder.buildFilter(filterQuery);
-				hits = indexSearcher.search(query, filter);
+				topScoringDocuments = indexSearcher.search(query, filter, 1000);
+
 			} else {
-				hits = indexSearcher.search(query);
+				topScoringDocuments = indexSearcher.search(query, 1000);
 			}
 
-			for (int i = 0; i < hits.length(); i++) {
+			for (int i = 0; i < topScoringDocuments.scoreDocs.length; i++) {
 
-				Document document = hits.doc(i);
+				Document document = indexSearcher.doc(topScoringDocuments.scoreDocs[i].doc);
 				processDocument(answer, document);
 			}
 		}
@@ -258,6 +252,8 @@ public class SecureStudyFreeTextSearch {
 		addCellValue(StudyBrowseField.ORGANISM, row, document);
 		addCellValue(StudyBrowseField.FACTOR_NAME, row, document);
 		addCellValue(StudyBrowseField.ASSAY_INFO, row, document);
+        addCellValue(StudyBrowseField.CHARACTERISTICS, row, document);
+        addCellValue(StudyBrowseField.FACTORS, row, document);
 		return row;
 	}
 
@@ -270,12 +266,12 @@ public class SecureStudyFreeTextSearch {
 
 	private FullTextSession getSession() {
 		FullTextSession session;
-		Session deligate = (Session) entityManager.getDelegate();
+		Session delegate = (Session) entityManager.getDelegate();
 
-		if (deligate instanceof FullTextSession) {
-			session = (FullTextSession) deligate;
+		if (delegate instanceof FullTextSession) {
+			session = (FullTextSession) delegate;
 		} else {
-			session = Search.createFullTextSession(deligate);
+			session = Search.getFullTextSession(delegate);
 		}
 		return session;
 	}//////////////////////////

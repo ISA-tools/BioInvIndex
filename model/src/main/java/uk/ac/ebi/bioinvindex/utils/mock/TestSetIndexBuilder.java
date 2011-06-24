@@ -80,7 +80,7 @@ public class TestSetIndexBuilder {
 
 
 		StudyEJB3DAO dao = new StudyEJB3DAO(entityManager);
-		FullTextEntityManager fullTxtEm = Search.createFullTextEntityManager(entityManager);
+		FullTextEntityManager fullTxtEm = Search.getFullTextEntityManager(entityManager);
 
 		EntityTransaction tnx = entityManager.getTransaction();
 		tnx.begin();
@@ -88,53 +88,12 @@ public class TestSetIndexBuilder {
 		for (Study study : all) {
 			out.println("\t\tIndexing Study #" + study.getAcc());
 			fullTxtEm.index(study);
-//			fullTxtEm.index ( study.getDesigns() );
-
-//			for (User user : study.getUsers()) {
-//				fullTxtEm.index(user);
-//			}
-//			for (Assay assay : study.getAssays() )
-//			{
-//				fullTxtEm.index ( assay );
-//				fullTxtEm.index ( assay.getMeasurement () );
-//				fullTxtEm.index ( assay.getTechnology () );
-//				fullTxtEm.index ( assay.getPlatform () );
-//				for ( PropertyValue<?> pval: assay.getCascadedPropertyValues () )
-//					fullTxtEm.index ( pval );
-//			}
-
 		}
 		tnx.commit();
 	}
 
 
-//	public void indexAllStudies1() {
-//
-//		getSession().setFlushMode(FlushMode.MANUAL);
-//		getSession().setCacheMode(CacheMode.IGNORE);
-//		Transaction transaction = getSession().beginTransaction();
-//
-////Scrollable results will avoid loading too many objects in memory
-//		ScrollableResults results = getSession().createCriteria(Study.class)
-//				.setFetchSize(BATCH_SIZE)
-//				.scroll(ScrollMode.FORWARD_ONLY);
-//		int index = 0;
-//		while (results.next()) {
-//			index++;
-//			Object o = results.get(0);
-//			getSession().index(o); //index each element
-////			if (index % BATCH_SIZE == 0) {
-////				getSession().flushToIndexes(); //apply changes to indexes
-////				getSession().clear(); //clear since the queue is processed
-////			}
-//		}
-//		transaction.commit();
-//	}
-
-
-
 	public void indexAll() {
-//		this.indexAllInvestigations ();
 		this.indexAllStudies();
 	}
 
@@ -146,18 +105,6 @@ public class TestSetIndexBuilder {
 	public void setEntityManager(EntityManager entityManager) {
 		this.entityManager = entityManager;
 	}
-
-//	private FullTextSession getSession() {
-//		FullTextSession session;
-//		Session deligate = (Session) entityManager.getDelegate();
-//
-//		if (deligate instanceof FullTextSession) {
-//			session = (FullTextSession) deligate;
-//		} else {
-//			session = org.hibernate.search.Search.createFullTextSession(deligate);
-//		}
-//		return session;
-//	}
 
 	public static void main ( String args [] ) {
 		out.println ( "\n\n*** Getting the Entity Manager" );

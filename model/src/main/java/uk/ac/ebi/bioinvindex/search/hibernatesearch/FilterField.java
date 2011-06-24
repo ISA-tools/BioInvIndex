@@ -50,9 +50,11 @@ package uk.ac.ebi.bioinvindex.search.hibernatesearch;
 public enum FilterField {
 
 	ORGANISM(StudyBrowseField.ORGANISM.getName()),
-	ENDPOINT_NAME("assay_end_point_name"),
+	ACCESSION("acc"),
+    ENDPOINT_NAME("assay_end_point_name"),
 	TECHNOLOGY_NAME("assay_technology_name"),
 	PLATFORM("assay_platform"),
+
 
 	CLASS_NAME("_hibernate_class");
 

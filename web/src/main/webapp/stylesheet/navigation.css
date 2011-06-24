@@ -1,41 +1,187 @@
-#nav ul {
-    margin-top: 0;
-    margin-right: 0;
-    margin-bottom: 0;
-    margin-left: -15px;
-    list-style: none;
-    font: 1.0em "lucida grande", arial, sans-serif;
-}
-
-#nav li {
-    float: left;
-    clear: left;
-    background: #333;
-    -webkit-transition-property: background-color, padding-left;
-    -webkit-transition-duration: .5s, .3s;
-    -webkit-transition-timing-function: linear, ease-out;
-    -moz-transition-property: background-color, padding-left;
-    -moz-transition-duration: .5s, .3s;
-    -moz-transition-timing-function: linear, ease-out;
-    transition-property: background-color, padding-left;
-    transition-duration: .5s, .3s;
-    transition-timing-function: linear, ease-out;
-}
-
-#nav li:hover {
-    background: #8DC63F;
-    color: #333;
-    padding-left: 15px;
-}
-
-#nav a {
-    display: block;
-    padding: 3px 7px;
-    color: #fff;
-    text-decoration: none;
-}
-
 .searchText {
-    font: bold 1.1em "lucida grande", arial, sans-serif;
+    font-family: Verdana, sans-serif;
+    font-size: 10px;
+    font-weight: bolder;
     color: #333;
+}
+
+#menu .menu_trigger {
+    background-color: transparent;
+    background-image: url("../img/menu_css/menu-end.png");
+    background-repeat: no-repeat;
+    background-attachment: scroll;
+    background-position: 0pt 0pt;
+    background-clip: border-box;
+    background-origin: padding-box;
+    background-size: auto auto;
+    float: left;
+    height: 84px;
+    width: 22px;
+}
+
+#center {
+    display: block;
+    margin: 0 auto -4em;
+    min-height: 100%;
+    padding-top: 110px;
+    position: relative;
+    width: 980px;
+}
+
+#menu {
+    margin-left: 141px;
+    position: relative;
+}
+
+#menu .menu_inner {
+    position: relative;
+    background-color: transparent;
+    background-image: url("../img/menu_css/menu-bg.png");
+    background-repeat: no-repeat;
+    background-attachment: scroll;
+    background-position: 0pt 0pt;
+    background-clip: border-box;
+    background-origin: padding-box;
+    background-size: auto auto;
+    float: left;
+    height: 80px;
+    overflow-x: hidden;
+    overflow-y: hidden;
+    padding-top: 1px;
+    padding-right: 0pt;
+    padding-bottom: 3px;
+    padding-left: 0pt;
+}
+
+#logo {
+    background-color: transparent;
+    background-image: url("../img/menu_css/logo.png");
+    background-repeat: no-repeat;
+    background-attachment: scroll;
+    background-position: 0pt 0pt;
+    background-clip: border-box;
+    background-origin: padding-box;
+    background-size: auto auto;
+    height: 84px;
+    left: -2px;
+    position: absolute;
+    width: 150px;
+}
+
+harvard-logo {
+    background-color: transparent;
+    background-image: url("../img/scde_logo.png");
+    background-repeat: no-repeat;
+    background-attachment: scroll;
+    background-position: 0pt 0pt;
+    background-clip: border-box;
+    background-origin: padding-box;
+    background-size: auto auto;
+    height: 84px;
+    left: -2px;
+    position: absolute;
+    width: 150px;
+}
+
+gsc-logo {
+    background-color: transparent;
+    background-image: url("../img/gsc_logo.png");
+    background-repeat: no-repeat;
+    background-attachment: scroll;
+    background-position: 0pt 0pt;
+    background-clip: border-box;
+    background-origin: padding-box;
+    background-size: auto auto;
+    height: 84px;
+    left: -2px;
+    position: absolute;
+    width: 150px;
+}
+
+nerc-logo {
+    background-color: transparent;
+    background-image: url("../img/nerc_logo.png");
+    background-repeat: no-repeat;
+    background-attachment: scroll;
+    background-position: 0pt 0pt;
+    background-clip: border-box;
+    background-origin: padding-box;
+    background-size: auto auto;
+    height: 84px;
+    left: -2px;
+    position: absolute;
+    width: 150px;
+}
+
+#menu ul {
+    position: relative;
+    height: 80px;
+    overflow: hidden;
+    margin: 0 20px 0 0;
+    padding: 0 0 0 20px;
+}
+
+#menu li {
+    float: left;
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+#menu li a {
+    background-image: url("../img/menu_css/menuicons.gif");
+    color: #666666;
+    cursor: pointer;
+    display: block;
+    font-size: 11px;
+    height: 60px;
+    padding-top: 50px;
+    text-align: center;
+    text-decoration: none;
+    width: 60px;
+}
+
+#header {
+    height: 84px;
+    left: 0;
+    position: absolute;
+    top: 10px;
+    font-family: Verdana, sans-serif;
+}
+
+#menu li.browse a {
+    background-position: -60px 187px;
+}
+
+#menu li.submit a {
+    background-position: -60px 0px;
+}
+
+#menu li.credit a {
+    background-position: -60px 127px;
+}
+
+#menu li.contact a {
+    background-position: -60px 311px;
+}
+
+#menu li.browse a:hover, #menu li.browse a.active {
+    background-position: 0px 187px;
+}
+
+#menu li.submit a:hover, #menu li.submit a.active {
+    background-position: 0 0px;
+}
+
+#menu li.credit a:hover, #menu li.credit a.active {
+    background-position: 0 127px;
+}
+
+#menu li.contact a:hover, #menu li.contact a.active {
+    background-position: 0 311px;
+}
+
+#menu li a:hover, #menu li a.active {
+    color: rgb(140, 198, 63);
+    text-decoration: none;
 }

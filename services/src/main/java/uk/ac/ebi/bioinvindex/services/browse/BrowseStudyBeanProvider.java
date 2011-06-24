@@ -43,6 +43,7 @@ package uk.ac.ebi.bioinvindex.services.browse;
  * EU NuGO [NoE 503630](http://www.nugo.org/everyone) projects and in part by EMBL-EBI.
  */
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.jboss.seam.ScopeType;
@@ -52,7 +53,6 @@ import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.security.Identity;
 import uk.ac.ebi.bioinvindex.model.Study;
-import uk.ac.ebi.bioinvindex.search.StudyFreeTextSearch;
 import uk.ac.ebi.bioinvindex.search.hibernatesearch.*;
 import uk.ac.ebi.bioinvindex.services.utils.AlphanumComparator;
 
@@ -64,142 +64,234 @@ import java.util.*;
 @Name("studyBeanProvider")
 @AutoCreate
 @Scope(ScopeType.CONVERSATION)
-public class BrowseStudyBeanProvider /*implements IStudyBeanProvider<BrowseStudyBean>*/ {
+public class BrowseStudyBeanProvider {
+    private static final Log log = LogFactory.getLog(BrowseStudyBeanProvider.class);
 
-	@In
-	private StudyFreeTextSearch studySearch;
+    @In(create = true)
+    private SecureStudyFreeTextSearch secureStudySearch;
 
-	@In
-	private SecureStudyFreeTextSearch secureStudySearch;
+    @In
+    private Identity identity;
 
-	@In
-	private Identity identity;
+    private String searchPattern;
 
-	private String searchPattern;
+    private String assayType;
 
-	private String assayType;
+    private String endPoint;
 
-	private String endPoint;
+    private String platform;
 
-	private String platform;
+    private String organism;
 
-	private String organism;
+    private List<String> assayTypeNames;
 
-	private List<String> assayTypeNames;
+    public Collection<? extends BrowseStudyBean> getItems() {
 
-	public Collection<? extends BrowseStudyBean> getItems() {
+        List<Map<StudyBrowseField, String[]>> fieldValues =
+                secureStudySearch.getAllStudyBrowseFieldValuesForUser(buildBiiFilterQuery(), identity.getCredentials().getUsername());
 
-		List<Map<StudyBrowseField, String[]>> fieldValues =
-				secureStudySearch.getAllStudyBrowseFieldValuesForUser(buildBiiFilterQuery(), identity.getUsername());
+        //Convert a a field-values map returned by search into a collection of browse beans for view.
+        List<BrowseStudyBeanImpl> answer = new ArrayList<BrowseStudyBeanImpl>(fieldValues.size());
+        for (Map<StudyBrowseField, String[]> fieldValue : fieldValues) {
+            BrowseStudyBeanImpl bean = new BrowseStudyBeanImpl(fieldValue);
+            answer.add(bean);
+        }
 
-		//Convert a a field-values map returned by search into a collection of browse beans for view.
-		List<BrowseStudyBeanImpl> answer = new ArrayList<BrowseStudyBeanImpl>(fieldValues.size());
-		for (Map<StudyBrowseField, String[]> fieldValue : fieldValues) {
-			BrowseStudyBeanImpl bean = new BrowseStudyBeanImpl(fieldValue);
-			answer.add(bean);
-		}
-
-		Collections.sort(answer, new AlphanumComparator<BrowseStudyBeanImpl>());
-		return answer;
-	}
-
-	private BIIFilterQuery<Study> buildBiiFilterQuery() {
-		BIIFilterQuery<Study> query = new StudyBIIFilterQuery<Study>();
-
-		query.setSearchText(getSearchPattern());
-
-		if (getOrganism() != null && !getOrganism().equals("")) {
-			query.addFilterValue(FilterField.ORGANISM, getOrganism());
-		}
-
-		if (getAssayType() != null && !getAssayType().equals("")) {
-			query.addFilterValue(FilterField.TECHNOLOGY_NAME, getAssayType());
-		}
-
-		if (getEndPoint() != null && !getEndPoint().equals("")) {
-			query.addFilterValue(FilterField.ENDPOINT_NAME, getEndPoint());
-		}
-
-		if (getPlatform() != null && !getPlatform().equals("")) {
-			query.addFilterValue(FilterField.PLATFORM, getPlatform());
-		}
-
-		return query;
-	}
+        Collections.sort(answer, new AlphanumComparator<BrowseStudyBeanImpl>());
 
 
-	// Boiler plate code: getters and setters.
+        Iterator<BrowseStudyBeanImpl> iterator = answer.iterator();
 
-	public String getSearchPattern() {
-		if (searchPattern != null) {
-			return searchPattern.toLowerCase();
-		}
-		return searchPattern;
-	}
+        Set<String> addedAccessions = new HashSet<String>();
 
-	public void setSearchPattern(String searchPattern) {
-		this.searchPattern = searchPattern;
-	}
+        while (iterator.hasNext()) {
+            BrowseStudyBeanImpl bean = iterator.next();
 
-	public String getAssayType() {
-		return this.assayType;
-	}
+            if (addedAccessions.contains(bean.getAcc())) {
+                iterator.remove();
+            } else {
+                addedAccessions.add(bean.getAcc());
+            }
+        }
 
-	public void setAssayType(String assayType) {
-		this.assayType = assayType;
-	}
+        return answer;
+    }
 
-	public String getOrganism() {
-		return organism;
-	}
+    public BrowseStudyBean getStudy(String accession) {
 
-	public void setOrganism(String organism) {
-		this.organism = organism;
-	}
+        List<Map<StudyBrowseField, String[]>> fieldValues =
+                secureStudySearch.getAllStudyBrowseFieldValuesForUser(buildStudyInfoFilterQuery(accession), identity.getCredentials().getUsername());
 
-	public String getEndPoint() {
-		return endPoint;
-	}
+        List<BrowseStudyBeanImpl> answer = new ArrayList<BrowseStudyBeanImpl>(fieldValues.size());
 
-	public void setEndPoint(String endPoint) {
-		this.endPoint = endPoint;
-	}
+        for (Map<StudyBrowseField, String[]> fieldValue : fieldValues) {
+            BrowseStudyBeanImpl bean = new BrowseStudyBeanImpl(fieldValue);
+            answer.add(bean);
+        }
 
-	public String getPlatform() {
-		return platform;
-	}
 
-	public void setPlatform(String platform) {
-		this.platform = platform;
-	}
+        if (answer.size() > 0) {
+            log.info("Returning answer");
+            return answer.get(0);
+        }
 
-	//Support for multiple selection
+        log.info("Returning null");
 
-	public List<String> getAssayTypeNames() {
+        return null;
+    }
 
-		if (assayTypeNames != null) {
-			return assayTypeNames;
-		}
+    private BIIFilterQuery<Study> buildBiiFilterQuery() {
+        BIIFilterQuery<Study> query = new StudyBIIFilterQuery<Study>();
 
-		if (getAssayType() != null) {
-			assayTypeNames = new ArrayList<String>();
-			StringTokenizer tokenizer = new StringTokenizer(assayType, ",");
-			while (tokenizer.hasMoreTokens()) {
-				assayTypeNames.add(tokenizer.nextToken());
-			}
-		}
-		return assayTypeNames;
-	}
+        query.setSearchText(getSearchPattern());
 
-	public void setAssayTypeNames(List<String> assayTypeNames) {
-		this.assayTypeNames = assayTypeNames;
+        if (getOrganism() != null && !getOrganism().equals("")) {
+            query.addFilterValue(FilterField.ORGANISM, getOrganism());
+        }
 
-		StringBuilder sb = new StringBuilder();
-		for (String assayTypeName : assayTypeNames) {
+        if (getAssayType() != null && !getAssayType().equals("")) {
+            query.addFilterValue(FilterField.TECHNOLOGY_NAME, getAssayType());
+        }
 
-			sb.append(assayTypeName);
-			sb.append(",");
-		}
-		setAssayType(sb.toString());
-	}
+        if (getEndPoint() != null && !getEndPoint().equals("")) {
+            query.addFilterValue(FilterField.ENDPOINT_NAME, getEndPoint());
+        }
+
+        if (getPlatform() != null && !getPlatform().equals("")) {
+            query.addFilterValue(FilterField.PLATFORM, getPlatform());
+        }
+
+        return query;
+    }
+
+    private BIIFilterQuery<Study> buildStudyInfoFilterQuery(String studyAccession) {
+        BIIFilterQuery<Study> query = new StudyBIIFilterQuery<Study>();
+
+        query.addFilterValue(FilterField.ACCESSION, studyAccession);
+
+        return query;
+    }
+
+
+    // Boiler plate code: getters and setters.
+
+    public String getSearchPattern() {
+
+        return searchPattern;
+    }
+
+
+    public void setSearchPattern(String searchPattern) {
+        this.searchPattern = searchPattern;
+    }
+
+    public String getAssayType() {
+        return this.assayType;
+    }
+
+    public void setAssayType(String assayType) {
+        this.assayType = assayType;
+    }
+
+    public String getOrganism() {
+        return organism;
+    }
+
+    public void setOrganism(String organism) {
+        this.organism = organism;
+    }
+
+    public String getEndPoint() {
+        return endPoint;
+    }
+
+    public void setEndPoint(String endPoint) {
+        this.endPoint = endPoint;
+    }
+
+    public String getPlatform() {
+        return platform;
+    }
+
+    public void setPlatform(String platform) {
+        this.platform = platform;
+    }
+
+    public boolean hasFilterApplied() {
+
+        return !StringUtils.trimToEmpty(searchPattern).equals("") || !StringUtils.trimToEmpty(organism).equals("")
+                || !StringUtils.trimToEmpty(endPoint).equals("") || !StringUtils.trimToEmpty(assayType).equals("")
+                || !StringUtils.trimToEmpty(platform).equals("");
+
+    }
+
+    public String getFilterString() {
+        StringBuilder filterString = new StringBuilder();
+
+        String space = ", ";
+
+        if (!StringUtils.trimToEmpty(searchPattern).equals("")) {
+            filterString.append(searchPattern);
+        }
+
+        if (!StringUtils.trimToEmpty(organism).equals("")) {
+            if (!filterString.toString().equals("")) {
+                filterString.append(space);
+            }
+            filterString.append(organism);
+        }
+
+        if (!StringUtils.trimToEmpty(endPoint).equals("")) {
+            if (!filterString.toString().equals("")) {
+                filterString.append(space);
+            }
+            filterString.append(endPoint);
+        }
+
+        if (!StringUtils.trimToEmpty(assayType).equals("")) {
+            if (!filterString.toString().equals("")) {
+                filterString.append(space);
+            }
+            filterString.append(assayType);
+        }
+
+        if (!StringUtils.trimToEmpty(platform).equals("")) {
+            if (!filterString.toString().equals("")) {
+                filterString.append(space);
+            }
+            filterString.append(platform);
+        }
+
+        return "Results filtered on: " + filterString.toString();
+    }
+
+    //Support for multiple selection
+
+    public List<String> getAssayTypeNames() {
+
+        if (assayTypeNames != null) {
+            return assayTypeNames;
+        }
+
+        if (getAssayType() != null) {
+            assayTypeNames = new ArrayList<String>();
+            StringTokenizer tokenizer = new StringTokenizer(assayType, ",");
+            while (tokenizer.hasMoreTokens()) {
+                assayTypeNames.add(tokenizer.nextToken());
+            }
+        }
+        return assayTypeNames;
+    }
+
+    public void setAssayTypeNames(List<String> assayTypeNames) {
+        this.assayTypeNames = assayTypeNames;
+
+        StringBuilder sb = new StringBuilder();
+        for (String assayTypeName : assayTypeNames) {
+
+            sb.append(assayTypeName);
+            sb.append(",");
+        }
+        setAssayType(sb.toString());
+    }
 }

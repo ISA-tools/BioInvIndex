@@ -49,8 +49,10 @@ import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
+import uk.ac.ebi.bioinvindex.search.hibernatesearch.StudyBrowseField;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -59,70 +61,66 @@ import java.util.List;
 @Name("browseStudyBeanModel")
 @Scope(ScopeType.PAGE)
 public class BrowseStudyBeanModel implements BrowseBean<BrowseStudyBean> {
-	private static final Log log = LogFactory.getLog(BrowseStudyBeanModel.class);
-	@In
-	private BrowseStudyBeanProvider studyBeanProvider;
+    private static final Log log = LogFactory.getLog(BrowseStudyBeanModel.class);
+    @In
+    private BrowseStudyBeanProvider studyBeanProvider;
 
-	private int totalAssays = 0;
+    private int totalAssays = 0;
 
-	private List<BrowseStudyBean> studyBeans;
+    private List<BrowseStudyBean> studyBeans;
 
-	public int getRowCount() {
-		try {
-			return getItemList().size();
-		} catch (Exception e) {
-			return 0;
-		}
-	}
-
-	public List<BrowseStudyBean> getItemList() {
-		log.info("In getItemList()");
+    public int getRowCount() {
         try {
-//			if (studyBeans == null) {
-				log.info("Getting study items");
-                studyBeans = (List<BrowseStudyBean>) getStudyBeanProvider().getItems();
-//			}
-			return studyBeans;
-		} catch (Exception e) {
+            return getItemList().size();
+        } catch (Exception e) {
+            return 0;
+        }
+    }
+
+    public List<BrowseStudyBean> getItemList() {
+        try {
+            studyBeans = (List<BrowseStudyBean>) getStudyBeanProvider().getItems();
+            return studyBeans;
+        } catch (Exception e) {
+            e.printStackTrace();
             log.error("Exception thrown...oh no! -> " + e.getMessage());
             return new ArrayList<BrowseStudyBean>();
-		}
-	}
+        }
+    }
+
+    public int getTotalAssays() {
+        log.info("Getting total assays");
+        try {
+            if (totalAssays == 0) {
+                for (BrowseStudyBean bsb : getItemList()) {
+                    log.info("Processing " + bsb.getAssayBeans().size() + " assays...");
+                    for (AssayInfoBean aib : bsb.getAssayBeans()) {
+                        int assayCount;
+                        try {
+                            assayCount = Integer.valueOf(aib.getCount());
+                        } catch (NumberFormatException nfe) {
+                            log.error("Invalid numeric value for Assay count found.");
+                            assayCount = 0;
+                        }
+
+                        log.info("Adding " + assayCount + " assays for " + aib.getEndPoint() + " using " + aib.getTechnology());
+                        totalAssays += assayCount;
+                    }
+                }
+            }
+            return totalAssays;
+        } catch (Exception e) {
+            return 0;
+        }
+    }
+
+    public BrowseStudyBeanProvider getStudyBeanProvider() {
+        return studyBeanProvider;
+    }
 
 
-	public int getTotalAssays() {
-		log.info("Getting total assays");
-		try {
-			if (totalAssays == 0) {
-				for (BrowseStudyBean bsb : getItemList()) {
-					log.info("Processing " + bsb.getAssayBeans().size() + " assays...");
-					for (AssayInfoBean aib : bsb.getAssayBeans()) {
-						int assayCount;
-						try {
-							assayCount = Integer.valueOf(aib.getCount());
-						} catch (NumberFormatException nfe) {
-							log.error("Invalid numeric value for Assay count found.");
-							assayCount = 0;
-						}
-
-						log.info("Adding " + assayCount + " assays for " + aib.getEndPoint() + " using " + aib.getTechnology());
-						totalAssays += assayCount;
-					}
-				}
-			}
-			return totalAssays;
-		} catch (Exception e) {
-			return 0;
-		}
-	}
-
-	public BrowseStudyBeanProvider getStudyBeanProvider() {
-		return studyBeanProvider;
-	}
-
-
-	public void setStudyBeanProvider(BrowseStudyBeanProvider studyBeanProvider) {
-		this.studyBeanProvider = studyBeanProvider;
-	}
+    public void setStudyBeanProvider(BrowseStudyBeanProvider studyBeanProvider) {
+        this.studyBeanProvider = studyBeanProvider;
+    }
 
 }
