@@ -30,16 +30,9 @@ public class StudyIndexLocatorImpl implements StudyIndexLocator {
 
 
     public BrowseStudyBean getStudyBean() {
-        log.info("In getItemList()");
+
         try {
-
-            log.info("Getting study items for " + accession);
             if (study == null) {
-
-                if(studyBeanProvider == null) {
-                    log.info("StudyBeanProvider is null");
-                }
-
 
                 study = getStudyBeanProvider().getStudy(accession);
 
