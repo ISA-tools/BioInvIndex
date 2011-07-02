@@ -51,7 +51,7 @@ import org.hibernate.search.bridge.LuceneOptions;
 import uk.ac.ebi.bioinvindex.model.Protocol;
 import uk.ac.ebi.bioinvindex.model.term.Parameter;
 import uk.ac.ebi.bioinvindex.model.term.ProtocolType;
-import uk.ac.ebi.bioinvindex.search.hibernatesearch.bridge.AssayInfoDelimiters;
+import uk.ac.ebi.bioinvindex.search.hibernatesearch.StudyBrowseField;
 
 import java.util.Collection;
 
@@ -59,7 +59,7 @@ import java.util.Collection;
  * @author Nataliya Sklyar (nsklyar@ebi.ac.uk)
  *         Date: Feb 22, 2008
  */
-public class ProtocolBridge implements FieldBridge, AssayInfoDelimiters {
+public class ProtocolBridge extends IndexFieldDelimiters implements FieldBridge {
 
 
     public void set(String s, Object o, Document document, LuceneOptions luceneOptions) {
@@ -71,37 +71,26 @@ public class ProtocolBridge implements FieldBridge, AssayInfoDelimiters {
 
             if (protocol != null) {
 
-                if (protocol.getAcc() != null && protocol.getName() != null) {
+                StringBuilder protocolParameters = new StringBuilder();
 
-                    Field field = new Field(s + "acc", protocol.getAcc(), luceneOptions.getStore(), luceneOptions.getIndex());
-                    document.add(field);
-
-                    field = new Field(s + "name", protocol.getName(), luceneOptions.getStore(), luceneOptions.getIndex());
-                    document.add(field);
-
-
-                    if (protocol.getDescription() != null) {
-                        field = new Field(s + "description", protocol.getDescription(), luceneOptions.getStore(), luceneOptions.getIndex());
-                        document.add(field);
-                    }
-
-                    ProtocolType type = protocol.getType();
-                    if (type != null) {
-
-                        field = new Field(s + "type_acc", type.getAcc(), luceneOptions.getStore(), luceneOptions.getIndex());
-                        document.add(field);
-
-                        field = new Field(s + "type_name", type.getName(), luceneOptions.getStore(), luceneOptions.getIndex());
-                        document.add(field);
-                    }
-
-                    for (Parameter parameter : protocol.getParameters()) {
-                        if (parameter != null) {
-                            field = new Field(s + "parameter_name", parameter.getValue(), luceneOptions.getStore(), luceneOptions.getIndex());
-                            document.add(field);
+                int count = 0;
+                for (Parameter parameter : protocol.getParameters()) {
+                    if (parameter != null) {
+                        protocolParameters.append(parameter.getValue());
+                        if (count != protocol.getParameters().size() - 1) {
+                            protocolParameters.append(":?");
                         }
+
+                        count++;
                     }
                 }
+
+                String representation = buildRepresentationForIndex("acc:" + protocol.getAcc(), "name:" + protocol.getName(),
+                        "description:" + protocol.getDescription(), "parameters:" + protocolParameters);
+
+                Field fvField = new Field(StudyBrowseField.PROTOCOL.getName(), representation, luceneOptions.getStore(), luceneOptions.getIndex());
+                document.add(fvField);
+
             }
 
         }

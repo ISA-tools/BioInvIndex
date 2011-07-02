@@ -56,7 +56,9 @@ import uk.ac.ebi.bioinvindex.model.security.User;
 import uk.ac.ebi.bioinvindex.model.term.Design;
 import uk.ac.ebi.bioinvindex.model.xref.Xref;
 import uk.ac.ebi.bioinvindex.search.hibernatesearch.bridge.AssayBridge;
+import uk.ac.ebi.bioinvindex.search.hibernatesearch.bridge.ContactBridge;
 import uk.ac.ebi.bioinvindex.search.hibernatesearch.bridge.ProtocolBridge;
+import uk.ac.ebi.bioinvindex.search.hibernatesearch.bridge.PublicationBridge;
 
 import javax.persistence.*;
 
@@ -82,7 +84,6 @@ public class Study extends HasReferences {
 			= "title", index = Index.TOKENIZED, store = Store.YES)
 	private String title;
 
-	@Field(index = Index.TOKENIZED, store = Store.YES)
 	private String description;
 
 	@Field(index = Index.TOKENIZED, store = Store.YES)
@@ -91,32 +92,34 @@ public class Study extends HasReferences {
 	@IndexedEmbedded(prefix = "design_")
 	private List<Design> designs = new ArrayList<Design>();
 
+    @Field(name = "submissionDate", index = Index.TOKENIZED, store = Store.YES)
 	private Date submissionDate;
 
+    @Field(name = "releaseDate", index = Index.TOKENIZED, store = Store.YES)
 	private Date releaseDate;
 
-	@IndexedEmbedded(prefix = "contact_")
+    @Field(index = Index.UN_TOKENIZED, store = Store.YES)
+    @FieldBridge(impl = ContactBridge.class)
 	private Collection<Contact> contacts = new HashSet<Contact>();
 
 	@IndexedEmbedded(prefix = "investigation_")
 	private Collection<Investigation> investigations = new HashSet<Investigation>();
 
-	@IndexedEmbedded(prefix = "publication_")
+    @Field(index = Index.UN_TOKENIZED, store = Store.YES)
+    @FieldBridge(impl = PublicationBridge.class)
 	private Collection<Publication> publications = new HashSet<Publication>();
 
-	@IndexedEmbedded(prefix = "assay_")
 	@Field(index = Index.UN_TOKENIZED, store = Store.YES)
 	@FieldBridge(impl = AssayBridge.class)
 	private Collection<Assay> assays = new HashSet<Assay>();
 
-	@Field(name = "protocol_", index = Index.TOKENIZED, store = Store.NO)
+	@Field(name = "protocol_", index = Index.TOKENIZED, store = Store.YES)
 	@FieldBridge(impl = ProtocolBridge.class)
 	private Collection<Protocol> protocols = new ArrayList<Protocol>();
 
 	@IndexedEmbedded(prefix = "assay_result_")
 	private Collection<AssayResult> assayResults = new HashSet<AssayResult>();
 
-	@IndexedEmbedded(prefix = "user_")
 	private Collection<User> users = new HashSet<User>();
 
 	private Collection<MIProject> miProjects = new HashSet<MIProject>();

@@ -137,21 +137,4 @@ public class PropertyValuesBridge implements FieldBridge {
         return representation.toString();
     }
 
-
-    private boolean isNumber(String value) {
-        Pattern integerPattern = Pattern.compile("^-?\\d*\\.?\\d*$");
-        Matcher matchesInteger = integerPattern.matcher(value);
-        return matchesInteger.matches();
-    }
-
-    private void indexOntologyTerm(Collection<OntologyTerm> terms, String fieldName,
-                                   Document document, Field.Store store, Field.Index index) {
-
-        for (OntologyTerm term : terms) {
-            Field fieldN = new Field(fieldName, term.getName(), store, index);
-            document.add(fieldN);
-            Field fieldAcc = new Field(fieldName, term.getAcc(), store, index);
-            document.add(fieldAcc);
-        }
-    }
 }

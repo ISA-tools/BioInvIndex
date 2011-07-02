@@ -47,46 +47,29 @@ import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
 import org.hibernate.search.bridge.FieldBridge;
 import org.hibernate.search.bridge.LuceneOptions;
-
-import uk.ac.ebi.bioinvindex.model.term.OntologyTerm;
-import uk.ac.ebi.bioinvindex.model.term.Property;
-import uk.ac.ebi.bioinvindex.model.term.PropertyValue;
+import uk.ac.ebi.bioinvindex.model.Publication;
 import uk.ac.ebi.bioinvindex.search.hibernatesearch.StudyBrowseField;
 
 import java.util.Collection;
 
-/**
- * @author Nataliya Sklyar (nsklyar@ebi.ac.uk)
- * Date: Feb 20, 2008
- */
-public class OrganismValuesBridge implements FieldBridge {
+public class PublicationBridge extends IndexFieldDelimiters implements FieldBridge {
 
-	public void set(String s, Object value, Document document, LuceneOptions luceneOptions) {
+    public void set(String s, Object o, Document document, LuceneOptions luceneOptions) {
+        System.out.println("____BUILDING PUBLICATIONS FOR INDEX...._____");
 
-		Collection<PropertyValue> values = (Collection<PropertyValue>) value;
+        Collection<Publication> publications = (Collection<Publication>) o;
 
-		for (PropertyValue propertyValue : values) {
-			Property type = propertyValue.getType();
-			Collection<OntologyTerm> terms = propertyValue.getOntologyTerms();
+        System.out.println("There are " + publications.size() + " publications available...");
 
-			if (type.getValue().equalsIgnoreCase("organism")) {
-				Field fvField = new Field(StudyBrowseField.ORGANISM.getName(), propertyValue.getValue(), luceneOptions.getStore(), luceneOptions.getIndex());
-				document.add(fvField);
+        for(Publication publication : publications) {
 
-				indexOntologyTerm(terms, StudyBrowseField.ORGANISM.getName() + "_ontology", document, luceneOptions.getStore(), luceneOptions.getIndex());
-			}
-		}
+            String representation = buildRepresentationForIndex("title:" + publication.getTitle(), "authors:" + publication.getAuthorList(),
+                    "pubmed:" + publication.getPmid(), "doi:" + publication.getDoi());
 
-	}
+            System.out.println("Publication representation is " + representation);
 
-		private void indexOntologyTerm(Collection<OntologyTerm> terms, String fieldName,
-																 Document document, Field.Store store, Field.Index index) {
-
-		for (OntologyTerm term : terms) {
-			Field fieldN = new Field(fieldName, term.getName(), store, index);
-			document.add(fieldN);
-			Field fieldAcc = new Field(fieldName, term.getAcc(), store, index);
-			document.add(fieldAcc);
-		}
-	}
+            Field fvField = new Field(StudyBrowseField.PUBLICATION.getName(), representation, luceneOptions.getStore(), luceneOptions.getIndex());
+            document.add(fvField);
+        }
+    }
 }

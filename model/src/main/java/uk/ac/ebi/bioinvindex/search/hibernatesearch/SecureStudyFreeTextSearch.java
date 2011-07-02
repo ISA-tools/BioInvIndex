@@ -250,7 +250,6 @@ public class SecureStudyFreeTextSearch {
 		addCellValue(StudyBrowseField.STUDY_ACC, row, document);
 		addCellValue(StudyBrowseField.TITLE, row, document);
 		addCellValue(StudyBrowseField.ORGANISM, row, document);
-		addCellValue(StudyBrowseField.FACTOR_NAME, row, document);
 		addCellValue(StudyBrowseField.ASSAY_INFO, row, document);
         addCellValue(StudyBrowseField.CHARACTERISTICS, row, document);
         addCellValue(StudyBrowseField.FACTORS, row, document);

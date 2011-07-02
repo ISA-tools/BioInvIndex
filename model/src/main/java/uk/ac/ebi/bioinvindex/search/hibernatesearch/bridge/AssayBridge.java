@@ -63,7 +63,7 @@ import java.util.Set;
  * @author Nataliya Sklyar (nsklyar@ebi.ac.uk)
  *         Date: Feb 22, 2008
  */
-public class AssayBridge implements FieldBridge, AssayInfoDelimiters {
+public class AssayBridge extends IndexFieldDelimiters implements FieldBridge {
 
     public void set(String s, Object o, Document document, LuceneOptions luceneOptions) {
         Map<String, AssayTypeInfo> assayTypeToInfo = new HashMap<String, AssayTypeInfo>();
