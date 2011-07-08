@@ -53,13 +53,12 @@ public enum StudyBrowseField {
 	TITLE("title"),
 	INVESTIGATION_ACC("investigation_acc"),
 	ORGANISM("organism"),
-	FACTOR_NAME("factor_name"),
-    CHARACTERISTICS("characteristics"),
-    FACTORS("factors"),
-	ASSAY_INFO("assay_info"),
+    ASSAY_INFO("assay_info"),
     CONTACT("contact"),
     PUBLICATION("publication"),
-    PROTOCOL("protocol");
+    PROTOCOL("protocol"),
+    CHARACTERISTICS("characteristics"),
+    FACTORS("factors");
 
 	private String name;
 

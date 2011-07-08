@@ -46,7 +46,6 @@ package uk.ac.ebi.bioinvindex.search.hibernatesearch;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.KeywordAnalyzer;
 import org.apache.lucene.analysis.PerFieldAnalyzerWrapper;
-import org.apache.lucene.analysis.TokenStream;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.index.Term;
 import org.apache.lucene.misc.ChainedFilter;
@@ -62,95 +61,90 @@ import org.hibernate.annotations.common.AssertionFailure;
 
 import uk.ac.ebi.bioinvindex.model.Identifiable;
 
-import java.io.Reader;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * @author Nataliya Sklyar (nsklyar@ebi.ac.uk)
- * Date: Feb 28, 2008
- */
 public class BIIQueryBuilder<T extends Identifiable> {
 
 
-	private Analyzer analyzer = new StandardAnalyzer(Version.LUCENE_29);
+    private Analyzer analyzer = new StandardAnalyzer(Version.LUCENE_29);
 
-	public Query buildQuery(String searchPattern) throws ParseException {
+    public Query buildQuery(String searchPattern) throws ParseException {
 
-		String[] productFields =
-				{"title",
-						"description",
-						"design_value",
-						"objective",
-						"acc",
+        String[] productFields =
+                {"title",
+                        "description",
+                        "design_value",
+                        "objective",
+                        "acc",
                         "organism",
-						"assay_info",
+                        "assay_info",
                         "assay_token_end_point_name",
-						"assay_token_technology_name",
-						"assay_token_platform",
-						"characteristics",
-						"factors",
+                        "assay_token_technology_name",
+                        "assay_token_platform",
+                        "characteristics",
+                        "factors",
                         "factor_value",
-						"contact",
-						"protocol",
-						"publication",
-						"investigation_acc",
-						"investigation_description",
-						"investigation_title"
+                        "contact",
+                        "protocol",
+                        "publication",
+                        "investigation_acc",
+                        "investigation_description",
+                        "investigation_title"
 
-				};
+                };
 
-		PerFieldAnalyzerWrapper aWrapper =
-				new PerFieldAnalyzerWrapper(analyzer);
-		aWrapper.addAnalyzer("acc", new KeywordAnalyzer());
-		aWrapper.addAnalyzer("investigation_acc", new KeywordAnalyzer());
-		aWrapper.addAnalyzer("protocol", new KeywordAnalyzer());
+        PerFieldAnalyzerWrapper aWrapper =
+                new PerFieldAnalyzerWrapper(analyzer);
+        aWrapper.addAnalyzer("acc", new KeywordAnalyzer());
+        aWrapper.addAnalyzer("investigation_acc", new KeywordAnalyzer());
+        aWrapper.addAnalyzer("protocol", new KeywordAnalyzer());
 
-		QueryParser parser = new MultiFieldQueryParser(Version.LUCENE_29, productFields, aWrapper);
-		parser.setAllowLeadingWildcard(true);
-		parser.setLowercaseExpandedTerms(false);
+        QueryParser parser = new MultiFieldQueryParser(Version.LUCENE_29, productFields, aWrapper);
+        parser.setAllowLeadingWildcard(true);
+        parser.setLowercaseExpandedTerms(false);
 
-		org.apache.lucene.search.Query luceneQuery = parser.parse(searchPattern);
+        org.apache.lucene.search.Query luceneQuery = parser.parse(searchPattern);
 
-		System.out.println("luceneQuery = " + luceneQuery);
-		return luceneQuery;
-	}
+        System.out.println("luceneQuery = " + luceneQuery);
+        return luceneQuery;
+    }
 
-	public Filter buildFilter(BIIFilterQuery<T> filterQuery) {
+    public Filter buildFilter(BIIFilterQuery<T> filterQuery) {
 
-		if (filterQuery.getFilters().size() == 0) {
-			throw new AssertionFailure("Chainedfilter has no filters to chain for");
-		}
+        if (filterQuery.getFilters().size() == 0) {
+            throw new AssertionFailure("Chainedfilter has no filters to chain for");
+        }
 
-		List<Filter> filters = new ArrayList<Filter>();
+        List<Filter> filters = new ArrayList<Filter>();
 
-		ChainedFilter chainedFilter = null;
-		for (FilterField field : filterQuery.getFilters().keySet()) {
-			List<String> values = filterQuery.getFilterValues(field);
-			if (values == null) continue;
-
-
-			for (String value : values) {
+        ChainedFilter chainedFilter = null;
+        for (FilterField field : filterQuery.getFilters().keySet()) {
+            List<String> values = filterQuery.getFilterValues(field);
+            if (values == null) continue;
 
 
-				Term term = new Term(field.getName(), value);
-				TermsFilter filter = new TermsFilter();
-				filter.addTerm(term);
-				filters.add(filter);
+            for (String value : values) {
 
-			}
 
-		}
+                Term term = new Term(field.getName(), value);
+                TermsFilter filter = new TermsFilter();
+                filter.addTerm(term);
+                filters.add(filter);
 
-		chainedFilter = new ChainedFilter(filters.toArray(new Filter[]{}), ChainedFilter.AND);
+            }
 
-		CachingWrapperFilter resultFilter = new CachingWrapperFilter(chainedFilter);
+        }
 
-		return resultFilter;
-	}
+        chainedFilter = new ChainedFilter(filters.toArray(new Filter[]{}), ChainedFilter.AND);
 
-	public void setAnalyzer(Analyzer analyzer) {
-		this.analyzer = analyzer;
-	}
+        CachingWrapperFilter resultFilter = new CachingWrapperFilter(chainedFilter);
+
+        return resultFilter;
+    }
+
+    public void setAnalyzer(Analyzer analyzer) {
+        this.analyzer = analyzer;
+    }
 
 }

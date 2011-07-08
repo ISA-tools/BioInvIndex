@@ -211,7 +211,6 @@ public class SecureStudyFreeTextSearch {
 					indexSearcher.close();
 				} catch (IOException e) {
 					log.error("Cannot close index ", e);
-					throw new SearchException("Cannot close index " + e.getMessage(), e);
 				}
 			}
 		}
@@ -227,7 +226,7 @@ public class SecureStudyFreeTextSearch {
 
 	protected boolean isVisible(Document document) {
 
-		if (checkForVisability == false) {
+		if (!checkForVisability) {
 			return true;
 		}
 
@@ -253,6 +252,10 @@ public class SecureStudyFreeTextSearch {
 		addCellValue(StudyBrowseField.ASSAY_INFO, row, document);
         addCellValue(StudyBrowseField.CHARACTERISTICS, row, document);
         addCellValue(StudyBrowseField.FACTORS, row, document);
+        addCellValue(StudyBrowseField.PROTOCOL, row, document);
+        addCellValue(StudyBrowseField.PUBLICATION, row, document);
+        addCellValue(StudyBrowseField.CONTACT, row, document);
+
 		return row;
 	}
 
@@ -273,15 +276,13 @@ public class SecureStudyFreeTextSearch {
 			session = Search.getFullTextSession(delegate);
 		}
 		return session;
-	}//////////////////////////
+	}
 
-	// Dependencies injection
 	public EntityManager getEntityManager() {
 		if (entityManager == null) {
 			throw new IllegalStateException("EntityManager has not been set on StudyFreeTextSearchImpl before usage");
 		}
 		return entityManager;
-
 	}
 
 	public void setEntityManager(EntityManager entityManager) {
