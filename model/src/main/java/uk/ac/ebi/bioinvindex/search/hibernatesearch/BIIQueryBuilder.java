@@ -76,35 +76,24 @@ public class BIIQueryBuilder<T extends Identifiable> {
 	private Analyzer analyzer = new StandardAnalyzer(Version.LUCENE_29);
 
 	public Query buildQuery(String searchPattern) throws ParseException {
-        System.out.println("Search pattern: " + searchPattern);
+
 		String[] productFields =
 				{"title",
 						"description",
 						"design_value",
 						"objective",
 						"acc",
-
-						"assay_token_end_point_name",
+                        "organism",
+						"assay_info",
+                        "assay_token_end_point_name",
 						"assay_token_technology_name",
 						"assay_token_platform",
-
 						"characteristics",
 						"factors",
                         "factor_value",
-
-
-						"contact_firstname",
-						"contact_lastname",
-						"contact_affiliation",
-
-						"protocol_acc",
-						"protocol_description",
-						"protocol_name",
-						"protocol_parameter_name",
-
-						"publication_authorList",
-						"publication_title",
-
+						"contact",
+						"protocol",
+						"publication",
 						"investigation_acc",
 						"investigation_description",
 						"investigation_title"
@@ -115,15 +104,13 @@ public class BIIQueryBuilder<T extends Identifiable> {
 				new PerFieldAnalyzerWrapper(analyzer);
 		aWrapper.addAnalyzer("acc", new KeywordAnalyzer());
 		aWrapper.addAnalyzer("investigation_acc", new KeywordAnalyzer());
-		aWrapper.addAnalyzer("protocol_acc", new KeywordAnalyzer());
+		aWrapper.addAnalyzer("protocol", new KeywordAnalyzer());
 
 		QueryParser parser = new MultiFieldQueryParser(Version.LUCENE_29, productFields, aWrapper);
 		parser.setAllowLeadingWildcard(true);
 		parser.setLowercaseExpandedTerms(false);
 
-
 		org.apache.lucene.search.Query luceneQuery = parser.parse(searchPattern);
-
 
 		System.out.println("luceneQuery = " + luceneQuery);
 		return luceneQuery;
