@@ -86,7 +86,7 @@ public class BrowseStudyBeanImpl extends IndexFieldDelimiters implements BrowseS
     }
 
     public String getFactor() {
-        return getConcatValues(StudyBrowseField.FACTOR_NAME);
+        return getConcatValues(StudyBrowseField.FACTORS);
     }
 
     public boolean hasFactors() {
