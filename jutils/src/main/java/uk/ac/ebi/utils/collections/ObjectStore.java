@@ -46,7 +46,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 
 /**
@@ -63,7 +64,7 @@ public class ObjectStore<T, K, V>
 	private Map<T, Map<K, V>> types = new HashMap<T, Map<K, V>> ();
 	private int size = 0;
 
-	protected static final Logger log = Logger.getLogger ( ObjectStore.class );
+	protected final Logger log = LoggerFactory.getLogger ( this.getClass () );
 
 	/**
 	 * Stores an object, identified by a type and an identifier
