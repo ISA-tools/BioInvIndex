@@ -51,7 +51,9 @@ import java.util.Set;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 
 
 /**
@@ -79,7 +81,7 @@ public class SortedObjectStore<T, K, V> extends ObjectStore<T, K, V>
 		this.keyComparator = keyComparator;
 	}
 
-	protected static final Logger log = Logger.getLogger ( SortedObjectStore.class );
+	protected final Logger log = LoggerFactory.getLogger ( this.getClass () );
 
 	/**
 	 * Stores an object, identified by a type and an identifier
