@@ -7,14 +7,6 @@ import org.jboss.seam.annotations.*;
 import uk.ac.ebi.bioinvindex.services.browse.BrowseStudyBean;
 import uk.ac.ebi.bioinvindex.services.browse.BrowseStudyBeanProvider;
 
-/**
- * Created by the ISA team
- *
- * @author Eamonn Maguire (eamonnmag@gmail.com)
- *         <p/>
- *         Date: 09/06/2011
- *         Time: 18:40
- */
 
 @Name("viewStudyBeanModel")
 @AutoCreate

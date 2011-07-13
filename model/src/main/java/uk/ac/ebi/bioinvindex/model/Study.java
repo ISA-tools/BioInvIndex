@@ -186,7 +186,6 @@ public class Study extends HasReferences {
 	@OneToMany(targetEntity = Design.class)
 	@JoinColumn(name = "study_id", nullable = true)
 	public Collection<Design> getDesigns() {
-//		return Collections.unmodifiableCollection ( designs );
 		return designs;
 	}
 
@@ -413,14 +412,6 @@ public class Study extends HasReferences {
 		this.assayResults = assayResults;
 	}
 
-	
-//TODO: Remove
-//@ManyToMany(targetEntity = User.class, cascade = CascadeType.PERSIST )
-//@JoinTable(
-//		name = "Study2User",
-//		joinColumns = {@JoinColumn(name = "STUDY_ID")},
-//		inverseJoinColumns = @JoinColumn(name = "USER_ID")
-//)
 	@ManyToMany ( targetEntity = User.class, cascade = CascadeType.PERSIST )
 	@PrimaryKeyJoinColumns ( { 
 		@PrimaryKeyJoinColumn ( name = "STUDY_ID", referencedColumnName = "ID" ), 
