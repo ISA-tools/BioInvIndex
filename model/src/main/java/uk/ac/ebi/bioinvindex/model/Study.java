@@ -55,10 +55,7 @@ import uk.ac.ebi.bioinvindex.model.processing.Assay;
 import uk.ac.ebi.bioinvindex.model.security.User;
 import uk.ac.ebi.bioinvindex.model.term.Design;
 import uk.ac.ebi.bioinvindex.model.xref.Xref;
-import uk.ac.ebi.bioinvindex.search.hibernatesearch.bridge.AssayBridge;
-import uk.ac.ebi.bioinvindex.search.hibernatesearch.bridge.ContactBridge;
-import uk.ac.ebi.bioinvindex.search.hibernatesearch.bridge.ProtocolBridge;
-import uk.ac.ebi.bioinvindex.search.hibernatesearch.bridge.PublicationBridge;
+import uk.ac.ebi.bioinvindex.search.hibernatesearch.bridge.*;
 
 import javax.persistence.*;
 
@@ -120,6 +117,8 @@ public class Study extends HasReferences {
 	@IndexedEmbedded(prefix = "assay_result_")
 	private Collection<AssayResult> assayResults = new HashSet<AssayResult>();
 
+    @Field(index = Index.UN_TOKENIZED, store = Store.YES)
+    @FieldBridge(impl = UserBridge.class)
 	private Collection<User> users = new HashSet<User>();
 
 	private Collection<MIProject> miProjects = new HashSet<MIProject>();
