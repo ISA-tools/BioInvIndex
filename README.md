@@ -19,7 +19,8 @@
     cd BioInvIndex/
     mvn clean package -Pdeploy,<<your_database_profile>>,<<your_index_profile>> -Dmaven.test.skip=true
 
-The profiles.xml file contains example database connection profiles for H2, Oracle, MySQL and PostGreSQL. If you have no database yet, you can use H2 by running this command for instance
+The profiles.xml file contains example database connection profiles for H2, Oracle, MySQL and PostGreSQL. If you have no database yet, you can use H2 by running this command for instance:
+
     mvn clean package -Pdeploy,h2,index_local -Dmaven.test.skip=true
 
 
