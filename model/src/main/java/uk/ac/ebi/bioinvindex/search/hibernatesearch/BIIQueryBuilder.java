@@ -58,7 +58,6 @@ import org.apache.lucene.search.Query;
 import org.apache.lucene.search.TermsFilter;
 import org.apache.lucene.util.Version;
 import org.hibernate.annotations.common.AssertionFailure;
-
 import uk.ac.ebi.bioinvindex.model.Identifiable;
 
 import java.util.ArrayList;
@@ -90,7 +89,8 @@ public class BIIQueryBuilder<T extends Identifiable> {
                         "publication",
                         "investigation_acc",
                         "investigation_description",
-                        "investigation_title"
+                        "investigation_title",
+                        "user"
 
                 };
 

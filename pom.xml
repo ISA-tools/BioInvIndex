@@ -21,14 +21,14 @@
 
     <modelVersion>4.0.0</modelVersion>
     <groupId>uk.ac.ebi</groupId>
-    <version>1.4</version>
+    <version>1.4.1</version>
     <artifactId>bioinvindex</artifactId>
     <packaging>pom</packaging>
     <name>Bio-Investigation Index</name>
 
     <properties>
 
-        <bii.version>1.4</bii.version>
+        <bii.version>1.4.1</bii.version>
 
         <version.seam>2.2.1.Final</version.seam>
         <!-- MUST correspond w. seam version in parent tag -->
@@ -1676,6 +1676,17 @@
             <properties>
                 <hbm2ddl.drop>true</hbm2ddl.drop>
                 <hibernate.hbm2ddl.auto>create</hibernate.hbm2ddl.auto>
+            </properties>
+        </profile>
+
+        <profile>
+            <id>no_drop_db_test</id>
+            <activation>
+                <activeByDefault>false</activeByDefault>
+            </activation>
+            <properties>
+                <hbm2ddl.drop>false</hbm2ddl.drop>
+                <hibernate.hbm2ddl.auto>update</hibernate.hbm2ddl.auto>
             </properties>
         </profile>
 
