@@ -8,25 +8,35 @@
 - IRC: [irc://irc.freenode.net/#isatab](irc://irc.freenode.net/#isatab)
 - Development blog: <http://isatools.wordpress.com>
 
-## Development
+## Installation
+
+**Build dependencies:**
+    These are all managed by Maven <http://maven.apache.org/>. You'll just need to install it and then let maven handle everything else 
 
 **Get the source:**
 
-    You should ***fork*** the BioInvIndex project to your own GitHub "repository". Then clone this forked repository and start developing. When you make changes to the BioInvIndex code, we can see the changes you made, review the code and merge with the main BioInvIndex repository code base.
+    git clone https://github.com/ISA-tools/BioInvIndex.git
+    cd BioInvIndex/
+    mvn clean package -Pdeploy,<<your_database_profile>>,<<your_index_profile>> -Dmaven.test.skip=true
 
-**Build dependencies:**
-    These are all managed by Maven <http://maven.apache.org/>. 
+The profiles.xml file contains example database connection profiles for H2, Oracle, MySQL and PostGreSQL. If you have no database yet, you can use H2 by running this command for instance
+    mvn clean package -Pdeploy,h2,index_local -Dmaven.test.skip=true
 
 
 ### Refreshing your clone
 
-A simple `git pull` will suffice!
+A simple `git pull origin master` should suffice!
 
 ### Contributing
 
-The main BioInvIndex source tree is hosted on git (a popular [DVCS](http://en.wikipedia.org/wiki/Distributed_revision_control)), thus you should create a fork of the repository in which you perform development. See <http://help.github.com/forking/>.
-
-We prefer that you send a [*pull request* here on GitHub](http://help.github.com/pull-requests/) which will then be merged into the official main line repository. You need to sign the ISAtools CLA to be able to contribute (see below).
+1. Fork it.
+2. Create a branch (`git checkout -b mybii`)
+3. Make your changes
+4. Run the tests (`mvn clean test -Ptest,h2,index_local`)
+5. Commit your changes (`git commit -am "Added something useful"`)
+6. Push to the branch (`git push origin mybii`)
+7. Create a [Pull Request](http://help.github.com/pull-requests/) from your branch.
+8. Promote it. Get others to drop in and +1 it.
 
 #### Contributor License Agreement
 
