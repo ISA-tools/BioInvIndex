@@ -43,15 +43,35 @@ package uk.ac.ebi.bioinvindex.search.hibernatesearch.bridge;
  * EU NuGO [NoE 503630](http://www.nugo.org/everyone) projects and in part by EMBL-EBI.
  */
 
-/**
- * @author Nataliya Sklyar (nsklyar@ebi.ac.uk)
- * Date: Apr 18, 2008
- */
-public interface AssayInfoDelimiters {
-	
-	public static final String FIELDS_DELIM = "|";
+import org.apache.lucene.document.Document;
+import org.apache.lucene.document.Field;
+import org.hibernate.search.bridge.FieldBridge;
+import org.hibernate.search.bridge.LuceneOptions;
+import uk.ac.ebi.bioinvindex.model.Contact;
+import uk.ac.ebi.bioinvindex.search.hibernatesearch.StudyBrowseField;
 
-	public static final String ACC_DELIM = "+";
+import java.util.Collection;
 
-	public static final String ACC_URL_DELIM = "!";
+
+public class ContactBridge extends IndexFieldDelimiters implements FieldBridge {
+
+    public void set(String s, Object o, Document document, LuceneOptions luceneOptions) {
+        System.out.println("____BUILDING CONTACTS FOR INDEX...._____");
+
+        Collection<Contact> contacts = (Collection<Contact>) o;
+
+        System.out.println("There are " + contacts.size() + " contacts available...");
+
+        for(Contact contact : contacts) {
+
+
+            String representation = buildRepresentationForIndex("firstname:" + contact.getFirstName(), "lastname:" + contact.getLastName(),
+                    "affiliation:" + contact.getAffiliation(), "email:" + contact.getEmail());
+
+            System.out.println("Contact representation is " + representation);
+
+            Field fvField = new Field(StudyBrowseField.CONTACT.getName(), representation, luceneOptions.getStore(), luceneOptions.getIndex());
+            document.add(fvField);
+        }
+    }
 }

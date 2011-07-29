@@ -1,34 +1,31 @@
 package uk.ac.ebi.bioinvindex.search.hibernatesearch;
 
-import org.apache.lucene.search.*;
-import uk.ac.ebi.bioinvindex.search.hibernatesearch.StudyBrowseField;
-import uk.ac.ebi.bioinvindex.search.hibernatesearch.BIIFilterQuery;
-import uk.ac.ebi.bioinvindex.search.SearchException;
-import uk.ac.ebi.bioinvindex.model.Study;
-import uk.ac.ebi.bioinvindex.model.security.User;
-import uk.ac.ebi.bioinvindex.model.security.UserRole;
-import uk.ac.ebi.bioinvindex.dao.StudyDAO;
-import uk.ac.ebi.bioinvindex.dao.UserDAO;
-import uk.ac.ebi.bioinvindex.dao.ejb3.DaoFactory;
-
-import javax.persistence.EntityManager;
-import java.util.Map;
-import java.util.List;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.io.IOException;
-
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.queryParser.ParseException;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.hibernate.search.SearchFactory;
+import org.apache.lucene.search.*;
+import org.hibernate.Session;
 import org.hibernate.search.FullTextSession;
 import org.hibernate.search.Search;
+import org.hibernate.search.SearchFactory;
 import org.hibernate.search.reader.ReaderProvider;
 import org.hibernate.search.store.DirectoryProvider;
-import org.hibernate.Session;
+import uk.ac.ebi.bioinvindex.dao.StudyDAO;
+import uk.ac.ebi.bioinvindex.dao.UserDAO;
+import uk.ac.ebi.bioinvindex.dao.ejb3.DaoFactory;
+import uk.ac.ebi.bioinvindex.model.Study;
+import uk.ac.ebi.bioinvindex.model.security.User;
+import uk.ac.ebi.bioinvindex.model.security.UserRole;
+import uk.ac.ebi.bioinvindex.search.SearchException;
+
+import javax.persistence.EntityManager;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /*
  * __________
@@ -184,7 +181,7 @@ public class SecureStudyFreeTextSearch {
 			Query query = queryBuilder.buildQuery(filterQuery.getSearchText());
 
 			TopDocs topScoringDocuments;
-
+//
 			if (filterQuery.getFilters().size() > 0) {
 				Filter filter = queryBuilder.buildFilter(filterQuery);
 				topScoringDocuments = indexSearcher.search(query, filter, 1000);
@@ -211,7 +208,6 @@ public class SecureStudyFreeTextSearch {
 					indexSearcher.close();
 				} catch (IOException e) {
 					log.error("Cannot close index ", e);
-					throw new SearchException("Cannot close index " + e.getMessage(), e);
 				}
 			}
 		}
@@ -227,7 +223,7 @@ public class SecureStudyFreeTextSearch {
 
 	protected boolean isVisible(Document document) {
 
-		if (checkForVisability == false) {
+		if (!checkForVisability) {
 			return true;
 		}
 
@@ -250,10 +246,14 @@ public class SecureStudyFreeTextSearch {
 		addCellValue(StudyBrowseField.STUDY_ACC, row, document);
 		addCellValue(StudyBrowseField.TITLE, row, document);
 		addCellValue(StudyBrowseField.ORGANISM, row, document);
-		addCellValue(StudyBrowseField.FACTOR_NAME, row, document);
 		addCellValue(StudyBrowseField.ASSAY_INFO, row, document);
         addCellValue(StudyBrowseField.CHARACTERISTICS, row, document);
         addCellValue(StudyBrowseField.FACTORS, row, document);
+        addCellValue(StudyBrowseField.PROTOCOL, row, document);
+        addCellValue(StudyBrowseField.PUBLICATION, row, document);
+        addCellValue(StudyBrowseField.CONTACT, row, document);
+        addCellValue(StudyBrowseField.USER, row, document);
+
 		return row;
 	}
 
@@ -274,15 +274,13 @@ public class SecureStudyFreeTextSearch {
 			session = Search.getFullTextSession(delegate);
 		}
 		return session;
-	}//////////////////////////
+	}
 
-	// Dependencies injection
 	public EntityManager getEntityManager() {
 		if (entityManager == null) {
 			throw new IllegalStateException("EntityManager has not been set on StudyFreeTextSearchImpl before usage");
 		}
 		return entityManager;
-
 	}
 
 	public void setEntityManager(EntityManager entityManager) {

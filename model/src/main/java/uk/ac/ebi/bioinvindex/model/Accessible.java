@@ -44,11 +44,6 @@ package uk.ac.ebi.bioinvindex.model;
  * EU NuGO [NoE 503630](http://www.nugo.org/everyone) projects and in part by EMBL-EBI.
  */
 
-import org.hibernate.search.annotations.Field;
-import org.hibernate.search.annotations.Index;
-import org.hibernate.search.annotations.Indexed;
-import org.hibernate.search.annotations.Store;
-
 import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
 
@@ -104,16 +99,14 @@ public abstract class Accessible extends Annotatable {
 		// TODO: Probably all the variables should be private and accessed only via accessors.
 		// 
 		final String acc = getAcc ();
-		if ( acc != null ? !acc.equals( that.getAcc() ) : that.getAcc () != null ) return false;
+        return !(acc != null ? !acc.equals(that.getAcc()) : that.getAcc() != null);
 
-		return true;
-	}
+    }
 
 	@Override
 	public int hashCode() {
 		final String acc = getAcc();
-		int result = 31 * (acc != null ? acc.hashCode() : 0);
-		return result;
+        return 31 * (acc != null ? acc.hashCode() : 0);
 	}
 
 	@Override

@@ -76,9 +76,9 @@ public class AccessibleEJB3DAO<T extends Accessible>
 
 	public T getByAcc(String acc) {
 		Class<T> clazz = getPersistentClass();
-		return (T) getSession().createCriteria(clazz)
-					.add(Restrictions.eq("acc", acc))
-					.uniqueResult();
+		 return (T) getSession().createCriteria(clazz)
+                 .setFlushMode(org.hibernate.FlushMode.MANUAL)
+                 .add(Restrictions.eq("acc", acc)).uniqueResult();
 	}
 
     /**

@@ -51,6 +51,7 @@ import static org.junit.Assert.assertTrue;
 import java.sql.Timestamp;
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.List;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.collections.Predicate;
@@ -84,9 +85,9 @@ public class StudyPersistenceTest extends TransactionalDBUnitEJB3DAOTest
 		super();
 		persister = new StudyPersister ( DaoFactory.getInstance ( entityManager ), new Timestamp ( System.currentTimeMillis () ) );
 	}
-	
+
 	@Before
-	public void initPersister () 
+	public void initPersister ()
 	{
 		// Needs to be instantiated here, so that the internal cache for the ontology terms is cleared
 		// before every test.
@@ -156,9 +157,9 @@ public class StudyPersistenceTest extends TransactionalDBUnitEJB3DAOTest
 			  contact.addRole ( contactRole );
 				contactRole = new ContactRole ( "bii:fooContactRole1", "My Contact Role 1", roleSrc );
 			  contact.addRole ( contactRole );
-			
+
 			study.addContact ( contact );
-			
+
 			// TODO: publications, needs role persistence
 
 
@@ -240,7 +241,7 @@ public class StudyPersistenceTest extends TransactionalDBUnitEJB3DAOTest
 		Collection<Parameter> params2 = protocol2DB.getParameters ();
 		assertNotNull ( "Oh no! No param types from the persisted protocol!", params2 );
 		assertEquals ( "Oh no! The persisted protocol does not return correct no. of params !", 2, params2.size() );
-		
+
 		// Contact
 		Collection<Contact> contactsDB = studyDB.getContacts ();
 		assertEquals ( "Arg! Wrong no. of contacts persisted!", 1, contactsDB.size () );
@@ -260,7 +261,7 @@ public class StudyPersistenceTest extends TransactionalDBUnitEJB3DAOTest
 		assertNotNull ( "Arg! Wrong role #1 for the persisted contact", id1 != null || ( id == -7 || id1 == -7 ) );
 		roleSrcDB = roleDB.getSource ();
 		assertEquals ( "Arg! Wrong role source for the persisted contact", (long) 100, roleSrcDB.getId ().longValue()   );
-		
+
 		out.println ( "\n\nPersisted study: " + studyDB );
 
 		out.println ( "\n\n\n _______________  /end: StudyPersistanceTest, Testing new Study  ____________________________\n" );
@@ -272,6 +273,7 @@ public class StudyPersistenceTest extends TransactionalDBUnitEJB3DAOTest
 	public void testPersistBasicWithUsers() throws Exception {
 
 		Study study = new Study("My super-scientific experiment with users");
+        study.setAcc("ssewu-1");
 
 		UserDAO userDAO = DaoFactory.getInstance(entityManager).getUserDAO();
 		User user1 = userDAO.getByUsername("test_user");
@@ -282,183 +284,28 @@ public class StudyPersistenceTest extends TransactionalDBUnitEJB3DAOTest
 		Study studyDB = persister.persist(study);
 		assertNotNull(studyDB);
 
+        System.out.println("___CHECKING USER COUNT: " + studyDB.getUsers().size());
+
 		assertEquals(1, studyDB.getUsers().size());
 
 		StudyDAO studyDAO = DaoFactory.getInstance(entityManager).getStudyDAO();
-		Study testStudy = studyDAO.getByAcc(studyDB.getAcc());
+
+        List<String> accessions = studyDAO.getPublicStudyAccs();
+
+        for(String accession : accessions) {
+            System.out.println("\t ACCESSION FOR AVAILABLE STUDIES IS: " + accession);
+        }
+
+        Study testStudy = studyDAO.getByAcc(studyDB.getAcc());
 		assertNotNull(testStudy);
 
+
+        System.out.println("___CHECKING USER COUNT AGAIN ON TEST STUDY: " + studyDB.getUsers().size());
 		assertEquals(1, testStudy.getUsers().size());
 
 		transaction.commit();
 	}
 
-/*
- * This test cannot work with the new pipeline persistence, cause no pipeline is defined 
- * here. There are other tests checking assay persistence, together with their pipeline.
- * 
- * TODO: remove?
- * 
- */
-//	@Test
-//	public void testPersistAssays () throws Exception
-//	{
-//
-//		out.println ( "\n\n\n _______________  StudyPersistanceTest, Testing Assays  ____________________________\n" );
-//
-//		Study study = new Study ( "My new super-scientific experiment" );
-//		study.setAcc ( "foo:study:1929" );
-//
-//			Assay assay1 = new Assay ();
-//				
-//				ReferenceSource termSource = new ReferenceSource ( "" );
-//				termSource.setAcc ( "BII-1" );
-//				AssayTechnology tech1 = new AssayTechnology ( "foo:bmw:360E", "BMW 360E", termSource );
-//				assay1.setTechnology ( tech1 );
-//
-//				Measurement measurement1 = new Measurement ( "bii:Transcriptomics1", "", termSource );
-//				assay1.setMeasurement ( measurement1 );
-//
-//				// Add an annotation
-//					Annotation ann = new Annotation ( new AnnotationType ( "test ann type" ), "test ann" );
-//					assay1.addAnnotation ( ann );
-//					assay1.setStudy ( study );
-//					study.addAssay ( assay1 );
-//				
-//			Assay assay2 = new Assay ( study );
-//
-//				assay2.setTechnology ( tech1 );
-//
-//				Measurement measurement2 = new Measurement ( "biionto:my-new-tech", "My New Technology", termSource );
-//				assay2.setMeasurement ( measurement2 );
-//
-//				// TODO: USE THIS ASSAY!
-//				
-//			AssayResult ar = new AssayResult ( null, study );
-//			
-//			// Add a cascade property
-//			//
-//			Factor ftype = new Factor ( "A sample Factor", 0 );
-//	
-//					// new OE
-//					ReferenceSource source = new ReferenceSource ( "My fancy test ontology 2" );
-//					source.setAcc ( "bii:tests:MY-SRC-2" );
-//					OntologyTerm oe1 = new OntologyTerm ( "biionto:101", "test OE", source );
-//					ftype.addOntologyTerm ( oe1 );
-//	
-//					// Existing OE
-//					source = new ReferenceSource ( "TEST ONTOLOGY" );
-//					source.setAcc ( "BII-1" );
-//					OntologyTerm oe2 = new OntologyTerm ( "OBI-EO1", "organism", source );
-//					ftype.addOntologyTerm ( oe2 );
-//				
-//				FactorValue apval = new FactorValue ( ftype );
-//				apval.setValue ( "10" );
-//	
-//					termSource = new ReferenceSource ( "Foo Unit Ontology" );
-//					termSource.setAcc ( "fuo" );
-//	
-//					Unit unit = new Unit ( "My Fancy Length" );
-//				  OntologyTerm unitOE = new OntologyTerm ( "fuo:mm", "", termSource );
-//				  unit.addOntologyTerm ( unitOE );
-//	
-//				  UnitValue unitVal = new UnitValue ( "10", unit );
-//				  apval.setUnit ( unitVal );
-//
-//			ar.addCascadedPropertyValue ( apval );
-//
-//			
-//			// Add some data
-//			DataType dataType = new DataType ( 
-//				"bii:test:foo-data-type", "Foo Data Type",  
-//				new ReferenceSource ( "bii:test:data-types", "Foo Data Type Ontology" )
-//			);
-//			
-//			Data data = new Data ( "urn:foo:test-data-1", dataType );
-//			data.setAcc ( "foo:test-data-1" );
-//			data.setName (  "Foo Data File" );
-//			
-//			ar.setData ( data );
-//			ar.addAssay ( assay1 );
-//
-//
-//			
-//		// Let's go with the persistence
-//		//
-//		Study studyDB = persister.persist ( study );
-//		transaction.commit ();
-//
-//		long sid = studyDB.getId ();
-//		session.flush ();
-//		
-//		StudyDAO sdao = DaoFactory.getInstance ( entityManager ).getStudyDAO ();
-//		Study studyDBNew = sdao.getById ( sid );
-//
-//		assertNotNull ( "Oh! No study returned by the persister!", studyDB );
-//		assertEquals ( "Ouch! The study rerturned by the persister should be the original one!", study, studyDB );
-//		assertNotNull ( "Argh! Cannot find the persisted study in the DB!", studyDBNew );
-//		assertNotNull ( "Urp! The study should have an ID", studyDBNew.getId () );
-//
-//		Collection<Assay> assays = studyDBNew.getAssays ();
-//		assertNotNull ( "Argh! No assays returned for the persisted study!", assays );
-//		assertEquals ( "Ouch! Wrong no. of assays returned by the study", 2, assays.size () );
-//		
-//		Query q = entityManager.createQuery ( "SELECT d FROM " + Data.class.getName () + " d WHERE d.acc = 'foo:test-data-1'" );
-//		List<?> res = q.getResultList ();
-//		assertEquals ( "Oh no! Wrong no of persisted data returned", 1, res.size () );
-//		Data dataDB = (Data) res.get ( 0 );
-//		assertEquals ( "Oh no! Wrong URL for persisted data", "urn:foo:test-data-1", dataDB.getUrl () );
-//		assertEquals ( "Oh No! Wrong data type ID for persisted object", new Long ( -8 ), dataDB.getType ().getId () );
-//		assertEquals ( "Oh No! Wrong data type source ID for persisted object", new Long ( -100 ), dataDB.getType ().getSource ().getId () );
-//		
-////out.println ( ">>>>>>>" );		
-////boolean haveAnn = false;
-////for ( Assay assay: assays ) {
-////	if ( assay.getAnnotations ().size () > 0 ) { 
-////		haveAnn = true; 
-////		for ( Annotation annotation: assay.getAnnotations () ) { out.println ( "******" + annotation ); }
-////		break; }
-////}
-////assertTrue ( "No annot found", haveAnn );
-//		
-//		PropertyValue<?> apvalDB = ar.getCascadedPropertyValues ().iterator ().next ();
-//		assertNotNull ( "Ouch! The property " + apval + " should have an ID", apvalDB.getId () );
-//
-//		UnitValue unitValDB = apvalDB.getUnit ();
-//		assertNotNull ( "Ouch! The Unit " + unitVal + " should have an ID", unitValDB.getId () );
-//
-//		OntologyTerm unitOEDB = unitValDB.getType ().getOntologyTerms ().iterator ().next ();
-//		assertNotNull ( "Ouch! The term " + unitOE + " should have an ID", unitOEDB.getId () );
-//
-//		assertNotNull ( "Arg! Annotation not saved", ann.getId () );
-//
-//		out.println ( "\n\nPersisted study: " + studyDB );
-//		
-//		out.println ( "\n\n ______ Now unloading ______ " );
-//		
-//		UnloadManager unloadMgr = new UnloadManager ( daoFactory, persister.getSubmissionTs () );
-//		unloadMgr.getUnloader ( Study.class ).queueAllByTs ();
-//		
-//		transaction.begin ();
-//		unloadMgr.delete ();
-//		transaction.commit ();
-//		session.flush ();
-//		
-//		Query qd = entityManager.createQuery ( "SELECT e FROM " + Identifiable.class.getName () + " e WHERE e.submissionTs = :ts" );
-//		qd.setParameter ( "ts", persister.getSubmissionTs () );
-//		boolean isAllUnloaded = true;
-//		for ( Object o: q.getResultList () ) {
-//			out.println ( "**** Oh No! I have found an entity which should be unloaded! " + o );
-//			isAllUnloaded = false;
-//		}
-//		assertTrue ( "Sigh! I still have some objects that were not unloaded", isAllUnloaded );
-//		
-//		
-//		out.println ( "\n\n\n _______________  /end: StudyPersistanceTest, Testing Assays  ____________________________\n" );
-//
-//	}
-
-	
 	@Test
 	public void testPersistStudyAndInvestigation () throws Exception
 	{
@@ -533,5 +380,5 @@ public class StudyPersistenceTest extends TransactionalDBUnitEJB3DAOTest
 
 	}
 
-	
+
 }

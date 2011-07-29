@@ -95,10 +95,6 @@ public abstract class BIIFilterQuery<T extends Identifiable> {
 	}
 
 	private void initStudyFilter() {
-//			Type type1 = getClass()
-//					.getGenericSuperclass();
-//			Type type = ((ParameterizedType) type1).getActualTypeArguments()[0];
-//			Class<T> clazz = (Class<T>) type;
 
 		addFilterValue(FilterField.CLASS_NAME, getDocumentClass().getName());
 	}

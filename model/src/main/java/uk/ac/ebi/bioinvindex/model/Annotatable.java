@@ -182,10 +182,9 @@ public abstract class Annotatable extends Identifiable
 
 		Annotation[] annotationsArr= annotations.toArray(new Annotation[annotations.size()]);
 		Annotation[] thatArr = that.annotations.toArray(new Annotation[that.annotations.size()]);
-		if(!Arrays.deepEquals(annotationsArr, thatArr)) return false;
+        return Arrays.deepEquals(annotationsArr, thatArr);
 
-		return true;
-	}
+    }
 
 	public int hashCode() {
 		Annotation[] annotationsArr= annotations.toArray(new Annotation[annotations.size()]);

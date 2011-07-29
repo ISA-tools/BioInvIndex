@@ -7,14 +7,6 @@ import org.jboss.seam.annotations.*;
 import uk.ac.ebi.bioinvindex.services.browse.BrowseStudyBean;
 import uk.ac.ebi.bioinvindex.services.browse.BrowseStudyBeanProvider;
 
-/**
- * Created by the ISA team
- *
- * @author Eamonn Maguire (eamonnmag@gmail.com)
- *         <p/>
- *         Date: 09/06/2011
- *         Time: 18:40
- */
 
 @Name("viewStudyBeanModel")
 @AutoCreate
@@ -30,16 +22,9 @@ public class StudyIndexLocatorImpl implements StudyIndexLocator {
 
 
     public BrowseStudyBean getStudyBean() {
-        log.info("In getItemList()");
+
         try {
-
-            log.info("Getting study items for " + accession);
             if (study == null) {
-
-                if(studyBeanProvider == null) {
-                    log.info("StudyBeanProvider is null");
-                }
-
 
                 study = getStudyBeanProvider().getStudy(accession);
 

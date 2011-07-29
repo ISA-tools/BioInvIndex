@@ -310,15 +310,15 @@ iconbox2contents a:link, .iconbox2contents a:visited, .iconbox2contents_gr a:lin
 }
 
 .rich-datascr-act {
-    background-color: #FFF;
+    background-color: rgb(240,240,240);
     color: rgb(140,198,63);
     font-weight: bold;
     border: none;
 }
 
 .rich-datascr-inact {
-    background-color: #FFF;
-    color: rgb(240,240,240);
+    background-color: rgb(240,240,240);
+    color: rgb(140,140,140);
     border: none;
 }
 

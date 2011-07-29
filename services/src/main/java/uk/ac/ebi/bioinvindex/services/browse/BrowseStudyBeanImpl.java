@@ -47,9 +47,8 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import uk.ac.ebi.bioinvindex.model.xref.ResourceType;
 import uk.ac.ebi.bioinvindex.search.hibernatesearch.StudyBrowseField;
-import uk.ac.ebi.bioinvindex.search.hibernatesearch.bridge.AssayInfoDelimiters;
+import uk.ac.ebi.bioinvindex.search.hibernatesearch.bridge.IndexFieldDelimiters;
 import uk.ac.ebi.bioinvindex.services.AssayGroupInfo;
-import uk.ac.ebi.bioinvindex.services.DBLink;
 import uk.ac.ebi.bioinvindex.services.DataLink;
 
 import java.util.*;
@@ -58,7 +57,7 @@ import java.util.*;
  * User: Nataliya Sklyar (nsklyar@ebi.ac.uk)
  * Date: Feb 26, 2008
  */
-public class BrowseStudyBeanImpl implements BrowseStudyBean, AssayInfoDelimiters, Comparable {
+public class BrowseStudyBeanImpl extends IndexFieldDelimiters implements BrowseStudyBean, Comparable {
     private static final Log log = LogFactory.getLog(BrowseStudyBeanImpl.class);
 
     private Map<String, List<String>> characteristics;
@@ -87,7 +86,7 @@ public class BrowseStudyBeanImpl implements BrowseStudyBean, AssayInfoDelimiters
     }
 
     public String getFactor() {
-        return getConcatValues(StudyBrowseField.FACTOR_NAME);
+        return getConcatValues(StudyBrowseField.FACTORS);
     }
 
     public boolean hasFactors() {

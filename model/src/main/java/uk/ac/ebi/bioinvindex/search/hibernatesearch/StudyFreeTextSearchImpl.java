@@ -45,35 +45,21 @@ package uk.ac.ebi.bioinvindex.search.hibernatesearch;
 
 import org.apache.lucene.document.Document;
 import org.apache.lucene.index.IndexReader;
-import org.apache.lucene.index.Term;
-import org.apache.lucene.index.TermEnum;
 import org.apache.lucene.queryParser.ParseException;
-import org.apache.lucene.search.Filter;
-import org.apache.lucene.search.Hits;
-import org.apache.lucene.search.IndexSearcher;
-import org.apache.lucene.search.Query;
-import org.apache.lucene.search.DocIdSet;
-import org.apache.lucene.search.DocIdSetIterator;
-import org.apache.lucene.util.OpenBitSet;
+import org.apache.lucene.search.*;
 import org.hibernate.Session;
 import org.hibernate.search.FullTextSession;
 import org.hibernate.search.Search;
 import org.hibernate.search.SearchFactory;
 import org.hibernate.search.reader.ReaderProvider;
 import org.hibernate.search.store.DirectoryProvider;
-
 import uk.ac.ebi.bioinvindex.model.Study;
-import uk.ac.ebi.bioinvindex.search.SearchException;
 import uk.ac.ebi.bioinvindex.search.StudyFreeTextSearch;
-import uk.ac.ebi.bioinvindex.dao.ejb3.DaoFactory;
-import uk.ac.ebi.bioinvindex.dao.StudyDAO;
 
 import javax.persistence.EntityManager;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
@@ -193,8 +179,12 @@ public class StudyFreeTextSearchImpl implements StudyFreeTextSearch {
 		addCellValue(StudyBrowseField.STUDY_ACC, row, document);
 		addCellValue(StudyBrowseField.TITLE, row, document);
 		addCellValue(StudyBrowseField.ORGANISM, row, document);
-		addCellValue(StudyBrowseField.FACTOR_NAME, row, document);
-		addCellValue(StudyBrowseField.ASSAY_INFO, row, document);
+		addCellValue(StudyBrowseField.FACTORS, row, document);
+        addCellValue(StudyBrowseField.CHARACTERISTICS, row, document);
+        addCellValue(StudyBrowseField.PROTOCOL, row, document);
+        addCellValue(StudyBrowseField.PUBLICATION, row, document);
+        addCellValue(StudyBrowseField.CONTACT, row, document);
+        addCellValue(StudyBrowseField.USER, row, document);
 		return row;
 	}
 

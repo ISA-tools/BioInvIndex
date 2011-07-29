@@ -43,50 +43,35 @@ package uk.ac.ebi.bioinvindex.search.hibernatesearch.bridge;
  * EU NuGO [NoE 503630](http://www.nugo.org/everyone) projects and in part by EMBL-EBI.
  */
 
-import org.apache.lucene.document.Document;
-import org.apache.lucene.document.Field;
-import org.hibernate.search.bridge.FieldBridge;
-import org.hibernate.search.bridge.LuceneOptions;
 
-import uk.ac.ebi.bioinvindex.model.term.OntologyTerm;
-import uk.ac.ebi.bioinvindex.model.term.Property;
-import uk.ac.ebi.bioinvindex.model.term.PropertyValue;
-import uk.ac.ebi.bioinvindex.search.hibernatesearch.StudyBrowseField;
+public class IndexFieldDelimiters {
 
-import java.util.Collection;
+    public static final String FIELDS_DELIM = "|";
+    public static final String ACC_DELIM = "+";
+    public static final String ACC_URL_DELIM = "!";
 
-/**
- * @author Nataliya Sklyar (nsklyar@ebi.ac.uk)
- * Date: Feb 20, 2008
- */
-public class OrganismValuesBridge implements FieldBridge {
+    /**
+     * This method will build a String from the supplied fields, separating each field with a "|"
+     *
+     * @param fields - a number of fields to be indexed
+     * @return a String like so "field1|field2|field3|field4
+     */
+    public String buildRepresentationForIndex(String... fields) {
+        StringBuilder stringBuilder = new StringBuilder();
 
-	public void set(String s, Object value, Document document, LuceneOptions luceneOptions) {
+        int count = 0;
+        for (String field : fields) {
 
-		Collection<PropertyValue> values = (Collection<PropertyValue>) value;
+            stringBuilder.append(field);
 
-		for (PropertyValue propertyValue : values) {
-			Property type = propertyValue.getType();
-			Collection<OntologyTerm> terms = propertyValue.getOntologyTerms();
+            if (count != fields.length - 1) {
+                stringBuilder.append(FIELDS_DELIM);
+            }
 
-			if (type.getValue().equalsIgnoreCase("organism")) {
-				Field fvField = new Field(StudyBrowseField.ORGANISM.getName(), propertyValue.getValue(), luceneOptions.getStore(), luceneOptions.getIndex());
-				document.add(fvField);
+            count++;
+        }
 
-				indexOntologyTerm(terms, StudyBrowseField.ORGANISM.getName() + "_ontology", document, luceneOptions.getStore(), luceneOptions.getIndex());
-			}
-		}
+        return stringBuilder.toString();
+    }
 
-	}
-
-		private void indexOntologyTerm(Collection<OntologyTerm> terms, String fieldName,
-																 Document document, Field.Store store, Field.Index index) {
-
-		for (OntologyTerm term : terms) {
-			Field fieldN = new Field(fieldName, term.getName(), store, index);
-			document.add(fieldN);
-			Field fieldAcc = new Field(fieldName, term.getAcc(), store, index);
-			document.add(fieldAcc);
-		}
-	}
 }
