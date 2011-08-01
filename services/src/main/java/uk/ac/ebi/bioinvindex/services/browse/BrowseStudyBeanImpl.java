@@ -168,25 +168,36 @@ public class BrowseStudyBeanImpl extends IndexFieldDelimiters implements BrowseS
 
         for (String string : strings) {
             if (string.contains("[")) {
-                String factorName = string.substring(0, string.indexOf("["));
+                String propertyName = string.substring(0, string.indexOf("["));
                 // Should be enough to remove all the extra artifacts.
-                String factorValue = string.replace(factorName, "").replace("[", "").replaceAll("]", "");
+                String propertyValue = string.replace(propertyName, "").replace("[", "").replaceAll("]", "");
 
-                if (!processedValues.containsKey(factorName)) {
-                    processedValues.put(factorName, new ArrayList<String>());
-                    addedValues.put(factorName, new HashSet<String>());
+                String[] splitValues = splitPropertyValues(propertyValue);
+
+                if (!processedValues.containsKey(propertyName)) {
+                    processedValues.put(propertyName, new ArrayList<String>());
+                    addedValues.put(propertyName, new HashSet<String>());
                 }
 
-                if (!addedValues.get(factorName).contains(factorValue)) {
-                    processedValues.get(factorName).add(factorValue);
-                    addedValues.get(factorName).add(factorValue);
+                for (String value : splitValues) {
+                    if (!addedValues.get(propertyName).contains(value)) {
+                        processedValues.get(propertyName).add(value);
+                        addedValues.get(propertyName).add(value);
+                    }
                 }
-
             }
         }
 
-
         return processedValues;
+    }
+
+    private String[] splitPropertyValues(String propertyValue) {
+
+        if (propertyValue.contains(":?")) {
+            return propertyValue.split(":\\?");
+        } else {
+            return new String[]{propertyValue};
+        }
     }
 
 
