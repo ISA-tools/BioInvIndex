@@ -47,14 +47,12 @@ import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
 import org.hibernate.search.bridge.FieldBridge;
 import org.hibernate.search.bridge.LuceneOptions;
-
-import org.jboss.seam.util.Conversions;
-import uk.ac.ebi.bioinvindex.model.term.*;
+import uk.ac.ebi.bioinvindex.model.term.Factor;
+import uk.ac.ebi.bioinvindex.model.term.Property;
+import uk.ac.ebi.bioinvindex.model.term.PropertyValue;
 import uk.ac.ebi.bioinvindex.search.hibernatesearch.StudyBrowseField;
 
 import java.util.*;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /**
  * @author Nataliya Sklyar (nsklyar@ebi.ac.uk)
@@ -72,21 +70,17 @@ public class PropertyValuesBridge implements FieldBridge {
         for (PropertyValue propertyValue : values) {
             String propValue = propertyValue.getValue();
 
-            Map<String, Set<String>> propertyToValues = new HashMap<String, Set<String>>();
 
             if (propValue != null) {
                 Property type = propertyValue.getType();
-
-                if (!propertyToValues.containsKey(type.getValue())) {
-                    propertyToValues.put(type.getValue(), new HashSet<String>());
-                }
 
                 String unit = "";
                 if (propertyValue.getUnit() != null) {
                     unit = propertyValue.getUnit().getValue();
                 }
 
-                propertyToValues.get(type.getValue()).add(propValue + (unit.equals("") ? "" : " " + unit));
+
+                System.out.println("___ adding " + propValue + " as a property of a study....");
 
                 if (type instanceof Factor) {
 
@@ -94,14 +88,38 @@ public class PropertyValuesBridge implements FieldBridge {
                         allPropertyToValues.put(StudyBrowseField.FACTORS, new HashMap<String, Set<String>>());
                     }
 
-                    allPropertyToValues.get(StudyBrowseField.FACTORS).putAll(propertyToValues);
+                    if(!allPropertyToValues.get(StudyBrowseField.FACTORS).containsKey(type.getValue())) {
+                        allPropertyToValues.get(StudyBrowseField.FACTORS).put(type.getValue(), new HashSet<String>());
+                    }
+
+                    System.out.println("___ adding " + propValue + " as a Factor of a study....");
+
+                    allPropertyToValues.get(StudyBrowseField.FACTORS).get(type.getValue()).add(propValue + (unit.equals("") ? "" : " " + unit));
                 } else {
                     if (!allPropertyToValues.containsKey(StudyBrowseField.CHARACTERISTICS)) {
                         allPropertyToValues.put(StudyBrowseField.CHARACTERISTICS, new HashMap<String, Set<String>>());
                     }
 
-                    allPropertyToValues.get(StudyBrowseField.CHARACTERISTICS).putAll(propertyToValues);
+                      if(!allPropertyToValues.get(StudyBrowseField.CHARACTERISTICS).containsKey(type.getValue())) {
+                        allPropertyToValues.get(StudyBrowseField.CHARACTERISTICS).put(type.getValue(), new HashSet<String>());
+                    }
+
+                    System.out.println("___ adding " + propValue + " as a Characteristic of a study....");
+
+                    allPropertyToValues.get(StudyBrowseField.CHARACTERISTICS).get(type.getValue()).add(propValue + (unit.equals("") ? "" : " " + unit));
                 }
+            }
+        }
+
+        for (StudyBrowseField dataType : allPropertyToValues.keySet()) {
+            System.out.println(dataType.toString());
+            for (String pName : allPropertyToValues.get(dataType).keySet()) {
+                System.out.println("\tFactor name: " + pName);
+                System.out.println("\tValues");
+                for (String pValue : allPropertyToValues.get(dataType).get(pName)) {
+                    System.out.println("\t\t" + pValue);
+                }
+                System.out.println();
             }
         }
 
@@ -133,6 +151,8 @@ public class PropertyValuesBridge implements FieldBridge {
         }
 
         representation.append("]");
+
+        System.out.println("Built representation: " + representation);
 
         return representation.toString();
     }
