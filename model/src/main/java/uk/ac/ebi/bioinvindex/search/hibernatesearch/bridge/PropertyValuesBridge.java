@@ -66,7 +66,6 @@ public class PropertyValuesBridge implements FieldBridge {
 
         Map<StudyBrowseField, Map<String, Set<String>>> allPropertyToValues = new HashMap<StudyBrowseField, Map<String, Set<String>>>();
 
-
         for (PropertyValue propertyValue : values) {
             String propValue = propertyValue.getValue();
 
@@ -79,9 +78,6 @@ public class PropertyValuesBridge implements FieldBridge {
                     unit = propertyValue.getUnit().getValue();
                 }
 
-
-                System.out.println("___ adding " + propValue + " as a property of a study....");
-
                 if (type instanceof Factor) {
 
                     if (!allPropertyToValues.containsKey(StudyBrowseField.FACTORS)) {
@@ -91,8 +87,6 @@ public class PropertyValuesBridge implements FieldBridge {
                     if(!allPropertyToValues.get(StudyBrowseField.FACTORS).containsKey(type.getValue())) {
                         allPropertyToValues.get(StudyBrowseField.FACTORS).put(type.getValue(), new HashSet<String>());
                     }
-
-                    System.out.println("___ adding " + propValue + " as a Factor of a study....");
 
                     allPropertyToValues.get(StudyBrowseField.FACTORS).get(type.getValue()).add(propValue + (unit.equals("") ? "" : " " + unit));
                 } else {
@@ -104,22 +98,8 @@ public class PropertyValuesBridge implements FieldBridge {
                         allPropertyToValues.get(StudyBrowseField.CHARACTERISTICS).put(type.getValue(), new HashSet<String>());
                     }
 
-                    System.out.println("___ adding " + propValue + " as a Characteristic of a study....");
-
                     allPropertyToValues.get(StudyBrowseField.CHARACTERISTICS).get(type.getValue()).add(propValue + (unit.equals("") ? "" : " " + unit));
                 }
-            }
-        }
-
-        for (StudyBrowseField dataType : allPropertyToValues.keySet()) {
-            System.out.println(dataType.toString());
-            for (String pName : allPropertyToValues.get(dataType).keySet()) {
-                System.out.println("\tFactor name: " + pName);
-                System.out.println("\tValues");
-                for (String pValue : allPropertyToValues.get(dataType).get(pName)) {
-                    System.out.println("\t\t" + pValue);
-                }
-                System.out.println();
             }
         }
 
@@ -151,8 +131,6 @@ public class PropertyValuesBridge implements FieldBridge {
         }
 
         representation.append("]");
-
-        System.out.println("Built representation: " + representation);
 
         return representation.toString();
     }

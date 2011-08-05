@@ -44,12 +44,7 @@ package uk.ac.ebi.bioinvindex.model;
  */
 
 import org.apache.commons.lang.StringUtils;
-import org.hibernate.search.annotations.Field;
-import org.hibernate.search.annotations.FieldBridge;
-import org.hibernate.search.annotations.Index;
-import org.hibernate.search.annotations.Indexed;
-import org.hibernate.search.annotations.IndexedEmbedded;
-import org.hibernate.search.annotations.Store;
+import org.hibernate.search.annotations.*;
 import uk.ac.ebi.bioinvindex.mibbi.MIProject;
 import uk.ac.ebi.bioinvindex.model.processing.Assay;
 import uk.ac.ebi.bioinvindex.model.security.User;
@@ -58,7 +53,6 @@ import uk.ac.ebi.bioinvindex.model.xref.Xref;
 import uk.ac.ebi.bioinvindex.search.hibernatesearch.bridge.*;
 
 import javax.persistence.*;
-
 import java.util.*;
 
 /**
@@ -95,14 +89,14 @@ public class Study extends HasReferences {
     @Field(name = "releaseDate", index = Index.TOKENIZED, store = Store.YES)
 	private Date releaseDate;
 
-    @Field(index = Index.UN_TOKENIZED, store = Store.YES)
+    @Field(index = Index.TOKENIZED, store = Store.YES)
     @FieldBridge(impl = ContactBridge.class)
 	private Collection<Contact> contacts = new HashSet<Contact>();
 
 	@IndexedEmbedded(prefix = "investigation_")
 	private Collection<Investigation> investigations = new HashSet<Investigation>();
 
-    @Field(index = Index.UN_TOKENIZED, store = Store.YES)
+    @Field(index = Index.TOKENIZED, store = Store.YES)
     @FieldBridge(impl = PublicationBridge.class)
 	private Collection<Publication> publications = new HashSet<Publication>();
 
@@ -113,6 +107,7 @@ public class Study extends HasReferences {
 	@Field(name = "protocol_", index = Index.TOKENIZED, store = Store.YES)
 	@FieldBridge(impl = ProtocolBridge.class)
 	private Collection<Protocol> protocols = new ArrayList<Protocol>();
+
 
 	@IndexedEmbedded(prefix = "assay_result_")
 	private Collection<AssayResult> assayResults = new HashSet<AssayResult>();
