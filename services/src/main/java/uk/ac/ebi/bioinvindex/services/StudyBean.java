@@ -45,9 +45,9 @@ package uk.ac.ebi.bioinvindex.services;
  */
 
 import uk.ac.ebi.bioinvindex.mibbi.MIProject;
+import uk.ac.ebi.bioinvindex.model.Contact;
 import uk.ac.ebi.bioinvindex.model.Publication;
 import uk.ac.ebi.bioinvindex.model.Study;
-import uk.ac.ebi.bioinvindex.services.ontologyhandling.Ontology;
 
 import java.io.Serializable;
 import java.util.List;
@@ -64,7 +64,7 @@ public interface StudyBean extends Serializable {
 
 	public String getDesign();
 
-	public String getContacts();
+	public List<Contact> getContacts();
 
 	public DBLink getPubmedLink(Publication publication);
 

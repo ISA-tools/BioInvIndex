@@ -28,7 +28,8 @@
     <tr class="spaceUnder">
         <td width="15%" class="table_content_titles">Investigation:</td>
         <td width="85%" class="table_content">
-            This Study is part of an Investigation, which also includes:<rich:spacer width="10"/>
+            This Study is part of an Investigation, which also includes:
+            <rich:spacer width="10"/>
             <ui:repeat var="acc" value="#{studyBean.relatedStudies}">
                 <h:outputLink value="study.seam?studyId=#{acc}">
                     <h:outputText value="#{acc}"/>
@@ -87,8 +88,10 @@
                         <td class="subtable_title">
                             <h:outputText value="#{property}"/>
 
-                            <div class="subtable_value_count"><h:outputText
-                                    value="#{viewStudyBeanModel.studyBean.getFactorValues(property).size} "/> recorded
+                            <div class="subtable_value_count">
+                                <h:outputText
+                                        value="#{viewStudyBeanModel.studyBean.getFactorValues(property).size} "/>
+                                recorded
                             </div>
                         </td>
                         <td>
@@ -123,7 +126,8 @@
     <td width="15%" class="table_content_titles">Publication(s):</td>
     <td width="85%" class="table_content">
         <ui:repeat var="publication" value="#{studyBean.study.publications}">
-            <h:outputText value="#{publication.authorList}"/><br/>
+            <h:outputText value="#{publication.authorList}"/>
+            <br/>
             <h:outputText value="#{publication.title}"/>
             <h:panelGroup rendered="#{studyBean.hasPubmedId(publication)}">
                 CiteXplore:
@@ -154,8 +158,10 @@
                     <td class="subtable_title">
                         <h:outputText value="#{property}"/>
 
-                        <div class="subtable_value_count"><h:outputText
-                                value="#{viewStudyBeanModel.studyBean.getCharacteristicValues(property).size} "/> recorded
+                        <div class="subtable_value_count">
+                            <h:outputText
+                                    value="#{viewStudyBeanModel.studyBean.getCharacteristicValues(property).size} "/>
+                            recorded
                         </div>
                     </td>
 
@@ -208,7 +214,22 @@
 <tr class="spaceUnder">
     <td width="15%" class="table_content_titles">Contact(s):</td>
     <td width="85%" class="table_content">
-        <h:outputText value="#{studyBean.contacts}"/>
+        <ui:repeat var="contact" value="#{studyBean.contacts}">
+
+            <h:panelGroup rendered="#{contact.hasEmailAddress()}" styleClass="download-button">
+                <h:outputLink value="mailto:#{contact.email}" target="_blank">
+                    <h:outputText value="#{contact.firstName} #{contact.lastName}"/>
+                </h:outputLink>
+            </h:panelGroup>
+
+            <h:panelGroup rendered="#{not contact.hasEmailAddress()}">
+                <h:outputText value="#{contact.firstName} #{contact.lastName}"/>
+            </h:panelGroup>
+
+            <rich:spacer width="10"/>
+
+        </ui:repeat>
+
 
     </td>
 </tr>
@@ -259,7 +280,8 @@
                                         <table width="100%" border="0" align="left" style="table-layout:fixed;">
                                             <tr>
                                                 <td width="100%" valign="top"
-                                                    class="subtable_title">#{bean.getDisplayLabel()}</td>
+                                                    class="subtable_title">#{bean.getDisplayLabel()}
+                                                </td>
                                             </tr>
 
                                             <tr>
