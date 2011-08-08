@@ -15,13 +15,14 @@
             <properties>
                 <jdbc.groupId>com.h2database</jdbc.groupId>
                 <jdbc.artifactId>h2</jdbc.artifactId>
-                <jdbc.version>1.2.132</jdbc.version>
+                <jdbc.version>1.3.150</jdbc.version>
                 <jdbc.driverClassName>org.h2.Driver</jdbc.driverClassName>
                 <jdbc.url><![CDATA[jdbc:h2:/tmp/bii/testdb/bioinvindex]]></jdbc.url>
                 <!--  jdbc.url><![CDATA[jdbc:h2:tcp://localhost/biitestdb]]></jdbc.url -->
                 <jdbc.username>sa</jdbc.username>
                 <jdbc.password/>
                 <hibernate.dialect>uk.ac.ebi.bioinvindex.utils.H2FixedDialect</hibernate.dialect>
+                <hibernate.search.default.indexBase>target/lucene</hibernate.search.default.indexBase>
             </properties>
         </profile>
 
