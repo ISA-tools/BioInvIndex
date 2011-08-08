@@ -100,6 +100,7 @@ public class Study extends HasReferences {
     @FieldBridge(impl = PublicationBridge.class)
 	private Collection<Publication> publications = new HashSet<Publication>();
 
+	@IndexedEmbedded(prefix = "assay_")
 	@Field(index = Index.UN_TOKENIZED, store = Store.YES)
 	@FieldBridge(impl = AssayBridge.class)
 	private Collection<Assay> assays = new HashSet<Assay>();

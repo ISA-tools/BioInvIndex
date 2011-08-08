@@ -2,8 +2,9 @@ package uk.ac.ebi.bioinvindex.services.studyview;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.jboss.seam.ScopeType;
-import org.jboss.seam.annotations.*;
+import org.jboss.seam.annotations.AutoCreate;
+import org.jboss.seam.annotations.In;
+import org.jboss.seam.annotations.Name;
 import uk.ac.ebi.bioinvindex.services.browse.BrowseStudyBean;
 import uk.ac.ebi.bioinvindex.services.browse.BrowseStudyBeanProvider;
 
@@ -25,11 +26,7 @@ public class StudyIndexLocatorImpl implements StudyIndexLocator {
 
         try {
             if (study == null) {
-
                 study = getStudyBeanProvider().getStudy(accession);
-
-                log.info("I have " + study.getFactorNames().size() + " factors!");
-                log.info("I have " + study.getCharacteristicNames().size() + " characteristics!");
             }
 
             return study;
