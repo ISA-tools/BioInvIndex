@@ -181,7 +181,7 @@ public class SecureStudyFreeTextSearch {
 			Query query = queryBuilder.buildQuery(filterQuery.getSearchText());
 
 			TopDocs topScoringDocuments;
-//
+
 			if (filterQuery.getFilters().size() > 0) {
 				Filter filter = queryBuilder.buildFilter(filterQuery);
 				topScoringDocuments = indexSearcher.search(query, filter, 1000);

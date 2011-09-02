@@ -50,20 +50,22 @@ import org.jboss.seam.security.Identity;
 import uk.ac.ebi.bioinvindex.dao.BIIDAOException;
 import uk.ac.ebi.bioinvindex.dao.StudyDAO;
 import uk.ac.ebi.bioinvindex.mibbi.MIProject;
-import uk.ac.ebi.bioinvindex.model.*;
-import uk.ac.ebi.bioinvindex.model.processing.Assay;
-import uk.ac.ebi.bioinvindex.model.term.*;
-import uk.ac.ebi.bioinvindex.model.xref.ReferenceSource;
-import uk.ac.ebi.bioinvindex.model.xref.ResourceType;
-import uk.ac.ebi.bioinvindex.model.xref.Xref;
-import uk.ac.ebi.bioinvindex.services.browse.BrowseStudyBeanModel;
+import uk.ac.ebi.bioinvindex.model.Contact;
+import uk.ac.ebi.bioinvindex.model.Investigation;
+import uk.ac.ebi.bioinvindex.model.Publication;
+import uk.ac.ebi.bioinvindex.model.Study;
+import uk.ac.ebi.bioinvindex.model.term.FreeTextTerm;
+import uk.ac.ebi.bioinvindex.model.term.PropertyValue;
 import uk.ac.ebi.bioinvindex.services.cache.BIICache;
 import uk.ac.ebi.bioinvindex.services.cache.Cache;
 import uk.ac.ebi.bioinvindex.services.studyview.StudyIndexLocatorImpl;
 import uk.ac.ebi.bioinvindex.services.utils.CommonActions;
 import uk.ac.ebi.bioinvindex.services.utils.StringFormating;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.Map;
 
 import static org.jboss.seam.ScopeType.PAGE;
 
@@ -101,7 +103,7 @@ public class StudyBeanImpl implements StudyBean {
 
     private Map<String, List<String>> characteristicsToValues;
 
-    private String contacts;
+    private List<Contact> contacts;
 
     private List<AssayGroupInfo> assayInfos;
 
@@ -170,20 +172,10 @@ public class StudyBeanImpl implements StudyBean {
         return study.getAcc() + "_" + study.getObfuscationCode();
     }
 
-    public String getContacts() {
+    public List<Contact> getContacts() {
         log.info("Getting contacts for " + study.getAcc());
 
-        if (contacts == null) {
-            StringBuilder sb = new StringBuilder();
-            for (Contact contact : study.getContacts()) {
-                sb.append(contact.getFullName());
-                sb.append(", ");
-            }
-            contacts = StringFormating.removeLastComma(sb.toString());
-            contacts = contacts.replaceAll("null", "");
-        }
-        log.info("StudyBeanImpl.getContacts " + contacts);
-        return contacts;
+        return (List<Contact>)study.getContacts();
     }
 
     public DBLink getPubmedLink(Publication publication) {

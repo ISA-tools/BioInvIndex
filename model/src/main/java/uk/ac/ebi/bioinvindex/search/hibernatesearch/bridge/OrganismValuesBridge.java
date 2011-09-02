@@ -47,46 +47,54 @@ import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
 import org.hibernate.search.bridge.FieldBridge;
 import org.hibernate.search.bridge.LuceneOptions;
-
 import uk.ac.ebi.bioinvindex.model.term.OntologyTerm;
 import uk.ac.ebi.bioinvindex.model.term.Property;
 import uk.ac.ebi.bioinvindex.model.term.PropertyValue;
 import uk.ac.ebi.bioinvindex.search.hibernatesearch.StudyBrowseField;
 
 import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * @author Nataliya Sklyar (nsklyar@ebi.ac.uk)
- * Date: Feb 20, 2008
+ *         Date: Feb 20, 2008
  */
 public class OrganismValuesBridge implements FieldBridge {
 
-	public void set(String s, Object value, Document document, LuceneOptions luceneOptions) {
+    public void set(String s, Object value, Document document, LuceneOptions luceneOptions) {
 
-		Collection<PropertyValue> values = (Collection<PropertyValue>) value;
+        Collection<PropertyValue> values = (Collection<PropertyValue>) value;
 
-		for (PropertyValue propertyValue : values) {
-			Property type = propertyValue.getType();
-			Collection<OntologyTerm> terms = propertyValue.getOntologyTerms();
+        Set<String> addedOrganisms = new HashSet<String>();
 
-			if (type.getValue().equalsIgnoreCase("organism")) {
-				Field fvField = new Field(StudyBrowseField.ORGANISM.getName(), propertyValue.getValue(), luceneOptions.getStore(), luceneOptions.getIndex());
-				document.add(fvField);
+        for (PropertyValue propertyValue : values) {
 
-				indexOntologyTerm(terms, StudyBrowseField.ORGANISM.getName() + "_ontology", document, luceneOptions.getStore(), luceneOptions.getIndex());
-			}
-		}
+            if (!addedOrganisms.contains(propertyValue.getValue())) {
 
-	}
+                Property type = propertyValue.getType();
 
-		private void indexOntologyTerm(Collection<OntologyTerm> terms, String fieldName,
-																 Document document, Field.Store store, Field.Index index) {
+                if (type.getValue().equalsIgnoreCase("organism")) {
+                    Field fvField = new Field(StudyBrowseField.ORGANISM.getName(), propertyValue.getValue(), luceneOptions.getStore(), luceneOptions.getIndex());
+                    document.add(fvField);
 
-		for (OntologyTerm term : terms) {
-			Field fieldN = new Field(fieldName, term.getName(), store, index);
-			document.add(fieldN);
-			Field fieldAcc = new Field(fieldName, term.getAcc(), store, index);
-			document.add(fieldAcc);
-		}
-	}
+                    addedOrganisms.add(propertyValue.getValue());
+
+
+                }
+            }
+        }
+
+    }
+
+    private void indexOntologyTerm(Collection<OntologyTerm> terms, String fieldName,
+                                   Document document, Field.Store store, Field.Index index) {
+
+        for (OntologyTerm term : terms) {
+            Field fieldN = new Field(fieldName, term.getName(), store, index);
+            document.add(fieldN);
+            Field fieldAcc = new Field(fieldName, term.getAcc(), store, index);
+            document.add(fieldAcc);
+        }
+    }
 }

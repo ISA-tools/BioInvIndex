@@ -52,21 +52,10 @@ package uk.ac.ebi.bioinvindex.model;
  * EU NuGO [NoE 503630](http://www.nugo.org/everyone) projects and in part by EMBL-EBI.
  */
 
-import org.hibernate.search.annotations.ContainedIn;
-import org.hibernate.search.annotations.Field;
-import org.hibernate.search.annotations.Index;
-import org.hibernate.search.annotations.Indexed;
-import org.hibernate.search.annotations.Store;
-
+import org.hibernate.search.annotations.*;
 import uk.ac.ebi.bioinvindex.model.term.ContactRole;
 
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
-import javax.persistence.Transient;
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -171,6 +160,10 @@ public class Contact extends Annotatable
 
     public String getPhone() {
         return phone;
+    }
+
+    public boolean hasEmailAddress() {
+       return email != null && !email.equals("");
     }
 
     public void setPhone(String phone) {

@@ -3,6 +3,8 @@
 // GLOBAL PAGE MOVEMENT
 jQuery(document).ready(function() {
 
+    jQuery("#logo").click(function(){javascript:window.location='/bioinvindex'});
+
     // AUTOMATED SCROLLING
     jQuery('a[href*=#]').click(function() {
         if (location.pathname.replace(/^\//, '') == this.pathname.replace(/^\//, '')

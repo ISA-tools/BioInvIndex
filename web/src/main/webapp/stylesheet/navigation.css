@@ -62,6 +62,7 @@
     background-clip: border-box;
     background-origin: padding-box;
     background-size: auto auto;
+    cursor:pointer;
     height: 84px;
     left: -2px;
     position: absolute;
