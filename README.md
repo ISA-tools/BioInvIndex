@@ -11,7 +11,9 @@
 ## Installation
 
 **Build dependencies:**
-    These are all managed by Maven <http://maven.apache.org/>. You'll just need to install it and then let maven handle everything else 
+    JBoss 5/5.1 (not 6+)
+    Maven 2.2.1 (not 3+)
+    All Java dependencies etc are all managed by Maven <http://maven.apache.org/>. You'll just need to install it and then let maven handle everything else 
 
 **Get the source:**
 
