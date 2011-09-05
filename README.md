@@ -17,7 +17,9 @@ You may think it to be trivial to provide support for latest version, but this i
 yet supported by dependencies we use in our codebase. 
 
 1.JBoss 5/5.1 <http://www.jboss.org/jbossas/downloads/> (not 6+)
+
 2.Maven 2.2.1 <http://maven.apache.org/download.html> (not 3+)
+
 3.All Java dependencies etc are all managed by Maven <http://maven.apache.org/>. You'll just need to install it and then let maven handle everything else 
 
 **Get the source:**
