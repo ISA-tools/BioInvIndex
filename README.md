@@ -37,6 +37,8 @@ A simple `git pull origin master` should suffice!
 
 ### Contributing
 
+You should read this article about Git Flow: <http://scottchacon.com/2011/08/31/github-flow.html>. It's a really useful tutorial on how to use Git for collaborative development.
+
 1. Fork it.
 2. Create a branch (`git checkout -b mybii`)
 3. Make your changes
