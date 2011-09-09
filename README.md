@@ -1,5 +1,8 @@
 # BioInvestigation Index - the Database model, persistence code, webservices and web application.
 
+<p align="center">
+<img src="http://isatools.files.wordpress.com/2011/09/bii.png" align="center" alt="BioInvestigation Index"/>
+</p>
 
 - General info: <http://isa-tools.org>
 - Issue tracking and bug reporting: <https://github.com/ISA-tools/BioInvIndex/issues>
