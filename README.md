@@ -38,18 +38,19 @@ The profiles.xml file contains example database connection profiles for H2, Orac
 
 A simple `git pull origin master` should suffice!
 
-### Contributing
+## Contributing
 
 You should read this article about Git Flow: <http://scottchacon.com/2011/08/31/github-flow.html>. It's a really useful tutorial on how to use Git for collaborative development.
 
 1. Fork it.
-2. Create a branch (`git checkout -b mybii`)
-3. Make your changes
-4. Run the tests (`mvn clean test -Ptest,h2,index_local`)
-5. Commit your changes (`git commit -am "Added something useful"`)
-6. Push to the branch (`git push origin mybii`)
-7. Create a [Pull Request](http://help.github.com/pull-requests/) from your branch.
-8. Promote it. Get others to drop in and +1 it.
+2. Clone your forked repository to your machine
+3. Create a branch (`git checkout -b mybii`)
+4. Make your changes
+5. Run the tests (`mvn clean test -Ptest,h2,index_local`)
+6. Commit your changes (`git commit -am "Added something useful"`)
+7. Push to the branch (`git push origin mybii`)
+8. Create a [Pull Request](http://help.github.com/pull-requests/) from your branch.
+9. Promote it. Get others to drop in and +1 it.
 
 #### Contributor License Agreement
 
