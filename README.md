@@ -4,6 +4,11 @@
 <img src="http://isatools.files.wordpress.com/2011/09/bii1.png" align="center" alt="BioInvestigation Index"/>
 </p>
 
+Example implementations:
+
+1. Harvard Stem cell discovery engine: <http://discovery.hsci.harvard.edu/bioinvindex/>
+2. EBI BioInvestigation Index: <http://www.ebi.ac.uk/bioinvindex/>
+
 - General info: <http://isa-tools.org>
 - Issue tracking and bug reporting: <https://github.com/ISA-tools/BioInvIndex/issues>
 - Mainline source code: <https://github.com/ISA-tools/BioInvIndex>
