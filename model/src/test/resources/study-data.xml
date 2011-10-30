@@ -126,7 +126,7 @@
 			OBJECTIVE="Testing"
 			SUBMISSIONDATE="[null]"
 			RELEASEDATE="[null]"
-      STATUS="1" 
+      STATUS="1"
   />
 
 
@@ -266,7 +266,7 @@
 			ACC="BII-N1"
 			STUDY_ID="100"
 	/>
-	
+
 	<MATERIAL
 		ID="100"
 		ACC="BII-M1"
@@ -311,7 +311,7 @@
 			ACC="BII-N4"
 			STUDY_ID="100"
 	/>
-	
+
 	<MATERIAL
 		ID="201"
 		ACC="BII-M4"
@@ -683,7 +683,7 @@
 <!-- TODO: fix Oracle
             submissionDate = "2007-10-1"
             RELEASEDATE = "1007-10-2"
--->       
+-->
 
 
         <STUDY2INVESTIGATION

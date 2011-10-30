@@ -64,7 +64,7 @@ import org.apache.log4j.Level;
 
 /**
  * Persists a {@link Study}.
- * 
+ *
  * date: Apr 15, 2008
  * @author brandizi
  *
@@ -76,12 +76,12 @@ public class StudyPersister extends AccessiblePersister<Study>
 	private final AssayPersister assayPersister;
 	private final AssayResultPersister assayResultPersister;
 	private final InvestigationPersister investigationPersister;
-	private final PublicationPersister pubPersister; 
-	private final ContactPersister contactPersister; 
-	
+	private final PublicationPersister pubPersister;
+	private final ContactPersister contactPersister;
+
 	private List<Investigation> backupInvestigations;
-	
-	public StudyPersister ( DaoFactory daoFactory, Timestamp submissionTs ) 
+
+	public StudyPersister ( DaoFactory daoFactory, Timestamp submissionTs )
 	{
 		super ( daoFactory, submissionTs );
 		dao = daoFactory.getStudyDAO ();
@@ -95,21 +95,21 @@ public class StudyPersister extends AccessiblePersister<Study>
 		logLevel = Level.DEBUG;
 	}
 
-	
+
 	/**
-	 * Works on several related objects (protocols, investigations). 
-	 * 
+	 * Works on several related objects (protocols, investigations).
+	 *
 	 */
 	@Override
-	public void preProcess ( Study study ) 
+	public void preProcess ( Study study )
 	{
 		// Pass the work on the accession to the ancestor.
 		super.preProcess ( study );
-		
+
 		// Designs, we don't need to replace it, it's always new
 		for ( Design design: study.getDesigns () )
 			designPersister.persist ( design );
-		
+
 		// Protocols
 		Collection<Protocol> protocols = new ArrayList<Protocol> ( study.getProtocols () );
 		for ( Protocol protocol: protocols ) {
@@ -119,10 +119,10 @@ public class StudyPersister extends AccessiblePersister<Study>
 				study.addProtocol ( protocolDB );
 			}
 		}
-	
-		
-		// Now work on the investigations, we must save them and temporary remove, because of 
-		// referential integrity checkings. 
+
+
+		// Now work on the investigations, we must save them and temporary remove, because of
+		// referential integrity checkings.
 		// TODO: is there a smarter way?
 		//
 		this.backupInvestigations = new ArrayList<Investigation> ( study.getInvestigations () );
@@ -136,14 +136,14 @@ public class StudyPersister extends AccessiblePersister<Study>
 	 * Works on things which have to be saved once we have a study in the DB (assays, investigations).
 	 */
 	@Override
-	protected void postProcess ( Study study ) 
+	protected void postProcess ( Study study )
 	{
 		// restore temporarily removed investigations, and persist them.
 		// PLEASE NOTE: dunno why, but this must be the first operation, otherwise you get some bloody
-		// org.hibernate.TransientObjectException. 
+		// org.hibernate.TransientObjectException.
 		//
 		boolean needsUpdate = false;
-		for ( Investigation investigation: this.backupInvestigations ) 
+		for ( Investigation investigation: this.backupInvestigations )
 		{
 			Investigation investigationDB = investigationPersister.persist ( investigation );
 			if ( !study.getInvestigations ().contains ( investigationDB ) ) {
@@ -151,7 +151,7 @@ public class StudyPersister extends AccessiblePersister<Study>
 				needsUpdate = true;
 			}
 		}
-		
+
 		if ( needsUpdate )
 			dao.update ( study );
 
@@ -162,25 +162,25 @@ public class StudyPersister extends AccessiblePersister<Study>
 		// Contacts
 		for ( Contact contact: study.getContacts () )
 			contactPersister.persist ( contact );
-		
+
 		// assays
 		for ( Assay assay: study.getAssays () ) assayPersister.persist ( assay );
 
 		// assay-results
 		for ( AssayResult ar: study.getAssayResults () ) assayResultPersister.persist ( ar );
-	
+
 		super.postProcess ( study );
 	}
 
 
 
-	
+
 	@Override
 	protected String getAccessionPrefix () {
 		return "bii:study:";
 	}
 
-	
+
 	/** Returns null, a study is always new */
 	@Override
 	protected Study lookup ( Study object ) {
@@ -189,10 +189,10 @@ public class StudyPersister extends AccessiblePersister<Study>
 
 	/**
 	 * Checks that the study accession is unique, throws an exception in case it isn't.
-	 * 
+	 *
 	 */
 	@Override
-	public Study persist ( Study object ) 
+	public Study persist ( Study object )
 	{
 		if ( object == null ) {
 			log.warn ( "WARNING: attempt to persist a null study, we will ignore this!" );
@@ -201,9 +201,9 @@ public class StudyPersister extends AccessiblePersister<Study>
 
 		Study study = ((StudyDAO) dao).getByAcc ( object.getAcc () );
 		if ( study != null ) throw new RuntimeException (
-			"The accession \"" + object.getAcc () + "\" (assigned to \"" 
-				+ StringUtils.substring ( object.getTitle () , 0, 15 ) + "\") is already being used for another study in the" 
-				+ " database (assigned to \"" + StringUtils.substring ( object.getTitle () , 0, 15 ) 
+			"The accession \"" + object.getAcc () + "\" (assigned to \""
+				+ StringUtils.substring ( object.getTitle () , 0, 15 ) + "\") is already being used for another study in the"
+				+ " database (assigned to \"" + StringUtils.substring ( object.getTitle () , 0, 15 )
 				+ "\"), please define another accession"
 		);
 		return super.persist ( object );

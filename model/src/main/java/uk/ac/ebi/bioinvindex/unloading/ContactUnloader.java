@@ -55,8 +55,8 @@ package uk.ac.ebi.bioinvindex.unloading;
 import uk.ac.ebi.bioinvindex.model.Contact;
 
 /**
- * Unloads an {@link Contact}. 
- * 
+ * Unloads an {@link Contact}.
+ *
  * @author brandizi
  * <b>date</b>: Oct 27, 2009
  *
@@ -66,29 +66,29 @@ public class ContactUnloader extends AbstractAnnotatableUnloader<Contact>
 //	// The bloody Hibernate keep generating exception when the contact is linked to the investigation
 //	private final static Association referringAssociations [] = new Association [] {
 //		new Association ( Investigation.class, "contacts" )
-//	};  
-	
+//	};
+
 	public ContactUnloader ( UnloadManager unloadManager ) {
 		super ( unloadManager );
 	}
 
 	/**
 	 * Unloads associated terms and properties.
-	 *  
+	 *
 	 */
 	@Override
-	public boolean queue ( Contact contact ) 
+	public boolean queue ( Contact contact )
 	{
 		if ( !super.queue ( contact )) return false;
 		unloadManager.queueAll ( contact.getRoles () );
 		return true;
 	}
 
-	
+
 //	@Override
 //	protected Association [] getReferringAssociations () {
 //		return referringAssociations;
 //	}
-	
+
 
 }

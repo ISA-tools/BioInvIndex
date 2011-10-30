@@ -40,7 +40,7 @@
  * This work has been funded mainly by the EU Carcinogenomics (http://www.carcinogenomics.eu) [PL 037712] and in part by the
  * EU NuGO [NoE 503630](http://www.nugo.org/everyone) projects and in part by EMBL-EBI.
  */
- 
+
 package uk.ac.ebi.bioinvindex.persistence.pipeline;
 
 import java.sql.Timestamp;
@@ -54,14 +54,14 @@ import uk.ac.ebi.bioinvindex.persistence.ParameterValuePersister;
 public class ProtocolApplicationPersister extends AccessiblePersister<ProtocolApplication>
 {
 	private final ParameterValuePersister pvPersister;
-	
+
 	public ProtocolApplicationPersister ( DaoFactory daoFactory, Timestamp submissionTs ) {
 		super ( daoFactory, submissionTs );
 		pvPersister = new ParameterValuePersister ( daoFactory, submissionTs );
 	}
 
 	@Override
-	protected void postProcess ( ProtocolApplication papp ) 
+	protected void postProcess ( ProtocolApplication papp )
 	{
 		// The PVs are saved only here and they're always new
 		for ( ParameterValue pval: papp.getParameterValues () ) pvPersister.persist ( pval );
@@ -72,7 +72,7 @@ public class ProtocolApplicationPersister extends AccessiblePersister<ProtocolAp
 	@Override
 	protected String getAccessionPrefix () {
 		Timestamp ts = getSubmissionTs ();
-		return "bii:protoApp:" + ts.getTime () + "." + ts.getNanos () + ":"; 
+		return "bii:protoApp:" + ts.getTime () + "." + ts.getNanos () + ":";
 	}
 
 }

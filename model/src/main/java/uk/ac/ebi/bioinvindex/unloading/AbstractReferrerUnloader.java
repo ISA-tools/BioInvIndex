@@ -55,11 +55,11 @@ package uk.ac.ebi.bioinvindex.unloading;
 import uk.ac.ebi.bioinvindex.model.HasReferences;
 
 /**
- * Unloads an object of type {@link HasReferences}. 
- * 
+ * Unloads an object of type {@link HasReferences}.
+ *
  * @author brandizi
  * <b>date</b>: Oct 27, 2009
- * 
+ *
  */
 public abstract class AbstractReferrerUnloader<R extends HasReferences> extends AbstractAccessibleUnloader<R>
 {
@@ -67,9 +67,9 @@ public abstract class AbstractReferrerUnloader<R extends HasReferences> extends 
 		super ( unloadManager );
 	}
 
-	public boolean queue ( R object ) 
+	public boolean queue ( R object )
 	{
-		if ( !super.queue ( object ) ) return false; 
+		if ( !super.queue ( object ) ) return false;
 		unloadManager.queueAll ( object.getXrefs () );
 		return true;
 	}

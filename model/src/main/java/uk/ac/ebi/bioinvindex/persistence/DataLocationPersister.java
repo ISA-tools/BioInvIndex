@@ -51,7 +51,7 @@ import uk.ac.ebi.bioinvindex.utils.datasourceload.DataLocationManager;
 import uk.ac.ebi.bioinvindex.utils.datasourceload.DataSourceLoader;
 
 /**
- * Unloads the data locations managed by the {@link DataLocationManager}. The class is used in 
+ * Unloads the data locations managed by the {@link DataLocationManager}. The class is used in
  * {@link DataSourceLoader}.
  *
  * <dl><dt>date</dt><dd>Mar 18, 2010</dd></dl>
@@ -60,13 +60,13 @@ import uk.ac.ebi.bioinvindex.utils.datasourceload.DataSourceLoader;
  */
 public class DataLocationPersister extends Persister<AssayTypeDataLocation>
 {
-	
-	final ReferenceSourcePersister sourcePersister; 
 
-	public DataLocationPersister ( DaoFactory daoFactory, Timestamp submissionTs ) 
+	final ReferenceSourcePersister sourcePersister;
+
+	public DataLocationPersister ( DaoFactory daoFactory, Timestamp submissionTs )
 	{
 		super ( daoFactory, submissionTs );
-		sourcePersister = new ReferenceSourcePersister ( daoFactory, submissionTs ); 
+		sourcePersister = new ReferenceSourcePersister ( daoFactory, submissionTs );
 	}
 
 	/**

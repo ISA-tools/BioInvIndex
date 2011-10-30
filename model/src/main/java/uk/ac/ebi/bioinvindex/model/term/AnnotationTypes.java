@@ -56,12 +56,12 @@ public enum AnnotationTypes {
 	PROCESSED_DATA_FILE_LINK("PROCESSED_DATA_FILE_LINK"),
 	GENERIC_DATA_FILE_PATH("GENERIC_DATA_FILE_PATH"),
 	GENERIC_DATA_FILE_LINK("GENERIC_DATA_FILE_LINK"),
-	
+
 	WEB_ENTRY_URL("WEB_ENTRY_URL"),
 
 	ISATAB_LOCATION_PATH("ISATAB_LOCATION_PATH"),
 	ISATAB_LOCATION_LINK("ISATAB_LOCATION_LINK");
-	
+
 	private String name;
 
 	AnnotationTypes(String name) {
@@ -76,7 +76,7 @@ public enum AnnotationTypes {
 		return new AnnotationType(this.name);
 	}
 
-	/** 
+	/**
 	 * Types referring to raw data, processed data, generic data
 	 */
 	public static final AnnotationTypes[] DATA_PATH_ANNOTATIONS = new AnnotationTypes [] {

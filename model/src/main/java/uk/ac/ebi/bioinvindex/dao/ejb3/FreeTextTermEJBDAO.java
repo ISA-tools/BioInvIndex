@@ -40,7 +40,7 @@
  * This work has been funded mainly by the EU Carcinogenomics (http://www.carcinogenomics.eu) [PL 037712] and in part by the
  * EU NuGO [NoE 503630](http://www.nugo.org/everyone) projects and in part by EMBL-EBI.
  */
- 
+
 package uk.ac.ebi.bioinvindex.dao.ejb3;
 
 import javax.persistence.EntityManager;
@@ -64,12 +64,12 @@ public class FreeTextTermEJBDAO<FT extends FreeTextTerm> extends AnnotatableEJB3
 		super ( persistentClass );
 	}
 
-	public FT getByValue ( String value ) 
+	public FT getByValue ( String value )
 	{
 		Class<FT> clazz = getPersistentClass ();
 		return (FT) getSession().createCriteria ( clazz )
 			.add ( Restrictions.eq ( "value", value ) )
 			.uniqueResult();
 	}
-	
+
 }

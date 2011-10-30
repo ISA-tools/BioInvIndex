@@ -57,7 +57,7 @@ public interface SourceURLResolver {
 	public String getEntryURL(String measurement, String technology, String accession);
 
 	public String getIsaTabLocation(String studyAcc);
-	
+
 	public String getViewImageLocation(String sourceName);
 
 }

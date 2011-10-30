@@ -57,13 +57,13 @@ import uk.ac.ebi.bioinvindex.model.Study;
 
 
 /**
- * 
+ *
  * @author Nataliya Sklyar (nsklyar@ebi.ac.uk)
  * Date: Jul 30, 2007
  */
 @Entity
 @DiscriminatorValue( "MaterialNode" )
-public class MaterialNode extends Node 
+public class MaterialNode extends Node
 {
 
 	private Material material;
@@ -85,16 +85,16 @@ public class MaterialNode extends Node
 	public Material getMaterial() {
 		return this.material;
 	}
-	
+
 	/**
 	 * Setup the material associated to this node and consequently changes the node associated to the parameter.
 	 * @param material
 	 */
-	public void setMaterial ( Material material ) 
+	public void setMaterial ( Material material )
 	{
 		Material oldMaterial = this.material;
 		this.material = material;
-		
+
 		if (oldMaterial != null && oldMaterial != material) {
 			oldMaterial.setMaterialNode ( null );
 		}
@@ -113,7 +113,7 @@ public class MaterialNode extends Node
 
 	@Transient
 	@Override
-	public Set<String> getAssayFileIds () 
+	public Set<String> getAssayFileIds ()
 	{
 		if ( assayFileIds != null ) return assayFileIds;
 		if ( this.material == null ) {
@@ -124,12 +124,12 @@ public class MaterialNode extends Node
 		assayFileIds.addAll ( this.material.getAnnotationValues ( "assayFileId" ) );
 		return assayFileIds;
 	}
-	
-	
+
+
 	@Override
-	public String toString () 
+	public String toString ()
 	{
-		return 
+		return
 		  "MaterialNode { id: " + getId() + ", acc: " + getAcc ()
 		  + ", material: " + getMaterial () + " }";
 	}

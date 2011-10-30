@@ -3,7 +3,7 @@
 <suite name="Study Tests" verbose="2" parallel="false">
    <test name="Study Test">
      <classes>
-       <class name="uk.ac.ebi.microarray.seamtest.test.StudyTest"/>       
+       <class name="uk.ac.ebi.microarray.seamtest.test.StudyTest"/>
      </classes>
-   </test>	
+   </test>
 </suite>

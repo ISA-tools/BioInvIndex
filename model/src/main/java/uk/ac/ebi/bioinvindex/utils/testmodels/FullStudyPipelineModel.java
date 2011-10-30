@@ -40,7 +40,7 @@
  * This work has been funded mainly by the EU Carcinogenomics (http://www.carcinogenomics.eu) [PL 037712] and in part by the
  * EU NuGO [NoE 503630](http://www.nugo.org/everyone) projects and in part by EMBL-EBI.
  */
- 
+
 package uk.ac.ebi.bioinvindex.utils.testmodels;
 
 import uk.ac.ebi.bioinvindex.model.AssayResult;
@@ -52,8 +52,8 @@ import uk.ac.ebi.bioinvindex.model.term.Measurement;
 
 /**
  * Provides the same model given by {@link ProtocolEquippedModel}, adding an assay, assay results and their
- * links with the study. 
- * 
+ * links with the study.
+ *
  * @author brandizi
  * <b>date</b>: Feb 4, 2010
  *
@@ -64,7 +64,7 @@ public class FullStudyPipelineModel extends ProtocolEquippedModel
 	public Assay as1;
 	public AssayResult ar1, ar2;
 
-	public FullStudyPipelineModel () 
+	public FullStudyPipelineModel ()
 	{
 		super ();
 
@@ -77,14 +77,14 @@ public class FullStudyPipelineModel extends ProtocolEquippedModel
 		as1.setTechnology ( tech1 );
 		as1.setMaterial ( assayMaterial1 );
 		study.addAssay ( as1 );
-		
+
 		ar1 = new AssayResult ( dt1, study );
 		for ( CharacteristicValue cv: ar1.findPipelineCharacteristicValues () )
 			ar1.addCascadedPropertyValue ( cv );
 		for ( FactorValue fv: ar1.findPipelineFactorValues () )
 			ar1.addCascadedPropertyValue ( fv );
 		ar1.addAssay ( as1 );
-		
+
 		ar2 = new AssayResult ( dt2, study );
 		for ( CharacteristicValue cv: ar2.findPipelineCharacteristicValues () )
 			ar2.addCascadedPropertyValue ( cv );

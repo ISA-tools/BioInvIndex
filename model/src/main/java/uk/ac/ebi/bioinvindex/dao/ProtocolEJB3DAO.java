@@ -48,7 +48,7 @@ import uk.ac.ebi.bioinvindex.model.Protocol;
 /**
  * @author Nataliya Sklyar (nsklyar@ebi.ac.uk)
  * Date: Nov 21, 2007
- * 
+ *
  * TODO: why not ProtocolDAO? Why is not implemented?
  */
 public interface ProtocolEJB3DAO extends AccessibleDAO<Protocol> {

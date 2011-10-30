@@ -40,7 +40,7 @@
  * This work has been funded mainly by the EU Carcinogenomics (http://www.carcinogenomics.eu) [PL 037712] and in part by the
  * EU NuGO [NoE 503630](http://www.nugo.org/everyone) projects and in part by EMBL-EBI.
  */
- 
+
 package uk.ac.ebi.bioinvindex.persistence;
 
 import java.sql.Timestamp;
@@ -50,8 +50,8 @@ import uk.ac.ebi.bioinvindex.dao.ejb3.DaoFactory;
 import uk.ac.ebi.bioinvindex.model.term.AnnotationType;
 
 /**
- * Annotation types are reused, based on their string values 
- * 
+ * Annotation types are reused, based on their string values
+ *
  * @author brandizi
  * <b>date</b>: Feb 9, 2010
  *

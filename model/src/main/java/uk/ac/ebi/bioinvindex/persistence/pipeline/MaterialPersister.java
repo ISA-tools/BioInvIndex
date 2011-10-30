@@ -62,7 +62,7 @@ public class MaterialPersister extends AccessiblePersister<Material>
 	private final OntologyEntryPersister<MaterialRole> typePersister;
 	private final CharacteristicValuePersister cvalPersister;
 	private final FactorValuePersister fvPersister;
-	
+
 	public MaterialPersister ( DaoFactory daoFactory, Timestamp submissionTs ) {
 		super ( daoFactory, submissionTs );
 		typePersister = new OntologyEntryPersister<MaterialRole> ( daoFactory, submissionTs ) {};
@@ -70,16 +70,16 @@ public class MaterialPersister extends AccessiblePersister<Material>
 		fvPersister = new FactorValuePersister ( daoFactory, submissionTs ) {};
 	}
 
-	
+
 	@Override
-	protected void preProcess ( Material material ) 
+	protected void preProcess ( Material material )
 	{
-		// This is necessary cause otherwise the bloody Hibernate will complain that the node links a transient material 
+		// This is necessary cause otherwise the bloody Hibernate will complain that the node links a transient material
 		MaterialNode backupNode = material.getMaterialNode ();
 		material.setMaterialNode ( null );
 
 		super.preProcess ( material );
-		
+
 		// Material Type
 		MaterialRole type = material.getType ();
 		MaterialRole typeDB = typePersister.persist ( type );
@@ -89,12 +89,12 @@ public class MaterialPersister extends AccessiblePersister<Material>
 		for ( FactorValue fv: material.getFactorValues () ) {
 			fvPersister.persist ( fv );
 		}
-		
+
 		material.setMaterialNode ( backupNode );
 	}
 
 	@Override
-	protected void postProcess ( Material material ) 
+	protected void postProcess ( Material material )
 	{
 		// Now the characteristic values
 		// They're saved here only, and each characteristic has only one material associated, so they're

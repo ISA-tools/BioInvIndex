@@ -77,12 +77,12 @@ public class StudyRelationsTest extends DBUnitEJB3DAOTest {
 	public StudyRelationsTest() throws Exception {
 		super();
 	}
-	
+
 	protected void prepareSettings() {
 		beforeTestOperations.add ( DatabaseOperation.CLEAN_INSERT );
 		dataSetLocation = "sample-data.xml";
 	}
-	
+
 
 	@Before
 	public void setUp() throws Exception {
@@ -127,7 +127,7 @@ public class StudyRelationsTest extends DBUnitEJB3DAOTest {
 
 
 	@Test
-	public void testAssays () 
+	public void testAssays ()
 	{
 		out.println ( "***** Testing Study<->Assays *****" );
 		Study s = new Study ( "test study" );
@@ -136,12 +136,12 @@ public class StudyRelationsTest extends DBUnitEJB3DAOTest {
 			a1.setAcc ( "a1" );
 		Assay a2 = new Assay ( s );
 			a2.setAcc ( "a2" );
-		
+
 		a1.setStudy ( null );
-		
-		assertTrue ( 
-			"Gosh! The study " + s.getTitle ()  + " still contains the assay " + a1.getAcc (), 
-			!s.getAssays ().contains ( a1 ) 
+
+		assertTrue (
+			"Gosh! The study " + s.getTitle ()  + " still contains the assay " + a1.getAcc (),
+			!s.getAssays ().contains ( a1 )
 		);
 		out.println ( "***** /end: Testing Study<->Assays *****" );
 	}

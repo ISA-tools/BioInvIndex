@@ -69,7 +69,7 @@ import java.util.List;
 
 /**
  * A super class for a value of property in "property name/property value" pair of classes (for example, {@link Characteristic}/{@link CharacteristicValue} )
- * 
+ *
  * @author Nataliya Sklyar (nsklyar@ebi.ac.uk)
  * Date: Jul 12, 2007
  */
@@ -134,9 +134,9 @@ public abstract class PropertyValue<PT extends Property<?>>
 	}
 
 	@ManyToMany ( targetEntity = OntologyTerm.class )
-	@PrimaryKeyJoinColumns ( { 
-		@PrimaryKeyJoinColumn ( name = "PV_ID", referencedColumnName = "ID" ), 
-		@PrimaryKeyJoinColumn ( name = "OE_ID", referencedColumnName = "ID" ) 
+	@PrimaryKeyJoinColumns ( {
+		@PrimaryKeyJoinColumn ( name = "PV_ID", referencedColumnName = "ID" ),
+		@PrimaryKeyJoinColumn ( name = "OE_ID", referencedColumnName = "ID" )
 	})
 	@JoinTable(
 		name = "PropertyValue2OT",
@@ -147,8 +147,8 @@ public abstract class PropertyValue<PT extends Property<?>>
 	public List<OntologyTerm> getOntologyTerms() {
 		return super.getOntologyTerms();
 	}
-	
-	
+
+
 	public boolean equals(Object o) {
 		if (this == o) return true;
 		if (o == null || getClass() != o.getClass()) return false;
@@ -163,9 +163,9 @@ public abstract class PropertyValue<PT extends Property<?>>
 	}
 
 	public int hashCode() {
-		int result = super.hashCode(); 
+		int result = super.hashCode();
 		result = 31 * result + (type != null ? type.hashCode() : 0);
-		result = 31 * result + (unit != null ? unit.hashCode() : 0); 
+		result = 31 * result + (unit != null ? unit.hashCode() : 0);
 		return result;
 	}
 

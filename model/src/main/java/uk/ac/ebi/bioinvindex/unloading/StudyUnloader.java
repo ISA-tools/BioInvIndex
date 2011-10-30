@@ -63,7 +63,7 @@ import uk.ac.ebi.bioinvindex.model.processing.Processing;
 
 /**
  * Unloads instances of {@link Study}.
- * 
+ *
  * @author brandizi
  * <b>date</b>: Oct 27, 2009
  *
@@ -75,13 +75,13 @@ public class StudyUnloader extends AbstractReferrerUnloader<Study>
 		logLevel = Level.DEBUG;
 	}
 
-	/** 
-	 * Unloads the study's linked entities 
-	 * 
+	/**
+	 * Unloads the study's linked entities
+	 *
 	 */
 	@SuppressWarnings ( "unchecked" )
 	@Override
-	public boolean queue ( Study study ) 
+	public boolean queue ( Study study )
 	{
 		if ( !super.queue ( study ) ) return false;
 		unloadManager.queueAll ( study.getDesigns () );
@@ -93,8 +93,8 @@ public class StudyUnloader extends AbstractReferrerUnloader<Study>
 		unloadManager.queueAll ( study.getInvestigations () );
 
 		// A quick way to get rid of all the nodes in the experimental pipeline associated to this study
-		Query q = unloadManager.getDaoFactory ().getEntityManager ().createQuery ( 
-			"SELECT ge FROM " + GraphElement.class.getName () + " ge WHERE ge.study.id = :studyId" 
+		Query q = unloadManager.getDaoFactory ().getEntityManager ().createQuery (
+			"SELECT ge FROM " + GraphElement.class.getName () + " ge WHERE ge.study.id = :studyId"
 		);
 		q.setParameter ( "studyId", study.getId () );
 		for ( Object o: q.getResultList () ) {

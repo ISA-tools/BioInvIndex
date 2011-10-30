@@ -62,7 +62,7 @@ import uk.ac.ebi.bioinvindex.model.xref.ReferenceSource;
 public class CascadedPropertiesTest
 {
 	private int nodeCounter = 0;
-	
+
 	private Processing<?, ?> addStep ( Study study, MaterialProcessing previousStep, Material material, Protocol protocol )
 	{
 
@@ -135,8 +135,8 @@ public class CascadedPropertiesTest
 //		for ( CharacteristicValue chr: characteristics ) {
 //			out.println ( chr );
 //		}
-		
-		
+
+
 //		assertEquals ( "Arg! Bad no of characteristic values returned!", 8, characteristics.size () );
 //		assertNotNull ( "Ops! 'value 2' was not found",
 //			CollectionUtils.find ( characteristics, new Predicate () {

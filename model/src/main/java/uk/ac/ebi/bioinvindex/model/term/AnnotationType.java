@@ -56,10 +56,10 @@ import java.util.List;
 
 /**
  * A type for {@link uk.ac.ebi.bioinvindex.model.Annotation} object.
- * 
+ *
  * <dl><dt>Date:</dt><dd>Jan 4, 2008</dd></dl>
  * @author Nataliya Sklyar (nsklyar@ebi.ac.uk)
- * 
+ *
  *
  */
 @Entity

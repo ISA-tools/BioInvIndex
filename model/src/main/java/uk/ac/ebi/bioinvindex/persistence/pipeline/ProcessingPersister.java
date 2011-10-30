@@ -40,7 +40,7 @@
  * This work has been funded mainly by the EU Carcinogenomics (http://www.carcinogenomics.eu) [PL 037712] and in part by the
  * EU NuGO [NoE 503630](http://www.nugo.org/everyone) projects and in part by EMBL-EBI.
  */
- 
+
 package uk.ac.ebi.bioinvindex.persistence.pipeline;
 
 import java.sql.Timestamp;
@@ -56,17 +56,17 @@ public abstract class ProcessingPersister<P extends Processing> extends GraphEle
 {
 	private final ProtocolApplicationPersister pappPersister;
 
-	public ProcessingPersister ( DaoFactory daoFactory, Timestamp submissionTs ) 
+	public ProcessingPersister ( DaoFactory daoFactory, Timestamp submissionTs )
 	{
 		super ( daoFactory, submissionTs );
 		pappPersister = new ProtocolApplicationPersister ( daoFactory, submissionTs );
 	}
 
 	@Override
-	protected void preProcess ( P proc ) 
+	protected void preProcess ( P proc )
 	{
 		super.preProcess ( proc );
-		
+
 		// All The Proto Apps
 		Collection<ProtocolApplication> papps = new LinkedList<ProtocolApplication> ( proc.getProtocolApplications () );
 		for ( ProtocolApplication papp: papps )
@@ -80,5 +80,5 @@ public abstract class ProcessingPersister<P extends Processing> extends GraphEle
 		for ( Node node: outputs ) proc.removeOutputNode ( node );
 		*/
 	}
-	
+
 }

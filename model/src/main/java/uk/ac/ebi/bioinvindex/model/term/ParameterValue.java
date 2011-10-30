@@ -52,7 +52,7 @@ import javax.persistence.ManyToOne;
 
 /**
  * A value of protocol parameter.
- * 
+ *
  * @author Nataliya Sklyar (nsklyar@ebi.ac.uk)
  * Date: Jan 2, 2008
  */

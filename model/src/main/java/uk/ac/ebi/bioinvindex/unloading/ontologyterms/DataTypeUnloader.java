@@ -57,9 +57,9 @@ import uk.ac.ebi.bioinvindex.model.term.DataType;
 import uk.ac.ebi.bioinvindex.unloading.UnloadManager;
 
 /**
- * There is only an internal difference wrt {@link OntologyEntryUnloader} (different list for 
- * {@link #getReferringAssociations()} ). 
- * 
+ * There is only an internal difference wrt {@link OntologyEntryUnloader} (different list for
+ * {@link #getReferringAssociations()} ).
+ *
  * @author brandizi
  * <b>date</b>: Oct 28, 2009
  *
@@ -68,15 +68,15 @@ public class DataTypeUnloader extends AbstractOntologyEntryUnloader<DataType>
 {
 	private final static Association[] referringAssociations = new Association[] {
 		new Association ( Data.class, "type" )
-	};  
-	
+	};
+
 	public DataTypeUnloader ( UnloadManager unloadManager ) {
 		super ( unloadManager );
 	}
 
 	@Override
 	protected Association [] getReferringAssociations () {
-		return referringAssociations; 
+		return referringAssociations;
 	}
 
 }

@@ -11,7 +11,7 @@ public class ReferenceSourceUnloader extends AbstractAccessibleUnloader<Referenc
 		new Association ( Xref.class, "source" ),
 		new Association ( OntologyEntry.class, "source" ),
 		new Association ( AssayTypeDataLocation.class, "referenceSource" )
-	};  
+	};
 
 	public ReferenceSourceUnloader ( UnloadManager unloadManager ) {
 		super ( unloadManager );

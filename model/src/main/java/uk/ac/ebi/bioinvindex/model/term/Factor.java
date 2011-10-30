@@ -53,8 +53,8 @@ import javax.persistence.Entity;
  * dependent variable).
  *
  * TODO: We currently *don't* have Characteristics or Parameters that are factors too. The model was initially designed
- * to support such a use case, but we don't need that for the moment. 
- * 
+ * to support such a use case, but we don't need that for the moment.
+ *
  * @author Nataliya Sklyar (nsklyar@ebi.ac.uk) Date: Jan 4, 2008
  */
 

@@ -95,7 +95,7 @@ public class InvestigationEJB3DAOTest extends DBUnitEJB3DAOTest
 		inv.setAcc("acc1");
 
 		// Include an Xref too
-		
+
 // TODO: this cannot work this way, needs the persister.
 //		Xref xref = new Xref ( "FOO.INV.X-REF" );
 //		xref.setSource ( new ReferenceSource ( "FOO.INV.SOURCE" ) );
@@ -116,7 +116,7 @@ public class InvestigationEJB3DAOTest extends DBUnitEJB3DAOTest
 	{
 		Investigation inv = new Investigation ( "Another wonderful Test Investigation" );
 		inv.setAcc("acc1");
-		
+
 		EntityTransaction tnx = entityManager.getTransaction();
 		tnx.begin ();
 		Long id = dao.save ( inv );

@@ -87,7 +87,7 @@ public abstract class HasReferences extends Accessible {
 	 * @return the xrefs having a source with a given accession. An empty list if none available.
 	 */
 	@SuppressWarnings("unchecked")
-	public List<Xref> getXrefs ( final String sourceAcc ) 
+	public List<Xref> getXrefs ( final String sourceAcc )
 	{
 		return (List<Xref>) CollectionUtils.select ( refs, new Predicate () {
 			public boolean evaluate ( Object xref ) {
@@ -96,24 +96,24 @@ public abstract class HasReferences extends Accessible {
 				if ( sourceAcc == null ) return source.getAcc () == null;
 				return sourceAcc.equals ( source.getAcc () );
 			}
-		} 
+		}
 		);
 	}
-	
+
 	/** @return the first element in {@link #getXrefs(String)} or null if it doesn't exist.
 	 */
 	public Xref getSingleXref ( final String sourceAcc ) {
 		List<Xref> xrefs = getXrefs ( sourceAcc );
 		return xrefs.size () == 0 ? null : xrefs.get ( 0 );
-	} 
+	}
 
 
 	/**
 	 * It's like {@link #getXrefs(String)}, but uses a containment criterion
-	 * 
+	 *
 	 */
 	@SuppressWarnings("unchecked")
-	public List<Xref> getXrefsContaining ( final String sourceAcc ) 
+	public List<Xref> getXrefsContaining ( final String sourceAcc )
 	{
 		return (List<Xref>) CollectionUtils.select ( refs, new Predicate () {
 			public boolean evaluate ( Object xref ) {
@@ -122,7 +122,7 @@ public abstract class HasReferences extends Accessible {
 				if ( sourceAcc == null ) return source.getAcc () == null;
 				return StringUtils.containsIgnoreCase ( source.getAcc (), sourceAcc );
 			}
-		} 
+		}
 		);
 	}
 
@@ -131,7 +131,7 @@ public abstract class HasReferences extends Accessible {
 	public Xref getSingleXrefContaining ( final String sourceAcc ) {
 		List<Xref> xrefs = getXrefsContaining ( sourceAcc );
 		return xrefs.size () == 0 ? null : xrefs.get ( 0 );
-	} 
+	}
 
 
 }

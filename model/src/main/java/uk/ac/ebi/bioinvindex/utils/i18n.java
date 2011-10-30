@@ -49,17 +49,17 @@ import java.util.ResourceBundle;
 
 /**
  * The internationalization and user messaging API.
- * 
- * It's a simple wrapper that loads a conventionally named resource bundle (user_message.properties) and 
+ *
+ * It's a simple wrapper that loads a conventionally named resource bundle (user_message.properties) and
  * does the job of translating symbolic constants to formatted messages. It also supports parameterized
  * messages, via {@link MessageFormat}.
- *  
+ *
  * We don't actually use this class for localization purposes (we support only English), however it should
  * be able to automatically switch to a file like user_messages_IT.properties.
- * 
+ *
  * The user_message.properties file is loaded by {@link ResourceBundle#getBundle(String)}, so it should be somewhere
- * like the .jar's root. The class is designed for having one such file per .jar.   
- * 
+ * like the .jar's root. The class is designed for having one such file per .jar.
+ *
  * @author brandizi
  * <b>date</b>: May 1, 2009
  *
@@ -68,25 +68,25 @@ public class i18n
 {
 	private static final String BUNDLE_NAME = "user_messages";
 	private static final ResourceBundle RESOURCE_BUNDLE = ResourceBundle.getBundle ( BUNDLE_NAME );
-	
+
 	private i18n () {
 	}
-	
-	
+
+
 	/**
-	 * Gets the message pattern corresponding to the key and apply it to the other arguments. 
-	 * The pattern is specified in user_messages.properties and is passed to the {@link MessageFormat} 
-	 * constructor (i.e.: see there for the syntax). See the test package for usage examples. 
-	 *   
+	 * Gets the message pattern corresponding to the key and apply it to the other arguments.
+	 * The pattern is specified in user_messages.properties and is passed to the {@link MessageFormat}
+	 * constructor (i.e.: see there for the syntax). See the test package for usage examples.
+	 *
 	 */
-	public static String msg ( String key, Object... args ) 
+	public static String msg ( String key, Object... args )
 	{
-		
-		try 
+
+		try
 		{
-			// TODO: Speed might be a concern here, we should cache all the MessageFormat(s) 
+			// TODO: Speed might be a concern here, we should cache all the MessageFormat(s)
 			// in an map indexed by the keys.
-			// 
+			//
 			String pattern = RESOURCE_BUNDLE.getString ( key );
 			MessageFormat fmt = new MessageFormat ( pattern );
 			return fmt.format ( args );

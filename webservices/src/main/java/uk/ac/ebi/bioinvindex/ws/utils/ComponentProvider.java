@@ -59,7 +59,7 @@ import uk.ac.ebi.bioinvindex.search.StudyFreeTextSearch;
 @Name("componentProvider")
 @AutoCreate
 public class ComponentProvider {
-    
+
 	@In
 	private StudyEJB3DAO studyEJB3DAO;
 

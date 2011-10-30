@@ -56,7 +56,7 @@ import org.apache.log4j.Level;
 
 /**
  * Persists an {@link Assay}.
- * 
+ *
  * date: Apr 15, 2008
  * @author brandizi
  *
@@ -66,8 +66,8 @@ public class AssayPersister extends ReferrerPersister<Assay>
 	private final OntologyEntryPersister<Measurement> measPersister;
 	private final OntologyEntryPersister<AssayTechnology> techPersister;
 	private final AssayMaterialPersister assayMaterialPersister;
-	
-	public AssayPersister ( DaoFactory daoFactory, Timestamp submissionTs ) 
+
+	public AssayPersister ( DaoFactory daoFactory, Timestamp submissionTs )
 	{
 		super ( daoFactory, submissionTs );
 		dao = daoFactory.getAccessibleDAO ( Assay.class );
@@ -77,17 +77,17 @@ public class AssayPersister extends ReferrerPersister<Assay>
 		logLevel = Level.DEBUG;
 	}
 
-	
+
 	/**
 	 * It's always new. Returns always the parameter.
-	 *  
+	 *
 	 */
 	@Override
-	public void preProcess ( Assay assay ) 
+	public void preProcess ( Assay assay )
 	{
 		// The ancestor works with the accession
 		super.preProcess ( assay );
-		
+
 		// Technology
 		AssayTechnology technology = assay.getTechnology ();
 		AssayTechnology technologyDB = (AssayTechnology) techPersister.persist ( technology );
@@ -100,13 +100,13 @@ public class AssayPersister extends ReferrerPersister<Assay>
 		if ( measurement != measurementDB ) {
 			assay.setMeasurement ( measurementDB );
 		}
-		
+
 		if ( Persister.isLightPersistence () )
 		{
 			assay.setMaterial ( null );
 			return;
 		}
-		
+
 		Material material = assay.getMaterial ();
 
 		Material materialDB = assayMaterialPersister.persist ( material );
@@ -114,14 +114,14 @@ public class AssayPersister extends ReferrerPersister<Assay>
 			// Might happen, when the same assay is reachable from other graph paths
 			assay.setMaterial ( materialDB );
 	}
-	
+
 
 	@Override
 	protected String getAccessionPrefix () {
 		return "bii:assay:";
 	}
 
-	
+
 	/** Returns null, an assay is always new. */
 	@Override
 	protected Assay lookup ( Assay object ) {

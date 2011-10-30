@@ -53,7 +53,7 @@ import java.util.Collection;
 
 /**
  * Persists an {@link Contact}.
- * 
+ *
  * date: Nov 11, 2008
  * @author brandizi
  *
@@ -61,27 +61,27 @@ import java.util.Collection;
 public class ContactPersister extends Persister<Contact>
 {
 	private final OntologyEntryPersister<ContactRole> rolePersister;
-	
+
 	// See below private Material backupMaterial;
-	
-	public ContactPersister ( DaoFactory daoFactory, Timestamp submissionTs ) 
+
+	public ContactPersister ( DaoFactory daoFactory, Timestamp submissionTs )
 	{
 		super ( daoFactory, submissionTs );
 		dao = daoFactory.getContactDao ();
 		rolePersister = new OntologyEntryPersister<ContactRole> ( daoFactory, submissionTs ) {};
 	}
 
-	
+
 	/**
 	 * It's always new. Returns always the parameter.
-	 *  
+	 *
 	 */
 	@Override
-	public void preProcess ( Contact contact ) 
+	public void preProcess ( Contact contact )
 	{
 		// The ancestor works with the accession
 		super.preProcess ( contact );
-		
+
 		// Roles
 		Collection<ContactRole> roles = new ArrayList<ContactRole> ( contact.getRoles () );
 		for ( ContactRole role: roles ) {

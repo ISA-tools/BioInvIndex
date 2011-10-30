@@ -57,7 +57,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "annotation")
-public class Annotation extends Identifiable 
+public class Annotation extends Identifiable
 {
 	private AnnotationType type;
 
@@ -80,8 +80,8 @@ public class Annotation extends Identifiable
 	}
 
 	/**
-	 * Please see also notes in {@link AnnotationType}. 
-	 *   
+	 * Please see also notes in {@link AnnotationType}.
+	 *
 	 */
 	@ManyToOne(targetEntity = AnnotationType.class)
 	@JoinColumn(name = "TYPE_ID", nullable = false)
@@ -119,7 +119,7 @@ public class Annotation extends Identifiable
 		int result = 0;
 		if ( type !=null ) {
 			String types = type.getValue ();
-			if ( types != null ) result = types.hashCode (); 
+			if ( types != null ) result = types.hashCode ();
 		}
 		result = 31 * result + (text == null ? 0 : text.hashCode() );
 		return result;

@@ -58,7 +58,7 @@ import uk.ac.ebi.bioinvindex.unloading.freetextterms.AbstractFreeTextTermUnloade
 
 /**
  * Unloads an instance of {@link UnitValue}. This class is used by the property unloaders.
- * 
+ *
  * @author brandizi
  * <b>date</b>: Oct 27, 2009
  *
@@ -70,7 +70,7 @@ public class UnitValueUnloader extends AbstractFreeTextTermUnloader<UnitValue>
 	}
 
 	@Override
-	public boolean queue ( UnitValue uval ) 
+	public boolean queue ( UnitValue uval )
 	{
 		if ( !super.queue ( uval ) ) return false;
 		unloadManager.queue ( uval.getType () );

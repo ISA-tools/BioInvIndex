@@ -52,7 +52,7 @@ import java.sql.Timestamp;
 
 /**
  * The {@link ReferenceSource} persister.
- * 
+ *
  * date: Apr 15, 2008
  * @author brandizi
  *
@@ -63,9 +63,9 @@ public class ReferenceSourcePersister extends AccessiblePersister<ReferenceSourc
 		super ( daoFactory, submissionTs );
 		dao = daoFactory.getReferenceSourceDAO ();
 	}
-	
+
 	/**
-	 * Does nothing, don't even create a new accession, cause it must always be provided in case of reference sources. 
+	 * Does nothing, don't even create a new accession, cause it must always be provided in case of reference sources.
  	 *
 	 */
 	@Override
@@ -81,7 +81,7 @@ public class ReferenceSourcePersister extends AccessiblePersister<ReferenceSourc
 	}
 
 	/**
-	 * Search by accession. 
+	 * Search by accession.
 	 */
 	@Override
 	protected ReferenceSource lookup ( ReferenceSource source ) {
@@ -96,5 +96,5 @@ public class ReferenceSourcePersister extends AccessiblePersister<ReferenceSourc
 	protected String getCacheKey ( ReferenceSource source ) {
 		return source.getAcc ();
 	}
-	
+
 }

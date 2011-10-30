@@ -50,7 +50,7 @@ import javax.persistence.Entity;
 
 /**
  *Type of data files (for example, raw, processed or normalized).
- * 
+ *
  * @author Nataliya Sklyar (nsklyar@ebi.ac.uk)
  * Date: Jul 18, 2007
  */

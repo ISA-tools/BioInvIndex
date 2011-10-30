@@ -50,7 +50,7 @@ import javax.persistence.Entity;
 
 /**
  * Terms to qualify the endpoint, what is being measured, i.e. are gene expression profiling, protein identification.
- * 
+ *
  * @author Nataliya Sklyar (nsklyar@ebi.ac.uk)
  * Date: Jan 18, 2008
  */

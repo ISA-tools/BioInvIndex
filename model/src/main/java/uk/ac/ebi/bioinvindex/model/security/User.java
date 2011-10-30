@@ -87,8 +87,8 @@ public abstract class User extends Identifiable implements Serializable {
 	public User () {
 		super ();
 	}
-	
-	public User ( String userName, String password,  String email, String address, Date joinDate, UserRole role ) 
+
+	public User ( String userName, String password,  String email, String address, Date joinDate, UserRole role )
 	{
 		super ();
 		this.email = email;
@@ -99,7 +99,7 @@ public abstract class User extends Identifiable implements Serializable {
 		this.role = role;
 	}
 
-	
+
 	public String getEmail() {
 		return email;
 	}
@@ -157,7 +157,7 @@ public abstract class User extends Identifiable implements Serializable {
 		User user = (User) o;
 
 		// You must use the getters, otherwise lazy loaading in Hibernate will make this fail.
-		
+
 		if (getEmail () != null ? !getEmail ().equals(user.getEmail ()) : user.getEmail () != null) return false;
 		if (getPassword () != null ? !getPassword ().equals(user.getPassword ()) : user.getPassword () != null) return false;
 		if (!getUserName ().equals(user.getUserName ())) return false;
@@ -166,7 +166,7 @@ public abstract class User extends Identifiable implements Serializable {
 	}
 
 	@Override
-	public int hashCode() 
+	public int hashCode()
 	{
 		// You must use the getters, otherwise lazy loaading in Hibernate will make this fail.
 

@@ -54,7 +54,7 @@ import java.sql.Timestamp;
  * TODO: Do you fancy this name in place of HasReferences?
  * TODO: All the persister hierarchy is to be reviewed and persisters who persist {@link HasReferences}
  * objects must be made to subclass this. Same for {@link AnnotatablePersister}
- * 
+ *
  * <dl><dt>date:</dt><dd>Dec 4, 2008</dd></dl>
  * @author brandizi
  *
@@ -63,18 +63,18 @@ import java.sql.Timestamp;
 public abstract class ReferrerPersister<R extends HasReferences> extends AccessiblePersister<R>
 {
 	private final XrefPersister xrefPersister;
-	
+
 	protected ReferrerPersister ( DaoFactory daoFactory, Timestamp submissionTs ) {
 		super ( daoFactory, submissionTs );
 		xrefPersister = new XrefPersister ( daoFactory, submissionTs );
 	}
 
 	/**
-	 * Works on the {@link Xref}(s). 
-	 * 
+	 * Works on the {@link Xref}(s).
+	 *
 	 */
 	@Override
-	protected void preProcess ( R object ) 
+	protected void preProcess ( R object )
 	{
 		super.preProcess ( object );
 		// Xrefs

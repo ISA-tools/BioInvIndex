@@ -394,8 +394,8 @@ public class StudyEJB3DAOTest extends DBUnitEJB3DAOTest {
 		assertEquals(2, study1.getUsers().size());
 
 	}
-	
-	
+
+
 	@Test
 	public void testRemoveUserFromStudy() throws Exception {
 

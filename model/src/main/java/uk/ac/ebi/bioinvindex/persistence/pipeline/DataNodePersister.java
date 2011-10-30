@@ -40,7 +40,7 @@
  * This work has been funded mainly by the EU Carcinogenomics (http://www.carcinogenomics.eu) [PL 037712] and in part by the
  * EU NuGO [NoE 503630](http://www.nugo.org/everyone) projects and in part by EMBL-EBI.
  */
- 
+
 package uk.ac.ebi.bioinvindex.persistence.pipeline;
 
 import java.sql.Timestamp;
@@ -53,14 +53,14 @@ public class DataNodePersister extends NodePersister<DataNode>
 {
 	private final DataPersister dataPersister;
 	private Data backupData;
-	
+
 	public DataNodePersister ( DaoFactory daoFactory, Timestamp submissionTs ) {
 		super ( daoFactory, submissionTs );
 		dataPersister = new DataPersister ( daoFactory, submissionTs );
 	}
 
-	
-	
+
+
 	@Override
 	protected void preProcess ( DataNode node ) {
 		super.preProcess ( node );
@@ -71,7 +71,7 @@ public class DataNodePersister extends NodePersister<DataNode>
 
 
 	@Override
-	protected void postProcess ( DataNode node ) 
+	protected void postProcess ( DataNode node )
 	{
 		backupData.setProcessingNode ( node );
 		dataPersister.persist ( backupData );

@@ -57,7 +57,7 @@ import javax.persistence.Entity;
  */
 
 @Entity
-@DiscriminatorValue( "Person" ) 
+@DiscriminatorValue( "Person" )
 public class Person extends User
 {
 	private String firstName;
@@ -68,17 +68,17 @@ public class Person extends User
 		super ();
 	}
 
-	public Person ( 
-		String userName, String password, String firstName, String lastName, String email, String affiliation, 
-		String address, Date joinDate, UserRole role ) 
+	public Person (
+		String userName, String password, String firstName, String lastName, String email, String affiliation,
+		String address, Date joinDate, UserRole role )
 	{
 		super ( userName, password, email, address, joinDate, role );
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.affiliation = affiliation;
 	}
-	
-	
+
+
 	public String getFirstName() {
 		return firstName;
 	}
@@ -112,6 +112,6 @@ public class Person extends User
 				+ getUserName () + "\', getId(): \'" + getId () + "\', getSubmissionTs(): \'" + getSubmissionTs () + " }";
 	}
 
-	
-	
+
+
 }

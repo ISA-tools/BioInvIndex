@@ -144,7 +144,7 @@ public class AssayInfoBean {
     public String getLinksString() {
         StringBuilder sb = new StringBuilder();
         for (DBLink dbLink : dbLinks) {
-            
+
         }
         return null;
     }

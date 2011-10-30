@@ -46,9 +46,9 @@ package uk.ac.ebi.bioinvindex.utils.test;
 import uk.ac.ebi.bioinvindex.dao.ejb3.DaoFactory;
 
 /**
- * A version of {@link DBUnitTest} that manages the {@link DaoFactory}. This <b>cannot</b> be placed in 
- * test_utis package, because circular dependencies would be created otherwise. 
- * 
+ * A version of {@link DBUnitTest} that manages the {@link DaoFactory}. This <b>cannot</b> be placed in
+ * test_utis package, because circular dependencies would be created otherwise.
+ *
  * <p><b>date</b>: Sep 29, 2008</p>
  * @author brandizi
  *
@@ -62,12 +62,12 @@ public abstract class DBUnitEJB3DAOTest extends DBUnitTest
 	}
 
 	@Override
-	protected void initEntityManager ( boolean forceRecreation ) 
+	protected void initEntityManager ( boolean forceRecreation )
 	{
 		super.initEntityManager ( forceRecreation );
 
 		if ( forceRecreation || daoFactory == null )
 			daoFactory = DaoFactory.getInstance ( entityManager );
 	}
-	
+
 }

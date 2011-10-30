@@ -77,17 +77,17 @@ public class PropertyValuePersistenceTest extends TransactionalDBUnitEJB3DAOTest
 	}
 
 	@Before
-	public void initPersister () 
+	public void initPersister ()
 	{
 		// Needs to be instantiated here, so that the internal cache for the ontology terms is cleared
 		// before every test.
 		//
-		persister = new CharacteristicValuePersister ( 
-			DaoFactory.getInstance ( entityManager ), new Timestamp ( System.currentTimeMillis () ) 
+		persister = new CharacteristicValuePersister (
+			DaoFactory.getInstance ( entityManager ), new Timestamp ( System.currentTimeMillis () )
 		);
 	}
 
-	
+
 	protected void prepareSettings() {
 		beforeTestOperations.add(DatabaseOperation.CLEAN_INSERT);
 		dataSetLocation = "test_persistence.xml";

@@ -40,7 +40,7 @@
  * This work has been funded mainly by the EU Carcinogenomics (http://www.carcinogenomics.eu) [PL 037712] and in part by the
  * EU NuGO [NoE 503630](http://www.nugo.org/everyone) projects and in part by EMBL-EBI.
  */
- 
+
 package uk.ac.ebi.bioinvindex.persistence.pipeline;
 
 import java.sql.Timestamp;
@@ -55,9 +55,9 @@ import uk.ac.ebi.bioinvindex.model.processing.MaterialProcessing;
 import uk.ac.ebi.bioinvindex.persistence.BIIPersistenceException;
 
 /**
- * Concrete implementation for {@link GraphElement} persistence. Specific persisters are called by 
- * {@link #persistCasted(GraphElement)}, depending on the specific object passed there.  
- * 
+ * Concrete implementation for {@link GraphElement} persistence. Specific persisters are called by
+ * {@link #persistCasted(GraphElement)}, depending on the specific object passed there.
+ *
  * @author brandizi
  * <b>date</b>: Feb 3, 2010
  *
@@ -75,12 +75,12 @@ public class GenericGraphElementPersister extends GraphElementPersister<GraphEle
 	}
 
 	/**
-	 * Gets the proper persister, dependin on the specific parameter type. 
+	 * Gets the proper persister, dependin on the specific parameter type.
 	 */
 	@SuppressWarnings("unchecked")
-	private <GE extends GraphElement> GraphElementPersister<GE> getDelegate ( GE ge ) 
+	private <GE extends GraphElement> GraphElementPersister<GE> getDelegate ( GE ge )
 	{
-		if ( materialNodePersister == null ) 
+		if ( materialNodePersister == null )
 		{
 			Timestamp submissionTs = getSubmissionTs ();
 			materialNodePersister = new MaterialNodePersister ( daoFactory, submissionTs );
@@ -90,14 +90,14 @@ public class GenericGraphElementPersister extends GraphElementPersister<GraphEle
 			dataProcPersister = new DataProcessingPersister ( daoFactory, submissionTs );
 		}
 
-		if ( ge instanceof MaterialNode ) return (GraphElementPersister<GE>) materialNodePersister; 
-		else if ( ge instanceof DataNode ) return (GraphElementPersister<GE>) dataNodePersister; 
-		else if ( ge instanceof MaterialProcessing ) return (GraphElementPersister<GE>) materialProcPersister; 
-		else if ( ge instanceof DataAcquisition ) return (GraphElementPersister<GE>) dataAcquisitionPersister; 
-		else if ( ge instanceof DataProcessing ) return (GraphElementPersister<GE>) dataProcPersister; 
+		if ( ge instanceof MaterialNode ) return (GraphElementPersister<GE>) materialNodePersister;
+		else if ( ge instanceof DataNode ) return (GraphElementPersister<GE>) dataNodePersister;
+		else if ( ge instanceof MaterialProcessing ) return (GraphElementPersister<GE>) materialProcPersister;
+		else if ( ge instanceof DataAcquisition ) return (GraphElementPersister<GE>) dataAcquisitionPersister;
+		else if ( ge instanceof DataProcessing ) return (GraphElementPersister<GE>) dataProcPersister;
 		else
-			throw new BIIPersistenceException ( 
-				"Internal error: cannot find a persister for the type " + ge.getClass().getSimpleName () 
+			throw new BIIPersistenceException (
+				"Internal error: cannot find a persister for the type " + ge.getClass().getSimpleName ()
 			);
 	}
 
@@ -149,19 +149,19 @@ public class GenericGraphElementPersister extends GraphElementPersister<GraphEle
 		return getDelegate ( ge ).persist ( ge );
 	}
 
-	
-	
+
+
 	/**
-	 * Specific persisters are called here, depending on the specific object passed here.  
+	 * Specific persisters are called here, depending on the specific object passed here.
 	 * {@link #persist(GraphElement)} works the same way and in fact this method calls it, the difference is
 	 * that here the type casting is automatically done.
-	 * 
+	 *
 	 */
 	@SuppressWarnings("unchecked")
 	public <GE extends GraphElement> GE persistCasted ( GE ge ) {
 		return (GE) persist ( ge );
-	} 
-	
+	}
+
 	/**
 	 * Uses the delegate
 	 */

@@ -126,7 +126,7 @@ public class IdentifiableEJB3DAO<T extends Identifiable>
 
 
 	@SuppressWarnings("unchecked")
-	public List<T> getBySubmissionTs ( Timestamp submissionTs ) 
+	public List<T> getBySubmissionTs ( Timestamp submissionTs )
 	{
 		return entityManager.createQuery (
 			"SELECT e FROM " + getPersistentClass ().getName () + " e WHERE e.submissionTs = :ts" )

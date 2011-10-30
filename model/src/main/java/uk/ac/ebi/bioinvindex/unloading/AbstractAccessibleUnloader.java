@@ -67,10 +67,10 @@ public abstract class AbstractAccessibleUnloader<AT extends Accessible> extends 
 	 *
 	 */
 	@SuppressWarnings("unchecked")
-	public boolean queueByAcc ( String acc ) 
+	public boolean queueByAcc ( String acc )
 	{
 		AT object = ( (AccessibleDAO<AT>) dao ).getByAcc ( acc );
-		
+
 		if ( object == null ) {
 			unloadManager.addMessage ( "Object #" + acc + "not found, no unloading done for this accession." );
 			return false;

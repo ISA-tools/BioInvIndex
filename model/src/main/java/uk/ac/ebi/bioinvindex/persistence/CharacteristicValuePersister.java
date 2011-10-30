@@ -49,9 +49,9 @@ import uk.ac.ebi.bioinvindex.model.term.CharacteristicValue;
 import java.sql.Timestamp;
 
 /**
- * Manages specifically objects of {@link CharacteristicValue}. It is used in {@link PropertyValuePersister} and 
- * shouldn't be used directly. 
- * 
+ * Manages specifically objects of {@link CharacteristicValue}. It is used in {@link PropertyValuePersister} and
+ * shouldn't be used directly.
+ *
  * date: Aug 1, 2008
  * @author brandizi
  *
@@ -66,7 +66,7 @@ public class CharacteristicValuePersister extends AbstractPropertyValuePersister
 	 * Removes the material if {@link Persister#isLightPersistence()}.
 	 */
 	@Override
-	protected void preProcess ( CharacteristicValue cv ) 
+	protected void preProcess ( CharacteristicValue cv )
 	{
 		super.preProcess ( cv );
 		if ( Persister.isLightPersistence () )

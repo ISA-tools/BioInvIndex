@@ -57,9 +57,9 @@ import uk.ac.ebi.bioinvindex.model.term.Parameter;
 import uk.ac.ebi.bioinvindex.model.term.ProtocolComponent;
 
 /**
- * Unloads instances of {@link Protocol} (if they have a proper submission ID and it is not referenced by any other 
+ * Unloads instances of {@link Protocol} (if they have a proper submission ID and it is not referenced by any other
  * object).
- *  
+ *
  * <p><b>date</b>: Aug 25, 2008</p>
  * @author brandizi
  *
@@ -72,10 +72,10 @@ public class ProtocolUnloader extends AbstractAccessibleUnloader<Protocol>
 
 	/**
 	 * Unloads parameters and type.
-	 *  
+	 *
 	 */
 	@Override
-	public boolean queue ( Protocol proto ) 
+	public boolean queue ( Protocol proto )
 	{
 		if ( !super.queue ( proto ) ) return false;
 		unloadManager.queue ( proto.getType () );

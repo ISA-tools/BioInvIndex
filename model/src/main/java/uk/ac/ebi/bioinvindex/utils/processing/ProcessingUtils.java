@@ -69,7 +69,7 @@ import org.apache.commons.lang.StringUtils;
 
 /**
  * Utilities for the experimental pipeline/processing steps/processing nodes and alike
- * 
+ *
  * date: May 14, 2008
  * @author brandizi
  *
@@ -78,29 +78,29 @@ public class ProcessingUtils
 {
 	private ProcessingUtils () {}
 
-	/** 
+	/**
 	 * An helper that finds all the AssayResults related to the assay parameter. It is based on the experimental pipeline
-	 * the assay's material belong in. 
+	 * the assay's material belong in.
 	 */
-	public static Collection<AssayResult> findAssayResultsFromAssay ( Assay assay ) 
+	public static Collection<AssayResult> findAssayResultsFromAssay ( Assay assay )
 	{
 		if ( assay == null )
 			throw new RuntimeException ( "findAssayResultsFromAssay(): null assay passed to the method" );
-		
-		Material material = assay.getMaterial (); 
+
+		Material material = assay.getMaterial ();
 		if ( material == null )
 			throw new RuntimeException ( "findAssayResultsFromAssay( " + assay + "): no material associated to the assay" );
-		
+
 		Study study = assay.getStudy ();
-		if ( study == null ) 
+		if ( study == null )
 			throw new RuntimeException ( "findAssayResultsFromAssay ( " + assay + " ): no study associated to the assay" );
 		final Collection<AssayResult> ars = study.getAssayResults ();
-		
-		
+
+
 		final Collection<AssayResult> result = new HashSet<AssayResult> ();
-		ProcessingVisitAction visitor = new ProcessingVisitAction () 
+		ProcessingVisitAction visitor = new ProcessingVisitAction ()
 		{
-			public boolean visit ( GraphElement graphElement ) 
+			public boolean visit ( GraphElement graphElement )
 			{
 				if ( ! ( graphElement instanceof DataNode ) ) return true;
 				Data data = ( (DataNode) graphElement ).getData ();
@@ -109,29 +109,29 @@ public class ProcessingUtils
 						result.add ( ar );
 				return true;
 			}
-		}; 
-	
+		};
+
 		new ExperimentalPipelineVisitor ( visitor ).visitForward ( material.getMaterialNode () );
 	  return result;
 	}
 
 	/**
-	 * Finds the root nodes in a graph that this element is connected to. 
-	 * 
+	 * Finds the root nodes in a graph that this element is connected to.
+	 *
 	 * TODO: write at least one test about this!
-	 * 
+	 *
 	 */
 	public static Set<Node> findStartingNodes ( GraphElement ge )
 	{
 		if ( ge == null ) return Collections.emptySet ();
-		return ge instanceof Node 
+		return ge instanceof Node
 		  ? findStartingNodes ( (Node<?, ?>) ge )
 		  : findStartingNodes ( (Processing<?, ?>) ge );
 	}
-	
+
 	/**
-	 * Finds the root nodes in a graph that this element is connected to. 
-	 * 
+	 * Finds the root nodes in a graph that this element is connected to.
+	 *
 	 */
 	public static Set<Node> findStartingNodes ( Node node )
 	{
@@ -143,7 +143,7 @@ public class ProcessingUtils
 			result.add ( node );
 			return result;
 		}
-		
+
 		for ( Processing proc: prevProcs )
 			result.addAll ( findStartingNodes ( proc ) );
 
@@ -151,8 +151,8 @@ public class ProcessingUtils
 	}
 
 	/**
-	 * Finds the root nodes in a graph that this element is connected to. 
-	 * 
+	 * Finds the root nodes in a graph that this element is connected to.
+	 *
 	 */
 	public static Set<Node> findStartingNodes ( Processing proc )
 	{
@@ -168,36 +168,36 @@ public class ProcessingUtils
 
 		return result;
 	}
-	
+
 	/**
-	 * Finds the root nodes in a graph that this element is connected to. 
-	 * 
+	 * Finds the root nodes in a graph that this element is connected to.
+	 *
 	 * TODO: write at least one test about this!
-	 * 
+	 *
 	 */
 	public static Set<Node> findEndNodes ( GraphElement ge )
 	{
 		if ( ge == null ) return Collections.emptySet ();
-		return ge instanceof Node 
+		return ge instanceof Node
 		  ? findEndNodes ( (Node<?, ?>) ge )
 		  : findEndNodes ( (Processing<?, ?>) ge );
 	}
-	
+
 	/**
-	 * Finds the root nodes in a graph that this element is connected to. 
-	 * 
+	 * Finds the root nodes in a graph that this element is connected to.
+	 *
 	 */
 	public static Set<Node> findEndNodes ( Node node )
 	{
 		if ( node == null ) return Collections.emptySet ();
 		Set<Node> result = new HashSet<Node> ();
-		
+
 		Collection<Processing> rprocs = node.getUpstreamProcessings ();
 		if ( rprocs.isEmpty () ) {
 			result.add ( node );
 			return result;
 		}
-		
+
 		for ( Processing proc: rprocs )
 			result.addAll ( findEndNodes ( proc ) );
 
@@ -205,8 +205,8 @@ public class ProcessingUtils
 	}
 
 	/**
-	 * Finds the root nodes in a graph that this element is connected to. 
-	 * 
+	 * Finds the root nodes in a graph that this element is connected to.
+	 *
 	 */
 	public static Set<Node> findEndNodes ( Processing proc )
 	{
@@ -224,26 +224,26 @@ public class ProcessingUtils
 		return result;
 	}
 
-	
+
 	/**
 	 * Finds the biomaterials that contains a given string in the type. When some material is found, does not further the
-	 * search downstream if shallowSearch is true. Does not work if you haven't assigned the type to 
+	 * search downstream if shallowSearch is true. Does not work if you haven't assigned the type to
 	 * the materials. When shallowSearch is true takes only the steps from which the end node
-	 * directly derives. Results are returned in breadth-first fashion. 
-	 * 
+	 * directly derives. Results are returned in breadth-first fashion.
+	 *
 	 */
-	public static Collection<MaterialNode> findBackwardMaterialNodes 
-		( final Node<?, ?> endNode, final String typeStr, final boolean shallowSearch ) 
+	public static Collection<MaterialNode> findBackwardMaterialNodes
+		( final Node<?, ?> endNode, final String typeStr, final boolean shallowSearch )
 	{
   	Collection<MaterialNode> result = new HashSet<MaterialNode> ();
-		
-  	Collection<Processing<?,?>> downStreamProcessings = 
+
+  	Collection<Processing<?,?>> downStreamProcessings =
   		(Collection<Processing<?,?>>) endNode.getDownstreamProcessings ();
-  	
-		for ( Processing<?, ?> downProc: downStreamProcessings ) 
+
+		for ( Processing<?, ?> downProc: downStreamProcessings )
 		{
-			for ( Node<?, ?> inNode: downProc.getInputNodes () ) 
-			{ 
+			for ( Node<?, ?> inNode: downProc.getInputNodes () )
+			{
 				if ( !( inNode instanceof MaterialNode ) ) continue;
 				MaterialNode mnode = (MaterialNode) inNode;
 		  	// Add if the current node is of the requested type
@@ -253,12 +253,12 @@ public class ProcessingUtils
 					result.add ( mnode );
 			}
 		}
-		
-		if ( shallowSearch ) return result; 
+
+		if ( shallowSearch ) return result;
 
 		// It's better to return results in Breath-first fashion
-		for ( Processing<?, ?> downProc: downStreamProcessings ) 
-			for ( Node<?, ?> inNode: downProc.getInputNodes () ) 
+		for ( Processing<?, ?> downProc: downStreamProcessings )
+			for ( Node<?, ?> inNode: downProc.getInputNodes () )
 				result.addAll ( findBackwardMaterialNodes ( inNode, typeStr, shallowSearch ) );
 
 		return result;
@@ -267,48 +267,48 @@ public class ProcessingUtils
 
 	/**
 	 * Finds all the processing steps applying a given protocol
-	 * 
+	 *
 	 * @param pname protocol name must contain this (AND search, ignored if null)
 	 * @param ptype protocol type name must contain this
 	 * @param shallowSearch when true takes only the steps from which the end node
-	 * directly derives. 
+	 * directly derives.
 	 * @return
 	 */
-	public static Collection<Processing<?,?>> findBackwardProcessings 
+	public static Collection<Processing<?,?>> findBackwardProcessings
 		( final Node<?, ?> endNode, final String ptype, final String pname, final boolean shallowSearch )
 	{
   	Collection<Processing<?,?>> result = new HashSet<Processing<?,?>> ();
-		
-  	Collection<Processing<?,?>> downStreamProcessings = 
+
+  	Collection<Processing<?,?>> downStreamProcessings =
   		(Collection<Processing<?,?>>) endNode.getDownstreamProcessings ();
-  	
-		for ( Processing<?,?> downProc: downStreamProcessings ) 
+
+		for ( Processing<?,?> downProc: downStreamProcessings )
 		{
-			for ( ProtocolApplication papp: downProc.getProtocolApplications () ) 
+			for ( ProtocolApplication papp: downProc.getProtocolApplications () )
 			{
 				Protocol proto = papp.getProtocol ();
-				String piname = null, pitypeStr = null; 
+				String piname = null, pitypeStr = null;
 
 				if ( proto != null ) {
 					piname = proto.getName ();
 					ProtocolType pitype = proto.getType ();
 					if ( pitype != null ) pitypeStr = pitype.getName ();
 				}
-				
-				if ( ( pname == null || StringUtils.containsIgnoreCase ( piname, pname ) ) 
-					&& ( ptype == null || StringUtils.containsIgnoreCase ( pitypeStr, ptype ) ) ) 
+
+				if ( ( pname == null || StringUtils.containsIgnoreCase ( piname, pname ) )
+					&& ( ptype == null || StringUtils.containsIgnoreCase ( pitypeStr, ptype ) ) )
 				{
 					result.add ( downProc );
 					break;
 				}
 			}
 		}
-		
-		if ( shallowSearch ) return result; 
+
+		if ( shallowSearch ) return result;
 
 		// We better return results in Breath-first fashion
-		for ( Processing<?,?> downProc: downStreamProcessings ) 
-			for ( Node<?, ?> inNode: downProc.getInputNodes () ) 
+		for ( Processing<?,?> downProc: downStreamProcessings )
+			for ( Node<?, ?> inNode: downProc.getInputNodes () )
 				result.addAll ( findBackwardProcessings ( inNode, ptype, pname, shallowSearch ) );
 
 		return result;
@@ -317,41 +317,41 @@ public class ProcessingUtils
 	/**
 	 * Finds all protocol applications needed to produce a certain end node. Filters by protocol type or protocol name
 	 * (partial matching supported). When shallowSearch is true takes only the steps from which the end node
-	 * directly derives. 
-	 * 
+	 * directly derives.
+	 *
 	 */
-	public static Collection<ProtocolApplication> findBackwardProtocolApplications 
+	public static Collection<ProtocolApplication> findBackwardProtocolApplications
 		( final Node<?, ?> endNode, final String ptype, final String pname, final boolean shallowSearch )
 	{
 		Collection<ProtocolApplication> result = new LinkedList<ProtocolApplication> ();
-		
+
 		for ( Processing<?, ?> proc: findBackwardProcessings ( endNode, ptype, pname, shallowSearch ) )
-			for ( ProtocolApplication papp: proc.getProtocolApplications () ) 
+			for ( ProtocolApplication papp: proc.getProtocolApplications () )
 			{
 				Protocol proto = papp.getProtocol ();
-				String piname = null, pitypeStr = null; 
+				String piname = null, pitypeStr = null;
 
 				if ( proto != null ) {
 					piname = proto.getName ();
 					ProtocolType pitype = proto.getType ();
 					if ( pitype != null ) pitypeStr = pitype.getName ();
 				}
-				
-				if ( ( pname == null || StringUtils.containsIgnoreCase ( piname, pname ) ) 
-					&&  ( ptype == null || StringUtils.containsIgnoreCase ( pitypeStr, ptype ) ) ) 
+
+				if ( ( pname == null || StringUtils.containsIgnoreCase ( piname, pname ) )
+					&&  ( ptype == null || StringUtils.containsIgnoreCase ( pitypeStr, ptype ) ) )
 					result.add ( papp );
 		}
 		return result;
-	
+
 	}
 
 	/**
 	 * Find all the protocols applied to produce a certain end node. Filters by protocol type or protocol name
 	 * (partial matching supported). When shallowSearch is true takes only the steps from which the end node
-	 * directly derives. 
-	 *  
+	 * directly derives.
+	 *
 	 */
-	public static Collection<Protocol> findBackwardProtocols 
+	public static Collection<Protocol> findBackwardProtocols
 		( final Node<?, ?> endNode, final String ptype, final String pname, final boolean shallowSearch )
 	{
 		Collection<Protocol> result = new HashSet<Protocol> ();
@@ -359,15 +359,15 @@ public class ProcessingUtils
 			result.add ( papp.getProtocol () );
 		return result;
 	}
-	
+
 	/**
 	 * Tells all those samples nodes the endNode derives from that are the last in a ISATAB sample file.
 	 */
 	public static Collection<MaterialNode> findSampleFileLastNodes ( Node endNode, boolean includeSource )
 	{
-		MaterialNode mnode = null; 
+		MaterialNode mnode = null;
 		Collection<MaterialNode> result = new HashSet<MaterialNode> ();
-		
+
 		if ( endNode instanceof MaterialNode ) {
 			mnode = (MaterialNode) endNode;
 			if ( mnode.getMaterial ().getSingleAnnotationValue ( "sampleFileId" ) != null ) {
@@ -375,7 +375,7 @@ public class ProcessingUtils
 				return result;
 			}
 		}
-		
+
 		Collection<Processing> procs = endNode.getDownstreamProcessings ();
 		if ( procs.isEmpty () )
 		{
@@ -386,7 +386,7 @@ public class ProcessingUtils
 		}
 		for ( Processing input: procs )
 			result.addAll ( findSampleFileLastNodes ( input, includeSource ) );
-		
+
 		return result;
 	}
 
@@ -398,28 +398,28 @@ public class ProcessingUtils
 		return result;
 	}
 
-	
+
 //	/**
 //	 * Tells all those samples nodes the endNode derives from that are the last in a ISATAB sample file.
 //	 * It start searching from a left node, the startNode.
-//	 * 
+//	 *
 //	 */
 //	public static Collection<MaterialNode> findSampleFileLastNodesFromLeft ( Node startNode )
 //	{
-//		MaterialNode mnode = null; 
+//		MaterialNode mnode = null;
 //		Collection<MaterialNode> result = new HashSet<MaterialNode> ();
-//		
+//
 //		if ( startNode instanceof MaterialNode )
 //		{
 //			mnode = (MaterialNode) startNode;
-//			if ( mnode.getMaterial ().getSingleAnnotationValue ( "sampleFileId" ) != null ) 
+//			if ( mnode.getMaterial ().getSingleAnnotationValue ( "sampleFileId" ) != null )
 //			{
 //				boolean isResult = true;
 //				for ( Processing rproc: (Collection<Processing>) mnode.getUpstreamProcessings () )
 //				{
 //					for ( Node rnode: (Collection<Node>) rproc.getOutputNodes () ) {
-//						if ( rnode instanceof MaterialNode 
-//								 && ((MaterialNode) rnode).getSingleAnnotationValue ( "sampleFileId" ) != null ) 
+//						if ( rnode instanceof MaterialNode
+//								 && ((MaterialNode) rnode).getSingleAnnotationValue ( "sampleFileId" ) != null )
 //						{
 //							// More materials follow
 //							isResult = false;
@@ -432,7 +432,7 @@ public class ProcessingUtils
 //				return result;
 //			}
 //		}
-//		
+//
 //		return result;
 //	}
 

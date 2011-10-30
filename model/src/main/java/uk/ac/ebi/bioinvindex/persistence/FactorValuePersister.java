@@ -49,9 +49,9 @@ import uk.ac.ebi.bioinvindex.model.term.FactorValue;
 import java.sql.Timestamp;
 
 /**
- * Manages specifically objects of {@link FactorValue}. It is used in {@link PropertyValuePersister} and 
- * shouldn't be used directly. 
- * 
+ * Manages specifically objects of {@link FactorValue}. It is used in {@link PropertyValuePersister} and
+ * shouldn't be used directly.
+ *
  * date: Aug 1, 2008
  * @author brandizi
  *

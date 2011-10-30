@@ -8,12 +8,12 @@ public class OntologyTermUnloader extends AbstractOntologyEntryUnloader<Ontology
 {
 	private final static Association[] referringAssociations = new Association [] {
 		new Association ( FreeTextTerm.class, "ontologyTerms" ),
-	};  
+	};
 
 	public OntologyTermUnloader ( UnloadManager unloadManager ) {
 		super ( unloadManager );
 	}
-	
+
 	@Override
 	protected Association[] getReferringAssociations () {
 		return referringAssociations;

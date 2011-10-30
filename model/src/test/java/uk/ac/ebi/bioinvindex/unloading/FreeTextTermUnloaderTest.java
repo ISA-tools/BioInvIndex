@@ -74,14 +74,14 @@ public class FreeTextTermUnloaderTest extends TransactionalDBUnitEJB3DAOTest
 	public void testFreeTextTermUnload ()
 	{
 		Timestamp submissionTs = Timestamp.valueOf ( "2008-08-25 17:21:20.200000000" );
-		
+
 		UnloadManager unloaderMgr = new UnloadManager ( DaoFactory.getInstance ( entityManager ), submissionTs );
 		unloaderMgr.queueAllByTs ( Design.class );
 		unloaderMgr.delete ();
 		transaction.commit ();
 		session.flush ();
 		out.println ( " **** Warnings/Errors: " + unloaderMgr.getMessages () );
-		
+
 		assertNull ( "Oh no! The unloaded term is still here!",
 			daoFactory.getIdentifiableDAO ( Design.class ).getById ( -9L ) );
 		assertNull ( "Oh no! The unloaded term's OE is still here!",
@@ -102,7 +102,7 @@ public class FreeTextTermUnloaderTest extends TransactionalDBUnitEJB3DAOTest
 		transaction.commit ();
 		session.flush ();
 		out.println ( " **** Warnings/Errors: " + unloaderMgr.getMessages () );
-		
+
 		assertNull ( "Oh no! The unloaded term is still here!",
 			daoFactory.getIdentifiableDAO ( Design.class ).getById ( -7L ) );
 		assertNull ( "Oh no! The unloaded term's OE #-7 is still here!",

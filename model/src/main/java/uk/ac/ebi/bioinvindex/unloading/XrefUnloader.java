@@ -57,7 +57,7 @@ import uk.ac.ebi.bioinvindex.model.xref.Xref;
 
 /**
  * Removes an {@link Xref}.
- * 
+ *
  * <dl><dt>date:</dt><dd>Dec 9, 2008</dd></dl>
  * @author brandizi
  *
@@ -69,13 +69,13 @@ public class XrefUnloader extends AbstractUnloader<Xref>
 	}
 
 	/**
-	 * Removes the {@link ReferenceSource} 
-	 * 
+	 * Removes the {@link ReferenceSource}
+	 *
 	 */
 	@Override
-	public boolean queue ( Xref xref ) 
+	public boolean queue ( Xref xref )
 	{
-		if ( !super.queue ( xref ) ) return false; 
+		if ( !super.queue ( xref ) ) return false;
 		ReferenceSource source = xref.getSource ();
 		unloadManager.queue ( source );
 		return true;

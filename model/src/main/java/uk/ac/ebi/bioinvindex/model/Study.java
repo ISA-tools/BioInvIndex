@@ -123,7 +123,7 @@ public class Study extends HasReferences {
 	private VisibilityStatus status = VisibilityStatus.PRIVATE;
 
 	private String obfuscationCode = null;
-	
+
 	public Study() {
 	}
 
@@ -306,9 +306,9 @@ public class Study extends HasReferences {
 
 
 	@ManyToMany ( targetEntity = Investigation.class )
-	@PrimaryKeyJoinColumns ( { 
-		@PrimaryKeyJoinColumn ( name = "STUDY_ID", referencedColumnName = "ID" ), 
-		@PrimaryKeyJoinColumn ( name = "INVESTIGATION_ID", referencedColumnName = "ID" ) 
+	@PrimaryKeyJoinColumns ( {
+		@PrimaryKeyJoinColumn ( name = "STUDY_ID", referencedColumnName = "ID" ),
+		@PrimaryKeyJoinColumn ( name = "INVESTIGATION_ID", referencedColumnName = "ID" )
 	})
 	@JoinTable(
 		name = "STUDY2INVESTIGATION",
@@ -324,17 +324,17 @@ public class Study extends HasReferences {
 		this.investigations = investigations;
 	}
 
-	/** 
-	 * A facility that returns the first investigation in {@link #getInvestigations()} or null 
+	/**
+	 * A facility that returns the first investigation in {@link #getInvestigations()} or null
 	 * if the collection is empty.
-	 * 
+	 *
 	 */
 	@Transient
 	public Investigation getUniqueInvestigation () {
 		Iterator<Investigation> invItr = investigations.iterator ();
 		return invItr.hasNext () ? invItr.next () : null;
 	}
-	
+
 	public void addInvestigation(Investigation investigation) {
 		this.investigations.add(investigation);
 		if (!investigation.getStudies().contains(this)) {
@@ -348,13 +348,13 @@ public class Study extends HasReferences {
 			investigation.removeStudy(this);
 		}
 	}
-	
-	
-	
+
+
+
 	@ManyToMany ( targetEntity = Protocol.class )
-	@PrimaryKeyJoinColumns ( { 
-		@PrimaryKeyJoinColumn ( name = "STUDY_ID", referencedColumnName = "ID" ), 
-		@PrimaryKeyJoinColumn ( name = "PROTOCOL_ID", referencedColumnName = "ID" ) 
+	@PrimaryKeyJoinColumns ( {
+		@PrimaryKeyJoinColumn ( name = "STUDY_ID", referencedColumnName = "ID" ),
+		@PrimaryKeyJoinColumn ( name = "PROTOCOL_ID", referencedColumnName = "ID" )
 	})
 	@JoinTable(
 		name = "Study2Protocol",
@@ -408,9 +408,9 @@ public class Study extends HasReferences {
 	}
 
 	@ManyToMany ( targetEntity = User.class, cascade = CascadeType.PERSIST )
-	@PrimaryKeyJoinColumns ( { 
-		@PrimaryKeyJoinColumn ( name = "STUDY_ID", referencedColumnName = "ID" ), 
-		@PrimaryKeyJoinColumn ( name = "USER_ID", referencedColumnName = "ID" ) 
+	@PrimaryKeyJoinColumns ( {
+		@PrimaryKeyJoinColumn ( name = "STUDY_ID", referencedColumnName = "ID" ),
+		@PrimaryKeyJoinColumn ( name = "USER_ID", referencedColumnName = "ID" )
 	})
 	@JoinTable(
 		name = "Study2User",
@@ -474,16 +474,16 @@ public class Study extends HasReferences {
 		this.status = status;
 	}
 
-	
-	
+
+
 	/**
 	 * This a special code that is to be used in file paths of this study-related files. The idea is that, if a file
 	 * path contains this code and its upper container hasn't listing permissions, it's not possible to reconstruct
-	 * the path itself and therefore it is kept safe from unauthorized accession. 
-	 * 
+	 * the path itself and therefore it is kept safe from unauthorized accession.
+	 *
 	 * @return a 10 character length string, composed of alphanumeric characters. The value is initially null, the Study
-	 * client is supposed to set it properly via the setter. 
-	 * 
+	 * client is supposed to set it properly via the setter.
+	 *
 	 */
 	@Column ( length = 10 )
 	public String getObfuscationCode () {

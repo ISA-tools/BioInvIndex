@@ -60,8 +60,8 @@ import uk.ac.ebi.bioinvindex.model.processing.Assay;
 import uk.ac.ebi.bioinvindex.model.term.PropertyValue;
 
 /**
- * Unloads an {@link Assay}. 
- * 
+ * Unloads an {@link Assay}.
+ *
  * <p><b>date</b>: Aug 25, 2008</p>
  * @author brandizi
  *
@@ -72,8 +72,8 @@ public class AssayResultUnloader extends AbstractUnloader<AssayResult>
 		super ( unloadManager );
 //		logLevel = Level.DEBUG;
 	}
-	
-	public boolean queue ( AssayResult ar ) 
+
+	public boolean queue ( AssayResult ar )
 	{
 		if ( !super.queue ( ar ) ) return false;
 

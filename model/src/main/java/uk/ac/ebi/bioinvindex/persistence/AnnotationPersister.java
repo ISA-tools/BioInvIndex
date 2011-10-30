@@ -50,7 +50,7 @@ import uk.ac.ebi.bioinvindex.model.term.AnnotationType;
 import java.sql.Timestamp;
 
 /**
- * Persists an {@link Annotation}. 
+ * Persists an {@link Annotation}.
  *
  * <dl><dt>date:</dt><dd>Dec 9, 2008</dd></dl>
  * @author brandizi
@@ -59,14 +59,14 @@ import java.sql.Timestamp;
 public class AnnotationPersister extends Persister<Annotation>
 {
 	private final AnnotationTypePersister typePersister;
-	
+
 	protected AnnotationPersister ( DaoFactory daoFactory, Timestamp submissionTs ) {
 		super ( daoFactory, submissionTs );
 		typePersister = new AnnotationTypePersister ( daoFactory, submissionTs ) {};
 	}
 
 	@Override
-	protected void preProcess ( Annotation ann ) 
+	protected void preProcess ( Annotation ann )
 	{
 		super.preProcess ( ann );
 		AnnotationType type = ann.getType ();

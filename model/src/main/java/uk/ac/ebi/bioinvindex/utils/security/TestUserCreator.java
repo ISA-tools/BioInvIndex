@@ -16,11 +16,11 @@ import uk.ac.ebi.bioinvindex.utils.StringEncryption;
 
 public class TestUserCreator
 {
-	public static void main ( String args[] ) 
+	public static void main ( String args[] )
 	{
 		EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory ( "BIIEntityManager" );
 		EntityManager entityManager = entityManagerFactory.createEntityManager ();
-		
+
 		Person user = new Person ();
 		user.setUserName ( "brandizi" );
 		user.setEmail ( "brandizi@ebi.ac.uk" );
@@ -31,14 +31,14 @@ public class TestUserCreator
 		user.setRole ( UserRole.CURATOR );
 		user.setJoinDate ( new Date() );
 		user.setPassword ( StringEncryption.getInstance().encrypt( "lunchbox" ) );
-		
+
 		DaoFactory daoFactory = DaoFactory.getInstance ( entityManager );
 		UserDAO userDAO = daoFactory.getUserDAO ();
 		EntityTransaction tns = entityManager.getTransaction ();
 		tns.begin ();
 		Long id = userDAO.save ( user );
 		tns.commit ();
-		
+
 		System.out.println ( "User saved, id #" + id );
 	}
 }

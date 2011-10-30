@@ -5,12 +5,12 @@
 //  Justin Palmer (http://encytemedia.com/)
 //  Mark Pilgrim (http://diveintomark.org/)
 //  Martin Bialasinki
-// 
+//
 // script.aculo.us is freely distributable under the terms of an MIT-style license.
-// For details, see the script.aculo.us web site: http://script.aculo.us/ 
+// For details, see the script.aculo.us web site: http://script.aculo.us/
 
-// converts rgb() and #xxx to #xxxxxx format,  
-// returns self (or first argument) if not convertable  
+// converts rgb() and #xxx to #xxxxxx format,
+// returns self (or first argument) if not convertable
 String.prototype.parseColor = function() {
     var color = '#';
     if (this.slice(0, 4) == 'rgb(') {
@@ -777,7 +777,7 @@ Effect.SlideUp = function(element) {
             );
 }
 
-// Bug in opera makes the TD containing this element expand for a instance after finish 
+// Bug in opera makes the TD containing this element expand for a instance after finish
 Effect.Squish = function(element) {
     return new Effect.Scale(element, window.opera ? 1 : 0, {
         restoreAfterFinish: true,

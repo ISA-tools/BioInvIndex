@@ -60,12 +60,12 @@ import uk.ac.ebi.bioinvindex.unloading.UnloadManager;
 
 /**
  * Unloads a {@link FreeTextTerm}.
- * 
+ *
  * TODO: if FreeTextTerm was an entity I wouldn't need all these subclasses.
- * 
+ *
  * @author brandizi
  * <b>date</b>: Oct 27, 2009
- * 
+ *
  * @param <TT>
  */
 public abstract class AbstractFreeTextTermUnloader<TT extends FreeTextTerm> extends AbstractAnnotatableUnloader<TT>

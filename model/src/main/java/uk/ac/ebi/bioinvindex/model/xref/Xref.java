@@ -51,10 +51,10 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 /**
- * 
+ *
  * @author Nataliya Sklyar (nsklyar@ebi.ac.uk)
  * Date: Jul 11, 200
- * 
+ *
  * TODO: it's not an Accessible but has accession, to be reviewed.
  *
  */
@@ -78,7 +78,7 @@ public class Xref extends Identifiable
 		this ( acc );
 		this.source = source;
 	}
-	
+
 	@Column (name = "ACC" /* TODO: remove, two different sources can have same accession, unique = true */)
 	public String getAcc () {
 		return this.acc;

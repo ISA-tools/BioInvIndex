@@ -98,8 +98,8 @@ public abstract class Processing<Input extends Node, Output extends Node> extend
 	}
 
 	@ManyToMany ( targetEntity = Node.class )
-	@JoinTable ( 
-		name = "processing_inputs", 
+	@JoinTable (
+		name = "processing_inputs",
 		joinColumns = @JoinColumn ( name = "proc_id" ),
 		inverseJoinColumns = @JoinColumn ( name = "node_id" )
 	)
@@ -128,8 +128,8 @@ public abstract class Processing<Input extends Node, Output extends Node> extend
 	}
 
 	@ManyToMany ( targetEntity = Node.class )
-	@JoinTable ( 
-		name = "processing_outputs", 
+	@JoinTable (
+		name = "processing_outputs",
 		joinColumns = @JoinColumn ( name = "proc_id" ),
 		inverseJoinColumns = @JoinColumn ( name = "node_id" )
 	)
@@ -192,33 +192,33 @@ public abstract class Processing<Input extends Node, Output extends Node> extend
 	}
 
 	/**
-	 * See {@link ProtocolApplication#UNIQUE_PAPP_COMMENT} for details. This method returns a non-null value only when the 
-	 * processing has at least one application and all the applications have the same value for the comment at issue. 
+	 * See {@link ProtocolApplication#UNIQUE_PAPP_COMMENT} for details. This method returns a non-null value only when the
+	 * processing has at least one application and all the applications have the same value for the comment at issue.
 	 * Null (ie: unspecified, apply the default) is returned in all other cases.
-	 *  
+	 *
 	 */
 	@Transient
 	public Boolean isUniqueApplication ()
 	{
 		boolean prevUniqueVal = false, isFirst = true;
-		for ( ProtocolApplication papp: this.protocolApplications ) 
+		for ( ProtocolApplication papp: this.protocolApplications )
 		{
 			String uniqueVal = papp.getSingleAnnotationValue ( ProtocolApplication.UNIQUE_PAPP_COMMENT );
 			if ( uniqueVal == null ) return null;
-			
-			boolean isUnique = ArrayUtils.contains ( 
-				ProtocolApplication.UNIQUE_PAPP_COMMENT_TRUE_VALUES, uniqueVal.toLowerCase () 
+
+			boolean isUnique = ArrayUtils.contains (
+				ProtocolApplication.UNIQUE_PAPP_COMMENT_TRUE_VALUES, uniqueVal.toLowerCase ()
 			);
-			
+
 			if ( !isFirst && prevUniqueVal != isUnique ) return null;
-			
+
 			prevUniqueVal = isUnique;
 			isFirst = false;
 		}
 		return prevUniqueVal;
 	}
-	
-	
+
+
 	public String toString() {
 		return "Processing { " +
 			"id=" + getId() +

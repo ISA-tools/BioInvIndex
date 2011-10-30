@@ -40,7 +40,7 @@
  * This work has been funded mainly by the EU Carcinogenomics (http://www.carcinogenomics.eu) [PL 037712] and in part by the
  * EU NuGO [NoE 503630](http://www.nugo.org/everyone) projects and in part by EMBL-EBI.
  */
- 
+
 package uk.ac.ebi.bioinvindex.utils.testmodels;
 
 import uk.ac.ebi.bioinvindex.model.Annotation;
@@ -52,13 +52,13 @@ import uk.ac.ebi.bioinvindex.model.term.AnnotationType;
 import uk.ac.ebi.bioinvindex.model.term.MaterialRole;
 
 /**
- * Provides this model for testing purposes: 
- * 
+ * Provides this model for testing purposes:
+ *
  * <pre>
- * src1---p1---sample1---p11---as1---p2---ar1 
+ * src1---p1---sample1---p11---as1---p2---ar1
  * src2---/      |                     \--ar2
  *               |
- * sample.txt  -&gt;|&lt;-    assay file        
+ * sample.txt  -&gt;|&lt;-    assay file
  * </pre>
  *
  * @author brandizi
@@ -72,35 +72,35 @@ public class SeparatedFilesModel extends FullStudyPipelineModel
 	public MaterialProcessing p11;
 	public ProtocolApplication papp11;
 
-	public SeparatedFilesModel () 
+	public SeparatedFilesModel ()
 	{
 		super ();
 
 		src1.addAnnotation ( new Annotation ( new AnnotationType ( "sampleFileId" ), "sample.txt" ) );
 		src2.addAnnotation ( new Annotation ( new AnnotationType ( "sampleFileId" ), "sample.txt" ) );
-		
+
 		sample1 = new Material ( "sample1", new MaterialRole ( "sample", "Sample", fooOnto ) );
 		sample1.setAcc ( "sample1" );
 		sample1.addAnnotation ( new Annotation ( new AnnotationType ( "sampleFileId" ), "sample.txt" ) );
 		sample1.addAnnotation ( new Annotation ( new AnnotationType ( "assayFileId" ), "assay.txt" ) );
-		
+
 		nsample1 = new MaterialNode ( study ); nsample1.setAcc ( "nsample1" );
 		nsample1.setMaterial ( sample1 );
-		
+
 		p1.removeOutputNode ( nas1 );
 		p1.addOutputNode ( nsample1 );
 
 		p11 = new MaterialProcessing ( study ); p11.setAcc ( "p11" );
-		
+
 		papp11 = new ProtocolApplication ( proto1 );
 		papp1.setAcc ( "papp11" );
 		p11.addProtocolApplication ( papp11 );
 		p11.addInputNode ( nsample1 );
 		p11.addOutputNode ( nas1 );
-		
+
 		as1.addAnnotation ( new Annotation ( new AnnotationType ( "assayFileId" ), "assay.txt" ) );
 		assayMaterial1.addAnnotation ( new Annotation ( new AnnotationType ( "assayFileId" ), "assay.txt" ) );
-		
+
 		dt1.addAnnotation ( new Annotation ( new AnnotationType ( "assayFileId" ), "assay.txt" ) );
 		dt2.addAnnotation ( new Annotation ( new AnnotationType ( "assayFileId" ), "assay.txt" ) );
 	}

@@ -57,27 +57,27 @@ import uk.ac.ebi.bioinvindex.model.term.AnnotationType;
 
 /**
  * Unloads an {@link Annotation}
- * 
+ *
  * <dl><dt>date:</dt><dd>Dec 9, 2008</dd></dl>
  * @author brandizi
  *
  */
 public class AnnotationUnloader extends AbstractUnloader<Annotation>
 {
-	
+
 	public AnnotationUnloader ( UnloadManager unloadManager ) {
 		super ( unloadManager );
 	}
 
 	/**
-	 * Unloads the source if no longer used and belonging to the same submission. 
-	 * 
+	 * Unloads the source if no longer used and belonging to the same submission.
+	 *
 	 */
 	@Override
-	public boolean queue ( Annotation ann ) 
+	public boolean queue ( Annotation ann )
 	{
-		if ( !super.queue ( ann ) ) return false; 
-		
+		if ( !super.queue ( ann ) ) return false;
+
 		AnnotationType type = ann.getType ();
 		unloadManager.queue ( type );
 		return true;
@@ -89,6 +89,6 @@ public class AnnotationUnloader extends AbstractUnloader<Annotation>
 		unloadManager.unqueue ( ann.getType () );
 	}
 
-	
-	
+
+
 }

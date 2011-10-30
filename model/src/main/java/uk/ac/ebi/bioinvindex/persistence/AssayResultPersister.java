@@ -56,7 +56,7 @@ import uk.ac.ebi.bioinvindex.persistence.pipeline.DataPersister;
 
 /**
  * Persists an {@link Assay}.
- * 
+ *
  * date: Apr 15, 2008
  * @author brandizi
  *
@@ -66,10 +66,10 @@ public class AssayResultPersister extends Persister<AssayResult>
 	private final PropertyValuePersister propValuePersister;
 	private final AssayPersister assayPersister;
 	private final DataPersister dataPersister;
-	
+
 	// See below private Material backupMaterial;
-	
-	public AssayResultPersister ( DaoFactory daoFactory, Timestamp submissionTs ) 
+
+	public AssayResultPersister ( DaoFactory daoFactory, Timestamp submissionTs )
 	{
 		super ( daoFactory, submissionTs );
 		dao = daoFactory.getIdentifiableDAO ( AssayResult.class );
@@ -78,20 +78,20 @@ public class AssayResultPersister extends Persister<AssayResult>
 		dataPersister = new DataPersister ( daoFactory, submissionTs );
 	}
 
-	
+
 	/**
 	 * It's always new. Returns always the parameter.
 	 * Does few checkings (eg: that the linked assays are already saved).
-	 * 
+	 *
 	 */
 	@Override
-	public void preProcess ( AssayResult ar ) 
+	public void preProcess ( AssayResult ar )
 	{
 		// The ancestor works with the accession
 		super.preProcess ( ar );
 
 		// TODO: shouldn't be needed (see below)
-		for ( Assay assay: new LinkedList<Assay> ( ar.getAssays () ) ) 
+		for ( Assay assay: new LinkedList<Assay> ( ar.getAssays () ) )
 		{
 			Assay assayDB = assayPersister.persist ( assay );
 			if ( assay != assayDB ) {
@@ -99,11 +99,11 @@ public class AssayResultPersister extends Persister<AssayResult>
 				ar.addAssay ( assayDB );
 			}
 		}
-		
-		// The cascaded properties are normally saved by the pipeline persisters. 
+
+		// The cascaded properties are normally saved by the pipeline persisters.
 		// In such a case, replacing replacing cascading properties with the instances in the DB is not needed either,
 		// cause certainly the objects in memory were saved and updated.
-		// 
+		//
 		// We have instead to save them here, if the light persistence mode is enabled
 		//
 		if ( Persister.isLightPersistence () )
@@ -112,24 +112,24 @@ public class AssayResultPersister extends Persister<AssayResult>
 			for ( PropertyValue<?> pv: ar.getCascadedPropertyValues () ) {
 				propValuePersister.persist ( pv );
 			}
-			
+
 			ar.setData ( null );
 			return;
 		}
-		
+
 		// Same applies to data objects
 		// The data is persisted by the Pipeline persister
 //		Data data = ar.getData ();
 //		Data dataDB = dataPersister.cachedLookup ( data );
 //		if ( dataDB != null && data != dataDB ) ar.setData ( dataDB );
-		
+
 		Data data = ar.getData ();
 		if ( data.getId () == null )
 			log.warn ( "WARNING: Saving an assayresult with unsaved data:\n  " + ar + "\n\n  " + data );
 	}
 
 
-	
+
 	/** Returns null, an assay result is always new. */
 	@Override
 	protected AssayResult lookup ( AssayResult ar ) {

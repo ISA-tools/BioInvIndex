@@ -50,25 +50,25 @@ import uk.ac.ebi.bioinvindex.model.xref.Xref;
 import java.sql.Timestamp;
 
 /**
- * 
+ *
  * Persists an {@link Xref}.
- * 
+ *
  * <dl><dt>date:</dt><dd>Dec 4, 2008</dd></dl>
  * @author brandizi
  *
  */
-public class XrefPersister 
+public class XrefPersister
 	extends Persister<Xref>
 {
 	private final ReferenceSourcePersister typePersister;
-	
+
 	protected XrefPersister ( DaoFactory daoFactory, Timestamp submissionTs ) {
 		super ( daoFactory, submissionTs );
 		typePersister = new ReferenceSourcePersister ( daoFactory, submissionTs ) {};
 	}
 
 	@Override
-	protected void preProcess ( Xref xref ) 
+	protected void preProcess ( Xref xref )
 	{
 		super.preProcess ( xref );
 		// The source

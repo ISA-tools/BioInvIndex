@@ -87,14 +87,14 @@ public class DataSourceLoaderTest {
 		ReferenceSourceDAO refSourseDao = DaoFactory.getInstance(entityManager).getReferenceSourceDAO();
 		ReferenceSource referenceSource = refSourseDao.getReferenceSourceByName(ReferenceSource.ISATAB_METADATA);
 		assertNotNull( "source for meta-data not found!", referenceSource );
-	
+
 		ReferenceSource nmrSrc = refSourseDao.getReferenceSourceByName ( "bii:datasources:nmr" );
 		assertNotNull( "NMR source for meta-data not found!", nmrSrc );
-		assertEquals ( "Wrong processed path retrieved for NMR!", 
+		assertEquals ( "Wrong processed path retrieved for NMR!",
 			"processed2/${study-acc}", nmrSrc.getSingleAnnotationValue ( AnnotationTypes.PROCESSED_DATA_FILE_PATH.getName () ) );
-		assertEquals ( "Wrong generic link retrieved for NMR!", 
+		assertEquals ( "Wrong generic link retrieved for NMR!",
 			"ftp://generic2/${study-acc}", nmrSrc.getSingleAnnotationValue ( AnnotationTypes.GENERIC_DATA_FILE_LINK.getName () ) );
-		
+
 	}
 
 }

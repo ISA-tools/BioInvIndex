@@ -157,8 +157,8 @@ public class Investigation extends HasReferences {
 	public boolean removeContact ( Contact contact ) {
 		return contacts.remove ( contact );
 	}
-	
-	
+
+
 	@OneToMany( targetEntity = Publication.class,	mappedBy = "investigation" /*, cascade = CascadeType.ALL */	)
 	public Collection<Publication> getPublications() {
 		return this.publications;
@@ -220,7 +220,7 @@ public class Investigation extends HasReferences {
 	public String getAcc() {
 		return super.getAcc();
 	}
-	
+
 	@Override
 	public String toString()
 	{
@@ -235,8 +235,8 @@ public class Investigation extends HasReferences {
 		return String.format (
 			"Investigation{ id = %s, accession = '%s', title = '%s', description = '%s', submitted = %s, released = %s, " +
 			"contacts = '%s', publications = %s, Xrefs = %s\n\n Studies: {\n %s \n  }\n}\n\n",
-			getId(), getAcc (), getTitle(), StringUtils.substring ( getDescription (), 0, 20), 
-			getSubmissionDate (), getReleaseDate (), getContacts (), getPublications (), 
+			getId(), getAcc (), getTitle(), StringUtils.substring ( getDescription (), 0, 20),
+			getSubmissionDate (), getReleaseDate (), getContacts (), getPublications (),
 			getXrefs (), studies
 		);
 

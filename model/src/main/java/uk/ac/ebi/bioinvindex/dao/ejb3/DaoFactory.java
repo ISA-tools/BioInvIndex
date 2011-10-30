@@ -67,7 +67,7 @@ import javax.persistence.EntityManager;
  * A singleton factory class to create DAO's instances
  * @author Nataliya Sklyar (nsklyar@ebi.ac.uk)
  * Date: Jan 15, 2008
- * 
+ *
  */
 public class DaoFactory {
 
@@ -82,21 +82,21 @@ public class DaoFactory {
 	public static DaoFactory getInstance(EntityManager entityManager) {
 		return new DaoFactory(entityManager);
 	}
-	
-	// TODO: is it correct that we provide a DAO for such generic things? 
-	
+
+	// TODO: is it correct that we provide a DAO for such generic things?
+
 	public AnnotatableDAO<Annotatable> getAnnotatableDAO () {
 		return getAnnotatableDAO ( Annotatable.class );
 	}
-	
+
 	public <T extends Annotatable> AnnotatableDAO<T> getAnnotatableDAO ( Class<T> termClass ) {
 		return new AnnotatableEJB3DAO<T> ( termClass, entityManager );
 	}
-	
+
 	public AccessibleDAO<Accessible> getAccessibleDAO () {
 		return getAccessibleDAO ( Accessible.class );
 	}
-	
+
 	public <T extends Accessible> AccessibleDAO<T> getAccessibleDAO ( Class<T> accessibleClass ) {
 		return new AccessibleEJB3DAO<T> ( accessibleClass, entityManager );
 	}
@@ -104,12 +104,12 @@ public class DaoFactory {
 	public FreeTextTermDAO<FreeTextTerm> getFreeTextTermDAO () {
 		return getFreeTextTermDAO ( FreeTextTerm.class );
 	}
-	
+
 	public <FT extends FreeTextTerm> FreeTextTermDAO<FT> getFreeTextTermDAO ( Class<FT> ftClass ) {
 		return new FreeTextTermEJBDAO<FT> ( ftClass, entityManager );
 	}
 
-	
+
 	public IdentifiableDAO<Identifiable> getIdentifiableDAO () {
 		return getIdentifiableDAO ( Identifiable.class );
 	}
@@ -129,7 +129,7 @@ public class DaoFactory {
 	public <T extends OntologyEntry> OntologyEntryDAO<T> getOntologyEntryDAO(Class<T> type) {
 		return new OntologyEntryEJB3DAO<T>(type, entityManager);
 	}
-	
+
 	public InvestigationDao getInvestigationDao() {
 		return new InvestigationEJB3DAO(entityManager);
 	}
@@ -150,5 +150,5 @@ public class DaoFactory {
 		return entityManager;
 	}
 
-	
+
 }

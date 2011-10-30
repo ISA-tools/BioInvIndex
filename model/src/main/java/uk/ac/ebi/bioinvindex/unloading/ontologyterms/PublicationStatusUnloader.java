@@ -60,9 +60,9 @@ import uk.ac.ebi.bioinvindex.model.term.PublicationStatus;
 import uk.ac.ebi.bioinvindex.unloading.UnloadManager;
 
 /**
- * There is only an internal difference wrt {@link OntologyEntryUnloader} (different list for 
- * {@link #getReferringAssociations()} ). 
- * 
+ * There is only an internal difference wrt {@link OntologyEntryUnloader} (different list for
+ * {@link #getReferringAssociations()} ).
+ *
  * @author brandizi
  * <b>date</b>: Oct 27, 2009
  *
@@ -71,15 +71,15 @@ public class PublicationStatusUnloader extends AbstractOntologyEntryUnloader<Pub
 {
 	private final static Association[] referringAssociations = new Association [] {
 		new Association ( Publication.class, "status" )
-	};  
-	
+	};
+
 	public PublicationStatusUnloader ( UnloadManager unloadManager ) {
 		super ( unloadManager );
 	}
 
 	@Override
 	protected Association[] getReferringAssociations () {
-		return referringAssociations; 
+		return referringAssociations;
 	}
 
 }

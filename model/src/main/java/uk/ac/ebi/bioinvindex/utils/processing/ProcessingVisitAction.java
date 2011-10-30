@@ -46,12 +46,12 @@ package uk.ac.ebi.bioinvindex.utils.processing;
 import uk.ac.ebi.bioinvindex.model.processing.GraphElement;
 
 /** Passed to the visit() methods */
-public interface ProcessingVisitAction 
+public interface ProcessingVisitAction
 {
 	/**
 	 * Executes an action during the visit of an experimental pipeline. If false is returned the visit is interruped and
-	 * the method which has started the visit will return false. 
-	 * 
+	 * the method which has started the visit will return false.
+	 *
 	 * @param graphElement the experimental pipeline element being visited
 	 */
 	public boolean visit ( GraphElement graphElement );

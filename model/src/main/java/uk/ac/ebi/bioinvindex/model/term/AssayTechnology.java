@@ -50,7 +50,7 @@ import javax.persistence.Entity;
 
 /**
  * Term to identify the technology used to perform the measurement, i.e. DNA microarray, mass spectrometry.
- * 
+ *
  * @author Nataliya Sklyar (nsklyar@ebi.ac.uk)
  * Date: Aug 6, 2007
  */

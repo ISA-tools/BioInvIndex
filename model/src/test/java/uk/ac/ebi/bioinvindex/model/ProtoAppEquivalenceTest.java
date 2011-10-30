@@ -58,13 +58,13 @@ import uk.ac.ebi.bioinvindex.model.xref.ReferenceSource;
 public class ProtoAppEquivalenceTest
 {
 	@Test
-	public void testEquivalence () 
+	public void testEquivalence ()
 	{
-		Protocol p1 = new Protocol ( "Foo Proto", new ProtocolType ( "test", "test Proto", 
+		Protocol p1 = new Protocol ( "Foo Proto", new ProtocolType ( "test", "test Proto",
 			new ReferenceSource ( "foo source" ) ) );
-		Parameter par1 = new Parameter ( "Param 1", 0 ); 
+		Parameter par1 = new Parameter ( "Param 1", 0 );
 		p1.addParameter ( par1 );
-		
+
 		ProtocolApplication pa1 = new ProtocolApplication ( p1 );
 		ParameterValue pval1 = new ParameterValue ( par1 );
 		pval1.setValue ( "v1" );
@@ -74,7 +74,7 @@ public class ProtoAppEquivalenceTest
 		ParameterValue pval2 = new ParameterValue ( par1 );
 		pval2.setValue ( "v1" );
 		pa2.addParameterValue ( pval2 );
-		
+
 		assertEquals ( "Different hashcodes for the same parameters!", pval1.hashCode (), pval2.hashCode () );
 		assertEquals ( "Different hashcodes for the same protocol apps!", pa1.hashCode (), pa2.hashCode () );
 		assertTrue ( "equals false for the same parameters!", pval1.equals ( pval2 ) );
