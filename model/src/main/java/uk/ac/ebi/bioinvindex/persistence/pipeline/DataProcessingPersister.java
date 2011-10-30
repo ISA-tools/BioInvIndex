@@ -54,5 +54,5 @@ public class DataProcessingPersister extends ProcessingPersister<DataProcessing>
 	public DataProcessingPersister ( DaoFactory daoFactory, Timestamp submissionTs ) {
 		super ( daoFactory, submissionTs );
 	}
-	
+
 }

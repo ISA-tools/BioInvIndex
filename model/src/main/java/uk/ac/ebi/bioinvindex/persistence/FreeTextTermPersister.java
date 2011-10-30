@@ -52,16 +52,16 @@ import java.util.ArrayList;
 
 /**
  * Persists an {@link FreeTextTerm}.
- * 
+ *
  * This class is abstract in order to make {@link #getPersistedClass()} correctly working.
- * You can do something like: 
+ * You can do something like:
  *   <p><code>term = new FreeTextTermPersister&lt;Parameter&gt; ( daoFactory, submissionTs );</code></p>
- * in order to use this persister directly.<p/> 
- * 
+ * in order to use this persister directly.<p/>
+ *
  * PLEASE NOTE: this class must be abstract, because of {@link #getPersistedClass()}.
- * 
+ *
  * date: Apr 15, 2008
- * 
+ *
  * @author brandizi
  *
  * @param <T>
@@ -72,21 +72,21 @@ public abstract class FreeTextTermPersister<T extends FreeTextTerm> extends Pers
 
 	public FreeTextTermPersister ( DaoFactory daoFactory, Timestamp submissionTs) {
 		super ( daoFactory, submissionTs );
-		dao = daoFactory.getFreeTextTermDAO ( getPersistedClass () ); 
+		dao = daoFactory.getFreeTextTermDAO ( getPersistedClass () );
 		oePersister = new OntologyEntryPersister<OntologyTerm> ( daoFactory, submissionTs ) {};
 	}
-	
-	
-	/** 
-	 * Always returns the same object, cause a Free Term is always created from scratch. 
+
+
+	/**
+	 * Always returns the same object, cause a Free Term is always created from scratch.
 	 * Uses the {@link OntologyEntryPersister} for the attached OEs and replaces them in case they already exists in the DB.
-	 *  
+	 *
 	 */
 	@Override
-	protected void preProcess ( T term ) 
+	protected void preProcess ( T term )
 	{
 		super.preProcess ( term );
-		
+
 		// Persist all the OEs associated
 		for ( OntologyTerm oe: new ArrayList<OntologyTerm> ( term.getOntologyTerms () ) ) {
 			OntologyTerm oenew = oePersister.persist ( oe );

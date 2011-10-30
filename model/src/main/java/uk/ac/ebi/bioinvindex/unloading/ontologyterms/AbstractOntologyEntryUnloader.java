@@ -86,7 +86,7 @@ public abstract class AbstractOntologyEntryUnloader<OE extends OntologyEntry> ex
 	 * Unloads the source.
 	 */
 	@Override
-	public boolean queue ( OE oe ) 
+	public boolean queue ( OE oe )
 	{
 		if ( !super.queue ( oe ) ) return false;
 		ReferenceSource source = oe.getSource ();

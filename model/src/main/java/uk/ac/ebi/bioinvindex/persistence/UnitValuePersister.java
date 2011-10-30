@@ -51,7 +51,7 @@ import java.sql.Timestamp;
 
 /**
  * Works on the persistence of {@link UnitValue} and its {@link Unit}.
- * 
+ *
  * date: Apr 23, 2008
  * @author brandizi
  *
@@ -59,8 +59,8 @@ import java.sql.Timestamp;
 public class UnitValuePersister extends FreeTextTermPersister<UnitValue>
 {
 	private final FreeTextTermPersister<Unit> unitPersister;
-	
-	public UnitValuePersister ( DaoFactory daoFactory, Timestamp submissionTs ) 
+
+	public UnitValuePersister ( DaoFactory daoFactory, Timestamp submissionTs )
 	{
 		super ( daoFactory, submissionTs );
 		unitPersister = new FreeTextTermPersister<Unit> ( daoFactory, submissionTs ) {};
@@ -68,10 +68,10 @@ public class UnitValuePersister extends FreeTextTermPersister<UnitValue>
 
 	/**
 	 * Checks/persists the unit type.
-	 * 
+	 *
 	 */
 	@Override
-	public void preProcess ( UnitValue unitValue ) 
+	public void preProcess ( UnitValue unitValue )
 	{
 		super.preProcess ( unitValue );
 
@@ -87,5 +87,5 @@ public class UnitValuePersister extends FreeTextTermPersister<UnitValue>
 		log.trace ( "unit persisted: " + unitValue );
 	}
 
-	
+
 }

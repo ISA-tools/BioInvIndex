@@ -46,11 +46,11 @@ package uk.ac.ebi.bioinvindex.utils;
 public class ExceptionsUtils
 {
 	/**
-	 * @return a message which is composed by all the messages which can be collected from t, by using 
+	 * @return a message which is composed by all the messages which can be collected from t, by using
 	 * {@link Throwable#getCause()}.
-	 * 
+	 *
 	 */
-	public static String getAllMessages ( Throwable t ) 
+	public static String getAllMessages ( Throwable t )
   {
   	String result = "";
   	String sep = "";

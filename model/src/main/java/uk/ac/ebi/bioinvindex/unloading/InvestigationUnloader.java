@@ -61,9 +61,9 @@ import uk.ac.ebi.bioinvindex.model.Investigation;
 import uk.ac.ebi.bioinvindex.model.Study;
 
 /**
- * Unloads instances of {@link Investigation} (if they have the right submission ID and are not related to 
- * existing studies). 
- * 
+ * Unloads instances of {@link Investigation} (if they have the right submission ID and are not related to
+ * existing studies).
+ *
  * <p><b>date</b>: Aug 25, 2008</p>
  * @author brandizi
  *
@@ -72,45 +72,45 @@ public class InvestigationUnloader extends AbstractReferrerUnloader<Investigatio
 {
 //	private final static Association referringAssociations [] = new Association [] {
 //		new Association ( Study.class, "investigations" )
-//	};  
-	
+//	};
+
 	public InvestigationUnloader ( UnloadManager unloadManager ) {
 		super ( unloadManager );
 		logLevel = Level.DEBUG;
 	}
 
 	@Override
-	public boolean queue ( Investigation investigation ) 
+	public boolean queue ( Investigation investigation )
 	{
 		if ( investigation == null || investigation.getId () == null ) return false;
 
 		// Give up if there is some study that is not to be deleted, this assumes
 		// all studied have been already queued.
 		//
-		// We cannot arrange this check via getReferringAssociations() and cancelDelete(), 
+		// We cannot arrange this check via getReferringAssociations() and cancelDelete(),
 		// since the publications and contacts must be deleted before the investigations and therefore
 		// we couldn't cancel them when it's too late.
 		//
 		Map<Long, Study> deletedStudies = unloadManager.getDeletedObjectsByType ( Study.class );
 		Set<Long> deletedStudyIds = deletedStudies.keySet ();
-		
-		if ( deletedStudyIds != null && !deletedStudyIds.isEmpty () ) 
+
+		if ( deletedStudyIds != null && !deletedStudyIds.isEmpty () )
 		{
 			// Should never happen, but anyway...
 			for ( Study study: investigation.getStudies () )
 				if (  !deletedStudyIds.contains ( study.getId () ) ) {
 					if ( log.isTraceEnabled () )
-						log.trace ( 
-							"Investigatiion " + investigation.getId () + " still has study " + study.getId () + ", won't be deleted" 
+						log.trace (
+							"Investigatiion " + investigation.getId () + " still has study " + study.getId () + ", won't be deleted"
 					);
 					return false;
 				}
 		}
-		else 
+		else
 		{
-			log.warn ( 
-				"Internal problem in the unloader: deleting Investigation " + investigation.getAcc () 
-				+ " without any study scheduled for deletion" 
+			log.warn (
+				"Internal problem in the unloader: deleting Investigation " + investigation.getAcc ()
+				+ " without any study scheduled for deletion"
 			);
 			return false;
 		}
@@ -125,16 +125,16 @@ public class InvestigationUnloader extends AbstractReferrerUnloader<Investigatio
 		return true;
 	}
 
-	
+
 //	@Override
-//	protected void cancelDelete ( Investigation investigation ) 
+//	protected void cancelDelete ( Investigation investigation )
 //	{
 //		unloadManager.unqueueAll ( investigation.getPublications () );
 //		unloadManager.unqueueAll ( investigation.getContacts () );
 //		return true;
 //	}
 
-	
+
 //	@Override
 //	protected Association [] getReferringAssociations () {
 //		return referringAssociations;

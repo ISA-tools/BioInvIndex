@@ -56,22 +56,22 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
- * Used by {@link AssayResult#findPipelineFactorValues()}, provides the visit action that collects the 
- * {@link FactorValue} in an experimental pipeline. 
- * 
+ * Used by {@link AssayResult#findPipelineFactorValues()}, provides the visit action that collects the
+ * {@link FactorValue} in an experimental pipeline.
+ *
  * @author brandizi
  * <b>date</b>: Nov 24, 2009
  *
  */
 public class FactorValueVisitor implements ProcessingVisitAction
 {
-	
+
 	private Set<FactorValue> pipelineFVs = new HashSet<FactorValue> ();
-	
-	public boolean visit ( GraphElement graphel ) 
+
+	public boolean visit ( GraphElement graphel )
 	{
 		Collection<FactorValue> fvs;
-		if ( graphel instanceof MaterialNode ) 
+		if ( graphel instanceof MaterialNode )
 		{
 			Material material = ( (MaterialNode) graphel ).getMaterial ();
 			if ( material == null ) return true;
@@ -84,14 +84,14 @@ public class FactorValueVisitor implements ProcessingVisitAction
 		}
 		else
 			return true;
-		
+
 		if ( fvs != null && fvs.size () > 0 )
 			pipelineFVs.addAll ( fvs );
-		
+
 		return true;
 	}
 
-	
+
 	public Collection<FactorValue> getPipelineFVs () {
 		return pipelineFVs;
 	}

@@ -54,7 +54,7 @@ import java.util.List;
 
 /**
  * A term allowing the classification of the study.
- * 
+ *
  * @author Nataliya Sklyar (nsklyar@ebi.ac.uk)
  * Date: Jul 12, 2007
  */

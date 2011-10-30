@@ -50,8 +50,8 @@ import uk.ac.ebi.bioinvindex.model.Annotation;
 import java.sql.Timestamp;
 
 /**
- * To be used for persisting objects of type {@link Annotatable}. 
- * 
+ * To be used for persisting objects of type {@link Annotatable}.
+ *
  * <dl><dt>date:</dt><dd>Dec 9, 2008</dd></dl>
  * @author brandizi
  *
@@ -59,27 +59,27 @@ import java.sql.Timestamp;
  */
 public abstract class AnnotatablePersister<T extends Annotatable> extends Persister<T>
 {
-	/** 
-	 * Use the getter, do not access it directly. 
+	/**
+	 * Use the getter, do not access it directly.
 	 * I cannot initialize this here, cause it relies on a {@link FreeTextTermPersister}, which is in turn
-	 * an {@link AnnotatablePersister} and would cause a loop. 
-	 * 
+	 * an {@link AnnotatablePersister} and would cause a loop.
+	 *
 	 */
 	private AnnotationPersister _annotationPersister;
-	
+
 	protected AnnotatablePersister ( DaoFactory daoFactory, Timestamp submissionTs ) {
 		super ( daoFactory, submissionTs );
 	}
 
 	/**
 	 * Persists the annotations.
-	 *  
+	 *
 	 */
 	@Override
-	protected void preProcess ( T object ) 
+	protected void preProcess ( T object )
 	{
 		super.preProcess ( object );
-		
+
 		// Annotations
 		final AnnotationPersister annPersister = getAnnotationPersister ();
 		for ( Annotation ann: object.getAnnotations () ) {
@@ -88,11 +88,11 @@ public abstract class AnnotatablePersister<T extends Annotatable> extends Persis
 		}
 	}
 
-	
-	
+
+
 	private AnnotationPersister getAnnotationPersister () {
 		if ( _annotationPersister != null ) return _annotationPersister;
-		_annotationPersister = new AnnotationPersister ( daoFactory, getSubmissionTs () ); 
+		_annotationPersister = new AnnotationPersister ( daoFactory, getSubmissionTs () );
 		return _annotationPersister;
 	}
 

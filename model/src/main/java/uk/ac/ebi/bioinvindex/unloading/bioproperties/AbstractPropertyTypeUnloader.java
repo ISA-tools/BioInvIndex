@@ -60,21 +60,21 @@ import uk.ac.ebi.bioinvindex.unloading.freetextterms.AbstractFreeTextTermUnloade
 /**
  * @author brandizi
  * <b>date</b>: Oct 27, 2009
- * 
+ *
  */
 public abstract class AbstractPropertyTypeUnloader<PT extends Property<?>> extends AbstractFreeTextTermUnloader<PT>
 {
 	private final static Association [] referringAssociations = new Association [] {
 		new Association ( PropertyValue.class, "type" )
-	};  
-	
+	};
+
 	public AbstractPropertyTypeUnloader ( UnloadManager unloadManager ) {
 		super ( unloadManager );
 	}
 
 	@Override
 	protected Association [] getReferringAssociations () {
-		return referringAssociations; 
+		return referringAssociations;
 	}
 
 }

@@ -55,7 +55,7 @@ import java.sql.Timestamp;
 
 /**
  * Persists a {@link Protocol}.
- * 
+ *
  * date: Apr 15, 2008
  * @author brandizi
  *
@@ -65,9 +65,9 @@ public class ProtocolPersister extends AccessiblePersister<Protocol>
 	private final OntologyEntryPersister<ProtocolType> typePersister;
 	private final FreeTextTermPersister<Parameter> parameterPersister;
 	private final FreeTextTermPersister<ProtocolComponent> componentPersister;
-	
-	
-	public ProtocolPersister ( DaoFactory daoFactory, Timestamp submissionTs ) 
+
+
+	public ProtocolPersister ( DaoFactory daoFactory, Timestamp submissionTs )
 	{
 		super ( daoFactory, submissionTs );
 		dao = daoFactory.getAccessibleDAO ( Protocol.class );
@@ -76,13 +76,13 @@ public class ProtocolPersister extends AccessiblePersister<Protocol>
 		componentPersister = new FreeTextTermPersister<ProtocolComponent> ( daoFactory, submissionTs ) {};
 	}
 
-	
+
 	/**
-	 * works on the persistence of type and parameters. 
-	 * 
+	 * works on the persistence of type and parameters.
+	 *
 	 */
 	@Override
-	public void preProcess ( Protocol protocol ) 
+	public void preProcess ( Protocol protocol )
 	{
 		// New Accession
 		super.preProcess ( protocol );
@@ -92,7 +92,7 @@ public class ProtocolPersister extends AccessiblePersister<Protocol>
 		ProtocolType typeNew= typePersister.persist ( type );
 		if ( type != typeNew )
 			protocol.setType ( typeNew );
-		
+
 		for ( Parameter parameter: protocol.getParameters () )
 			// We don't need checkings, it's always a new object and not a DB object
 			parameterPersister.persist ( parameter );
@@ -100,7 +100,7 @@ public class ProtocolPersister extends AccessiblePersister<Protocol>
 		for ( ProtocolComponent comp: protocol.getComponents () )
 			// We don't need checkings...
 			componentPersister.persist ( comp );
-		
+
 	}
 
 
@@ -110,21 +110,21 @@ public class ProtocolPersister extends AccessiblePersister<Protocol>
 		throw new BIIPersistenceException ( "We never auto-generate the accession for Protocol" );
 	}
 
-	/** 
+	/**
 	 * Search by accession. When an existing protocol is found, the current one is completely ignored and the properties
 	 * of the existing protocol are kept.
-	 * 
+	 *
 	 */
 	@Override
-	protected Protocol lookup ( Protocol object ) 
+	protected Protocol lookup ( Protocol object )
 	{
 		// TODO: check source is not null
 		String acc = StringUtils.trimToNull ( object.getAcc() );
-		
+
 		if ( acc == null )
 			// Must be a new protocol
 			return null;
-		
+
 		Protocol protoDB = ((AccessibleDAO<Protocol>) dao).getByAcc ( object.getAcc () );
 		if ( protoDB != null ) return protoDB;
 		return null;

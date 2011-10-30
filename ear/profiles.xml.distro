@@ -24,7 +24,7 @@
 			<hibernate.dialect>uk.ac.ebi.bioinvindex.utils.H2FixedDialect</hibernate.dialect>
 		</properties>
 	</profile>
-	
+
 		<!-- P6SPY is a JDBC wrapper that is able to log all that passes through	-->
 		<profile>
 			<id>h2_p6spy</id>
@@ -41,7 +41,7 @@
 				<jdbc.username>sa</jdbc.username>
 				<jdbc.password/>
 			</properties>
-      <!-- WARNING: You do need this dependency as well for this profile, Maven doesn't accept it here 
+      <!-- WARNING: You do need this dependency as well for this profile, Maven doesn't accept it here
 			<dependencies>
 				<dependency>
 					<groupId>com.h2database</groupId>
@@ -70,8 +70,8 @@
             <!-- This shoud do something with this Oracle bug: http://forum.hibernate.org/viewtopic.php?t=82 -->
             <hibernate.max_fetch_depth>0</hibernate.max_fetch_depth>
         </properties>
-        
-      <!-- WARNING: You do need this dependency as well for this profile, Maven doesn't accept it here 
+
+      <!-- WARNING: You do need this dependency as well for this profile, Maven doesn't accept it here
         <dependencies>
             <dependency>
                 <groupId>com.oracle</groupId>

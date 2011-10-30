@@ -40,7 +40,7 @@
  * This work has been funded mainly by the EU Carcinogenomics (http://www.carcinogenomics.eu) [PL 037712] and in part by the
  * EU NuGO [NoE 503630](http://www.nugo.org/everyone) projects and in part by EMBL-EBI.
  */
- 
+
 package uk.ac.ebi.bioinvindex.unloading.freetextterms;
 
 import uk.ac.ebi.bioinvindex.model.Annotation;
@@ -51,7 +51,7 @@ public class AnnotationTypeUnloader extends AbstractFreeTextTermUnloader<Annotat
 {
 	private final static Association[] referringAssociations = new Association[] {
 		new Association ( Annotation.class, "type" )
-	};  
+	};
 
 	public AnnotationTypeUnloader ( UnloadManager unloadManager ) {
 		super ( unloadManager );
@@ -60,7 +60,7 @@ public class AnnotationTypeUnloader extends AbstractFreeTextTermUnloader<Annotat
 	/** Annotation.type */
 	@Override
 	protected Association [] getReferringAssociations () {
-		return referringAssociations; 
+		return referringAssociations;
 	}
-	
+
 }

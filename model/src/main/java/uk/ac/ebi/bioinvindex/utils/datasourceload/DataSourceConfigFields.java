@@ -45,20 +45,20 @@ package uk.ac.ebi.bioinvindex.utils.datasourceload;
 
 /**
  * Definitions used in the {@link DataSourceLoader} for the data locations file.
- * 
+ *
  * @author: Nataliya Sklyar (nsklyar@ebi.ac.uk) Date: May 5, 2009
  */
 public enum DataSourceConfigFields {
 
 	/** The XML element for defining an assay data location */
 	DATASOURCE("datasource"),
-	
+
 	/** The data source attributes for defining the measurment/technology type of the location */
 	MEASUREMENT_TYPE("measurement_type"),
 	/** The data source attributes for defining the measurment/technology type of the location */
 	TECHNOLOGY_TYPE("technology_type"),
-	
-	/** Data source name. Names are used for several puorposes by the web app. E.g.: when the source name is ArrayExpress, 
+
+	/** Data source name. Names are used for several puorposes by the web app. E.g.: when the source name is ArrayExpress,
 	 *  the BII web app searches for Assay Comments of the type "ArrayExpress Raw Data Link" and uses these comment values
 	 *  for building links to the external resource.
 	 */
@@ -85,29 +85,29 @@ public enum DataSourceConfigFields {
 	/** The element belonging to {@link #ISATAB_SOURCE} for defining the location details */
 	ISATAB_LOCATION("location"),
 
-	/** The attribute for defining the writeable FS pattern path of a location */ 
+	/** The attribute for defining the writeable FS pattern path of a location */
 	FILESYSTEM_PATH("filesystem_path"),
-	
-	/** The attribute for defining the pattern URL of a location */ 
+
+	/** The attribute for defining the pattern URL of a location */
 	WEB_URL("web_url"),
 
-	/** This placeholder is replaced by the real BII study accession when file/URL paths are processed OR it is 
+	/** This placeholder is replaced by the real BII study accession when file/URL paths are processed OR it is
 	 *  replaced by the accession that is read from the assay file comments, eg: M-EXP-123 */
 	ACCESSION_PLACEHOLDER("${study-acc}"),
-	
-	/** 
-	 * This is a patch used for ArrayExpress data URLs. Whenever a data URL has this placeholder, it assumes that the 
-	 * data accession has the form "X-Y-Z" and this placeholder is replaced with Y. It is needed to build AE URLs like: 
-	 * 
+
+	/**
+	 * This is a patch used for ArrayExpress data URLs. Whenever a data URL has this placeholder, it assumes that the
+	 * data accession has the form "X-Y-Z" and this placeholder is replaced with Y. It is needed to build AE URLs like:
+	 *
 	 * ftp://ftp.ebi.ac.uk/pub/databases/microarray/data/experiment/MEXP/E-MEXP-115/E-MEXP-115.raw.zip
-	 *  
-	 * TODO: File patterns can only be based on this study/data-type place holders. In future We might need/want some 
+	 *
+	 * TODO: File patterns can only be based on this study/data-type place holders. In future We might need/want some
 	 * much more flexible approach (e.g.: scripts passed via XML).
-	 *   
+	 *
 	 */
 	ACCESSION_PREFIX_PLACEHOLDER ( "${study-acc-prefix}" );
 
-	
+
 	private String name;
 
 	DataSourceConfigFields(String name) {

@@ -58,13 +58,13 @@ import uk.ac.ebi.bioinvindex.unloading.UnloadManager;
 
 public class DataUnloader extends AbstractAccessibleUnloader<Data>
 {
-	
+
 	public DataUnloader ( UnloadManager unloadManager ) {
 		super ( unloadManager );
 	}
 
 	@Override
-	public boolean queue ( Data data ) 
+	public boolean queue ( Data data )
 	{
 		if ( !super.queue ( data ) ) return false;
 		unloadManager.queue ( data.getType () );

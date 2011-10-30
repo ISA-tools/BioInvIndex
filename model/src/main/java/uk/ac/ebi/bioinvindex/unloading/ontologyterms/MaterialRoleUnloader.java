@@ -57,8 +57,8 @@ import uk.ac.ebi.bioinvindex.model.term.MaterialRole;
 import uk.ac.ebi.bioinvindex.unloading.UnloadManager;
 
 /**
- * There is only an internal difference wrt {@link OntologyEntryUnloader} (different list for 
- * {@link #getReferringAssociations()} ). 
+ * There is only an internal difference wrt {@link OntologyEntryUnloader} (different list for
+ * {@link #getReferringAssociations()} ).
  *
  * @author brandizi
  * <b>date</b>: Feb 3, 2010
@@ -68,15 +68,15 @@ public class MaterialRoleUnloader extends AbstractOntologyEntryUnloader<Material
 {
 	private final static Association[] referringAssociations = new Association[] {
 		new Association ( Material.class, "type" )
-	};  
-	
+	};
+
 	public MaterialRoleUnloader ( UnloadManager unloadManager ) {
 		super ( unloadManager );
 	}
 
 	@Override
 	protected Association [] getReferringAssociations () {
-		return referringAssociations; 
+		return referringAssociations;
 	}
 
 }

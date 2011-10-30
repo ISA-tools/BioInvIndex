@@ -81,7 +81,7 @@ import java.util.TreeMap;
 /**
  * Objects of this class put together a link to a data and all property/protocol parameter values of corresponding
  * materials/protocols which this data was obtained from.
- * 
+ *
  * @author Nataliya Sklyar (nsklyar@ebi.ac.uk)
  * Date: Oct 2, 2008
  */
@@ -104,7 +104,7 @@ public class AssayResult extends Identifiable {
 	private Collection<PropertyValue> cascadedValues = new HashSet<PropertyValue>();
 
 	private Collection<Assay> assays = new HashSet<Assay>();
-	
+
 	protected AssayResult() {
 
 	}
@@ -192,8 +192,8 @@ public class AssayResult extends Identifiable {
 	public boolean removeAssay ( Assay assay ) {
 		return this.assays.remove ( assay );
 	}
-	
-	
+
+
 	/**
 	 * Goes through the pipeline associated to this AssayResult and extracts all the {@link CharacteristicValue} associated to
 	 * the materials in it.
@@ -201,7 +201,7 @@ public class AssayResult extends Identifiable {
 	 * It is used to setup the cascaded properties during ISATAB submission.
 	 *
 	 * TODO: for the moment relies on the correct assignment of accessions to nodes (used in .equals() and .hashCode())
-	 * 
+	 *
 	 */
 	public Collection<CharacteristicValue> findPipelineCharacteristicValues() {
 		CharacteristicValueVisitor visitor = new CharacteristicValueVisitor();
@@ -216,7 +216,7 @@ public class AssayResult extends Identifiable {
 	 * It is used to setup the cascaded properties during ISATAB submission.
 	 *
 	 * TODO: for the moment relies on the correct assignment of accessions to nodes (used in .equals() and .hashCode())
-	 * 
+	 *
 	 */
 	public Collection<FactorValue> findPipelineFactorValues() {
 		FactorValueVisitor visitor = new FactorValueVisitor ();
@@ -229,8 +229,8 @@ public class AssayResult extends Identifiable {
 	 * Returns the same collection passed as parameter, but with the duplicates removed. Two property values are
 	 * considered dupes, when they have the same strings in the values, the unit, the type's string value.
 	 * <p/>
-	 * Note: this method is not much advanced, for example we don't address complex cases like 
-	 * [1200 joule] = [1.2 kJ] = [1.2 N*m] 
+	 * Note: this method is not much advanced, for example we don't address complex cases like
+	 * [1200 joule] = [1.2 kJ] = [1.2 N*m]
 	 *
 	 * @return the filtered characteristic values, with the values sorted according to type and value
 	 */

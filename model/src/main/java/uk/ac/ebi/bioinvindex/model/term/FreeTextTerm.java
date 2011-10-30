@@ -57,8 +57,8 @@ import java.util.Iterator;
 import java.util.List;
 
 /**
- * This is a super class for all "Terms" (for example, characteristic/factor value, protocol parameter) which might have 
- * a free text value as well as be annotated with ontology terms. 
+ * This is a super class for all "Terms" (for example, characteristic/factor value, protocol parameter) which might have
+ * a free text value as well as be annotated with ontology terms.
  *
  * @author Nataliya Sklyar (nsklyar@ebi.ac.uk) Date: Jul 12, 2007
  */
@@ -103,7 +103,7 @@ public abstract class FreeTextTerm extends Annotatable {
 
 	/**
 	 * @return the first term returned by {@link #getOntologyTerms()}
-	 * 
+	 *
 	 */
 	@Transient
 	public OntologyTerm getSingleOntologyTerm () {
@@ -111,7 +111,7 @@ public abstract class FreeTextTerm extends Annotatable {
 		return itr.hasNext () ? itr.next () : null;
 	}
 
-	
+
 	protected void setOntologyTerms(List<OntologyTerm> ontologyTerms) {
 		this.ontologyTerms = ontologyTerms;
 	}
@@ -140,9 +140,9 @@ public abstract class FreeTextTerm extends Annotatable {
 	}
 
 	public int hashCode() {
-		int result = super.hashCode(); 
-		result = 31 * result + (value != null ? value.hashCode() : 0); 
-		result = 31 * result + (ontologyTerms != null ? ontologyTerms.hashCode() : 0); 
+		int result = super.hashCode();
+		result = 31 * result + (value != null ? value.hashCode() : 0);
+		result = 31 * result + (ontologyTerms != null ? ontologyTerms.hashCode() : 0);
 		return result;
 	}
 

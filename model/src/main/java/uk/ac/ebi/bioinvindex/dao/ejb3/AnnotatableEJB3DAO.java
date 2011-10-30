@@ -57,9 +57,9 @@ public class AnnotatableEJB3DAO<T extends Annotatable>
 		implements AnnotatableDAO<T> {
 
 	// TODO: work with annotations
-	
-	
-	
+
+
+
 	protected AnnotatableEJB3DAO() {
 	}
 

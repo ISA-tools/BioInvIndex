@@ -48,23 +48,23 @@ import org.hibernate.dialect.H2Dialect;
 import java.sql.Types;
 
 /**
- * This fixes some problems occurring with recent versions of Hibernate and H2, see 
+ * This fixes some problems occurring with recent versions of Hibernate and H2, see
  * {@link http://forum.hibernate.org/viewtopic.php?p=2324183 here} for details (code was copied from there).
- *  
+ *
  * <p><b>date</b>: Aug 27, 2008</p>
  * @author brandizi
  *
  */
 public class H2FixedDialect extends H2Dialect
 {
-  public H2FixedDialect() 
+  public H2FixedDialect()
   {
     super();
     registerColumnType ( Types.BIT, "boolean" );
 
     // Check it is actually registered.
     if ( !"boolean".equals( getTypeName ( Types.BIT ) ) )
-        throw new IllegalStateException ( 
+        throw new IllegalStateException (
         	"Failed to register H2Dialect column type for Types.BIT to 'boolean'." );
-  } 
+  }
 }

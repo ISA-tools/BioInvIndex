@@ -40,7 +40,7 @@
  * This work has been funded mainly by the EU Carcinogenomics (http://www.carcinogenomics.eu) [PL 037712] and in part by the
  * EU NuGO [NoE 503630](http://www.nugo.org/everyone) projects and in part by EMBL-EBI.
  */
- 
+
 package uk.ac.ebi.bioinvindex.unloading.pipeline;
 
 import uk.ac.ebi.bioinvindex.model.processing.DataNode;
@@ -53,7 +53,7 @@ public class DataNodeUnloader extends AbstractNodeUnloader<DataNode>
 	}
 
 	@Override
-	public boolean queue ( DataNode dnode ) 
+	public boolean queue ( DataNode dnode )
 	{
 		if ( !super.queue ( dnode ) ) return false;
 		unloadManager.queue ( dnode.getData () );

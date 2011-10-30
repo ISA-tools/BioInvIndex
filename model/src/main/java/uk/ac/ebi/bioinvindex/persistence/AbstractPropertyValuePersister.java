@@ -52,20 +52,20 @@ import java.sql.Timestamp;
 
 /**
  * Persists a {@link PropertyValue} and its {@link Property}. <p/>
- * 
+ *
  * date: Apr 23, 2008
  * @author brandizi
  *
  * @param <PV> the value type
  * @param <PT> the property type
- * 
+ *
  */
-public abstract class AbstractPropertyValuePersister<PV extends PropertyValue<?>> 
+public abstract class AbstractPropertyValuePersister<PV extends PropertyValue<?>>
 	extends FreeTextTermPersister<PV>
 {
-	private final FreeTextTermPersister<Property<PV>> typePersister; 
-	private final UnitValuePersister unitValuePersister; 
-	
+	private final FreeTextTermPersister<Property<PV>> typePersister;
+	private final UnitValuePersister unitValuePersister;
+
 	public AbstractPropertyValuePersister ( DaoFactory daoFactory, Timestamp submissionTs ) {
 		super ( daoFactory, submissionTs );
 		typePersister = new FreeTextTermPersister<Property<PV>> ( daoFactory, submissionTs ) {};
@@ -74,19 +74,19 @@ public abstract class AbstractPropertyValuePersister<PV extends PropertyValue<?>
 
 	/**
 	 * persists the type, then works on the unit.
-	 * 
+	 *
 	 */
 	@Override
-	protected void preProcess ( PV propValue ) 
+	protected void preProcess ( PV propValue )
 	{
 		super.preProcess ( propValue );
-		
+
 		// Persist the type, then go on with the rest
 		Property<PV> type = (Property<PV>) propValue.getType ();
 		Property<PV> typeDB = typePersister.persist ( type );
 		if ( typeDB != type )
 			( (PropertyValue) propValue).setType ( typeDB );
-		
+
 		// Persist the unit
 		UnitValue unitValue = propValue.getUnit ();
 		UnitValue unitValueDB = unitValuePersister.persist ( unitValue );

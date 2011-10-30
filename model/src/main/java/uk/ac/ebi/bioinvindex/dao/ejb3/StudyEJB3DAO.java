@@ -59,7 +59,7 @@ import javax.persistence.Query;
 import java.util.*;
 
 /**
- * 
+ *
  * @author Nataliya Sklyar (nsklyar@ebi.ac.uk) Date: Jun 22, 2007
  */
 public class StudyEJB3DAO extends AccessibleEJB3DAO<Study> implements StudyDAO {

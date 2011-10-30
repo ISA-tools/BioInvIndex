@@ -80,7 +80,7 @@ public class Publication extends Annotatable {
 	private String authorList;
 
 	private String pmid, doi;
-	
+
 	@ContainedIn
 	private Study study;
 	private Investigation investigation;
@@ -94,8 +94,8 @@ public class Publication extends Annotatable {
 		this.setTitle(title);
 		this.setAuthorList(authorList);
 	}
-	
-	
+
+
 	public String getPmid () {
 		return pmid;
 	}
@@ -198,7 +198,7 @@ public class Publication extends Annotatable {
 //	public void addXref(PublicationXrefImpl ref) {
 //		super.addXref(ref);
 //	}
-	
+
 	@ManyToOne(targetEntity = PublicationStatus.class)
 	public PublicationStatus getStatus() {
 		return this.status;

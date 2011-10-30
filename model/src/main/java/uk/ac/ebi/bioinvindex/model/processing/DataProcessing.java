@@ -72,10 +72,10 @@ public class DataProcessing extends Processing<DataNode, DataNode>{
 	}
 
 
-	public String toStringVerbose () 
+	public String toStringVerbose ()
 	{
 		StringBuilder result = new StringBuilder ( "DataProcessing { " + this.getId() + "\n" );
-		
+
 		result.append ( "  Inputs:\n" );
 		for ( DataNode input: this.getInputNodes () ) {
 			Data data = input.getData ();
@@ -93,8 +93,8 @@ public class DataProcessing extends Processing<DataNode, DataNode>{
 			result.append ( "    " + protocolApp + "\n" );
 		}
 		result.append ( "\n" );
-		
-		
+
+
 		return result.toString ();
 	}
 

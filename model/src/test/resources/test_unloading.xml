@@ -154,8 +154,8 @@
 
 
 
-	
-	
+
+
 	<REFERENCE_SOURCE
 		ID ="-999"
 		ACC = "FOO-999"
@@ -171,18 +171,18 @@
 		SOURCE="-999"
 		SUBMISSION_TS							 ="2008-08-25 17:21:20.200000000"
 	/>
-	
-	
+
+
 	<DESIGN
 		  ID ="-9"
 			VALUE                      ="test design"
 			SUBMISSION_TS							 ="2008-08-25 17:21:20.200000000"
 			STUDY_ID = "[null]"
 	/>
-	
-	<Design2OT DESIGN_ID = "-9" OT_ID = "-99" />  
-	
-	
+
+	<Design2OT DESIGN_ID = "-9" OT_ID = "-99" />
+
+
 	<REFERENCE_SOURCE
 		ID ="-200"
 		ACC = "FOO"
@@ -203,15 +203,15 @@
 		NAME="Ontology for Testing 2"
 		SUBMISSION_TS							 ="2008-08-18 15:21:20.200000000"
 	/>
-	
+
 	<REFERENCE_SOURCE
 		ID ="-210"
 		ACC = "FOO210"
 		NAME="Ontology for Testing 210"
 		SUBMISSION_TS							 ="2008-08-18 16:21:20.200000000"
 	/>
-	
-	
+
+
 	<ONTOLOGY_ENTRY
 		OBJ_TYPE="OntologyTerm"
 		ID = "-6"
@@ -256,10 +256,10 @@
 		SUBMISSION_TS							 ="2008-08-18 16:21:20.200000000"
 	/>
 
-	
-	
-	
-	<INVESTIGATION 
+
+
+
+	<INVESTIGATION
 		ID = "-1"
 	  ACC = "bii:test:inv:01"
 		TITLE = "Investigation 01 (test data set)"
@@ -283,7 +283,7 @@
 	  TITLE = "Investigation 02 (test data set)"
 	  DESCRIPTION = "But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, ..."
 		SUBMISSION_TS = "2008-08-18 17:21:20.200000000"
-	/>  
+	/>
 
 	<ONTOLOGY_ENTRY
 		OBJ_TYPE="PublicationStatus"
@@ -303,7 +303,7 @@
 		STUDY_ID = "-7"
 	/>
 
-	  
+
 
 	<STUDY
 			ID ="-1"
@@ -399,7 +399,7 @@
 		ID="-23"
 		ACC="bii:fooContactRole"
 		NAME="My Contact Role"
-		SOURCE="-100" 
+		SOURCE="-100"
     SUBMISSION_TS						   ="2008-08-18 17:21:20.200000000"
 	/>
 
@@ -410,7 +410,7 @@
 		email = "someone@x.y"
 		STUDY_ID = "-7"
     SUBMISSION_TS						   ="2008-08-18 17:21:20.200000000"
-	/> 
+	/>
 
 	<role2contact	contact_id = "-1" role_id = "-23"
 	/>
@@ -421,7 +421,7 @@
 			STUDY_ID 		 							 ="-1"
 			SUBMISSION_TS = "[null]"
 	/>
-	
+
 	<DESIGN
 		 ID ="-2"
 			VALUE                      ="test design"
@@ -460,7 +460,7 @@
       SUBMISSION_TS						   ="2008-08-18 16:21:20.200000000"
 			STUDY_ID 		 							 ="-6"
 	/>
-	
+
 	<DESIGN
 		 ID ="-7"
 			VALUE                      ="test design"
@@ -473,11 +473,11 @@
 			SUBMISSION_TS							 ="2008-08-18 17:21:20.200000000"
 			STUDY_ID 		 							 ="-7"
 	/>
-	
-	<Design2OT DESIGN_ID = "-5" OT_ID = "-10" />  
-	<Design2OT DESIGN_ID = "-6" OT_ID = "-6" />  
-	<Design2OT DESIGN_ID = "-7" OT_ID = "-7" />  
-	<Design2OT DESIGN_ID = "-7" OT_ID = "-8" />  
+
+	<Design2OT DESIGN_ID = "-5" OT_ID = "-10" />
+	<Design2OT DESIGN_ID = "-6" OT_ID = "-6" />
+	<Design2OT DESIGN_ID = "-7" OT_ID = "-7" />
+	<Design2OT DESIGN_ID = "-7" OT_ID = "-8" />
 
 
 
@@ -503,14 +503,14 @@
 
 
 	<PROTOCOL
-		ID = "-1" 	
-		SUBMISSION_TS = "2008-08-18 16:21:20.200000000" 
+		ID = "-1"
+		SUBMISSION_TS = "2008-08-18 16:21:20.200000000"
 		ACC = "proto:test:-1"
 		DESCRIPTION = "A Test Protocol"
 		NAME = "Test Protocol -1"
 		type = "-11"
-	/> 
-	
+	/>
+
 	<REFERENCE_SOURCE
 		ID ="-1012"
 		ACC = "FOO1012"
@@ -527,17 +527,17 @@
 		SUBMISSION_TS							 ="2008-08-18 16:21:20.200000000"
 	/>
 
-	<protocol_component 
-	 	ID = "-12" 
+	<protocol_component
+	 	ID = "-12"
 	  VALUE = "Scanner"
-	  protocol_id = "-1" 
-	  SUBMISSION_TS = "2008-08-18 16:21:20.200000000" 
+	  protocol_id = "-1"
+	  SUBMISSION_TS = "2008-08-18 16:21:20.200000000"
 	/>
   <protocol_component_2_term component_id = "-12" ontology_term_id = "-12" />
 
 
 
-	
+
 	<Study2Protocol
 		PROTOCOL_ID = "-1"
 		STUDY_ID = "-6"
@@ -548,16 +548,16 @@
 		PROTOCOL_ID = "-1"
 		STUDY_ID = "-7"
 	/ -->
-	
-	
-	<PROPERTY 
+
+
+	<PROPERTY
 		OBJ_TYPE = "Parameter"
 		ID = "-1"
 		SUBMISSION_TS = "2008-08-18 16:21:20.200000000"
 		VALUE = "A Test Parameter"
 		position = "0"
 		PROTOCOL_ID = "-1"
-	/> 
+	/>
 
 
 	<!--  Assay  -->
@@ -586,13 +586,13 @@
 		SUBMISSION_TS							 ="2008-08-18 17:21:20.200000000"
 	/>
 
-	<PROPERTY 
+	<PROPERTY
 		OBJ_TYPE = "Characteristic"
 		ID = "-2"
 		SUBMISSION_TS = "2008-08-18 17:21:20.200000000"
 		VALUE = "A Test Property"
 		position = "0"
-	/> 
+	/>
 
 
 
@@ -607,35 +607,35 @@
 	/>
 
 	<!-- Recyclable units are not supported at the moment (by the unloader) -->
-	<UNIT 
+	<UNIT
 		ID = "-1"
 		SUBMISSION_TS = "2008-08-18 17:21:20.200000000"
 		VALUE = "Length"
 	/>
 
-	<UNIT 
+	<UNIT
 		ID = "-2"
 		SUBMISSION_TS = "2008-08-18 17:21:20.200000000"
 		VALUE = "Length"
 	/>
 
-	<UNIT_VALUE 
+	<UNIT_VALUE
 		ID = "-1"
 		SUBMISSION_TS = "2008-08-18 17:21:20.200000000"
 		UNIT_ID = "-1"
 		VALUE = "cm"
 	/>
 
-	<UNIT_VALUE 
+	<UNIT_VALUE
 		ID = "-2"
 		SUBMISSION_TS = "2008-08-18 17:21:20.200000000"
 		UNIT_ID = "-2"
 		VALUE = "cm"
 	/>
-	
+
 	<UnitValue2OT UV_ID = "-1" OT_ID = "-22" />
-		
-	
+
+
 	<ASSAY
 		ID = "-1"
 		ACC = "ASSAY-1"
@@ -662,13 +662,13 @@
 		SUBMISSION_TS = "2008-08-18 17:21:20.200000000"
 	/>
 
-	<PROPERTY 
+	<PROPERTY
 		OBJ_TYPE = "Factor"
 		ID = "-3"
 		SUBMISSION_TS = "2008-08-18 17:21:20.200000000"
 		VALUE = "A Test Property"
 		position = "0"
-	/> 
+	/>
 
 	<PROPERTY_VALUE
 		ID = "-1"
@@ -690,5 +690,5 @@
 
 	<AssayResult2PropertyValue AR_ID = "-1" PV_ID = "-1" />
 	<AssayResult2PropertyValue AR_ID = "-1" PV_ID = "-2" />
-	
+
 </dataset>

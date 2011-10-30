@@ -61,7 +61,7 @@ public interface IdentifiableDAO<DomainObject extends Identifiable> {
 	public Long save(DomainObject object);
 
 	public void update ( DomainObject object );
-	
+
 	public int deleteById(Long id);
 
 	public void delete ( DomainObject object );

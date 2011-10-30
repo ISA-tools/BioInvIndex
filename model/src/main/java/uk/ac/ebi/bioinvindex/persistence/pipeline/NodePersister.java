@@ -40,7 +40,7 @@
  * This work has been funded mainly by the EU Carcinogenomics (http://www.carcinogenomics.eu) [PL 037712] and in part by the
  * EU NuGO [NoE 503630](http://www.nugo.org/everyone) projects and in part by EMBL-EBI.
  */
- 
+
 package uk.ac.ebi.bioinvindex.persistence.pipeline;
 
 import java.sql.Timestamp;
@@ -62,7 +62,7 @@ public abstract class NodePersister<N extends Node> extends GraphElementPersiste
 	 * This removes the down/up stream processings, they are saved by {@link AssayMaterialPersister}.
 	 */
 	@Override
-	protected void preProcess ( N node ) 
+	protected void preProcess ( N node )
 	{
 		super.preProcess ( node );
 

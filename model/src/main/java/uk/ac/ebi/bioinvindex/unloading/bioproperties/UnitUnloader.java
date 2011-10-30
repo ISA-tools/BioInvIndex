@@ -59,7 +59,7 @@ import uk.ac.ebi.bioinvindex.unloading.freetextterms.AbstractFreeTextTermUnloade
 
 /**
  * This class must be abstract, because of {@link ReflectionUtils#getTypeClass(java.lang.reflect.Type)}
- * 
+ *
  * @author brandizi
  * <b>date</b>: Oct 27, 2009
  *
@@ -68,7 +68,7 @@ public class UnitUnloader extends AbstractFreeTextTermUnloader<Unit>
 {
 	private final static Association [] referringAssociations = new Association [] {
 		new Association ( UnitValue.class, "type" )
-	};  
+	};
 
 	public UnitUnloader ( UnloadManager unloadManager ) {
 		super ( unloadManager );
@@ -76,6 +76,6 @@ public class UnitUnloader extends AbstractFreeTextTermUnloader<Unit>
 
 	@Override
 	protected Association [] getReferringAssociations () {
-		return referringAssociations; 
+		return referringAssociations;
 	}
 }

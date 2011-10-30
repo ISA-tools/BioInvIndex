@@ -94,7 +94,7 @@ public class FreeTextTermPersistenceTest extends TransactionalDBUnitEJB3DAOTest
 	}
 
 	@Before
-	public void initPersister () 
+	public void initPersister ()
 	{
 		// Needs to be instantiated here, so that the internal cache for the ontology terms is cleared
 		// before every test.
@@ -102,8 +102,8 @@ public class FreeTextTermPersistenceTest extends TransactionalDBUnitEJB3DAOTest
 		persister = new FreeTextTermPersister<Design> (
 				DaoFactory.getInstance(entityManager), new Timestamp ( System.currentTimeMillis () )  ) {};
 	}
-	
-	
+
+
 	protected void prepareSettings() {
 		beforeTestOperations.add(DatabaseOperation.CLEAN_INSERT);
 		dataSetLocation = "test_persistence.xml";

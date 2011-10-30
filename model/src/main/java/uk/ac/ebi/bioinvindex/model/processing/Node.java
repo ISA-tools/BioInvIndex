@@ -110,7 +110,7 @@ public abstract class Node
 		return Collections.unmodifiableCollection ( downstreamProcessings );
 	}
 
-	public void addUpstreamProcessing(UpstreamProcessing upstreamProcessing) 
+	public void addUpstreamProcessing(UpstreamProcessing upstreamProcessing)
 	{
 		if (upstreamProcessing == null)
 			throw new IllegalArgumentException("upstreamProcessing cannot be null");
@@ -119,7 +119,7 @@ public abstract class Node
 			upstreamProcessing.addInputNode(this);
 		}
 	}
-	
+
 	public void removeUpstreamProcessing ( UpstreamProcessing upstreamProcessing ) {
 		if ( upstreamProcessing == null)
 			return;
@@ -129,7 +129,7 @@ public abstract class Node
 		}
 	}
 
-	public void addDownstreamProcessing(DownstreamProcessing downstreamProcessing) 
+	public void addDownstreamProcessing(DownstreamProcessing downstreamProcessing)
 	{
 		if (downstreamProcessing == null)
 			throw new IllegalArgumentException("downstreamProcessing cannot be null");
@@ -158,18 +158,18 @@ public abstract class Node
 	}
 
 	/**
-	 * The ISATAB sample file the object wrapping this node comes from. This is attached as an annotation to 
+	 * The ISATAB sample file the object wrapping this node comes from. This is attached as an annotation to
 	 * a material or data object and hence the specific implementations fetch this value from there.
-	 * 
+	 *
 	 */
 	@Transient
 	public abstract String getSampleFileId ();
-	
+
 	/**
-	 * The ISATAB assay files the object wrapping this node comes from. This is attached as an annotation to 
+	 * The ISATAB assay files the object wrapping this node comes from. This is attached as an annotation to
 	 * a material or data object and hence the specific implementations fetch this value from there.
 	 * It is a set, cause a sample node could belong to multiple assay files.
-	 * 
+	 *
 	 */
 	@Transient
 	public abstract Set<String> getAssayFileIds ();

@@ -61,13 +61,13 @@ import java.util.Collections;
 
 /**
  * Object representing wet/dry laboratory operating procedures.
- * 
+ *
  * @author Nataliya Sklyar (nsklyar@ebi.ac.uk)
  * Date: Nov 20, 2007
  */
 @Entity
 @Table(name = "PROTOCOL")
-public class Protocol extends Accessible 
+public class Protocol extends Accessible
 {
 
 	private String name;
@@ -77,8 +77,8 @@ public class Protocol extends Accessible
 	private String version;
 	private Collection<Parameter> parameters = new ArrayList<Parameter>();
 	private Collection<ProtocolComponent> components = new ArrayList<ProtocolComponent> ();
-	
-	
+
+
 	protected Protocol() {
 		super();
 	}
@@ -132,7 +132,7 @@ public class Protocol extends Accessible
 	}
 
 	@OneToMany( targetEntity = Parameter.class )
-  @JoinColumn ( name = "PROTOCOL_ID", nullable = true )			
+  @JoinColumn ( name = "PROTOCOL_ID", nullable = true )
 // TODO: Remove
 //	@JoinTable(
 //			name = "Protocol2Property",
@@ -154,18 +154,18 @@ public class Protocol extends Accessible
 	public boolean removeParameter ( Parameter parameter ) {
 		return this.parameters.remove ( parameter );
 	}
-	
-	public Parameter findParameterByName ( String name ) 
+
+	public Parameter findParameterByName ( String name )
 	{
 		for ( Parameter param: getParameters () ) {
 			if ( param != null && name.equals ( param.getValue () ) ) return param;
 		}
 		return null;
-	} 
-	
+	}
+
 
 	@OneToMany( targetEntity = ProtocolComponent.class )
-  @JoinColumn ( name = "protocol_id", nullable = true )			
+  @JoinColumn ( name = "protocol_id", nullable = true )
 	public Collection<ProtocolComponent> getComponents () {
 		return Collections.unmodifiableCollection ( components );
 	}
@@ -177,9 +177,9 @@ public class Protocol extends Accessible
 	public void addComponent ( ProtocolComponent component ) {
 		components.add ( component );
 	}
-	
-	
-	public boolean equals(Object o) 
+
+
+	public boolean equals(Object o)
 	{
 		if (this == o) return true;
 		if (o == null || getClass() != o.getClass()) return false;
@@ -196,7 +196,7 @@ public class Protocol extends Accessible
 		return true;
 	}
 
-	public int hashCode() 
+	public int hashCode()
 	{
 		int result = super.hashCode();
 		result = 31 * result + name.hashCode();
@@ -207,10 +207,10 @@ public class Protocol extends Accessible
 		return result;
 	}
 
-	public String toString() 
+	public String toString()
 	{
 		return "Protocol{" +
-			"id=" + getId () + 
+			"id=" + getId () +
 			", acc='" + getAcc() + '\'' +
 			", name='" + name + "'" +
 			", type=" + type +

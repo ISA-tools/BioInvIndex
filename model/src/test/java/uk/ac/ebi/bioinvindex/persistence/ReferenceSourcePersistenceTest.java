@@ -72,7 +72,7 @@ public class ReferenceSourcePersistenceTest extends TransactionalDBUnitEJB3DAOTe
 		persister = new ReferenceSourcePersister ( DaoFactory.getInstance(entityManager), new Timestamp ( System.currentTimeMillis () )  );
 	}
 
-	
+
 	protected void prepareSettings() {
 		beforeTestOperations.add(DatabaseOperation.CLEAN_INSERT);
 		dataSetLocation = "test_persistence.xml";

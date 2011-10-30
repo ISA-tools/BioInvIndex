@@ -54,32 +54,32 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
- * Used by {@link AssayResult#findPipelineCharacteristicValues()}, provides the visit action that collects the 
- * {@link CharacteristicValue} in an experimental pipeline. 
- * 
+ * Used by {@link AssayResult#findPipelineCharacteristicValues()}, provides the visit action that collects the
+ * {@link CharacteristicValue} in an experimental pipeline.
+ *
  * date: Aug, 2008
  * @author brandizi
  *
  */
 public class CharacteristicValueVisitor implements ProcessingVisitAction
 {
-	
+
 	private Set<CharacteristicValue> pipelineCharacteristicValues = new HashSet<CharacteristicValue> ();
-	
-	public boolean visit ( GraphElement graphel ) 
+
+	public boolean visit ( GraphElement graphel )
 	{
-		if ( ! (graphel instanceof MaterialNode ) ) return true; 
+		if ( ! (graphel instanceof MaterialNode ) ) return true;
 
 		Material material = ( (MaterialNode) graphel ).getMaterial ();
 		if ( material == null ) return true;
 		Collection<CharacteristicValue> materialCharacteristics = material.getCharacteristicValues ();
 		if ( materialCharacteristics != null && materialCharacteristics.size () > 0 )
 			pipelineCharacteristicValues.addAll ( materialCharacteristics );
-		
+
 		return true;
 	}
 
-	
+
 	public Collection<CharacteristicValue> getPipelineCharacteristicValues () {
 		return pipelineCharacteristicValues;
 	}

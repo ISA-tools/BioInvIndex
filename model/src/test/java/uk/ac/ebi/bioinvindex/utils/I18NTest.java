@@ -51,16 +51,16 @@ import static junit.framework.Assert.*;
 public class I18NTest
 {
 	@Test
-	public void testI18N () 
+	public void testI18N ()
 	{
 		assertEquals ( "Wrong message returned by the messaging API!",
 			"This is a constant message",  i18n.msg ( "test.msg.1" ) );
 		assertEquals ( "Wrong message returned by the messaging API!",
 			"This a parameterized message, param value = 223", i18n.msg ( "test.msg.2", 223 ) );
-		assertEquals ( "Wrong message returned by the messaging API!", 
-			"Another parameterized message with the \"foo\" variable in the middle", 
-			i18n.msg ( "test.msg.3", "foo" ) ); 
-		assertTrue ( "Wrong message returned by the messaging API!", 
+		assertEquals ( "Wrong message returned by the messaging API!",
+			"Another parameterized message with the \"foo\" variable in the middle",
+			i18n.msg ( "test.msg.3", "foo" ) );
+		assertTrue ( "Wrong message returned by the messaging API!",
 			i18n.msg ( "test.msg.4" ).contains ( "__INVALID_MSG_KEY" ) );
 	}
 }

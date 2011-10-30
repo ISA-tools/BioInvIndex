@@ -3,8 +3,8 @@
 # Runs the H2 test DB in server mode. Can be useful if you want to use your
 # IDE's DB browser.
 #
-# Once launched, use a JDBC driver with the parameters: 
-# 
+# Once launched, use a JDBC driver with the parameters:
+#
 #   driver org.h2.Driver
 #   url    jdbc:h2:tcp://localhost/test-db/bioinvindex
 #   db     bioinvindex

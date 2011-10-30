@@ -57,8 +57,8 @@ import uk.ac.ebi.bioinvindex.model.processing.Processing;
 
 /**
  * A {@link ProcessingVisitAction} to be used with {@link ExperimentalPipelineVisitor} that allows to collect
- * the nodes in a pipeline as a collections, rather than a graph. 
- * 
+ * the nodes in a pipeline as a collections, rather than a graph.
+ *
  * @author brandizi
  * <b>date</b>: Feb 3, 2010
  *
@@ -68,14 +68,14 @@ public class GraphCollector implements ProcessingVisitAction
 {
 	private Map<String, Node> nodes = new HashMap<String, Node> ();
 	private Collection<Edge> edges = new HashSet<Edge> ();
-	
+
 	/**
-	 * An alternative representation of a {@link Processing} object. Basically the difference is 
-	 * that equals() and hashCode() are based on the objects identity and they don't change when 
+	 * An alternative representation of a {@link Processing} object. Basically the difference is
+	 * that equals() and hashCode() are based on the objects identity and they don't change when
 	 * internal properties of the Processing change. This is useful for persistence/unloading operations
-	 * where, you need to unlink the processings from its inputs/outputs, without screwing their links from 
-	 * keep-track collections. 
-	 * 
+	 * where, you need to unlink the processings from its inputs/outputs, without screwing their links from
+	 * keep-track collections.
+	 *
 	 * @author brandizi
 	 * <b>date</b>: Feb 3, 2010
 	 *
@@ -84,8 +84,8 @@ public class GraphCollector implements ProcessingVisitAction
 	{
 		private final List<Node> inputs, outputs;
 		private final Processing processing;
-		private final int hashCode; 
-			
+		private final int hashCode;
+
 		public Edge ( Processing processing )
 		{
 			inputs = new ArrayList<Node> ( processing.getInputNodes () );
@@ -103,33 +103,33 @@ public class GraphCollector implements ProcessingVisitAction
 		public Processing getProcessing () {
 			return processing;
 		}
-		
+
 		@Override
-		public boolean equals ( Object obj ) 
+		public boolean equals ( Object obj )
 		{
-			if ( obj == null ) return false; 
+			if ( obj == null ) return false;
 			if ( this == obj ) return true;
-			
+
 			if ( ! ( obj instanceof Edge ) ) return false;
 			Edge that = (Edge) obj;
 			if ( processing != that.processing ) return false;
 			return true;
 		}
-		
+
 		@Override
 		public int hashCode () {
 			return hashCode;
 		}
-		
+
 	}
-	
+
 	/**
 	 * Justs store the ge into internal nodes or edges.
-	 * 
+	 *
 	 */
-	public boolean visit ( GraphElement ge ) 
+	public boolean visit ( GraphElement ge )
 	{
-		if ( ge instanceof Node ) { 
+		if ( ge instanceof Node ) {
 			Node node = (Node) ge;
 			nodes.put ( node.getAcc (), node );
 		}
@@ -138,18 +138,18 @@ public class GraphCollector implements ProcessingVisitAction
 	}
 
 	/**
-	 * All the collected Material/Data nodes that are available after {@link #visit(GraphElement)}. 
-	 *  
+	 * All the collected Material/Data nodes that are available after {@link #visit(GraphElement)}.
+	 *
 	 */
 	public Collection<Node> getNodes () {
 		return nodes.values ();
 	}
 
 	/**
-	 * All the collected {@link Edge} (i.e.: {@link Processing}) that are available after {@link #visit(GraphElement)}. 
+	 * All the collected {@link Edge} (i.e.: {@link Processing}) that are available after {@link #visit(GraphElement)}.
 	 */
 	public Collection<Edge> getEdges () {
 		return edges;
 	}
-	
+
 }

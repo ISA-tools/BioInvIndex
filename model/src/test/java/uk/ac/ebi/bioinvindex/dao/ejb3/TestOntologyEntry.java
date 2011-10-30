@@ -81,13 +81,13 @@ public class TestOntologyEntry extends DBUnitEJB3DAOTest {
 
 		Material material = new Material("test material1", (MaterialRole) matRole);
 		material.setAcc("test1");
-		
+
 		Study study = new Study ( "Foo Study" );
 		study.setAcc ( "fooStudy" );
 		MaterialNode mnode = new MaterialNode ( study );
 		mnode.setAcc ( "mn_test1" );
 		material.setMaterialNode ( mnode );
-		
+
 		EntityTransaction tnx = entityManager.getTransaction();
 		tnx.begin();
 		entityManager.persist ( study );
@@ -178,7 +178,7 @@ public class TestOntologyEntry extends DBUnitEJB3DAOTest {
 		MaterialNode mnode = new MaterialNode ( study );
 		mnode.setAcc ( "mn_test1" );
 		material.setMaterialNode ( mnode );
-		
+
 
 		EntityTransaction tnx = entityManager.getTransaction();
 		tnx.begin();
@@ -213,7 +213,7 @@ public class TestOntologyEntry extends DBUnitEJB3DAOTest {
 		MaterialNode mnode = new MaterialNode ( study );
 		mnode.setAcc ( "mn_test1" );
 		material.setMaterialNode ( mnode );
-		
+
 		//Create and add characteristics
 		Characteristic property = new Characteristic(1);
 		property.setValue("organism");
@@ -241,7 +241,7 @@ public class TestOntologyEntry extends DBUnitEJB3DAOTest {
 		mnode2.setAcc ( "mn_test2" );
 		material2.setMaterialNode ( mnode2 );
 
-		
+
 		EntityTransaction tnx = entityManager.getTransaction();
 		tnx.begin();
 		entityManager.persist ( study );

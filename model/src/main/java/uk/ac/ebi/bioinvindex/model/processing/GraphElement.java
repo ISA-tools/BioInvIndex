@@ -63,7 +63,7 @@ public abstract class GraphElement extends Accessible
 {
 	private Study study;
 	private boolean isOriginal = true;
-	
+
 	protected GraphElement() {
 
 	}

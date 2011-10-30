@@ -57,11 +57,11 @@ import uk.ac.ebi.bioinvindex.model.xref.ReferenceSource;
 
 /**
  * Persists an {@link OntologyEntry}. This class is abstract in order to make {@link #getPersistedClass()} correctly working.
- * 
- * You can do something like: 
+ *
+ * You can do something like:
  *   <p><code>oePersister = new OntologyEntryPersister<OntologyTerm> ( daoFactory ) {};</code></p>
- * in order to use this persister directly.<p> 
- * 
+ * in order to use this persister directly.<p>
+ *
  * date: Apr 15, 2008
  * @author brandizi
  *
@@ -71,7 +71,7 @@ public abstract class OntologyEntryPersister<OE extends OntologyEntry> extends A
 {
 	private final ReferenceSourcePersister sourcePersister;
 
-	public OntologyEntryPersister ( DaoFactory daoFactory, Timestamp submissionTs ) 
+	public OntologyEntryPersister ( DaoFactory daoFactory, Timestamp submissionTs )
 	{
 		super ( daoFactory, submissionTs );
 		dao = daoFactory.getOntologyEntryDAO ( getPersistedClass () );
@@ -80,18 +80,18 @@ public abstract class OntologyEntryPersister<OE extends OntologyEntry> extends A
 
 	/**
 	 * If the OE doesn't already exist, forward the source to the source persister (set the existing source in case it already
-	 * exists), and then saves the OE. Does not fix the accession (as done by {@link AccessiblePersister#preProcess(uk.ac.ebi.bioinvindex.model.impl.Accessible)}),  
-	 * since the accession must be always provided. 
-	 *  
+	 * exists), and then saves the OE. Does not fix the accession (as done by {@link AccessiblePersister#preProcess(uk.ac.ebi.bioinvindex.model.impl.Accessible)}),
+	 * since the accession must be always provided.
+	 *
 	 */
 	@Override
-	public void preProcess ( OE oe ) 
+	public void preProcess ( OE oe )
 	{
 		super.preProcess ( oe );
-		
+
 		if ( StringUtils.trimToNull ( oe.getAcc () ) == null )
 			throw new BIIPersistenceException ( "We never auto-generate the accession for Ontology Entries, term is:" + oe );
-		
+
 		// First check your source and save it if doesn't exist
 		ReferenceSource source = oe.getSource ();
 		ReferenceSource sourceDB = sourcePersister.persist ( source );
@@ -107,19 +107,19 @@ public abstract class OntologyEntryPersister<OE extends OntologyEntry> extends A
 
 
 	/**
-	 * Searches by accession and source's accession. 
-	 * 
+	 * Searches by accession and source's accession.
+	 *
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
-	protected OE lookup ( OE object ) 
+	protected OE lookup ( OE object )
 	{
 		String acc = StringUtils.trimToNull ( object.getAcc() );
-		
+
 		if ( acc == null || acc.contains ( "NULL-ACCESSION" ) )
 			// Assume it's a new term
 			return null;
-		
+
 		ReferenceSource source =  object.getSource ();
 
 		if ( source == null ) {
@@ -134,5 +134,5 @@ public abstract class OntologyEntryPersister<OE extends OntologyEntry> extends A
 	protected String getCacheKey ( OE object ) {
 		return object.getAcc() + object.getName() + object.getClass().getName() + object.getSource().getName();
 	}
-	
+
 }

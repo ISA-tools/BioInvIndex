@@ -93,9 +93,9 @@ public abstract class Annotatable extends Identifiable
 	 * @return a List for Annotations.
 	 */
 	@Transient
-	public List<String> getAnnotationValues ( String typeName ) 
+	public List<String> getAnnotationValues ( String typeName )
 	{
-		List<String> result = new ArrayList<String> (); 
+		List<String> result = new ArrayList<String> ();
 		for ( Annotation ann: getAnnotations () ) {
 			AnnotationType type = ann.getType ();
 			if ( type != null && typeName.equals ( type.getValue () ) )
@@ -104,16 +104,16 @@ public abstract class Annotatable extends Identifiable
 		return result;
 	}
 
-	
+
 	/**
 	 * A helper which returns all the annotations associated to a given type name
 	 * @param typeName name of Annotation Type
 	 * @return a List for Annotations.
 	 */
 	@Transient
-	public List<Annotation> getAnnotation ( String typeName ) 
+	public List<Annotation> getAnnotation ( String typeName )
 	{
-		List<Annotation> result = new ArrayList<Annotation> (); 
+		List<Annotation> result = new ArrayList<Annotation> ();
 		for ( Annotation ann: getAnnotations () ) {
 			AnnotationType type = ann.getType ();
 			if ( type != null && typeName.equals ( type.getValue () ) )
@@ -122,15 +122,15 @@ public abstract class Annotatable extends Identifiable
 		return result;
 	}
 
-	
-	
+
+
 	/**
-	 * Returns all the annotation values of annotation which of type string matches the 
-	 * regular expression parameter. 
+	 * Returns all the annotation values of annotation which of type string matches the
+	 * regular expression parameter.
 	 */
-	public List<Annotation> getAnnotationValuesByRe ( RegEx typeNameRe ) 
+	public List<Annotation> getAnnotationValuesByRe ( RegEx typeNameRe )
 	{
-		List<Annotation> result = new ArrayList<Annotation> (); 
+		List<Annotation> result = new ArrayList<Annotation> ();
 		for ( Annotation ann: getAnnotations () ) {
 			AnnotationType type = ann.getType ();
 			if ( type != null && typeNameRe.matches ( type.getValue () ) )
@@ -139,41 +139,41 @@ public abstract class Annotatable extends Identifiable
 		return result;
 	}
 
-	/** 
-	 * Returns the value corresponding to an annotation type, matched via regular expression. 
-	 * Result is undefined if more than one value is stored for a given type. 
+	/**
+	 * Returns the value corresponding to an annotation type, matched via regular expression.
+	 * Result is undefined if more than one value is stored for a given type.
 	 * Returns null if no annotation of the parameter type exists.
-	 * 
+	 *
 	 */
 	public Annotation getSingleAnnotationValueByRe ( RegEx typeNameRe  ) {
 		List<Annotation> values = getAnnotationValuesByRe ( typeNameRe );
 		return values.size() == 0 ? null : values.get ( 0 );
 	}
 
-	
-	/** 
-	 * Returns the value corresponding to an annotation type. Result is undefined if more than one value is stored 
+
+	/**
+	 * Returns the value corresponding to an annotation type. Result is undefined if more than one value is stored
 	 * for a given type. Returns null if no annotation of the parameter type exists.
-	 * 
+	 *
 	 */
 	public String getSingleAnnotationValue ( String typeName ) {
 		List<String> values = getAnnotationValues ( typeName );
 		return values.size() == 0 ? null : values.get ( 0 );
 	}
 
-	/** 
-	 * Returns the value corresponding to an annotation type. Result is undefined if more than one value is stored 
+	/**
+	 * Returns the value corresponding to an annotation type. Result is undefined if more than one value is stored
 	 * for a given type. Returns null if no annotation of the parameter type exists.
-	 * 
+	 *
 	 */
 	public Annotation getSingleAnnotation ( String typeName ) {
 		List<Annotation> values = getAnnotation ( typeName );
 		return values.size() == 0 ? null : values.get ( 0 );
 	}
-	
-	
-	
-	public boolean equals(Object o) 
+
+
+
+	public boolean equals(Object o)
 	{
 		if (this == o) return true;
 		if (!(o instanceof Annotatable)) return false;

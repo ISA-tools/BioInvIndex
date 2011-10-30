@@ -40,7 +40,7 @@
  * This work has been funded mainly by the EU Carcinogenomics (http://www.carcinogenomics.eu) [PL 037712] and in part by the
  * EU NuGO [NoE 503630](http://www.nugo.org/everyone) projects and in part by EMBL-EBI.
  */
- 
+
 package uk.ac.ebi.bioinvindex.unloading;
 
 import uk.ac.ebi.bioinvindex.model.xref.AssayTypeDataLocation;
@@ -49,9 +49,9 @@ import uk.ac.ebi.bioinvindex.utils.datasourceload.DataLocationManager;
 import uk.ac.ebi.bioinvindex.utils.datasourceload.DataSourceLoader;
 
 /**
- * Unloads the data locations managed by the {@link DataLocationManager}. The class is used in 
+ * Unloads the data locations managed by the {@link DataLocationManager}. The class is used in
  * {@link DataSourceLoader}.
- * 
+ *
  * <dl><dt>date</dt><dd>Mar 18, 2010</dd></dl>
  * @author brandizi
  *
@@ -63,13 +63,13 @@ public class DataLocationUnloader extends AbstractUnloader<AssayTypeDataLocation
 	}
 
 	/**
-	 * Removes the {@link ReferenceSource} 
-	 * 
+	 * Removes the {@link ReferenceSource}
+	 *
 	 */
 	@Override
-	public boolean queue ( AssayTypeDataLocation loc ) 
+	public boolean queue ( AssayTypeDataLocation loc )
 	{
-		if ( !super.queue ( loc ) ) return false; 
+		if ( !super.queue ( loc ) ) return false;
 		ReferenceSource source = loc.getReferenceSource ();
 		unloadManager.queue ( source );
 		return true;

@@ -57,9 +57,9 @@ import uk.ac.ebi.bioinvindex.model.term.AssayTechnology;
 import uk.ac.ebi.bioinvindex.unloading.UnloadManager;
 
 /**
- * There is only an internal difference wrt {@link OntologyEntryUnloader} (different list for 
- * {@link #getReferringAssociations()} ). 
- * 
+ * There is only an internal difference wrt {@link OntologyEntryUnloader} (different list for
+ * {@link #getReferringAssociations()} ).
+ *
  * @author brandizi
  * <b>date</b>: Oct 27, 2009
  *
@@ -68,14 +68,14 @@ public class AssayTechnologyUnloader extends AbstractOntologyEntryUnloader<Assay
 {
 	private final static Association [] referringAssociations = new Association [] {
 		new Association ( Assay.class, "technology" )
-	};  
+	};
 
 	public AssayTechnologyUnloader ( UnloadManager unloadManager ) {
 		super ( unloadManager );
 	}
-	
+
 	@Override
 	protected Association [] getReferringAssociations () {
-		return referringAssociations; 
+		return referringAssociations;
 	}
 }

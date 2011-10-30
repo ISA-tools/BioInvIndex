@@ -54,19 +54,19 @@ import java.sql.Timestamp;
 
 /**
  * Persists a {@link Investigation}. This is called by the {@link StudyPersister}.
- * 
+ *
  * TODO: contact, publication
- * 
+ *
  * date: Apr 15, 2008
  * @author brandizi
  *
  */
 public class InvestigationPersister extends ReferrerPersister<Investigation>
 {
-	private final PublicationPersister pubPersister; 
-	private final ContactPersister contactPersister; 
-	
-	public InvestigationPersister ( DaoFactory daoFactory, Timestamp submissionTs ) 
+	private final PublicationPersister pubPersister;
+	private final ContactPersister contactPersister;
+
+	public InvestigationPersister ( DaoFactory daoFactory, Timestamp submissionTs )
 	{
 		super ( daoFactory, submissionTs );
 		dao = daoFactory.getInvestigationDao ();
@@ -74,39 +74,39 @@ public class InvestigationPersister extends ReferrerPersister<Investigation>
 		contactPersister = new ContactPersister ( daoFactory, submissionTs );
 	}
 
-	
-			
+
+
 	@Override
-	protected void postProcess ( Investigation investigation ) 
+	protected void postProcess ( Investigation investigation )
 	{
 		// Publications
 		for ( Publication pub: investigation.getPublications () )
 			pubPersister.persist ( pub );
-		
+
 		// Contacts
 		for ( Contact contact: investigation.getContacts () ) {
 			contactPersister.persist ( contact );
 		}
-		
+
 		super.postProcess ( investigation );
 	}
 
-	
-	
+
+
 
 	@Override
 	protected String getAccessionPrefix () {
 		return "bii:investigation:";
 	}
 
-	
+
 	@Override
-	protected Investigation lookup ( Investigation investigation ) 
+	protected Investigation lookup ( Investigation investigation )
 	{
 		String acc = StringUtils.trimToNull ( investigation.getAcc () );
 		// It must be new
 		if ( acc == null ) return null;
-		
+
 		return ( (InvestigationDao) dao).getByAcc ( acc );
 	}
 

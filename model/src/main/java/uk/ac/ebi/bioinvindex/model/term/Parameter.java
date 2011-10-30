@@ -48,7 +48,7 @@ import javax.persistence.Entity;
 
 /**
  * Name of protocol parementer. Corresponds to the column mame "Parameter Value [<parameter name>]"
- * 
+ *
  * @author Nataliya Sklyar (nsklyar@ebi.ac.uk)
  * Date: Dec 19, 2007
  */

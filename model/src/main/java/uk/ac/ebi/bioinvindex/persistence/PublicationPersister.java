@@ -57,7 +57,7 @@ import java.sql.Timestamp;
 
 /**
  * Persists an {@link Contact}.
- * 
+ *
  * date: Nov 11, 2008
  * @author brandizi
  *
@@ -65,24 +65,24 @@ import java.sql.Timestamp;
 public class PublicationPersister extends AnnotatablePersister<Publication>
 {
 	private final OntologyEntryPersister<PublicationStatus> statusPersister;
-	
+
 	// See below private Material backupMaterial;
-	
-	public PublicationPersister ( DaoFactory daoFactory, Timestamp submissionTs ) 
+
+	public PublicationPersister ( DaoFactory daoFactory, Timestamp submissionTs )
 	{
 		super ( daoFactory, submissionTs );
 		dao = daoFactory.getAnnotatableDAO ( Publication.class );
 		statusPersister = new OntologyEntryPersister<PublicationStatus> ( daoFactory, submissionTs ) {};
 	}
 
-	
+
 	/**
 	 * It's always new. Returns always the parameter.
 	 * Assigns the accession.
-	 *  
+	 *
 	 */
 	@Override
-	public void preProcess ( Publication pub ) 
+	public void preProcess ( Publication pub )
 	{
 		super.preProcess ( pub );
 
@@ -96,7 +96,7 @@ public class PublicationPersister extends AnnotatablePersister<Publication>
 
 	/** Returns null, a publication has 1-many relation with its owner, so cannot be shared. */
 	@Override
-	protected Publication lookup ( Publication pub ) 
+	protected Publication lookup ( Publication pub )
 	{
 		return null;
 	}
@@ -106,7 +106,7 @@ public class PublicationPersister extends AnnotatablePersister<Publication>
 //	 * Generate a new accession for the publication (without assigning it)
 //	 * It tries to use, in order: the PMID, the DOI, auto-generated ID.
 //	 * In any case it prefixes it with the owner's accession (investigation or study)
-//	 * TODO: since publication-owner is a 1-n relation, it doesn't make sense that this entity is 
+//	 * TODO: since publication-owner is a 1-n relation, it doesn't make sense that this entity is
 //	 * an {@link Accessible}.
 //	 *
 //	 */

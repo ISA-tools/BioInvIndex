@@ -94,7 +94,7 @@ public class ProcessingNodeRelationsTest extends DBUnitEJB3DAOTest {
 
 		Material material = new Material ( "Foo Material", fooRole );
 		material.setAcc("acc1");
-		
+
 		MaterialNode node = new MaterialNode ( study );
 		node.setAcc ( "bii:test:node:123" );
 

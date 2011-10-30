@@ -73,10 +73,10 @@ public class MaterialProcessing extends Processing<MaterialNode, MaterialNode> {
 	}
 
 
-	public String toStringVerbose () 
+	public String toStringVerbose ()
 	{
 		StringBuilder result = new StringBuilder ( "MaterialProcessing { " + this.getId() + "\n" );
-		
+
 		result.append ( "  Inputs:\n" );
 		for ( MaterialNode input: this.getInputNodes () ) {
 			Material material = input.getMaterial ();
@@ -94,8 +94,8 @@ public class MaterialProcessing extends Processing<MaterialNode, MaterialNode> {
 			result.append ( "    " + protocolApp + "\n" );
 		}
 		result.append ( "\n" );
-		
-		
+
+
 		return result.toString ();
 	}
 

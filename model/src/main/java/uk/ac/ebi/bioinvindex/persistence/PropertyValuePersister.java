@@ -50,11 +50,11 @@ import uk.ac.ebi.bioinvindex.model.term.PropertyValue;
 
 import java.sql.Timestamp;
 
-/** 
+/**
  * Performs the persistence of a generic {@link PropertyValue}.
- * 
+ *
  * The class works by delegating the job to specific delegates (i.e.: delegate pattern).
- * 
+ *
  * date: Aug 1, 2008
  * @author brandizi
  *
@@ -65,7 +65,7 @@ public class PropertyValuePersister extends AbstractPropertyValuePersister<Prope
 	private CharacteristicValuePersister characteriticDelegate;
 	private AbstractPropertyValuePersister<FactorValue> factorValueDelegate;
 
-	
+
 	public PropertyValuePersister ( DaoFactory daoFactory, Timestamp submissionTs ) {
 		super ( daoFactory, submissionTs );
 	}
@@ -84,12 +84,12 @@ public class PropertyValuePersister extends AbstractPropertyValuePersister<Prope
 				factorValueDelegate = new AbstractPropertyValuePersister<FactorValue> ( daoFactory, getSubmissionTs () ) {};
 			return (AbstractPropertyValuePersister) factorValueDelegate;
 		}
-		
+
 		if ( genericDelegate == null )
 			genericDelegate = new AbstractPropertyValuePersister<PropertyValue<?>> ( daoFactory, getSubmissionTs () ) {};
 		return (AbstractPropertyValuePersister) genericDelegate;
 	}
-	
+
 	/**
 	 * Uses the delegate
 	 */
@@ -97,7 +97,7 @@ public class PropertyValuePersister extends AbstractPropertyValuePersister<Prope
 	protected PropertyValue<?> lookup ( PropertyValue<?> object ) {
 		return getDelegate ( object ).lookup ( object );
 	}
-	
+
 	/**
 	 * Uses the delegate
 	 */
@@ -130,8 +130,8 @@ public class PropertyValuePersister extends AbstractPropertyValuePersister<Prope
 	protected void preProcess ( PropertyValue<?> propValue ) {
 		getDelegate ( propValue ).preProcess ( propValue );
 	}
-	
-	
+
+
 	/**
 	 * Uses the delegate
 	 */

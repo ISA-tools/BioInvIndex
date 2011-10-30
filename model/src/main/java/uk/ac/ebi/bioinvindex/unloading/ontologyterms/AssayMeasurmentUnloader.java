@@ -60,9 +60,9 @@ import uk.ac.ebi.bioinvindex.model.term.Measurement;
 import uk.ac.ebi.bioinvindex.unloading.UnloadManager;
 
 /**
- * There is only an internal difference wrt {@link OntologyEntryUnloader} (different list for 
- * {@link #getReferringAssociations()} ). 
- * 
+ * There is only an internal difference wrt {@link OntologyEntryUnloader} (different list for
+ * {@link #getReferringAssociations()} ).
+ *
  * @author brandizi
  * <b>date</b>: Aug 28, 2009
  *
@@ -71,16 +71,16 @@ public class AssayMeasurmentUnloader extends AbstractOntologyEntryUnloader<Measu
 {
 	private final static Association [] referringAssociations = new Association [] {
 		new Association ( Assay.class, "measurement" )
-	};  
-	
+	};
+
 	public AssayMeasurmentUnloader ( UnloadManager unloadManager ) {
 		super ( unloadManager );
 	}
 
-	
+
 	@Override
 	protected Association [] getReferringAssociations () {
-		return referringAssociations; 
+		return referringAssociations;
 	}
 
 }

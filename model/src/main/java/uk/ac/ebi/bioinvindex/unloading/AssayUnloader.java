@@ -57,8 +57,8 @@ import org.apache.log4j.Level;
 import uk.ac.ebi.bioinvindex.model.processing.Assay;
 
 /**
- * Unloads an {@link Assay}. 
- * 
+ * Unloads an {@link Assay}.
+ *
  * @author brandizi
  * <b>date</b>: Oct 27, 2009
  *
@@ -72,10 +72,10 @@ public class AssayUnloader extends AbstractReferrerUnloader<Assay>
 
 	/**
 	 * Unloads associated terms and properties.
-	 *  
+	 *
 	 */
 	@Override
-	public boolean queue ( Assay assay ) 
+	public boolean queue ( Assay assay )
 	{
 		if ( !super.queue ( assay ) ) return false;
 		unloadManager.queue ( assay.getMeasurement () );

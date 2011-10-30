@@ -98,7 +98,7 @@ public class ChEBICompound implements Comparable {
     }
 
     public void addToOrganismsUsed(String organismUsedOn) {
-   
+
         if (!this.organismsUsedOn.contains(organismUsedOn)) {
             this.organismsUsedOn.add(organismUsedOn);
         }

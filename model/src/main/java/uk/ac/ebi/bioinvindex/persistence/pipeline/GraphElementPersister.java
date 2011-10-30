@@ -51,14 +51,14 @@ import uk.ac.ebi.bioinvindex.persistence.AccessiblePersister;
 import uk.ac.ebi.bioinvindex.persistence.BIIPersistenceException;
 
 /**
- * Abstract persister for pipeline graph element. 
- * 
+ * Abstract persister for pipeline graph element.
+ *
  * @author brandizi
  * <b>date</b>: Feb 3, 2010
- * 
+ *
  * @param <GE>
  * @see {@link GenericGraphElementPersister}
- * 
+ *
  */
 public abstract class GraphElementPersister<GE extends GraphElement> extends AccessiblePersister<GE>
 {
@@ -76,7 +76,7 @@ public abstract class GraphElementPersister<GE extends GraphElement> extends Acc
 	 * Just calls the super, needed for implementing subclasses/delegates.
 	 */
 	@Override
-	protected void preProcess ( GE ge ) 
+	protected void preProcess ( GE ge )
 	{
 		super.preProcess ( ge );
 	}

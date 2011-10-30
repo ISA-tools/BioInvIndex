@@ -131,7 +131,7 @@ public class Assay extends HasReferences {
 			study.addAssay(this);
 	}
 
-	
+
 	@ManyToOne( targetEntity = AssayTechnology.class)
 	// it is nullable, since we accept assays with measurement but without any particular technology specified.
 	@JoinColumn(name = "technology", nullable = true)
@@ -140,14 +140,14 @@ public class Assay extends HasReferences {
 	}
 
 	/** A facility that returns {@link #getTechnology()}.getName() if technology is not null, "" otherwise.
-	 *  The name is also passed to {@link StringUtils#trimToEmpty(String)} before returning. 
+	 *  The name is also passed to {@link StringUtils#trimToEmpty(String)} before returning.
 	 */
 	@Transient
 	public String getTechnologyName () {
 		return technology == null ? "" : StringUtils.trimToEmpty ( technology.getName () );
 	}
-	
-	
+
+
 	public void setTechnology(AssayTechnology technology) {
 		this.technology = technology;
 	}

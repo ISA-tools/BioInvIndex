@@ -56,8 +56,8 @@ import uk.ac.ebi.bioinvindex.model.Annotatable;
 
 /**
  * Unloads an {@link Annotatable} object.
- * TODO: it is possible that it has problems, in case see the implementation of {@link AbstractReferrerUnloader}. 
- * 
+ * TODO: it is possible that it has problems, in case see the implementation of {@link AbstractReferrerUnloader}.
+ *
  * <dl><dt>date:</dt><dd>Dec 9, 2008</dd></dl>
  * @author brandizi
  *
@@ -73,7 +73,7 @@ public abstract class AbstractAnnotatableUnloader<A extends Annotatable> extends
 	 * Gets rid of the annotations
 	 */
 	@Override
-	public boolean queue ( A object ) 
+	public boolean queue ( A object )
 	{
 		if ( !super.queue ( object ) ) return false;
 		unloadManager.queueAll ( object.getAnnotations () );
@@ -87,5 +87,5 @@ public abstract class AbstractAnnotatableUnloader<A extends Annotatable> extends
 	}
 
 
-	
+
 }

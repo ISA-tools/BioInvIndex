@@ -111,7 +111,7 @@ public class OntologyEntryEJB3DAOTest extends DBUnitEJB3DAOTest {
 		entityTransaction.begin();
 		dao.save( entry );
 		entityTransaction.commit();
-		
+
 		ReferenceSource source1 = entityManager.getReference(ReferenceSource.class, (long) 100);
 		System.out.println("source1 = " + source);
 

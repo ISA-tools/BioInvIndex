@@ -62,23 +62,23 @@ import uk.ac.ebi.bioinvindex.unloading.freetextterms.AbstractFreeTextTermUnloade
 /**
  * Generic unloader definition for {@link PropertyValue}. This class should never be used directly, use
  * {@link PropertyValueUnloader} instead.
- * 
+ *
  * @author brandizi
  * <b>date</b>: Oct 27, 2009
- * 
+ *
  */
 public abstract class AbstractPropertyValueUnloader<PV extends PropertyValue<?>> extends AbstractFreeTextTermUnloader<PV>
 {
 //	private final static Association [] referringAssociations = new Association [] {
 //		new Association ( AssayResult.class, "cascadedPropertyValues" )
-//	};  
-	
+//	};
+
 	public AbstractPropertyValueUnloader ( UnloadManager unloadManager ) {
 		super ( unloadManager );
 	}
 
 	@Override
-	public boolean queue ( PV pval ) 
+	public boolean queue ( PV pval )
 	{
 		if ( !super.queue ( pval ) ) return false;
 

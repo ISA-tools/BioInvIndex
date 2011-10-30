@@ -72,7 +72,7 @@ public class UnitValue extends FreeTextTerm {
 		this.type = type;
 	}
 
-	
+
 	@ManyToMany( targetEntity = OntologyTerm.class )
 	@JoinTable(
 		name = "UnitValue2OT",
@@ -84,8 +84,8 @@ public class UnitValue extends FreeTextTerm {
 	}
 
 	// MB: must be nullable, specs say you can omit the unit type
-	// @ManyToOne(targetEntity = Unit.class, cascade = CascadeType.ALL)	
-	@ManyToOne(targetEntity = Unit.class)	
+	// @ManyToOne(targetEntity = Unit.class, cascade = CascadeType.ALL)
+	@ManyToOne(targetEntity = Unit.class)
 	@JoinColumn(name = "UNIT_ID", nullable = true)
 	public Unit getType() {
 		return type;
@@ -97,7 +97,7 @@ public class UnitValue extends FreeTextTerm {
 
 	public String toString() {
 		return "UnitValue{" +
-			"id=" + this.getId () + 
+			"id=" + this.getId () +
 			", name='" + value + '\'' +
 			", type=" + getType() +
 			", ontologyTerms=" + ontologyTerms +

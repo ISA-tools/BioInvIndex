@@ -66,7 +66,7 @@ import java.util.*;
  */
 
 @WebService
-@XmlSeeAlso({StudyWSReturnImpl.class}) 
+@XmlSeeAlso({StudyWSReturnImpl.class})
 public class BIIStudyServiceImpl implements BIIStudyService
 {
 
@@ -81,7 +81,7 @@ public class BIIStudyServiceImpl implements BIIStudyService
         StudyEJB3DAO studyDAO = componentProvider.getStudyEJB3DAO();
 
         List<String> accNumbers = studyDAO.getAllStudyAccs();
-        
+
         return accNumbers;
 	}
 

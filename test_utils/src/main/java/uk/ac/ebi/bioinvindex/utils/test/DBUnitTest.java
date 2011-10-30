@@ -124,7 +124,7 @@ public abstract class DBUnitTest
 		beforeTestOperations.add ( DatabaseOperation.CLEAN_INSERT );
 		dataSetLocation = "study-data.xml";
 	}
-	
+
 	/**
 	 * Initializes the class for doing a test. This default calls {@link #prepareSettings()} {@link #initEntityManager()},
 	 *
@@ -138,7 +138,7 @@ public abstract class DBUnitTest
 
 	/**
 	 * Runs {@link #initDataSet()} before every test.
-	 * 
+	 *
 	 */
 	@Before
 	public void beforeTestProcessing () throws Exception
@@ -175,8 +175,8 @@ public abstract class DBUnitTest
 		session.flush();
 		close ();
 	}
-	
-	
+
+
 	/**
 	 * Closes the EntityManager.
 	 *
@@ -207,13 +207,13 @@ public abstract class DBUnitTest
 		// This allows to specify [null] for null values
 		ReplacementDataSet repDs = new ReplacementDataSet ( dataSet );
 		repDs.addReplacementObject ( "[null]", null );
-		
+
 		// Converts only column names to lower case (required in MySQL).
 		return new LowerCaseDataSet ( repDs ) {
 			@Override
 			public boolean isCaseSensitiveTableNames () { return true; }
-		};		
-		
+		};
+
 	}
 
 
@@ -237,7 +237,7 @@ public abstract class DBUnitTest
 			if ( dbmsCatalog == null )
 				// Let's try with the user name
 				dbmsCatalog = dbmsMeta.getUserName ().toUpperCase ();
-			
+
 			String dbmsSchema = null;
 			if ( dbmsName.contains ( "oracle" ) )
 			{
@@ -250,15 +250,15 @@ public abstract class DBUnitTest
 					dbmsSchema = rs.getString ( 1 );
 				stmt.close ();
 			}
-			
-			log.debug ( "DBMSUnitTest.cleanAll(), DBMS Name: '" 
-				+ dbmsName + "' Catalog: '" + dbmsCatalog + "' Schema: '" + dbmsSchema + "'" 
+
+			log.debug ( "DBMSUnitTest.cleanAll(), DBMS Name: '"
+				+ dbmsName + "' Catalog: '" + dbmsCatalog + "' Schema: '" + dbmsSchema + "'"
 			);
 
-			
+
 	    ResultSet tbrs = dbmsMeta.getTables ( dbmsCatalog, dbmsSchema, null, new String[] { "TABLE" } );
-	    
-			while ( tbrs.next () ) 
+
+			while ( tbrs.next () )
 			{
 				String tbname = StringUtils.trimToNull ( tbrs.getString ( "TABLE_NAME" ) );
 				if ( tbname == null ) continue;
@@ -318,7 +318,7 @@ public abstract class DBUnitTest
 	{
 
 		String sql = null;
-		
+
 		DatabaseMetaData dbmsMeta = connection.getMetaData ();
 		String dbmsName = dbmsMeta.getDatabaseProductName ().toLowerCase ();
 		String dbmsCatalog = connection.getCatalog ();
@@ -327,12 +327,12 @@ public abstract class DBUnitTest
 			dbmsCatalog = dbmsMeta.getUserName ().toUpperCase ();
 
 		log.debug ( "DBUnitTest.setReferentialIntegrityCheckings(), DBMS Name: '" + dbmsName + "' Catalog: '" + dbmsCatalog + "'" );
-		
+
 		if ( dbmsName.contains ( "h2" ) )
 		 sql = "SET REFERENTIAL_INTEGRITY " + isset;
 		else if ( dbmsName.contains ( "mysql" ) )
 			sql = "set FOREIGN_KEY_CHECKS = " + ( isset ? "1" : "0" );
-		else if ( dbmsName.contains ( "oracle" ) ) 
+		else if ( dbmsName.contains ( "oracle" ) )
 		{
 			// Oracle is quite messy...
 			String sqlCs = "select css.*, decode(CONSTRAINT_TYPE, 'P', '0', 'C', '1', 'U', 2, 'R', '3', 1000) ctype " +
@@ -340,12 +340,12 @@ public abstract class DBUnitTest
 
 			ResultSet rs = connection.createStatement ().executeQuery ( sqlCs );
 			Statement csDelStmt = connection.createStatement ();
-			while ( rs.next () ) 
+			while ( rs.next () )
 			{
 				String sqlCsCmd = isset ? "enable" : "disable";
 				String tbname = rs.getString ( "TABLE_NAME" );
 				String csname = rs.getString ( "CONSTRAINT_NAME" );
-			
+
 				String sqlCsDel = "alter table " + dbmsCatalog + "." + tbname + " " + sqlCsCmd + " constraint " + csname;
 				log.debug ( "DBUnitTest, adding sql: " + sqlCsDel );
 				csDelStmt.addBatch ( sqlCsDel );
@@ -353,7 +353,7 @@ public abstract class DBUnitTest
 			csDelStmt.executeBatch ();
 			return;
 		}
-			
+
 		if ( sql == null )
 			throw new SQLException ( "Don't know how to change referential integrity checks for the database: '" + dbmsName + "'" );
 
@@ -389,7 +389,7 @@ public abstract class DBUnitTest
 
 	/**
 	 * Creates a new database connection to be used by DbUnit, used {@link #initDataSet()} and {@link #afterTestProcessing()}.
-	 * @throws SQLException 
+	 * @throws SQLException
 	 *
 	 */
 	protected IDatabaseConnection createDbUnitConnection () throws SQLException, DatabaseUnitException
@@ -409,10 +409,10 @@ public abstract class DBUnitTest
 		else if ( dbmsName.contains ( "mysql" ) ) dtf = new MySqlDataTypeFactory ();
 		else if ( dbmsName.contains ( "oracle") ) dtf = new Oracle10DataTypeFactory ();
 		else
-			System.out.println ( 
-				"WARNING: Don't know which DBUnit DataType factory to use with '" + dbmsName + ", hope the default works" 
+			System.out.println (
+				"WARNING: Don't know which DBUnit DataType factory to use with '" + dbmsName + ", hope the default works"
 		);
-		
+
 		config.setProperty ( DatabaseConfig.PROPERTY_DATATYPE_FACTORY, dtf );
 
 		return dbUnitCon;

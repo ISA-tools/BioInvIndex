@@ -59,24 +59,24 @@ public class DataPersister extends AccessiblePersister<Data>
 {
 	private final OntologyEntryPersister<DataType> typePersister;
 	private final FactorValuePersister fvPersister;
-	
-	
+
+
 	public DataPersister ( DaoFactory daoFactory, Timestamp submissionTs ) {
 		super ( daoFactory, submissionTs );
 		typePersister = new OntologyEntryPersister<DataType> ( daoFactory, submissionTs ) {};
 		fvPersister = new FactorValuePersister ( daoFactory, submissionTs ) {};
 	}
 
-	
+
 	@Override
-	protected void preProcess ( Data data ) 
+	protected void preProcess ( Data data )
 	{
-		// This is necessary cause otherwise the bloody Hibernate will complain that the node links a transient material 
+		// This is necessary cause otherwise the bloody Hibernate will complain that the node links a transient material
 		DataNode backupNode = data.getProcessingNode ();
 		data.setProcessingNode ( null );
 
 		super.preProcess ( data );
-		
+
 		// Data Type
 		DataType type = data.getType ();
 		DataType typeDB = typePersister.persist ( type );
@@ -88,23 +88,23 @@ public class DataPersister extends AccessiblePersister<Data>
 
 		data.setProcessingNode ( backupNode );
 	}
-	
-	
+
+
 //	/**
 //	 * Object with the same accession are certainly reused, cause the accession is unique.
 //	 */
 //	@Override
-//	protected Data lookup ( Data data ) 
+//	protected Data lookup ( Data data )
 //	{
-//		// This is necessary cause otherwise the bloody Hibernate will complain that the node links a transient material 
+//		// This is necessary cause otherwise the bloody Hibernate will complain that the node links a transient material
 //		DataNode backupNode = data.getProcessingNode ();
 //		data.setProcessingNode ( null );
-//	
+//
 //		Data result = ((AccessibleDAO<Data>) dao).getByAcc ( data.getAcc () );
 //		data.setProcessingNode ( backupNode );
 //		return result;
 //	}
-//	
+//
 //	/**
 //	 * Object with the same accession are certainly reused, cause the accession is unique.
 //	 */
@@ -112,7 +112,7 @@ public class DataPersister extends AccessiblePersister<Data>
 //	protected String getCacheKey ( Data data ) {
 //		return data.getAcc ();
 //	}
-	
+
 
 	/** Not supported, you MUST always provide an accession */
 	@Override

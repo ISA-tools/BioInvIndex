@@ -71,13 +71,13 @@ public class DataLocationManagerTest {
 	private EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("BIIEntityManager");
 	private EntityManager entityManager;
 
-	public DataLocationManagerTest() 
+	public DataLocationManagerTest()
 	{
 		entityManager = entityManagerFactory.createEntityManager();
 	}
 
 	@Before
-	public void loadTestConfiguration() 
+	public void loadTestConfiguration()
 	{
 		DataSourceLoader loader = new DataSourceLoader();
 		loader.setEntityManager(entityManager);
@@ -95,17 +95,17 @@ public class DataLocationManagerTest {
 
 		locationManager.setEntityManager(entityManager);
 
-		String raw_location = locationManager.getDataLocation ( 
+		String raw_location = locationManager.getDataLocation (
 			"transcription profiling", "DNA microarray", AnnotationTypes.RAW_DATA_FILE_PATH
 		);
 		assertEquals ( "Wrong location fetched", "//raw1/acc_goes_here", raw_location );
-		
+
 		String dataLocation = locationManager.getISATabMetaDataLocation();
-		assertEquals ( "Wrong ISATAB location fetched!", 
+		assertEquals ( "Wrong ISATAB location fetched!",
 			"ftp://ftp.ebi.ac.uk/pub/databases/bii/submission_repo/acc_goes_here", dataLocation
 		);
 	}
-	
+
 	@Test
 	public void testReplacement () throws Exception
 	{
@@ -118,14 +118,14 @@ public class DataLocationManagerTest {
 
 			List<AssayTypeDataLocation> dataLocations = dao.getAll();
 			assertEquals( "Ouch! Wrong number of data locations!", 3, dataLocations.size());
-	
-			String raw_location = locationManager.getDataLocation ( 
+
+			String raw_location = locationManager.getDataLocation (
 				"transcription profiling", "DNA microarray", AnnotationTypes.RAW_DATA_FILE_PATH
 			);
 			assertEquals ( "Wrong location fetched", "//raw1/acc_goes_here", raw_location );
-			
+
 			String dataLocation = locationManager.getISATabMetaDataLocation();
-			assertEquals ( "Wrong ISATAB location fetched!", 
+			assertEquals ( "Wrong ISATAB location fetched!",
 				"ftp://ftp.ebi.ac.uk/pub/databases/bii/submission_repo/acc_goes_here", dataLocation
 			);
 		}
@@ -133,7 +133,7 @@ public class DataLocationManagerTest {
 		{
 			// Now let's load another one and see
 			DataSourceLoader loader = new DataSourceLoader();
-	
+
 			loader.setEntityManager ( entityManager );
 			loader.loadAll( this.getClass().getClassLoader().getResourceAsStream ( "testdata/dataconfig1.xml" ) );
 			Session session = (Session) entityManager.getDelegate ();
@@ -145,17 +145,17 @@ public class DataLocationManagerTest {
 		{
 			List<AssayTypeDataLocation> dataLocations = dao.getAll();
 			assertEquals ( "Ouch! Wrong number of data locations!", 4, dataLocations.size());
-	
-			String raw_location = locationManager.getDataLocation ( 
+
+			String raw_location = locationManager.getDataLocation (
 				"transcription profiling", "DNA microarray", AnnotationTypes.RAW_DATA_FILE_PATH
 			);
 			assertEquals ( "Wrong replacement location fetched!", "//raw1_new/acc_goes_here", raw_location);
-			
+
 			String dataLocation = locationManager.getISATabMetaDataLocation();
 			assertNotNull(dataLocation);
 			assertEquals ( "Wrong ISATAB location fetched!", "ftp://new/isa", dataLocation);
 
-			String dataLocation1 = locationManager.getDataLocation ( 
+			String dataLocation1 = locationManager.getDataLocation (
 				"foo measure", "foo tech", AnnotationTypes.PROCESSED_DATA_FILE_LINK
 			);
 			assertEquals ( "Wrong new location fetched!", "ftp://processed_foo/${study-acc}", dataLocation1 );
@@ -163,9 +163,9 @@ public class DataLocationManagerTest {
 		}
 
 	}
-	
-	
-	
+
+
+
 	@Test
 	public void testEBILocations () throws Exception
 	{
@@ -178,14 +178,14 @@ public class DataLocationManagerTest {
 
 			List<AssayTypeDataLocation> dataLocations = dao.getAll();
 			assertEquals( "Ouch! Wrong number of data locations!", 3, dataLocations.size());
-	
-			String raw_location = locationManager.getDataLocation ( 
+
+			String raw_location = locationManager.getDataLocation (
 				"transcription profiling", "DNA microarray", AnnotationTypes.RAW_DATA_FILE_PATH
 			);
 			assertEquals ( "Wrong location fetched", "//raw1/acc_goes_here", raw_location );
-			
+
 			String dataLocation = locationManager.getISATabMetaDataLocation();
-			assertEquals ( "Wrong ISATAB location fetched!", 
+			assertEquals ( "Wrong ISATAB location fetched!",
 				"ftp://ftp.ebi.ac.uk/pub/databases/bii/submission_repo/acc_goes_here", dataLocation
 			);
 		}
@@ -193,7 +193,7 @@ public class DataLocationManagerTest {
 		{
 			// Now let's load another one and see
 			DataSourceLoader loader = new DataSourceLoader();
-	
+
 			loader.setEntityManager ( entityManager );
 			loader.loadAll( this.getClass().getClassLoader().getResourceAsStream ( "testdata/data_locations.ebi.xml" ) );
 			Session session = (Session) entityManager.getDelegate ();
@@ -205,17 +205,17 @@ public class DataLocationManagerTest {
 		{
 //			List<AssayTypeDataLocation> dataLocations = dao.getAll();
 //			assertEquals ( "Ouch! Wrong number of data locations!", 4, dataLocations.size());
-//	
-//			String raw_location = locationManager.getDataLocation ( 
+//
+//			String raw_location = locationManager.getDataLocation (
 //				"transcription profiling", "DNA microarray", AnnotationTypes.RAW_DATA_FILE_PATH
 //			);
 //			assertEquals ( "Wrong replacement location fetched!", "//raw1_new/acc_goes_here", raw_location);
-//			
+//
 //			String dataLocation = locationManager.getISATabMetaDataLocation();
 //			assertNotNull(dataLocation);
 //			assertEquals ( "Wrong ISATAB location fetched!", "ftp://new/isa", dataLocation);
 //
-//			String dataLocation1 = locationManager.getDataLocation ( 
+//			String dataLocation1 = locationManager.getDataLocation (
 //				"foo measure", "foo tech", AnnotationTypes.PROCESSED_DATA_FILE_LINK
 //			);
 //			assertEquals ( "Wrong new location fetched!", "ftp://processed_foo/${study-acc}", dataLocation1 );

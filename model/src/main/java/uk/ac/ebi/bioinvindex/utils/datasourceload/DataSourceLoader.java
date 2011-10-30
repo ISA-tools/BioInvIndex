@@ -119,27 +119,27 @@ public class DataSourceLoader {
 
 	}
 
-	private void persistLocations(ReferenceSource isaTabSource, Collection<AssayTypeDataLocation> locations) 
+	private void persistLocations(ReferenceSource isaTabSource, Collection<AssayTypeDataLocation> locations)
 	{
 		EntityTransaction transaction = getEntityManager().getTransaction();
 
 		Timestamp ts = new Timestamp( System.currentTimeMillis() );
 		DaoFactory daoFactory = DaoFactory.getInstance ( getEntityManager() );
-		
+
 		DataLocationPersister locPersister = new DataLocationPersister ( daoFactory, ts );
 		ReferenceSourcePersister srcPersister = new ReferenceSourcePersister( daoFactory, ts );
-		
+
 		IdentifiableDAO<AssayTypeDataLocation> dao = daoFactory.getIdentifiableDAO ( AssayTypeDataLocation.class );
 
 		List<AssayTypeDataLocation> dataLocations = dao.getAll();
-	
+
 		boolean needsCommit = false;
-		for (AssayTypeDataLocation dataLocation : dataLocations ) 
+		for (AssayTypeDataLocation dataLocation : dataLocations )
 		{
 			// TODO: Playing this way with serialize transactions is dangerous and we should fix this
-			// PLEASE LEAVE THIS transaction commands here until we find a workaround, THEY ARE NEEDED in the ISATAB loader 
+			// PLEASE LEAVE THIS transaction commands here until we find a workaround, THEY ARE NEEDED in the ISATAB loader
 			if ( !transaction.isActive () ) transaction.begin();
-			UnloadManager unloadManager = 
+			UnloadManager unloadManager =
 				new UnloadManager ( daoFactory, dataLocation.getSubmissionTs () );
 			unloadManager.queue ( dataLocation );
 			unloadManager.delete ();
@@ -148,7 +148,7 @@ public class DataSourceLoader {
 
 		if ( needsCommit ) transaction.commit();
 		if ( !transaction.isActive () ) transaction.begin();
-		
+
 		needsCommit = false;
 		for (AssayTypeDataLocation location : locations) {
 			locPersister.persist ( location );
@@ -159,28 +159,28 @@ public class DataSourceLoader {
 		if ( !transaction.isActive () ) transaction.begin();
 
 		// Gets the old isaTabSource and replace with the new one in case it's already there
-		// 
-		AccessibleDAO<ReferenceSource> daoRef = 
+		//
+		AccessibleDAO<ReferenceSource> daoRef =
 			DaoFactory.getInstance ( entityManager ).getAccessibleDAO ( ReferenceSource.class );
 		ReferenceSource oldIsaTabSrc = daoRef.getByAcc ( ReferenceSource.ISATAB_METADATA );
-		if ( oldIsaTabSrc != null ) 
+		if ( oldIsaTabSrc != null )
 		{
-			UnloadManager unloadManager = 
+			UnloadManager unloadManager =
 				new UnloadManager ( DaoFactory.getInstance ( entityManager ), oldIsaTabSrc.getSubmissionTs () );
 			unloadManager.queue ( oldIsaTabSrc );
-			
+
 			unloadManager.delete ();
 			transaction.commit ();
 			// At the end we have another initiated transaction
 			transaction.begin ();
 		}
-		
+
 		srcPersister.persist ( isaTabSource );
 		transaction.commit();
-		
+
 		// Leave an opened transaction, so that it's possible to rejoin the one opened by an invoker
 		// TODO: Playing this way to serialize transactions is dangerous and we should fix this
-		// 
+		//
 		transaction.begin ();
 	}
 
@@ -203,7 +203,7 @@ public class DataSourceLoader {
 					String measurementType = dataSourceElement.getAttribute(DataSourceConfigFields.MEASUREMENT_TYPE.getName());
 					String technologyType = dataSourceElement.getAttribute(DataSourceConfigFields.TECHNOLOGY_TYPE.getName());
 					technologyType = StringUtils.trimToNull ( technologyType );
-					
+
 					if (StringUtils.trimToNull(measurementType) == null ) {
 						throw new InvalidConfigurationException(
 							"measurement_type must be specified in data source confuguration file");
@@ -280,7 +280,7 @@ public class DataSourceLoader {
 
 		referenceSource.setUrl(dataSourceElement.getAttribute("url"));
 		referenceSource.setDescription(dataSourceElement.getAttribute("description"));
-		// We must add an id, cause otherwise you'll have multiple assay types assigned to the same source, 
+		// We must add an id, cause otherwise you'll have multiple assay types assigned to the same source,
 		// which doesn't make sense
 		referenceSource.setAcc( AccessionGenerator.getInstance ().generateAcc ( referenceSource.getName() + "." ) );
 

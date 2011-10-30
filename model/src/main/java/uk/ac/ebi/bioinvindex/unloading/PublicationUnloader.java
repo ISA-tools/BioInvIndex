@@ -55,8 +55,8 @@ package uk.ac.ebi.bioinvindex.unloading;
 import uk.ac.ebi.bioinvindex.model.Publication;
 
 /**
- * Unloads an {@link Publication}. 
- * 
+ * Unloads an {@link Publication}.
+ *
  * @author brandizi
  * <b>date</b>: Oct 27, 2009
  *
@@ -66,7 +66,7 @@ public class PublicationUnloader extends AbstractAnnotatableUnloader<Publication
 //	// The bloody Hibernate keep generating exception when the contact is linked to the investigation
 //	private final static Association referringAssociations [] = new Association [] {
 //		new Association ( Investigation.class, "publications" )
-//	};  
+//	};
 
 	public PublicationUnloader ( UnloadManager unloadManager ) {
 		super ( unloadManager );
@@ -74,15 +74,15 @@ public class PublicationUnloader extends AbstractAnnotatableUnloader<Publication
 
 	/**
 	 * Unloads associated terms and properties.
-	 *  
+	 *
 	 */
 	@Override
-	public boolean queue ( Publication publication ) 
+	public boolean queue ( Publication publication )
 	{
-		if ( !super.queue ( publication ) ) return false; 
+		if ( !super.queue ( publication ) ) return false;
 		unloadManager.queue ( publication.getStatus () );
 		return true;
 	}
 
-	
+
 }

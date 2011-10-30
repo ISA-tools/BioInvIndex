@@ -92,9 +92,9 @@ public class ProtocolPersistenceTest extends TransactionalDBUnitEJB3DAOTest
 	public ProtocolPersistenceTest() throws Exception {
 		super();
 	}
- 
+
 	@Before
-	public void initPersister () 
+	public void initPersister ()
 	{
 		// Needs to be instantiated here, so that the internal cache for the ontology terms is cleared
 		// before every test.
@@ -120,7 +120,7 @@ public class ProtocolPersistenceTest extends TransactionalDBUnitEJB3DAOTest
 
 		Protocol protocol = new Protocol ( "A-NEW-PROTO-99", type );
 		protocol.setAcc ( protocol.getName () );
-		
+
 		transaction.commit ();
 
 		// Let's attach few parameters

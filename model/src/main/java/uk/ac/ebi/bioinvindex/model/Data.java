@@ -78,7 +78,7 @@ public class Data extends Accessible {
 	private DataType type;
 	private Collection<FactorValue> factorValues = new ArrayList<FactorValue> ();
 
-	
+
 	protected Data() {
 	}
 
@@ -135,17 +135,17 @@ public class Data extends Accessible {
 	public DataNode getProcessingNode () {
 		return processingNode;
 	}
-	
+
 	/**
 	 * Setup the processing node and consequently changes the data associated to the parameter.
 	 *
 	 * @param processingNode
 	 */
-	public void setProcessingNode(DataNode processingNode) 
+	public void setProcessingNode(DataNode processingNode)
 	{
 		DataNode oldNode = this.processingNode;
 		this.processingNode = processingNode;
-		
+
 		if (oldNode != null && oldNode != processingNode) {
 			oldNode.setData ( null );
 		}
@@ -174,17 +174,17 @@ public class Data extends Accessible {
 	public boolean removeFactorValue(FactorValue value) {
 		return factorValues.remove(value);
 	}
-	
-	
+
+
 
 	@Override
-	public String toString() 
+	public String toString()
 	{
 		StringBuilder result = new StringBuilder ();
-		
+
 		result.append ( "Data { id =  " ).append ( this.getId() ).append ( " name = \"" ).append ( this.getName() ).
 			append ( "\" url = \"" ).append ( getUrl() ).append ( "\" dataMatrixUrl = \"" ).append ( getDataMatrixUrl() ).append ( "\" }" );
-		
+
 	  result.append ( "\n  Factor Values: [ "  );
 	  String separator = "";
 	  for ( FactorValue fv: this.getFactorValues () ) {
@@ -199,7 +199,7 @@ public class Data extends Accessible {
 	  	separator = ", ";
 	  }
 	  result.append ( "]\n}" );
-	  
+
 	  return result.toString ();
 	}
 

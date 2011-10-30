@@ -63,7 +63,7 @@ import java.util.List;
 @Table ( name = "protocol_component" )
 public class ProtocolComponent extends FreeTextTerm
 {
-	
+
 	public ProtocolComponent() {
 	}
 
@@ -81,7 +81,7 @@ public class ProtocolComponent extends FreeTextTerm
 		return super.getOntologyTerms();
 	}
 
-	public String toString() 
+	public String toString()
 	{
 		return "ProtocolComponent { " +
 			" id = '" + getId() + '\'' +

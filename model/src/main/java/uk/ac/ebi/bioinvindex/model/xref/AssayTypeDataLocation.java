@@ -89,10 +89,10 @@ public class AssayTypeDataLocation extends Identifiable {
 	/**
 	 * TODO: This is to be reviewed and possibly turned into OneToOne. If you have two different entries
 	 * (ie: two {@link AssayTypeDataLocation}), by associating the same source to them, you'll merge
-	 * both entry annotations (eg: raw data path) into the same source, resulting in a mess that 
-	 * doesn't make sense. At the moment this situation is always avoided by the {@link DataSourceLoader}, 
+	 * both entry annotations (eg: raw data path) into the same source, resulting in a mess that
+	 * doesn't make sense. At the moment this situation is always avoided by the {@link DataSourceLoader},
 	 * by assigning unique accessions to the sources linked here. This means that de-facto we're keeping
-	 * the relation as one-to-one.  
+	 * the relation as one-to-one.
 	 */
 	@ManyToOne( targetEntity = ReferenceSource.class )
 	@JoinColumn(name = "source")
@@ -121,7 +121,7 @@ public class AssayTypeDataLocation extends Identifiable {
 
 		if (!measurementType.equals(that.measurementType)) return false;
 		if (!referenceSource.equals(that.referenceSource)) return false;
-		if (technologyType == null && that.technologyType != null || !technologyType.equals(that.technologyType)) 
+		if (technologyType == null && that.technologyType != null || !technologyType.equals(that.technologyType))
 			return false;
 
 		return true;

@@ -163,8 +163,8 @@ public class DotGraphGenerator
 			procLabel += "\\n" + protoApp.getProtocol ().getName ();
 		}
 		dotCode.append ( "  " + procId + "[label = \"" + procLabel + "\"," +
-			" shape = triangle, orientation = -90, style = filled, color = " + procNodeColor + "];\n" 
-		);		
+			" shape = triangle, orientation = -90, style = filled, color = " + procNodeColor + "];\n"
+		);
 
 		// for each input: input -> processing
 		for ( Node<?, ?> node: processing.getInputNodes () ) {
@@ -182,14 +182,14 @@ public class DotGraphGenerator
 
 		return dotCode;
 	}
-	
+
 	/** IN/OUT Node prefix to be used with IDs and labels */
 	private String getNodePrefx ( Node<?, ?> node ) {
 		if ( node instanceof MaterialNode ) return "MN_";
 		if ( node instanceof DataNode) return "DN_";
 		return "";
 	}
-	
+
 	/** IN/OUT Node ID */
 	private String getNodeId ( Node<?, ?> node ) {
 		setTempId ( node );
@@ -209,7 +209,7 @@ public class DotGraphGenerator
 		throw new RuntimeException ( "Don't know what to do with node of type " + node.getClass ().getName () );
 	}
 
-	
+
 
 	/** Works on a single IN/OUT node */
 	private StringBuilder graphMaterialNode ( MaterialNode node )
@@ -233,7 +233,7 @@ public class DotGraphGenerator
 		}
 		return dotCode;
 	}
-	
+
 	/** Works on a single IN/OUT node */
 
 	/** Works on a single node */

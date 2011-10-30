@@ -40,7 +40,7 @@
  * This work has been funded mainly by the EU Carcinogenomics (http://www.carcinogenomics.eu) [PL 037712] and in part by the
  * EU NuGO [NoE 503630](http://www.nugo.org/everyone) projects and in part by EMBL-EBI.
  */
- 
+
 package uk.ac.ebi.bioinvindex.unloading;
 
 import java.io.InputStream;
@@ -118,7 +118,7 @@ public class PipelineUnloadingTest extends TransactionalDBUnitEJB3DAOTest
 		dataSetLocation = "test_pipeline_persistence.xml";
 	}
 
-	protected void checkAllUnloaded ( Timestamp ts ) 
+	protected void checkAllUnloaded ( Timestamp ts )
 	{
 
 		Query q = entityManager.createQuery ( "SELECT e FROM " + Identifiable.class.getName () + " e WHERE e.submissionTs = :ts" );
@@ -128,16 +128,16 @@ public class PipelineUnloadingTest extends TransactionalDBUnitEJB3DAOTest
 			out.println ( "**** Oh No! I have found an entity that should be unloaded! " + o );
 			isAllUnloaded = false;
 		}
-		assertTrue ( "Sigh! I still have some objects that were not unloaded", isAllUnloaded );		
+		assertTrue ( "Sigh! I still have some objects that were not unloaded", isAllUnloaded );
 	}
-	
+
 	@Test
 	public void testBasics ()
 	{
 		out.println ( "\n\n" + StringUtils.center ( " Testing ISATAB unloader, basiscs ", 120, "-" ) + "\n" );
 
 		SimplePipelineModel pip = new SimplePipelineModel ();
-		
+
 		Timestamp ts = new Timestamp ( System.currentTimeMillis () );
 		StudyPersister studyPersister = new StudyPersister ( daoFactory, ts );
 		AssayMaterialPersister assayMaterialPersister = new AssayMaterialPersister ( daoFactory, ts );
@@ -145,10 +145,10 @@ public class PipelineUnloadingTest extends TransactionalDBUnitEJB3DAOTest
 		assayMaterialPersister.persist (  pip.assayMaterial1 );
 		commitTansaction ();
 		session.flush ();
-		
+
 		AccessibleDAO<Accessible> adao = daoFactory.getAccessibleDAO ( Accessible.class );
 		OntologyEntryDAO<OntologyEntry> oedao = daoFactory.getOntologyEntryDAO ();
-				
+
 		assertNotNull ( "Ops! nsrc1 not saved!", adao.getByAcc (  pip.nsrc1.getAcc () ) );
 		assertNotNull ( "Ops! nsrc2 not saved!", adao.getByAcc (  pip.nsrc2.getAcc () ) );
 		assertNotNull ( "Ops! p1 not saved!", adao.getByAcc (  pip.p1.getAcc () ) );
@@ -198,20 +198,20 @@ public class PipelineUnloadingTest extends TransactionalDBUnitEJB3DAOTest
 		transaction.commit ();
 		session.flush ();
 		out.println ( "\n ====> Unloading done,  Warnings/Errors: " + unloaderMgr.getMessages () );
-		
+
 		checkAllUnloaded ( ts );
 
 		out.println ( "\n" + StringUtils.center ( " /end: Testing ISATAB unloader, basiscs ", 120, "-" ) + "\n" );
 
 	}
-	
+
 	@Test
 	public void testWithProtocols ()
 	{
 		out.println ( "\n\n" + StringUtils.center ( " Testing ISATAB unloader, study+protocols ", 120, "-" ) + "\n" );
 
 		ProtocolEquippedModel pip = new ProtocolEquippedModel ();
-		
+
 		Timestamp ts = new Timestamp ( System.currentTimeMillis () );
 		StudyPersister studyPersister = new StudyPersister ( daoFactory, ts );
 		AssayMaterialPersister assayMaterialPersister = new AssayMaterialPersister ( daoFactory, ts );
@@ -219,10 +219,10 @@ public class PipelineUnloadingTest extends TransactionalDBUnitEJB3DAOTest
 		assayMaterialPersister.persist ( pip.assayMaterial1 );
 		commitTansaction ();
 		session.flush ();
-		
+
 		AccessibleDAO<Accessible> adao = daoFactory.getAccessibleDAO ( Accessible.class );
 		OntologyEntryDAO<OntologyEntry> oedao = daoFactory.getOntologyEntryDAO ();
-				
+
 		assertNotNull ( "Ops! nsrc1 not saved!", adao.getByAcc ( pip.nsrc1.getAcc () ) );
 		assertNotNull ( "Ops! nsrc2 not saved!", adao.getByAcc ( pip.nsrc2.getAcc () ) );
 		assertNotNull ( "Ops! p1 not saved!", adao.getByAcc ( pip.p1.getAcc () ) );
@@ -250,7 +250,7 @@ public class PipelineUnloadingTest extends TransactionalDBUnitEJB3DAOTest
 		assertNotNull ( "Ops! fact1 not saved (retrieval test)!", daoFactory.getIdentifiableDAO ( pip.fact1.getClass () ).getById ( pip.fact1.getId () ) );
 		assertNotNull ( "Ops! fact2 not saved!", pip.fact2.getId () );
 		assertNotNull ( "Ops! fact2 not saved (retrieval test)!", daoFactory.getIdentifiableDAO ( pip.fact2.getClass () ).getById ( pip.fact2.getId () ) );
-		
+
 		assertNotNull ( "Ops! cv2UnitVal not saved!", pip.cv2UnitVal.getId () );
 		assertNotNull ( "Ops! cv1 not saved (retrieval test)!", daoFactory.getIdentifiableDAO ( pip.cv2UnitVal.getClass () ).getById ( pip.cv2UnitVal.getId () ) );
 		assertNotNull ( "Ops! cv2Unit not saved!", pip.cv2Unit.getId () );
@@ -267,10 +267,10 @@ public class PipelineUnloadingTest extends TransactionalDBUnitEJB3DAOTest
 		assertNotNull ( "Ops! paramv2UnitVal not saved (retrieval test)!", daoFactory.getIdentifiableDAO ( pip.paramv2UnitVal.getClass () ).getById ( pip.paramv2UnitVal.getId () ) );
 		assertNotNull ( "Ops! paramv2Unit not saved!", pip.paramv2Unit.getId () );
 		assertNotNull ( "Ops! paramv2Unit not saved (retrieval test)!", daoFactory.getIdentifiableDAO ( pip.paramv2Unit.getClass () ).getById ( pip.paramv2Unit.getId () ) );
-		
+
 		assertNotNull ( "Ops! proto1 not saved!", adao.getByAcc ( pip.proto1.getAcc () ) );
 		assertNotNull ( "Ops! proto2 not saved!", adao.getByAcc ( pip.proto2.getAcc () ) );
-		
+
 		ReferenceSource fooOntoDB = (ReferenceSource) adao.getByAcc ( pip.fooOnto.getAcc () );
 		assertNotNull ( "Ops! fooOnto not saved!", fooOntoDB );
 		assertEquals ( "Ops! fooOnto #ID is wrong!", -1L,  fooOntoDB.getId ().longValue()    );
@@ -280,7 +280,7 @@ public class PipelineUnloadingTest extends TransactionalDBUnitEJB3DAOTest
 		OntologyEntry c1OtDB = oedao.getByAcc ( pip.c1Ot.getAcc () );
 		assertNotNull ( "Ops! fooOnto not saved!", c1OtDB );
 		assertEquals ( "Ops! fooOnto #ID is wrong!", -1L,  c1OtDB.getId ().longValue()    );
-		
+
 		transaction.begin ();
 		UnloadManager unloaderMgr = new UnloadManager ( DaoFactory.getInstance ( entityManager ), ts );
 		StudyUnloader unloader = (StudyUnloader) unloaderMgr.getUnloader ( Study.class );
@@ -289,11 +289,11 @@ public class PipelineUnloadingTest extends TransactionalDBUnitEJB3DAOTest
 		transaction.commit ();
 		session.flush ();
 		out.println ( "\n ====> Unloading done,  Warnings/Errors: " + unloaderMgr.getMessages () );
-		
+
 		checkAllUnloaded ( ts );
-		
+
 		out.println ( "\n" + StringUtils.center ( " /end: Testing ISATAB unloader, study+protocols ", 120, "-" ) + "\n" );
-	}	
+	}
 
 
 	@Test
@@ -302,16 +302,16 @@ public class PipelineUnloadingTest extends TransactionalDBUnitEJB3DAOTest
 		out.println ( "\n\n" + StringUtils.center ( " Testing ISATAB unloader, study+protocols+assays+ARs ", 120, "-" ) + "\n" );
 
 		FullStudyPipelineModel pip = new FullStudyPipelineModel ();
-		
+
 		Timestamp ts = new Timestamp ( System.currentTimeMillis () );
 		StudyPersister studyPersister = new StudyPersister ( daoFactory, ts );
 		studyPersister.persist ( pip.study );
 		commitTansaction ();
 		session.flush ();
-		
+
 		AccessibleDAO<Accessible> adao = daoFactory.getAccessibleDAO ( Accessible.class );
 		OntologyEntryDAO<OntologyEntry> oedao = daoFactory.getOntologyEntryDAO ();
-		
+
 		assertNotNull ( "Ops! nsrc1 not saved!", adao.getByAcc ( pip.nsrc1.getAcc () ) );
 		assertNotNull ( "Ops! nsrc2 not saved!", adao.getByAcc ( pip.nsrc2.getAcc () ) );
 		assertNotNull ( "Ops! p1 not saved!", adao.getByAcc ( pip.p1.getAcc () ) );
@@ -331,7 +331,7 @@ public class PipelineUnloadingTest extends TransactionalDBUnitEJB3DAOTest
 		assertNotNull ( "Ops! fv1 not saved (retrieval test)!", daoFactory.getIdentifiableDAO ( pip.fv1.getClass () ).getById ( pip.fv1.getId () ) );
 		assertNotNull ( "Ops! fv2 not saved!", pip.fv2.getId () );
 		assertNotNull ( "Ops! fv2 not saved (retrieval test)!", daoFactory.getIdentifiableDAO ( pip.fv2.getClass () ).getById ( pip.fv2.getId () ) );
-		
+
 		assertNotNull ( "Ops! c1 not saved!", pip.c1.getId () );
 		assertNotNull ( "Ops! c1 not saved (retrieval test)!", daoFactory.getIdentifiableDAO ( pip.c1.getClass () ).getById ( pip.c1.getId () ) );
 		assertNotNull ( "Ops! c2 not saved!", pip.c2.getId () );
@@ -340,7 +340,7 @@ public class PipelineUnloadingTest extends TransactionalDBUnitEJB3DAOTest
 		assertNotNull ( "Ops! fact1 not saved (retrieval test)!", daoFactory.getIdentifiableDAO ( pip.fact1.getClass () ).getById ( pip.fact1.getId () ) );
 		assertNotNull ( "Ops! fact2 not saved!", pip.fact2.getId () );
 		assertNotNull ( "Ops! fact2 not saved (retrieval test)!", daoFactory.getIdentifiableDAO ( pip.fact2.getClass () ).getById ( pip.fact2.getId () ) );
-		
+
 		assertNotNull ( "Ops! cv2UnitVal not saved!", pip.cv2UnitVal.getId () );
 		assertNotNull ( "Ops! cv1 not saved (retrieval test)!", daoFactory.getIdentifiableDAO ( pip.cv2UnitVal.getClass () ).getById ( pip.cv2UnitVal.getId () ) );
 		assertNotNull ( "Ops! cv2Unit not saved!", pip.cv2Unit.getId () );
@@ -358,10 +358,10 @@ public class PipelineUnloadingTest extends TransactionalDBUnitEJB3DAOTest
 		assertNotNull ( "Ops! paramv2UnitVal not saved (retrieval test)!", daoFactory.getIdentifiableDAO ( pip.paramv2UnitVal.getClass () ).getById ( pip.paramv2UnitVal.getId () ) );
 		assertNotNull ( "Ops! paramv2Unit not saved!", pip.paramv2Unit.getId () );
 		assertNotNull ( "Ops! paramv2Unit not saved (retrieval test)!", daoFactory.getIdentifiableDAO ( pip.paramv2Unit.getClass () ).getById ( pip.paramv2Unit.getId () ) );
-		
+
 		assertNotNull ( "Ops! proto1 not saved!", adao.getByAcc ( pip.proto1.getAcc () ) );
 		assertNotNull ( "Ops! proto2 not saved!", adao.getByAcc ( pip.proto2.getAcc () ) );
-		
+
 		ReferenceSource fooOntoDB = (ReferenceSource) adao.getByAcc ( pip.fooOnto.getAcc () );
 		assertNotNull ( "Ops! fooOnto not saved!", fooOntoDB );
 		assertEquals ( "Ops! fooOnto #ID is wrong!", -1L,  fooOntoDB.getId ().longValue()    );
@@ -371,13 +371,13 @@ public class PipelineUnloadingTest extends TransactionalDBUnitEJB3DAOTest
 		OntologyEntry c1OtDB = (OntologyEntry) oedao.getByAcc ( pip.c1Ot.getAcc () );
 		assertNotNull ( "Ops! fooOnto not saved!", c1OtDB );
 		assertEquals ( "Ops! fooOnto #ID is wrong!", -1L,  c1OtDB.getId ().longValue()    );
-		
+
 		assertNotNull ( "Ops! as1 not saved!", adao.getByAcc ( pip.as1.getAcc () ) );
 		assertNotNull ( "Ops! ar1 not saved!", pip.ar1.getId () );
 		assertNotNull ( "Ops! ar1 not saved (retrieval test)!", daoFactory.getIdentifiableDAO ( pip.ar1.getClass () ).getById ( pip.ar1.getId () ) );
 		assertNotNull ( "Ops! ar2 not saved!", pip.ar2.getId () );
 		assertNotNull ( "Ops! ar2 not saved (retrieval test)!", daoFactory.getIdentifiableDAO ( pip.ar2.getClass () ).getById ( pip.ar2.getId () ) );
-		
+
 		for ( PropertyValue<?> pv: pip.ar1.getCascadedPropertyValues () ) {
 			assertNotNull ( "Ops! pv not saved!", pv.getId () );
 			assertNotNull ( "Ops! pv not saved (retrieval test)!", daoFactory.getIdentifiableDAO ( pv.getClass () ).getById ( pv.getId () ) );
@@ -387,10 +387,10 @@ public class PipelineUnloadingTest extends TransactionalDBUnitEJB3DAOTest
 			assertNotNull ( "Ops! pv not saved!", pv.getId () );
 			assertNotNull ( "Ops! pv not saved (retrieval test)!", daoFactory.getIdentifiableDAO ( pv.getClass () ).getById ( pv.getId () ) );
 		}
-		
+
 		assertTrue ( "Ops! ar1 does not contain fv1", pip.ar1.getCascadedPropertyValues ().contains ( pip.fv1 ) );
 		assertTrue ( "Ops! ar1 does not contain fv2", pip.ar1.getCascadedPropertyValues ().contains ( pip.fv2 ) );
-	
+
 		transaction.begin ();
 		UnloadManager unloaderMgr = new UnloadManager ( DaoFactory.getInstance ( entityManager ), ts );
 		StudyUnloader unloader = (StudyUnloader) unloaderMgr.getUnloader ( Study.class );
@@ -399,12 +399,12 @@ public class PipelineUnloadingTest extends TransactionalDBUnitEJB3DAOTest
 		transaction.commit ();
 		session.flush ();
 		out.println ( "\n ====> Unloading done,  Warnings/Errors: " + unloaderMgr.getMessages () );
-		
+
 		checkAllUnloaded ( ts );
-		
+
 		out.println ( "\n" + StringUtils.center ( " /end: Testing ISATAB unloader, study+protocols+assays+ARs ", 120, "-" ) + "\n" );
-	}	
-	
+	}
+
 	@Test
 	public void testLightPersistence ()
 	{
@@ -413,16 +413,16 @@ public class PipelineUnloadingTest extends TransactionalDBUnitEJB3DAOTest
 		System.setProperty ( Persister.LIGHT_PERSISTENCE_PROPERTY, "true" );
 
 		FullStudyPipelineModel pip = new FullStudyPipelineModel ();
-		
+
 		Timestamp ts = new Timestamp ( System.currentTimeMillis () );
 		StudyPersister studyPersister = new StudyPersister ( daoFactory, ts );
 		studyPersister.persist ( pip.study );
 		commitTansaction ();
 		session.flush ();
-		
+
 		AccessibleDAO<Accessible> adao = daoFactory.getAccessibleDAO ( Accessible.class );
 		OntologyEntryDAO<OntologyEntry> oedao = daoFactory.getOntologyEntryDAO ();
-		
+
 		assertNotNull ( "Ops! cv1 not saved!", pip.cv1.getId () );
 		assertNotNull ( "Ops! cv1 not saved (retrieval test)!", daoFactory.getIdentifiableDAO ( pip.cv1.getClass () ).getById ( pip.cv1.getId () ) );
 		assertNotNull ( "Ops! cv2 not saved!", pip.cv2.getId () );
@@ -431,7 +431,7 @@ public class PipelineUnloadingTest extends TransactionalDBUnitEJB3DAOTest
 		assertNotNull ( "Ops! fv1 not saved (retrieval test)!", daoFactory.getIdentifiableDAO ( pip.fv1.getClass () ).getById ( pip.fv1.getId () ) );
 		assertNotNull ( "Ops! fv2 not saved!", pip.fv2.getId () );
 		assertNotNull ( "Ops! fv2 not saved (retrieval test)!", daoFactory.getIdentifiableDAO ( pip.fv2.getClass () ).getById ( pip.fv2.getId () ) );
-		
+
 		assertNotNull ( "Ops! c1 not saved!", pip.c1.getId () );
 		assertNotNull ( "Ops! c1 not saved (retrieval test)!", daoFactory.getIdentifiableDAO ( pip.c1.getClass () ).getById ( pip.c1.getId () ) );
 		assertNotNull ( "Ops! c2 not saved!", pip.c2.getId () );
@@ -440,28 +440,28 @@ public class PipelineUnloadingTest extends TransactionalDBUnitEJB3DAOTest
 		assertNotNull ( "Ops! fact1 not saved (retrieval test)!", daoFactory.getIdentifiableDAO ( pip.fact1.getClass () ).getById ( pip.fact1.getId () ) );
 		assertNotNull ( "Ops! fact2 not saved!", pip.fact2.getId () );
 		assertNotNull ( "Ops! fact2 not saved (retrieval test)!", daoFactory.getIdentifiableDAO ( pip.fact2.getClass () ).getById ( pip.fact2.getId () ) );
-		
+
 		assertNotNull ( "Ops! cv2UnitVal not saved!", pip.cv2UnitVal.getId () );
 		assertNotNull ( "Ops! cv1 not saved (retrieval test)!", daoFactory.getIdentifiableDAO ( pip.cv2UnitVal.getClass () ).getById ( pip.cv2UnitVal.getId () ) );
 		assertNotNull ( "Ops! cv2Unit not saved!", pip.cv2Unit.getId () );
 		assertNotNull ( "Ops! cv1 not saved (retrieval test)!", daoFactory.getIdentifiableDAO ( pip.cv2Unit.getClass () ).getById ( pip.cv2Unit.getId () ) );
-		
+
 		assertNotNull ( "Ops! proto1 not saved!", adao.getByAcc ( pip.proto1.getAcc () ) );
 		assertNotNull ( "Ops! proto2 not saved!", adao.getByAcc ( pip.proto2.getAcc () ) );
-		
+
 		ReferenceSource fooOntoDB = (ReferenceSource) adao.getByAcc ( pip.fooOnto.getAcc () );
 		assertNotNull ( "Ops! fooOnto not saved!", fooOntoDB );
 		assertEquals ( "Ops! fooOnto #ID is wrong!", -1L,  fooOntoDB.getId ().longValue()    );
 		OntologyEntry c1OtDB = (OntologyEntry) oedao.getByAcc ( pip.c1Ot.getAcc () );
 		assertNotNull ( "Ops! fooOnto not saved!", c1OtDB );
 		assertEquals ( "Ops! fooOnto #ID is wrong!", -1L,  c1OtDB.getId ().longValue()    );
-		
+
 		assertNotNull ( "Ops! as1 not saved!", adao.getByAcc ( pip.as1.getAcc () ) );
 		assertNotNull ( "Ops! ar1 not saved!", pip.ar1.getId () );
 		assertNotNull ( "Ops! ar1 not saved (retrieval test)!", daoFactory.getIdentifiableDAO ( pip.ar1.getClass () ).getById ( pip.ar1.getId () ) );
 		assertNotNull ( "Ops! ar2 not saved!", pip.ar2.getId () );
 		assertNotNull ( "Ops! ar2 not saved (retrieval test)!", daoFactory.getIdentifiableDAO ( pip.ar2.getClass () ).getById ( pip.ar2.getId () ) );
-		
+
 		for ( PropertyValue<?> pv: pip.ar1.getCascadedPropertyValues () ) {
 			assertNotNull ( "Ops! pv not saved!", pv.getId () );
 			assertNotNull ( "Ops! pv not saved (retrieval test)!", daoFactory.getIdentifiableDAO ( pv.getClass () ).getById ( pv.getId () ) );
@@ -471,10 +471,10 @@ public class PipelineUnloadingTest extends TransactionalDBUnitEJB3DAOTest
 			assertNotNull ( "Ops! pv not saved!", pv.getId () );
 			assertNotNull ( "Ops! pv not saved (retrieval test)!", daoFactory.getIdentifiableDAO ( pv.getClass () ).getById ( pv.getId () ) );
 		}
-		
+
 		assertTrue ( "Ops! ar1 does not contain fv1", pip.ar1.getCascadedPropertyValues ().contains ( pip.fv1 ) );
 		assertTrue ( "Ops! ar1 does not contain fv2", pip.ar1.getCascadedPropertyValues ().contains ( pip.fv2 ) );
-	
+
 		transaction.begin ();
 		UnloadManager unloaderMgr = new UnloadManager ( DaoFactory.getInstance ( entityManager ), ts );
 		StudyUnloader unloader = (StudyUnloader) unloaderMgr.getUnloader ( Study.class );
@@ -483,10 +483,10 @@ public class PipelineUnloadingTest extends TransactionalDBUnitEJB3DAOTest
 		transaction.commit ();
 		session.flush ();
 		out.println ( "\n ====> Unloading done,  Warnings/Errors: " + unloaderMgr.getMessages () );
-		
+
 		checkAllUnloaded ( ts );
-		
+
 		out.println ( "\n" + StringUtils.center ( " /end: Testing ISATAB unloader, study+protocols+assays+ARs ", 120, "-" ) + "\n" );
-	}		
-	
+	}
+
 }

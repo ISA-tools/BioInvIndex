@@ -57,8 +57,8 @@ import uk.ac.ebi.bioinvindex.model.term.PropertyValue;
 import uk.ac.ebi.bioinvindex.unloading.UnloadManager;
 
 /**
- * Unloads generic instances of {@link PropertyValue}. 
- * 
+ * Unloads generic instances of {@link PropertyValue}.
+ *
  * @author brandizi
  * <b>date</b>: Oct 27, 2009
  *

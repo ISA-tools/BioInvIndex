@@ -60,5 +60,5 @@ public interface Register {
 	public void destroy();
 
 	public boolean hasErrors();
-	
+
 }

@@ -91,13 +91,13 @@ public abstract class Accessible extends Annotatable {
 
 		Accessible that = (Accessible) o;
 
-		// PLEASE NOTE: I have at least one test case (OntologyEntryEJB3DAOTest) where it happens that 
+		// PLEASE NOTE: I have at least one test case (OntologyEntryEJB3DAOTest) where it happens that
 		// a ReferenceSource is wrapped by some Hibernate subclass, probably used for lazy loading.
 		// Unfortunately this wrapper make it happen at some point that 1) that.acc == null and 2) at the same time
 		// that.getAcc() returns the correct value that is in the DB.
-		// 
+		//
 		// TODO: Probably all the variables should be private and accessed only via accessors.
-		// 
+		//
 		final String acc = getAcc ();
         return !(acc != null ? !acc.equals(that.getAcc()) : that.getAcc() != null);
 
@@ -110,9 +110,9 @@ public abstract class Accessible extends Annotatable {
 	}
 
 	@Override
-	public String toString () 
+	public String toString ()
 	{
 		return "Accessible { id: " + getId() + ", acc: " + getAcc () + " }";
 	}
-	
+
 }

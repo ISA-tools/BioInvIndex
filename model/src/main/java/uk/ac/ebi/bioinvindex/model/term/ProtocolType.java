@@ -50,14 +50,14 @@ import javax.persistence.Entity;
 
 /**
  * Term to classify the protocol.
- * 
+ *
  * @author Nataliya Sklyar (nsklyar@ebi.ac.uk)
  * Date: Aug 6, 2007
- * 
+ *
  */
 @Entity
 @DiscriminatorValue( "ProtocolType" )
-public class ProtocolType extends OntologyEntry 
+public class ProtocolType extends OntologyEntry
 {
 	protected ProtocolType() {
 		super();

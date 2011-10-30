@@ -86,7 +86,7 @@ public class Contact extends Annotatable
 	private String phone;
 	private String fax;
 	private String address;
-	
+
 	@Field(index = Index.TOKENIZED, store = Store.NO)
 	private String affiliation;
 	private String url;
@@ -177,7 +177,7 @@ public class Contact extends Annotatable
     public void setFax(String fax) {
         this.fax = fax;
     }
-    
+
     public String getAddress () {
 			return address;
 		}
@@ -202,7 +202,7 @@ public class Contact extends Annotatable
         this.url = url;
     }
 
-    
+
     /**
      * @deprecated Many roles are now available, see {@link #getRoles()}.
      * @return
@@ -214,9 +214,9 @@ public class Contact extends Annotatable
     }
 
     /**
-     * This remove all previous roles and set the role so that {@link #getRoles()} will return 
-     * a singleton collection. 
-     * 
+     * This remove all previous roles and set the role so that {@link #getRoles()} will return
+     * a singleton collection.
+     *
      * @param contactRole
      */
     @Deprecated
@@ -226,20 +226,20 @@ public class Contact extends Annotatable
     }
 
   	@ManyToMany( targetEntity = ContactRole.class )
-  	@JoinTable( 
-  		name = "role2contact", 
-  		joinColumns = @JoinColumn ( name = "contact_id" ), 
+  	@JoinTable(
+  		name = "role2contact",
+  		joinColumns = @JoinColumn ( name = "contact_id" ),
   		inverseJoinColumns = @JoinColumn ( name = "role_id" )
   	)
     public Collection<ContactRole> getRoles () {
     	return Collections.unmodifiableCollection ( roles );
-    } 
+    }
 
     protected void setRoles ( List<ContactRole> roles ) {
     	this.roles = roles;
     }
-    
-    
+
+
     public boolean removeRole ( ContactRole role )
     {
     	boolean rval = false;
@@ -253,7 +253,7 @@ public class Contact extends Annotatable
     	roles.add ( role );
     }
 
-    
+
 		@Transient
 		/** Gets Name+Middle+Surname */
 		public String getFullName () {
@@ -283,19 +283,19 @@ public class Contact extends Annotatable
         	roleS += String.format ( "%s{ '%s' ( '%s' ) }", sep, role.getAcc(), role.getName() );
         	sep = ", ";
         }
-        String owner = ""; 
+        String owner = "";
         if ( investigation != null )
-        	owner = String.format ( "Investigation: { #%d, '%s', '%s' }", 
-        		investigation.getId (), investigation.getAcc (), investigation.getTitle () 
+        	owner = String.format ( "Investigation: { #%d, '%s', '%s' }",
+        		investigation.getId (), investigation.getAcc (), investigation.getTitle ()
         	);
         else if ( study != null )
-        	owner = String.format ( "Study: { #%d, '%s', '%s' }", 
-        		study.getId (), study.getAcc (), study.getTitle () 
+        	owner = String.format ( "Study: { #%d, '%s', '%s' }",
+        		study.getId (), study.getAcc (), study.getTitle ()
         	);
         return String.format(
 					"Contact{ #%d, '%s' ('%s') '%s' <%s>\n  Roles: %s\n  Phone: '%s', Fax: '%s'\n  Affiliation: '%s', " +
 					"URL: <%s>, owner: %s }",
-          getId (), getFirstName(), getMidInitials(), getLastName(), getEmail(), roleS, getPhone(), getFax(), 
+          getId (), getFirstName(), getMidInitials(), getLastName(), getEmail(), roleS, getPhone(), getFax(),
           getAffiliation(), getUrl(), owner
         );
     }

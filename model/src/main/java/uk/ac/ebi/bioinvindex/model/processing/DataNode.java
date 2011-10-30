@@ -90,11 +90,11 @@ public class DataNode extends Node<DataProcessing, Processing> {
 	 *
 	 * @param data
 	 */
-	public void setData(Data data) 
+	public void setData(Data data)
 	{
 		Data oldData = this.data;
 		this.data = data;
-		
+
 		if (oldData != null && oldData != data) {
 			oldData.setProcessingNode ( null );
 		}
@@ -113,7 +113,7 @@ public class DataNode extends Node<DataProcessing, Processing> {
 
 	@Transient
 	@Override
-	public Set<String> getAssayFileIds () 
+	public Set<String> getAssayFileIds ()
 	{
 		if ( assayFiles != null ) return assayFiles;
 		assayFiles = new HashSet<String> ();
@@ -130,13 +130,13 @@ public class DataNode extends Node<DataProcessing, Processing> {
 		assayFiles = Collections.singleton ( afile );
 		return assayFiles;
 	}
-	
-	
+
+
 	@Override
-	public String toString () 
+	public String toString ()
 	{
-		return 
-		"DataNode { id: " + getId() + ", acc: " + getAcc () 
+		return
+		"DataNode { id: " + getId() + ", acc: " + getAcc ()
 		+ ", data: " + getData () + " }";
 	}
 

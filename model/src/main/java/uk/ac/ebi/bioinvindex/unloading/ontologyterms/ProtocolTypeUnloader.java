@@ -57,16 +57,16 @@ import uk.ac.ebi.bioinvindex.model.term.ProtocolType;
 import uk.ac.ebi.bioinvindex.unloading.UnloadManager;
 
 /**
- * There is only an internal difference wrt {@link OntologyEntryUnloader} (different list for 
- * {@link #getReferringAssociations()} ). 
- * 
+ * There is only an internal difference wrt {@link OntologyEntryUnloader} (different list for
+ * {@link #getReferringAssociations()} ).
+ *
  * @author brandizi
  * <b>date</b>: Oct 27, 2009
  *
  */
 public class ProtocolTypeUnloader extends AbstractOntologyEntryUnloader<ProtocolType>
 {
-	
+
 	public ProtocolTypeUnloader ( UnloadManager unloadManager ) {
 		super ( unloadManager );
 	}
@@ -74,12 +74,12 @@ public class ProtocolTypeUnloader extends AbstractOntologyEntryUnloader<Protocol
 
 	private final static Association[] referringAssociations = new Association [] {
 		new Association ( Protocol.class, "type" )
-	};  
+	};
 
-	
+
 	@Override
 	protected Association[] getReferringAssociations () {
-		return referringAssociations; 
+		return referringAssociations;
 	}
 
 }

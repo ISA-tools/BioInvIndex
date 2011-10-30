@@ -67,7 +67,7 @@ public abstract class Identifiable{
 
 	private Long id;
 	private Timestamp submissionTs = null;
-		
+
 
 	protected Identifiable() {
 	}
@@ -85,13 +85,13 @@ public abstract class Identifiable{
 		this.id = id;
 	}
 
-	
+
 	/**
 	 * A reference which identifies the submission with which this object was created. This is used to implement
-	 * features such as unloading or exact submission reconstruction. 
+	 * features such as unloading or exact submission reconstruction.
 	 *
 	 * Note: I need columnDefinition because in MYSQL the default is current time and current time on update.
-	 * 
+	 *
 	 */
 	@Column ( nullable = true, name = "submission_ts", columnDefinition = "TIMESTAMP NULL" )
 	public Timestamp getSubmissionTs () {
@@ -102,8 +102,8 @@ public abstract class Identifiable{
 		this.submissionTs = submissionTs;
 	}
 
-	
-	
+
+
 	@Override
 	public String toString() {
 		return "Identifiable{" +

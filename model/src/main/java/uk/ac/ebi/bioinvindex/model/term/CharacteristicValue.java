@@ -51,7 +51,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
 /**
- * A value of characteristics. 
+ * A value of characteristics.
  * @author Nataliya Sklyar (nsklyar@ebi.ac.uk)
  * Date: Jul 12, 2007
  */

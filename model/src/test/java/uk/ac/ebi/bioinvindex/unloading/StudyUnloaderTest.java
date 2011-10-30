@@ -103,8 +103,8 @@ public class StudyUnloaderTest extends TransactionalDBUnitEJB3DAOTest
 			daoFactory.getIdentifiableDAO ( OntologyTerm.class ).getById ( -10L ) );
 		assertNotNull ( "Oh no! The RefSource #-210 is not here!",
 			daoFactory.getIdentifiableDAO ( ReferenceSource.class ).getById ( -210L ) );
-		
-		
+
+
 		Timestamp submissionTs = Timestamp.valueOf ( "2008-08-18 16:21:20.200000000" );
 
 		UnloadManager unloaderMgr = new UnloadManager ( DaoFactory.getInstance ( entityManager ), submissionTs );
@@ -114,7 +114,7 @@ public class StudyUnloaderTest extends TransactionalDBUnitEJB3DAOTest
 		transaction.commit ();
 		session.flush ();
 		out.println ( " **** Warnings/Errors: " + unloaderMgr.getMessages () );
-		
+
 
 		assertNull ( "Oh no! The unloaded study is still here!",
 			daoFactory.getStudyDAO ().getByAcc ( acc ) );
@@ -160,8 +160,8 @@ public class StudyUnloaderTest extends TransactionalDBUnitEJB3DAOTest
 		assertNotNull ( "Oh no! The Component #-12 is not here!",
 			daoFactory.getIdentifiableDAO ( ProtocolComponent.class ).getById ( -12L ) );
 		assertNotNull ( "Oh no! The RefSource #-1012 is not here!",
-			daoFactory.getIdentifiableDAO ( ReferenceSource.class ).getById ( -1012L ) );		
-		
+			daoFactory.getIdentifiableDAO ( ReferenceSource.class ).getById ( -1012L ) );
+
 		UnloadManager unloaderMgr = new UnloadManager ( DaoFactory.getInstance ( entityManager ), submissionTs );
 		StudyUnloader unloader = (StudyUnloader) unloaderMgr.getUnloader ( Study.class );
 		unloader.queueByAcc ( acc );
@@ -170,7 +170,7 @@ public class StudyUnloaderTest extends TransactionalDBUnitEJB3DAOTest
 		session.flush ();
 		out.println ( " **** Warnings/Errors: " + unloaderMgr.getMessages () );
 
-		
+
 		assertNull ( "Oh no! The unloaded study is still here!",
 			daoFactory.getStudyDAO ().getByAcc ( acc ) );
 
@@ -195,10 +195,10 @@ public class StudyUnloaderTest extends TransactionalDBUnitEJB3DAOTest
 		assertNull ( "Oh no! The Component #-12 is still here!",
 			daoFactory.getIdentifiableDAO ( ProtocolComponent.class ).getById ( -12L ) );
 		assertNull ( "Oh no! The RefSource #-1012 is still here!",
-			daoFactory.getIdentifiableDAO ( ReferenceSource.class ).getById ( -1012L ) );		
+			daoFactory.getIdentifiableDAO ( ReferenceSource.class ).getById ( -1012L ) );
 
 	}
-	
+
   @Test
 	public void testStudyAssays ()
 	{
@@ -232,11 +232,11 @@ public class StudyUnloaderTest extends TransactionalDBUnitEJB3DAOTest
 			daoFactory.getIdentifiableDAO ( Unit.class ).getById ( -1L ) );
 		assertNotNull ( "Oh no! The OE #-22! is not here!",
 			daoFactory.getIdentifiableDAO ( OntologyEntry.class ).getById ( -22L ) );
-		assertNotNull ( "Oh no! The Role #-23! is not here!", 
+		assertNotNull ( "Oh no! The Role #-23! is not here!",
 			daoFactory.getIdentifiableDAO ( ContactRole.class ).getById ( -23L ) );
 		assertNotNull ( "Oh no! The Contact #-1! is not here!", daoFactory.getContactDao ().getById ( -1L ) );
-		
-		
+
+
 		UnloadManager unloaderMgr = new UnloadManager ( DaoFactory.getInstance ( entityManager ), submissionTs );
 		StudyUnloader unloader = (StudyUnloader) unloaderMgr.getUnloader ( Study.class );
 		unloader.queueById ( -7L );
@@ -245,7 +245,7 @@ public class StudyUnloaderTest extends TransactionalDBUnitEJB3DAOTest
 		session.flush ();
 		out.println ( " **** Warnings/Errors: " + unloaderMgr.getMessages () );
 
-		
+
 		assertNull ( "Oh no! The unloaded study is still here!",
 			daoFactory.getStudyDAO ().getByAcc ( "bii:-7" ) );
 		assertNull ( "Oh no! The design associated to the study is still here!",
@@ -275,7 +275,7 @@ public class StudyUnloaderTest extends TransactionalDBUnitEJB3DAOTest
 		assertNull ( "Oh no! The OE #-22! is still here!",
 			daoFactory.getIdentifiableDAO ( OntologyEntry.class ).getById ( -22L ) );
 
-		assertNull ( "Oh no! The Role #-23! is still here!", 
+		assertNull ( "Oh no! The Role #-23! is still here!",
 				daoFactory.getIdentifiableDAO ( ContactRole.class ).getById ( -23L ) );
 		assertNull ( "Oh no! The Contact #-1! is still here!", daoFactory.getContactDao ().getById ( -1L ) );
 
@@ -323,7 +323,7 @@ public class StudyUnloaderTest extends TransactionalDBUnitEJB3DAOTest
 
 
 		Timestamp submissionTs = Timestamp.valueOf ( "2008-08-18 17:21:20.200000000" );
-		
+
 		UnloadManager unloaderMgr = new UnloadManager ( DaoFactory.getInstance ( entityManager ), submissionTs );
 		StudyUnloader unloader = (StudyUnloader) unloaderMgr.getUnloader ( Study.class );
 		unloader.queueById ( -7L );
@@ -331,7 +331,7 @@ public class StudyUnloaderTest extends TransactionalDBUnitEJB3DAOTest
 		transaction.commit ();
 		session.flush ();
 		out.println ( " **** Warnings/Errors: " + unloaderMgr.getMessages () );
-		
+
 		assertNull ( "Oh no! The Publication #-11! is still here!",
 			daoFactory.getIdentifiableDAO ( Publication.class ).getById ( -11L ) );
 		assertNull ( "Oh no! The Publication Status #-31! is still here!",

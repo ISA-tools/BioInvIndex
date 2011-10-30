@@ -51,7 +51,7 @@ public class Ontology implements Serializable {
 
 		return url != null && !StringFormating.isEmpty(url);
 	}
-	
+
 
 	@Override
 	public boolean equals(Object o) {

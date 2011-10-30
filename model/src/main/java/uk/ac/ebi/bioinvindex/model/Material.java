@@ -68,7 +68,7 @@ import java.util.Collections;
 
 /**
  * Object representing the experimental material in all its forms, e.g. animal, cell line, excised gel spot, protein.
- * 
+ *
  * @author Nataliya Sklyar (nsklyar@ebi.ac.uk)
  * Date: Jul 12, 2007
  */
@@ -138,8 +138,8 @@ public class Material extends Accessible {
 	public boolean removeFactorValue(FactorValue value) {
 		return factorValues.remove(value);
 	}
-	
-	
+
+
 	@ManyToOne(targetEntity = MaterialRole.class)
 	@JoinColumn(name = "type", nullable = false)
 	public MaterialRole getType() {
@@ -165,12 +165,12 @@ public class Material extends Accessible {
 	 * Setup the processing node and consequently changes the material associated to the parameter.
 	 * @param processingNode
 	 */
-	
+
 	public void setMaterialNode ( MaterialNode processingNode )
 	{
 		MaterialNode oldNode = this.processingNode;
 		this.processingNode = processingNode;
-		
+
 		if (oldNode != null && oldNode != processingNode) {
 			oldNode.setMaterial ( null );
 		}
@@ -202,7 +202,7 @@ public class Material extends Accessible {
 	  	separator = ", ";
 	  }
 	  result.append ( "]\n}" );
-	  
+
 	  result.append ( "\n  Factor Values: [ "  );
 	  separator = "";
 	  for ( FactorValue fv: this.getFactorValues () ) {
@@ -217,8 +217,8 @@ public class Material extends Accessible {
 	  	separator = ", ";
 	  }
 	  result.append ( "]\n}" );
-	  
-	  
+
+
 		return result.toString ();
 	}
 

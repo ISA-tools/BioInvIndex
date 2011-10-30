@@ -56,8 +56,8 @@ import uk.ac.ebi.bioinvindex.model.term.CharacteristicValue;
 import uk.ac.ebi.bioinvindex.unloading.UnloadManager;
 
 /**
- * Unloads a {@link CharacteristicValue}. 
- * 
+ * Unloads a {@link CharacteristicValue}.
+ *
  * @author brandizi
  * <b>date</b>: Oct 27, 2009
  *

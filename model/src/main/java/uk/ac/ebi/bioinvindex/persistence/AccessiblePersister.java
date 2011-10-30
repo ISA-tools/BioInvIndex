@@ -53,9 +53,9 @@ import uk.ac.ebi.bioinvindex.utils.AccessionGenerator;
 
 import java.sql.Timestamp;
 
-/** 
+/**
  * Specific persister which may be used for {@link Accessible}.
- * 
+ *
  * date: Apr 15, 2008
  * @author brandizi
  *
@@ -63,44 +63,44 @@ import java.sql.Timestamp;
  */
 public abstract class AccessiblePersister<A extends Accessible> extends AnnotatablePersister<A>
 {
-	
+
 	public AccessiblePersister ( DaoFactory daoFactory, Timestamp submissionTs ) {
 		super ( daoFactory, submissionTs );
 		dao = daoFactory.getAccessibleDAO ( getPersistedClass () );
 	}
 
 	/**
-	 * The default pre-processing consists of assigning a new accession, by means of {@link #getAccessionPrefix()}, 
-	 * in case it is still null. 
-	 * 
+	 * The default pre-processing consists of assigning a new accession, by means of {@link #getAccessionPrefix()},
+	 * in case it is still null.
+	 *
 	 */
-	protected void preProcess ( A object ) 
+	protected void preProcess ( A object )
 	{
 		super.preProcess ( object );
-		
+
 		String accession = StringUtils.trimToNull ( object.getAcc () );
-		if ( accession == null ) { 
+		if ( accession == null ) {
 			// The current object is new, needs a new accession and needs to be stored afterwards
 			if ( log.isTraceEnabled () ) log.trace ( "Accessible Persister, getting new Accession for " + object );
 			String newAccession = AccessionGenerator.getInstance ().generateAcc ( getAccessionPrefix() );
 			object.setAcc ( newAccession );
 			log.trace ( "Accessible Persister, new accession is " + object.getAcc () );
 		}
-	} 
-	
-	
+	}
+
+
 	/** May be useful if you don't want to pre-process the way this persister does, but you still need to pre-process
 	 *  the object as an Annotatable. You should call this method only in your version of #preProcess()
 	 */
 	protected void forwardPreProcess ( A object ) {
 		super.preProcess ( object );
 	}
-	
-	
+
+
 	/**
 	 * The prefix to be used when a new accession has to be created for the object type managed by this persister.
-	 * 
+	 *
 	 */
-	protected abstract String getAccessionPrefix(); 
+	protected abstract String getAccessionPrefix();
 
 }
