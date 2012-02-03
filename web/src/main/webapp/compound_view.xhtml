@@ -2,103 +2,84 @@
         "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
                 xmlns:ui="http://java.sun.com/jsf/facelets"
-                xmlns:h="http://java.sun.com/jsf/html"
-                xmlns:f="http://java.sun.com/jsf/core"
-                xmlns:rich="http://richfaces.org/rich"
                 template="layout/local-template.xhtml">
 
     <ui:define name="body">
+        <div id="showcase" class="showcase">
 
-        <div>
-            <p align="center">
-                <img alt="browse studies" src="img/table_images/browse_compounds_header.png"/>
-            </p>
+            <ui:repeat var="taxonImage" value="#{chebiCompoundProvider.images}">
+                <div class="showcase-slide">
 
-            <p align="center" class="static_info_text">
-                <h:outputText styleClass="sub_info_title" value="#{chebiCompoundProvider.rowCount}"/>
-                Compounds Found
+                    <!-- Put the slide content in a div with the class .showcase-content. -->
+                    <div class="showcase-content">
+                        <img src="${taxonImage.url}" title="${taxonImage.caption}" alt="${taxonImage.altTag}"/>
+                    </div>
 
-            </p>
+                    <!-- Put the thumbnail content in a div with the class .showcase-thumbnail -->
+                    <div class="showcase-thumbnail">
+
+                        <img src="${taxonImage.url}" width="140px" alt="${taxonImage.altTag}"/>
+                        <!-- The div below with the class .showcase-thumbnail-caption contains the thumbnail caption. -->
+                        <!--  <div class="showcase-thumbnail-caption">${image.caption}</div>  -->
+                        <!-- The div below with the class .showcase-thumbnail-cover is used for the thumbnails active state. -->
+                        <div class="showcase-thumbnail-cover"></div>
+
+                    </div>
+                    <!-- Put the caption content in a div with the class .showcase-caption -->
+
+                    <div class="showcase-caption">
+                        <h2>alt="${taxonImage.altTag}"</h2>
+                    </div>
+
+                </div>
+            </ui:repeat>
         </div>
 
-        <rich:dataTable
-                width="100%" border="0" align="center" style="table-layout:fixed"
-                id="compounds"
-                cellpadding="0" cellspacing="0"
-                onRowMouseOver="this.style.backgroundColor='#F8F8F8'"
-                onRowMouseOut="this.style.backgroundColor='#FFFFFF'"
-                var="compound"
-                value="#{chebiCompoundProvider.itemList}"
-                >
+        <div class="showcase-slide">
+            <div class="showcase-content">
+                <div class="showcase-content-wrapper">
+                    Content...
+                </div>
+            </div>
+        </div>
 
-
-            <f:facet name="header">
-                <rich:columnGroup>
-
-                    <rich:column width="20%" styleClass="tableheader">
-                        <h:outputText value="ChEBI ID"/>
-                    </rich:column>
-
-                    <rich:column width="30%" styleClass="tableheader">
-                        <h:outputText value="Compound Name"/>
-                    </rich:column>
-
-
-
-                    <rich:column width="25%" styleClass="tableheader">
-                        <h:outputText value="Organism"/>
-                    </rich:column>
-
-                    <rich:column width="25%" styleClass="tableheader">
-                        <h:outputText value="Related Study"/>
-                    </rich:column>
-
-                </rich:columnGroup>
-            </f:facet>
-
-            <rich:columnGroup>
-
-                <rich:column styleClass="datacolumn">
-                    <!--<h:outputText value="#{bean.acc}"/>-->
-                    <h:outputLink value="http://www.ebi.ac.uk/chebi/searchId.do?chebiId=#{compound.chebiId}"
-                                  target="_blank">
-                        <h:outputText value="#{compound.chebiId}"/>
-                    </h:outputLink>
-
-                </rich:column>
-
-                <rich:column styleClass="datacolumn">
-                    <!--<h:outputText value="#{bean.acc}"/>-->
-                    <h:outputText value="#{compound.name}"/>
-                </rich:column>
-
-
-                <rich:column styleClass="datacolumn">
-                    <ui:repeat value="#{compound.organismsUsedOn}" var="organism">
-
-                        <h:outputText value="#{organism}"/><br/>
-
-                    </ui:repeat>
-                </rich:column>
-
-                <rich:column styleClass="datacolumn">
-
-                    <ui:repeat value="#{compound.studyAcc}" var="accession">
-
-                        <h:outputLink value="study.seam?studyId=#{accession}">
-                            <h:outputText value="#{accession} "/>
-                        </h:outputLink>
-
-
-                    </ui:repeat>
-
-
-                </rich:column>
-
-            </rich:columnGroup>
-
-        </rich:dataTable>
-
+        <script type="text/javascript">
+            jQuery(document).ready(function() {
+                jQuery("#showcase").awShowcase(
+                        {
+                            content_width:            700,
+                            content_height:            470,
+                            fit_to_parent:            false,
+                            auto:                    false,
+                            interval:                3000,
+                            continuous:                false,
+                            loading:                true,
+                            tooltip_width:            200,
+                            tooltip_icon_width:        32,
+                            tooltip_icon_height:    32,
+                            tooltip_offsetx:        18,
+                            tooltip_offsety:        0,
+                            arrows:                    true,
+                            buttons:                true,
+                            btn_numbers:            true,
+                            keybord_keys:            true,
+                            mousetrace:                false, /* Trace x and y coordinates for the mouse */
+                            pauseonover:            true,
+                            stoponclick:            true,
+                            transition:                'hslide', /* hslide/vslide/fade */
+                            transition_delay:        300,
+                            transition_speed:        500,
+                            show_caption:            'onhover', /* onload/onhover/show */
+                            thumbnails:                true,
+                            thumbnails_position:    'outside-last', /* outside-last/outside-first/inside-last/inside-first */
+                            thumbnails_direction:    'horizontal', /* vertical/horizontal */
+                            thumbnails_slidex:        0, /* 0 = auto / 1 = slide one thumbnail / 2 = slide two thumbnails / etc. */
+                            dynamic_height:            false, /* For dynamic height to work in webkit you need to set the width and height of images in the source. Usually works to only set the dimension of the first slide in the showcase. */
+                            speed_change:            false, /* Set to true to prevent users from swithing more then one slide at once. */
+                            viewline:                false /* If set to true content_width, thumbnails, transition and dynamic_height will be disabled. As for dynamic height you need to set the width and height of images in the source. */
+                        });
+            });
+        </script>
 
     </ui:define>
 </ui:composition>

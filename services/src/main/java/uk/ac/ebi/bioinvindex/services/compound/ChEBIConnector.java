@@ -67,113 +67,127 @@ import java.util.List;
  * @author Eamonn Maguire
  * @date Oct 14, 2008
  */
-@Name("chebiCompoundProvider")
+@Name("taxon")
 @Scope(ScopeType.PAGE)
 @AutoCreate
 public class ChEBIConnector implements BrowseBean {
 
-	@In
-	private EntityManager entityManager;
+    @In
+    private EntityManager entityManager;
 
-	@In
-	private Identity identity;
+    @In
+    private Identity identity;
 
-	private static final Log log = LogFactory.getLog(ChEBIConnector.class);
+    private static final Log log = LogFactory.getLog(ChEBIConnector.class);
 
-	private OntologyEntryDAO<OntologyTerm> ontologyDAO;
+    private OntologyEntryDAO<OntologyTerm> ontologyDAO;
 
-	private StudyDAO studyEJB3DAO;
+    private StudyDAO studyEJB3DAO;
 
-	private List<ChEBICompound> compoundSearchResults;
+    private List<ChEBICompound> compoundSearchResults;
 
-	public int getRowCount() {
-		try {
-			return getCompounds().size();
-		} catch (Exception e) {
-			return 0;
-		}
-	}
+    public int getRowCount() {
+        try {
+            return getCompounds().size();
+        } catch (Exception e) {
+            return 0;
+        }
+    }
 
-	public List getItemList() {
-		return getCompounds();  //To change body of implemented methods use File | Settings | File Templates.
-	}
+    public List getItemList() {
+        return getCompounds();  //To change body of implemented methods use File | Settings | File Templates.
+    }
 
-	private List<ChEBICompound> getCompounds() {
-		try {
-			if (compoundSearchResults == null) {
-				compoundSearchResults = new ArrayList<ChEBICompound>();
+    private List<ChEBICompound> getCompounds() {
+        try {
+            if (compoundSearchResults == null) {
+                compoundSearchResults = new ArrayList<ChEBICompound>();
 
-				List<OntologyTerm> result = getOntologyDAO().getOntologyEntriesByRefSource("CHEBI");
+                List<OntologyTerm> result = getOntologyDAO().getOntologyEntriesByRefSource("CHEBI");
 
-				for (OntologyTerm ontologyTerm : result) {
+                for (OntologyTerm ontologyTerm : result) {
 
-					// need to determine what to search by here since if we have a chebi accession, we can do a more exact
-					// search - quicker!
+                    // need to determine what to search by here since if we have a chebi accession, we can do a more exact
+                    // search - quicker!
 
-					log.info("Getting ChEBI record for : " + ontologyTerm.getAcc());
+                    log.info("Getting ChEBI record for : " + ontologyTerm.getAcc());
 
-					String formula = "";
+                    String formula = "";
 
-					// create the image of the compound using the ChEBICompoundImageCreator helper class
-					//ToDo: Uncomment the following line when needed, fails when deployed on tc-test
-					//                    String compoundImgLoc = "file:///" + ChEBICompoundImageCreator.createImageForCompound(structure.getStructure(), compound);
+                    // create the image of the compound using the ChEBICompoundImageCreator helper class
+                    //ToDo: Uncomment the following line when needed, fails when deployed on tc-test
+                    //                    String compoundImgLoc = "file:///" + ChEBICompoundImageCreator.createImageForCompound(structure.getStructure(), compound);
 
-					String compoundImgLoc = "file:///";
-					ChEBICompound chebiCompound = new ChEBICompound(ontologyTerm.getAcc(),
-							ontologyTerm.getName(), "",
-							"", formula, compoundImgLoc);
+                    String compoundImgLoc = "file:///";
+                    ChEBICompound chebiCompound = new ChEBICompound(ontologyTerm.getAcc(),
+                            ontologyTerm.getName(), "",
+                            "", formula, compoundImgLoc);
 
-					List<String> studyAccsForCompound =
-							getStudyEJB3DAO().filterFactorsByOntologyTermAndRefNameForUser(ontologyTerm.getAcc(), "CHEBI", identity.getUsername());
-
-
-					chebiCompound.setStudyAcc(studyAccsForCompound);
+                    List<String> studyAccsForCompound =
+                            getStudyEJB3DAO().filterFactorsByOntologyTermAndRefNameForUser(ontologyTerm.getAcc(), "CHEBI", identity.getUsername());
 
 
-					for (String studyAcc : studyAccsForCompound) {
-
-						List<PropertyValue> organismsUsingCompound = getStudyEJB3DAO().getValuesOfPropertyForStudyAcc(studyAcc,
-								"organism");
-
-						for (PropertyValue pvi : organismsUsingCompound) {
-							chebiCompound.addToOrganismsUsed(pvi.getValue());
-						}
-					}
-
-					if (studyAccsForCompound != null && studyAccsForCompound.size() > 0) {
-						compoundSearchResults.add(chebiCompound);
-					}
-
-				}
-
-			}
-
-			log.info("Produced " + compoundSearchResults.size() +
-					"ChEBICompound objects to display in browser :o) ");
-			return compoundSearchResults;
-		} catch (Exception e) {
-			log.error(e.getMessage());
-			return new ArrayList<ChEBICompound>();
-		}
-
-	}
-
-	public OntologyEntryDAO getOntologyDAO() {
-		if (ontologyDAO == null) {
-			ontologyDAO = DaoFactory.getInstance(entityManager).getOntologyEntryDAO(OntologyTerm.class);
-		}
-		return ontologyDAO;
-	}
-
-	public StudyDAO getStudyEJB3DAO() {
-		if (studyEJB3DAO == null) {
-			studyEJB3DAO = DaoFactory.getInstance(entityManager).getStudyDAO();
-		}
-		return studyEJB3DAO;
-	}
+                    chebiCompound.setStudyAcc(studyAccsForCompound);
 
 
-	public void setEntityManager(EntityManager entityManager) {
-		this.entityManager = entityManager;
-	}
+                    for (String studyAcc : studyAccsForCompound) {
+
+                        List<PropertyValue> organismsUsingCompound = getStudyEJB3DAO().getValuesOfPropertyForStudyAcc(studyAcc,
+                                "organism");
+
+                        for (PropertyValue pvi : organismsUsingCompound) {
+                            chebiCompound.addToOrganismsUsed(pvi.getValue());
+                        }
+                    }
+
+                    if (studyAccsForCompound != null && studyAccsForCompound.size() > 0) {
+                        compoundSearchResults.add(chebiCompound);
+                    }
+
+                }
+
+            }
+
+            log.info("Produced " + compoundSearchResults.size() +
+                    "ChEBICompound objects to display in browser :o) ");
+            return compoundSearchResults;
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            return new ArrayList<ChEBICompound>();
+        }
+
+    }
+
+    public OntologyEntryDAO getOntologyDAO() {
+        if (ontologyDAO == null) {
+            ontologyDAO = DaoFactory.getInstance(entityManager).getOntologyEntryDAO(OntologyTerm.class);
+        }
+        return ontologyDAO;
+    }
+
+    public StudyDAO getStudyEJB3DAO() {
+        if (studyEJB3DAO == null) {
+            studyEJB3DAO = DaoFactory.getInstance(entityManager).getStudyDAO();
+        }
+        return studyEJB3DAO;
+    }
+
+
+    public void setEntityManager(EntityManager entityManager) {
+        this.entityManager = entityManager;
+    }
+
+    public List<Image> getImages() {
+        List<Image> images = new ArrayList<Image>();
+
+        Image i1 = new Image("http://www.googlyfoogly.com/images/AWESOME.jpg", "I'm awesome", "01");
+        Image i2 = new Image("http://9.media.tumblr.com/tumblr_kv4399hWWz1qzdr4go1_500.jpg", "I'm awesome too", "02");
+        Image i3 = new Image("http://www.googlyfoogly.com/images/AWESOME.jpg", "I'm awesome three", "03");
+
+        images.add(i1);
+        images.add(i2);
+        images.add(i3);
+
+        return images;
+    }
 }

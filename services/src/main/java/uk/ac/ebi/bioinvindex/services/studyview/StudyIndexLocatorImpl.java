@@ -23,12 +23,10 @@ public class StudyIndexLocatorImpl implements StudyIndexLocator {
 
 
     public BrowseStudyBean getStudyBean() {
-
         try {
             if (study == null) {
                 study = getStudyBeanProvider().getStudy(accession);
             }
-
             return study;
         } catch (Exception e) {
             e.printStackTrace();

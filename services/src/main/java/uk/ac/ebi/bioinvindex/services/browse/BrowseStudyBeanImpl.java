@@ -191,6 +191,7 @@ public class BrowseStudyBeanImpl extends IndexFieldDelimiters implements BrowseS
         return processedValues;
     }
 
+    // todo look at this and work out why it doesn't always work...
     private String[] splitPropertyValues(String propertyValue) {
 
         if (propertyValue.contains(":?")) {
