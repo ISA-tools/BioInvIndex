@@ -44,247 +44,242 @@ package uk.ac.ebi.bioinvindex.model;
  */
 
 import org.apache.commons.lang.StringUtils;
-import org.hibernate.search.annotations.ContainedIn;
-import org.hibernate.search.annotations.Field;
-import org.hibernate.search.annotations.FieldBridge;
-import org.hibernate.search.annotations.Fields;
-import org.hibernate.search.annotations.Index;
-import org.hibernate.search.annotations.Store;
+import org.hibernate.search.annotations.*;
 import uk.ac.ebi.bioinvindex.model.processing.Assay;
-import uk.ac.ebi.bioinvindex.model.term.CharacteristicValue;
-import uk.ac.ebi.bioinvindex.model.term.FactorValue;
-import uk.ac.ebi.bioinvindex.model.term.Property;
-import uk.ac.ebi.bioinvindex.model.term.PropertyRole;
-import uk.ac.ebi.bioinvindex.model.term.PropertyValue;
-import uk.ac.ebi.bioinvindex.model.term.UnitValue;
+import uk.ac.ebi.bioinvindex.model.term.*;
 import uk.ac.ebi.bioinvindex.search.hibernatesearch.bridge.OrganismValuesBridge;
 import uk.ac.ebi.bioinvindex.search.hibernatesearch.bridge.PropertyValuesBridge;
 import uk.ac.ebi.bioinvindex.utils.processing.CharacteristicValueVisitor;
 import uk.ac.ebi.bioinvindex.utils.processing.ExperimentalPipelineVisitor;
 import uk.ac.ebi.bioinvindex.utils.processing.FactorValueVisitor;
 
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
-import javax.persistence.Transient;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.SortedMap;
-import java.util.TreeMap;
+import javax.persistence.*;
+import java.util.*;
 
 /**
  * Objects of this class put together a link to a data and all property/protocol parameter values of corresponding
  * materials/protocols which this data was obtained from.
- * 
+ *
  * @author Nataliya Sklyar (nsklyar@ebi.ac.uk)
- * Date: Oct 2, 2008
+ *         Date: Oct 2, 2008
  */
 
 @Entity
 @Table(name = "ASSAYRESULT")
 public class AssayResult extends Identifiable {
 
-	private Data data;
+    private Data data;
 
-	@ContainedIn
-	private Study study;
+    @ContainedIn
+    private Study study;
 
-	@Fields({
-		@Field(index = Index.TOKENIZED, store = Store.YES,
-			bridge = @FieldBridge(impl = PropertyValuesBridge.class)),
-		@Field(index = Index.UN_TOKENIZED, store = Store.YES,
-			bridge = @FieldBridge(impl = OrganismValuesBridge.class))
-	})
-	private Collection<PropertyValue> cascadedValues = new HashSet<PropertyValue>();
+    @Fields({
+            @Field(index = Index.TOKENIZED, store = Store.YES,
+                    bridge = @FieldBridge(impl = PropertyValuesBridge.class)),
+            @Field(index = Index.UN_TOKENIZED, store = Store.YES,
+                    bridge = @FieldBridge(impl = OrganismValuesBridge.class))
+    })
+    private Collection<PropertyValue> cascadedValues = new HashSet<PropertyValue>();
 
-	private Collection<Assay> assays = new HashSet<Assay>();
-	
-	protected AssayResult() {
+    private Collection<Assay> assays = new HashSet<Assay>();
 
-	}
+    private Collection<BioEntity> bioEntities;
 
-	public AssayResult(Data data, Study study) {
-		this.data = data;
-		this.study = study;
-		study.addAssayResult ( this );
-	}
+    protected AssayResult() {
 
-	@OneToOne(targetEntity = Data.class)
-	@JoinColumn(name = "DATA_ID", nullable = true)
-	public Data getData() {
-		return data;
-	}
+    }
 
-	public void setData(Data data) {
-		this.data = data;
-	}
+    public AssayResult(Data data, Study study) {
+        this(data, study, new ArrayList<BioEntity>());
+    }
 
-	@ManyToOne(targetEntity = Study.class)
-	@JoinColumn(name = "STUDY_ID", nullable = false)
-	public Study getStudy() {
-		return study;
-	}
+    public AssayResult(Data data, Study study, Collection<BioEntity> bioEntities) {
+        this.data = data;
+        this.study = study;
+        this.bioEntities = bioEntities;
+        study.addAssayResult(this);
+    }
 
+    @OneToOne(targetEntity = Data.class)
+    @JoinColumn(name = "DATA_ID", nullable = true)
+    public Data getData() {
+        return data;
+    }
 
-	protected void setStudy(Study study) {
-		this.study = study;
-	}
+    public void setData(Data data) {
+        this.data = data;
+    }
 
-
-	@ManyToMany(targetEntity = PropertyValue.class, fetch = FetchType.LAZY)
-	@JoinTable(
-			name = "AssayResult2PropertyValue",
-			joinColumns = {@JoinColumn(name = "AR_ID")},
-			inverseJoinColumns = @JoinColumn(name = "PV_ID")
-	)
-	public Collection<PropertyValue> getCascadedPropertyValues() {
-		return this.cascadedValues;
-	}
-
-	public void addCascadedPropertyValue(PropertyValue value) {
-		this.cascadedValues.add(value);
-	}
-
-	protected void setCascadedPropertyValues(Collection<PropertyValue> values) {
-		this.cascadedValues = values;
-	}
-
-	public boolean removeCascadedPropertyValue(PropertyValue value) {
-		return cascadedValues.remove(value);
-	}
-
-	@Transient
-	public Collection<FactorValue> getFactorValues() {
-		Collection<FactorValue> answer = new ArrayList<FactorValue>();
-
-		for (PropertyValue value : cascadedValues) {
-			if (value instanceof FactorValue) {
-				answer.add((FactorValue) value);
-			}
-		}
-		return answer;
-	}
-
-	@ManyToMany(targetEntity = Assay.class, fetch = FetchType.LAZY)
-	@JoinTable(
-			name = "AssayResult2Assay",
-			joinColumns = {@JoinColumn(name = "AR_ID")},
-			inverseJoinColumns = @JoinColumn(name = "assay_ID")
-	)
-	public Collection<Assay> getAssays() {
-		return assays;
-	}
-
-	public boolean addAssay(Assay assay) {
-		return this.assays.add(assay);
-	}
-
-	protected void setAssays(Collection<Assay> assays) {
-		this.assays = assays;
-	}
-
-	public boolean removeAssay ( Assay assay ) {
-		return this.assays.remove ( assay );
-	}
-	
-	
-	/**
-	 * Goes through the pipeline associated to this AssayResult and extracts all the {@link CharacteristicValue} associated to
-	 * the materials in it.
-	 * <p/>
-	 * It is used to setup the cascaded properties during ISATAB submission.
-	 *
-	 * TODO: for the moment relies on the correct assignment of accessions to nodes (used in .equals() and .hashCode())
-	 * 
-	 */
-	public Collection<CharacteristicValue> findPipelineCharacteristicValues() {
-		CharacteristicValueVisitor visitor = new CharacteristicValueVisitor();
-		new ExperimentalPipelineVisitor ( visitor ).visitBackward ( this.getData ().getProcessingNode() );
-		return visitor.getPipelineCharacteristicValues();
-	}
-
-	/**
-	 * Goes through the pipeline associated to this AssayResult and extracts all the {@link FactorValue} associated to
-	 * the materials in it.
-	 * <p/>
-	 * It is used to setup the cascaded properties during ISATAB submission.
-	 *
-	 * TODO: for the moment relies on the correct assignment of accessions to nodes (used in .equals() and .hashCode())
-	 * 
-	 */
-	public Collection<FactorValue> findPipelineFactorValues() {
-		FactorValueVisitor visitor = new FactorValueVisitor ();
-		new ExperimentalPipelineVisitor ( visitor ).visitBackward ( this.getData ().getProcessingNode() );
-		return visitor.getPipelineFVs ();
-	}
+    @ManyToOne(targetEntity = Study.class)
+    @JoinColumn(name = "STUDY_ID", nullable = false)
+    public Study getStudy() {
+        return study;
+    }
 
 
-	/**
-	 * Returns the same collection passed as parameter, but with the duplicates removed. Two property values are
-	 * considered dupes, when they have the same strings in the values, the unit, the type's string value.
-	 * <p/>
-	 * Note: this method is not much advanced, for example we don't address complex cases like 
-	 * [1200 joule] = [1.2 kJ] = [1.2 N*m] 
-	 *
-	 * @return the filtered characteristic values, with the values sorted according to type and value
-	 */
-	public static <PV extends PropertyValue<?>> Collection<PV> filterRepeatedPropertyValues ( Collection<PV> propValues )
-	{
-		// Let's do it by setting the map keys with the equality criterion
-		//
-		SortedMap<String, PV> result = new TreeMap<String, PV>();
+    protected void setStudy(Study study) {
+        this.study = study;
+    }
 
-		for (PV value : propValues) {
-			StringBuilder key = new StringBuilder();
+    @ManyToMany(targetEntity = BioEntity.class, fetch = FetchType.LAZY)
+    @JoinColumn(name = "BioEntities_id", nullable = false)
+    public Collection<BioEntity> getBioEntities() {
+        return bioEntities;
+    }
 
-			Property<?> type = value.getType();
-			if (type != null)
-				key.append(StringUtils.trimToEmpty(type.getValue()).toLowerCase());
+    public void setBioEntities(Collection<BioEntity> bioEntities) {
+        this.bioEntities = bioEntities;
+    }
 
-			PropertyRole role = type.getRole();
-			if (role != null) switch (role) {
-				case FACTOR:
-					key.append("FACTOR");
-					break;
-				case PROPERTY:
-					key.append("PROPERTY");
-					break;
-				default:
-					throw new RuntimeException("Cannot deal with the property type: " + role);
-			}
-
-			key.append(StringUtils.trimToEmpty(value.getValue()).toLowerCase());
-
-			UnitValue unit = value.getUnit();
-			if (unit != null)
-				key.append(StringUtils.trimToEmpty(unit.getValue()));
-
-			result.put(key.toString(), value);
-		}
-
-		return result.values();
-	}
+    public void addBioEntity(BioEntity bioEntity) {
+        this.bioEntities.add(bioEntity);
+    }
 
 
+    @ManyToMany(targetEntity = PropertyValue.class, fetch = FetchType.LAZY)
+    @JoinTable(
+            name = "AssayResult2PropertyValue",
+            joinColumns = {@JoinColumn(name = "AR_ID")},
+            inverseJoinColumns = @JoinColumn(name = "PV_ID")
+    )
+    public Collection<PropertyValue> getCascadedPropertyValues() {
+        return this.cascadedValues;
+    }
 
-	@Override
-	public String toString ()
-	{
-		StringBuilder result = new StringBuilder ( "AssayResult { " );
-		if ( study != null ) {
-			result.append ( "Study { id = " ).append ( study.getId () ).append ( ", acc = " ).append ( study.getAcc () );
-			result.append ( " } " );
-		}
-		result.append ( " Data = " + data );
-		result.append ( " Cascaded Properties = " + cascadedValues );
-		result.append ( " }" );
-		return result.toString ();
-	}
+    public void addCascadedPropertyValue(PropertyValue value) {
+        this.cascadedValues.add(value);
+    }
+
+    protected void setCascadedPropertyValues(Collection<PropertyValue> values) {
+        this.cascadedValues = values;
+    }
+
+    public boolean removeCascadedPropertyValue(PropertyValue value) {
+        return cascadedValues.remove(value);
+    }
+
+    @Transient
+    public Collection<FactorValue> getFactorValues() {
+        Collection<FactorValue> answer = new ArrayList<FactorValue>();
+
+        for (PropertyValue value : cascadedValues) {
+            if (value instanceof FactorValue) {
+                answer.add((FactorValue) value);
+            }
+        }
+        return answer;
+    }
+
+    @ManyToMany(targetEntity = Assay.class, fetch = FetchType.LAZY)
+    @JoinTable(
+            name = "AssayResult2Assay",
+            joinColumns = {@JoinColumn(name = "AR_ID")},
+            inverseJoinColumns = @JoinColumn(name = "assay_ID")
+    )
+    public Collection<Assay> getAssays() {
+        return assays;
+    }
+
+    public boolean addAssay(Assay assay) {
+        return this.assays.add(assay);
+    }
+
+    protected void setAssays(Collection<Assay> assays) {
+        this.assays = assays;
+    }
+
+    public boolean removeAssay(Assay assay) {
+        return this.assays.remove(assay);
+    }
+
+
+    /**
+     * Goes through the pipeline associated to this AssayResult and extracts all the {@link CharacteristicValue} associated to
+     * the materials in it.
+     * <p/>
+     * It is used to setup the cascaded properties during ISATAB submission.
+     * <p/>
+     * TODO: for the moment relies on the correct assignment of accessions to nodes (used in .equals() and .hashCode())
+     */
+    public Collection<CharacteristicValue> findPipelineCharacteristicValues() {
+        CharacteristicValueVisitor visitor = new CharacteristicValueVisitor();
+        new ExperimentalPipelineVisitor(visitor).visitBackward(this.getData().getProcessingNode());
+        return visitor.getPipelineCharacteristicValues();
+    }
+
+    /**
+     * Goes through the pipeline associated to this AssayResult and extracts all the {@link FactorValue} associated to
+     * the materials in it.
+     * <p/>
+     * It is used to setup the cascaded properties during ISATAB submission.
+     * <p/>
+     * TODO: for the moment relies on the correct assignment of accessions to nodes (used in .equals() and .hashCode())
+     */
+    public Collection<FactorValue> findPipelineFactorValues() {
+        FactorValueVisitor visitor = new FactorValueVisitor();
+        new ExperimentalPipelineVisitor(visitor).visitBackward(this.getData().getProcessingNode());
+        return visitor.getPipelineFVs();
+    }
+
+
+    /**
+     * Returns the same collection passed as parameter, but with the duplicates removed. Two property values are
+     * considered dupes, when they have the same strings in the values, the unit, the type's string value.
+     * <p/>
+     * Note: this method is not much advanced, for example we don't address complex cases like
+     * [1200 joule] = [1.2 kJ] = [1.2 N*m]
+     *
+     * @return the filtered characteristic values, with the values sorted according to type and value
+     */
+    public static <PV extends PropertyValue<?>> Collection<PV> filterRepeatedPropertyValues(Collection<PV> propValues) {
+        // Let's do it by setting the map keys with the equality criterion
+        //
+        SortedMap<String, PV> result = new TreeMap<String, PV>();
+
+        for (PV value : propValues) {
+            StringBuilder key = new StringBuilder();
+
+            Property<?> type = value.getType();
+            if (type != null)
+                key.append(StringUtils.trimToEmpty(type.getValue()).toLowerCase());
+
+            PropertyRole role = type.getRole();
+            if (role != null) switch (role) {
+                case FACTOR:
+                    key.append("FACTOR");
+                    break;
+                case PROPERTY:
+                    key.append("PROPERTY");
+                    break;
+                default:
+                    throw new RuntimeException("Cannot deal with the property type: " + role);
+            }
+
+            key.append(StringUtils.trimToEmpty(value.getValue()).toLowerCase());
+
+            UnitValue unit = value.getUnit();
+            if (unit != null)
+                key.append(StringUtils.trimToEmpty(unit.getValue()));
+
+            result.put(key.toString(), value);
+        }
+
+        return result.values();
+    }
+
+
+    @Override
+    public String toString() {
+        StringBuilder result = new StringBuilder("AssayResult { ");
+        if (study != null) {
+            result.append("Study { id = ").append(study.getId()).append(", acc = ").append(study.getAcc());
+            result.append(" } ");
+        }
+        result.append(" Data = " + data);
+        result.append(" Cascaded Properties = " + cascadedValues);
+        result.append(" BioEntities = " + bioEntities);
+        result.append(" }");
+        return result.toString();
+    }
 
 }

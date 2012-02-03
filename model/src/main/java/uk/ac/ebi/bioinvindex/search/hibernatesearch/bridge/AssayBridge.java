@@ -47,15 +47,19 @@ import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
 import org.hibernate.search.bridge.FieldBridge;
 import org.hibernate.search.bridge.LuceneOptions;
+import uk.ac.ebi.bioinvindex.model.Annotation;
+import uk.ac.ebi.bioinvindex.model.AssayResult;
 import uk.ac.ebi.bioinvindex.model.processing.Assay;
+import uk.ac.ebi.bioinvindex.model.term.AnnotationTypes;
 import uk.ac.ebi.bioinvindex.model.xref.Xref;
 import uk.ac.ebi.bioinvindex.search.hibernatesearch.StudyBrowseField;
+import uk.ac.ebi.bioinvindex.utils.datasourceload.DataLocationManager;
+import uk.ac.ebi.bioinvindex.utils.processing.ProcessingUtils;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
+import java.util.*;
 
 /**
  * Creates a  String template: endpoint|technology|number|&&&acc1!!!url1&&&acc2!!!url2
@@ -63,6 +67,7 @@ import java.util.Set;
  * @author Nataliya Sklyar (nsklyar@ebi.ac.uk)
  *         Date: Feb 22, 2008
  */
+
 public class AssayBridge extends IndexFieldDelimiters implements FieldBridge {
 
     public void set(String s, Object o, Document document, LuceneOptions luceneOptions) {
@@ -70,17 +75,47 @@ public class AssayBridge extends IndexFieldDelimiters implements FieldBridge {
 
         Collection<Assay> assays = (Collection<Assay>) o;
 
+        EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("BIIEntityManager");
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        DataLocationManager dataLocationManager = new DataLocationManager();
+        dataLocationManager.setEntityManager(entityManager);
+
         for (Assay assay : assays) {
+
+            if (assay.getTechnologyName().equals("mass spectrometry")) {
+                Collection<AssayResult> assayResults = ProcessingUtils.findAssayResultsFromAssay(assay);
+
+                String fileLink = dataLocationManager.getDataLocationLink(assay.getMeasurement().getName(), assay.getTechnologyName(), assay.getStudy().getObfuscationCode(),
+                        AnnotationTypes.GENERIC_DATA_FILE_LINK);
+
+                System.out.println("File link: " + fileLink);
+
+                String pathLink = dataLocationManager.getDataLocationLink(assay.getMeasurement().getName(), assay.getTechnologyName(), assay.getStudy().getObfuscationCode(),
+                        AnnotationTypes.GENERIC_DATA_FILE_PATH);
+
+                System.out.println("Path link: " + pathLink);
+
+                for (AssayResult result : assayResults) {
+                    for (Annotation annotation : result.getData().getAnnotation("metaboliteFile")) {
+                        System.out.printf("Type: %s -> Value: %s\n", annotation.getType().getValue(), annotation.getText());
+
+                        MetaboLightsIndexer.indexMetaboliteFile(pathLink.replace("${study-acc}",
+                                assay.getStudy().getObfuscationCode()) + annotation.getText(),
+                                document,
+                                luceneOptions);
+                    }
+                }
+            }
 
             String type = buildType(assay);
 
             if (!assayTypeToInfo.containsKey(type)) {
-                AssayTypeInfo info  = new AssayTypeInfo();
+                AssayTypeInfo info = new AssayTypeInfo();
                 assayTypeToInfo.put(type, info);
             }
 
             for (Xref xref : assay.getXrefs()) {
-                System.out.println("Adding XREF to AssayTypeInfo: " + xref.getSource().getAcc() + "(" + xref.getAcc() +  ") for " + type);
+                System.out.println("Adding XREF to AssayTypeInfo: " + xref.getSource().getAcc() + "(" + xref.getAcc() + ") for " + type);
 
                 StringBuilder sb = new StringBuilder();
                 sb.append("xref(").append(xref.getAcc()).append("->");
@@ -120,8 +155,9 @@ public class AssayBridge extends IndexFieldDelimiters implements FieldBridge {
             }
             Field fvField = new Field(StudyBrowseField.ASSAY_INFO.getName(), fullInfo.toString(), luceneOptions.getStore(), luceneOptions.getIndex());
             document.add(fvField);
-
         }
+
+        entityManager.close();
     }
 
     private String buildType(Assay assay) {
