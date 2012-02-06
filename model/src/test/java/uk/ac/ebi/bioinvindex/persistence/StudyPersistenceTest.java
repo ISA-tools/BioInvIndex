@@ -43,22 +43,11 @@ package uk.ac.ebi.bioinvindex.persistence;
  * EU NuGO [NoE 503630](http://www.nugo.org/everyone) projects and in part by EMBL-EBI.
  */
 
-import static java.lang.System.out;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-
-import java.sql.Timestamp;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
-
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.collections.Predicate;
 import org.dbunit.operation.DatabaseOperation;
 import org.junit.Before;
 import org.junit.Test;
-
 import uk.ac.ebi.bioinvindex.dao.StudyDAO;
 import uk.ac.ebi.bioinvindex.dao.UserDAO;
 import uk.ac.ebi.bioinvindex.dao.ejb3.DaoFactory;
@@ -67,13 +56,17 @@ import uk.ac.ebi.bioinvindex.model.Investigation;
 import uk.ac.ebi.bioinvindex.model.Protocol;
 import uk.ac.ebi.bioinvindex.model.Study;
 import uk.ac.ebi.bioinvindex.model.security.User;
-import uk.ac.ebi.bioinvindex.model.term.ContactRole;
-import uk.ac.ebi.bioinvindex.model.term.Design;
-import uk.ac.ebi.bioinvindex.model.term.OntologyTerm;
-import uk.ac.ebi.bioinvindex.model.term.Parameter;
-import uk.ac.ebi.bioinvindex.model.term.ProtocolType;
+import uk.ac.ebi.bioinvindex.model.term.*;
 import uk.ac.ebi.bioinvindex.model.xref.ReferenceSource;
 import uk.ac.ebi.bioinvindex.utils.test.TransactionalDBUnitEJB3DAOTest;
+
+import java.sql.Timestamp;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.List;
+
+import static java.lang.System.out;
+import static org.junit.Assert.*;
 
 
 public class StudyPersistenceTest extends TransactionalDBUnitEJB3DAOTest
@@ -160,11 +153,7 @@ public class StudyPersistenceTest extends TransactionalDBUnitEJB3DAOTest
 
 			study.addContact ( contact );
 
-			// TODO: publications, needs role persistence
-
-
 		// Let's go with the persistence job!
-		//
 
 		Study studyDB = persister.persist ( study );
 		transaction.commit ();

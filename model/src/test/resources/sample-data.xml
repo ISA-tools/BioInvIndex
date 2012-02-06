@@ -10,285 +10,280 @@
 -->
 <dataset>
 
-	<REFERENCE_SOURCE
-	  id = "-1"
-	  acc = "FOO.REF.SOURCE"
-	  name = "A foo ref SOURCE made by test suite"
-	  url = "http://wherever.net"
-	/>
+    <REFERENCE_SOURCE
+            id="-1"
+            acc="FOO.REF.SOURCE"
+            name="A foo ref SOURCE made by test suite"
+            url="http://wherever.net"
+            />
 
-	<REFERENCE_SOURCE
-	  id = "-2"
-	  acc = "FOO.REF.SOURCE.1"
-	  name = "A foo ref SOURCE made by test suite"
-	  URL = "http://wherever.net"
-	/>
-
-
+    <REFERENCE_SOURCE
+            id="-2"
+            acc="FOO.REF.SOURCE.1"
+            name="A foo ref SOURCE made by test suite"
+            URL="http://wherever.net"
+            />
 
 
-	<ONTOLOGY_ENTRY
-		  id                         ="-1"
-			OBJ_TYPE                   ="ContactRole"
-			acc                        ="testsuite:TesterRole"
-			name                       ="Test Role, by Test Suite"
-			SOURCE										 ="-1"
-	/>
+    <ONTOLOGY_ENTRY
+            id="-1"
+            OBJ_TYPE="ContactRole"
+            acc="testsuite:TesterRole"
+            name="Test Role, by Test Suite"
+            SOURCE="-1"
+            />
 
-	<ONTOLOGY_ENTRY
-		  id                         ="-4"
-			OBJ_TYPE                   ="ContactRole"
-			acc                        ="testsuite:AnotherRole"
-			name                       ="Another Test Role, by Test Suite"
-			SOURCE										 ="-2"
-	/>
+    <ONTOLOGY_ENTRY
+            id="-4"
+            OBJ_TYPE="ContactRole"
+            acc="testsuite:AnotherRole"
+            name="Another Test Role, by Test Suite"
+            SOURCE="-2"
+            />
 
-	<ontology_entry
-		id="-6"
-		OBJ_TYPE="MaterialRole"
-		ACC="bii:test:material:foo"
-		name="Foo Material"
-		SOURCE="-1"
-	/>
-
-
-	<INVESTIGATION
-		id = "-10"
-		acc = "inv:test:0"
-		TITLE = "A Test Investigation"
-		DESCRIPTION = "A Test Investigation made by the test suite"
-		submissionDate = "2007-10-01"
-		RELEASEDATE = "1007-10-02"
-	/>
-
-	<INVESTIGATION
-	  id = "-11"
-	  acc = "lsid:bii:investigation:999"
-	  TITLE = "A Test Investigation, made for testing purposes"
-	  DESCRIPTION = "But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, ..."
-	/>
+    <ontology_entry
+            id="-6"
+            OBJ_TYPE="MaterialRole"
+            ACC="bii:test:material:foo"
+            name="Foo Material"
+            SOURCE="-1"
+            />
 
 
-	<STUDY
-				id                         ="-1"
-				acc												 ="bii:-1"
-				TITLE                      ="Study -1"
-				DESCRIPTION                ="1, A foo study made by the test suite"
-				OBJECTIVE                  ="Testing this study"
-				submissionDate             ="2007-08-30"
-   />
-	<Design
-		  id                         ="-1"
-			VALUE                      ="test design"
-			STUDY_ID                   ="-1"
-	/>
+    <INVESTIGATION
+            id="-10"
+            acc="inv:test:0"
+            TITLE="A Test Investigation"
+            DESCRIPTION="A Test Investigation made by the test suite"
+            submissionDate="2007-10-01"
+            RELEASEDATE="1007-10-02"
+            />
+
+    <INVESTIGATION
+            id="-11"
+            acc="lsid:bii:investigation:999"
+            TITLE="A Test Investigation, made for testing purposes"
+            DESCRIPTION="But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, ..."
+            />
 
 
-	<STUDY
-				id                         ="-2"
-				acc												 ="bii:-2"
-				TITLE                      ="DC study"
-				DESCRIPTION                ="2, A study about DC cells"
-				OBJECTIVE                  ="Testing this study"
-				submissionDate             ="2007-08-30"
-   />
-
-	<Design
-		  id                         ="-2"
-			VALUE                      ="time course design"
-			STUDY_ID                   ="-2"
-	/>
-
-
-	<STUDY
-				id                         ="-3"
-				acc												 ="bii:-3"
-				TITLE                      ="NormX Study -3"
-				DESCRIPTION                ="3, A study about our wonderful normalization protocol"
-				OBJECTIVE                  ="Testing this study"
-				submissionDate             ="2007-08-30"
-   />
-
-	<Design
-		  id                         ="-3"
-			VALUE                      ="time course design"
-			STUDY_ID                   ="-3"
-	/>
+    <STUDY
+            id="-1"
+            acc="bii:-1"
+            TITLE="Study -1"
+            DESCRIPTION="1, A foo study made by the test suite"
+            OBJECTIVE="Testing this study"
+            submissionDate="2007-08-30"
+            />
+    <Design
+            id="-1"
+            VALUE="test design"
+            STUDY_ID="-1"
+            />
 
 
-	<STUDY
-				id                         ="-4"
-				acc												 ="bii:-4"
-				TITLE                      ="Study -4"
-				DESCRIPTION                ="4, A foo study made by the test suite"
-				OBJECTIVE                  ="Testing this study"
-				submissionDate             ="2007-08-30"
-   />
+    <STUDY
+            id="-2"
+            acc="bii:-2"
+            TITLE="DC study"
+            DESCRIPTION="2, A study about DC cells"
+            OBJECTIVE="Testing this study"
+            submissionDate="2007-08-30"
+            />
 
-	<Design
-		  id                         ="-4"
-			VALUE                      ="time course design"
-			STUDY_ID                   ="-4"
-	/>
-
-
-	<STUDY
-				id                         ="-5"
-				acc												 ="bii:-5"
-				TITLE                      ="Study -5"
-				DESCRIPTION                ="5, A foo study made by the test suite"
-				OBJECTIVE                  ="Testing this study"
-				submissionDate             ="2007-08-30"
-   />
-
-	<Design
-		  id                         ="-5"
-			VALUE                      ="time course design"
-			STUDY_ID                   ="-5"
-	/>
+    <Design
+            id="-2"
+            VALUE="time course design"
+            STUDY_ID="-2"
+            />
 
 
-	<STUDY
-				id                         ="-6"
-				acc												 ="lsid:bii:study:19239"
-				TITLE                      ="The Influence of Pharmacogenetics on Fatty Liver Disease in the Wistar and Kyoto Rats: A Combined Transcriptomic and Metabonomic Study"
-				DESCRIPTION                ="Analysis of liver tissue from rats exposed to orotic acid for 1, 3, and 14 days was performed by DNA microarrays and high resolution 1H NMR spectroscopy based metabonomics of both tissue extracts and intact tissue (n ) 3)."
-				OBJECTIVE                  =""
-				submissionDate             ="2006-10-10"
-   />
+    <STUDY
+            id="-3"
+            acc="bii:-3"
+            TITLE="NormX Study -3"
+            DESCRIPTION="3, A study about our wonderful normalization protocol"
+            OBJECTIVE="Testing this study"
+            submissionDate="2007-08-30"
+            />
 
-	<Design
-		  id                         ="-6"
-			VALUE                      ="time course design"
-			STUDY_ID                   ="-6"
-	/>
-
-	<ontology_entry
-			id="202"
-			OBJ_TYPE="MaterialRole"
-			ACC="OBI-2"
-			name="sample"
-			SOURCE="-2"
-			/>
-
-	<NODE
-			OBJ_TYPE="MaterialNode"
-			ID="-1"
-			ACC="BII-N100"
-			STUDY_ID="-4"
-	/>
-
-	<MATERIAL
-			ID="100"
-			ACC="BII-M1"
-			NAME="test mouse1"
-			TYPE="202"
-			NODE_ID = "-1"
-	/>
-
-	<PROPERTY ID="101" VALUE="organism" POSITION="1" ROLE="0" OBJ_TYPE="Characteristic"/>
-	<PROPERTY ID="102" VALUE="sex" POSITION="2" ROLE="0" OBJ_TYPE="Characteristic"/>
-	<PROPERTY ID="103" VALUE="Diet" POSITION="3" ROLE="1" OBJ_TYPE="Characteristic"/>
-	<PROPERTY ID="104" VALUE="Exposure" POSITION="4" ROLE="1" OBJ_TYPE="Characteristic"/>
-
-	<PROPERTY_VALUE OBJ_TYPE="CharacteristicValue" ID="101" VALUE="Mus musculus" PROPERTY_ID="101" MATERIAL_ID="100"/>
-	<PROPERTY_VALUE OBJ_TYPE="CharacteristicValue" ID="102" VALUE="male" PROPERTY_ID="102" MATERIAL_ID="100"/>
-	<PROPERTY_VALUE OBJ_TYPE="CharacteristicValue" ID="105" VALUE="High Fat Diet (32%lard oil, 8 %corn oil)" PROPERTY_ID="103" MATERIAL_ID="100"/>
-	<PROPERTY_VALUE OBJ_TYPE="CharacteristicValue" ID="106" VALUE="15" PROPERTY_ID="104" MATERIAL_ID="100"/>
+    <Design
+            id="-3"
+            VALUE="time course design"
+            STUDY_ID="-3"
+            />
 
 
+    <STUDY
+            id="-4"
+            acc="bii:-4"
+            TITLE="Study -4"
+            DESCRIPTION="4, A foo study made by the test suite"
+            OBJECTIVE="Testing this study"
+            submissionDate="2007-08-30"
+            />
 
-	<CONTACT
-		id												= "-2"
-		firstName									=	"Mister"
-		midInitials								= ""
-		lastName									= "Bean"
-		email											=	"mr.bean@comics.net"
-		phone											= "123"
-		fax												= ""
-		affiliation								= "Comics World"
-		URL												= "http://www.mrbean.co.uk/"
-		STUDY_ID									= "-1"
-		investigation_id					= "[null]"
-	/>
-
-	<role2contact	contact_id = "-2" role_id = "-1" />
+    <Design
+            id="-4"
+            VALUE="time course design"
+            STUDY_ID="-4"
+            />
 
 
-	<CONTACT
-		id												= "-1"
-		firstName									=	"Marco"
-		midInitials								= ""
-		lastName									= "Brandizi"
-		email											=	"find.me@somewhere.net"
-		phone											= ""
-		fax												= ""
-		affiliation								= "European Bioinformatics Institute (EBI)"
-		URL												= "http://www.ebi.ac.uk"
-		STUDY_ID									= "[null]"
-		investigation_id					= "[null]"
-	/>
+    <STUDY
+            id="-5"
+            acc="bii:-5"
+            TITLE="Study -5"
+            DESCRIPTION="5, A foo study made by the test suite"
+            OBJECTIVE="Testing this study"
+            submissionDate="2007-08-30"
+            />
 
-	<role2contact	contact_id = "-1" role_id = "-1" />
-
-
-	<PUBLICATION
-		id = "-1"
-		STUDY_ID = "-1"
-		investigation_id = "[null]"
-		TITLE = "A Structure for Deoxyribose Nucleic Acid"
-		authorList = "Watson J.D., Crick F.H.C."
-	/>
+    <Design
+            id="-5"
+            VALUE="time course design"
+            STUDY_ID="-5"
+            />
 
 
-	<STUDY2INVESTIGATION
-	  STUDY_ID = "-1"
-	  investigation_id = "-10"
-	/>
-	<STUDY2INVESTIGATION
-	  STUDY_ID = "-2"
-	  investigation_id = "-10"
-	/>
-	<STUDY2INVESTIGATION
-	  STUDY_ID = "-5"
-	  investigation_id = "-10"
-	/>
+    <STUDY
+            id="-6"
+            acc="lsid:bii:study:19239"
+            TITLE="The Influence of Pharmacogenetics on Fatty Liver Disease in the Wistar and Kyoto Rats: A Combined Transcriptomic and Metabonomic Study"
+            DESCRIPTION="Analysis of liver tissue from rats exposed to orotic acid for 1, 3, and 14 days was performed by DNA microarrays and high resolution 1H NMR spectroscopy based metabonomics of both tissue extracts and intact tissue (n ) 3)."
+            OBJECTIVE=""
+            submissionDate="2006-10-10"
+            />
 
-	<CONTACT
-		id												= "-3"
-		firstName									=	"Mister"
-		midInitials								= ""
-		lastName									= "Investigator"
-		email											=	"mr.mr@somewhere.net"
-		phone											= ""
-		fax												= ""
-		affiliation								= "Test Suite Town"
-		URL												= "http://www.in.the.net/"
-		investigation_id					= "-10"
-		STUDY_ID									= "[null]"
-	/>
+    <Design
+            id="-6"
+            VALUE="time course design"
+            STUDY_ID="-6"
+            />
 
-	<role2contact	contact_id = "-3" role_id = "-1" />
+    <ontology_entry
+            id="202"
+            OBJ_TYPE="MaterialRole"
+            ACC="OBI-2"
+            name="sample"
+            SOURCE="-2"
+            />
+
+    <NODE
+            OBJ_TYPE="MaterialNode"
+            ID="-1"
+            ACC="BII-N100"
+            STUDY_ID="-4"
+            />
+
+    <MATERIAL
+            ID="100"
+            ACC="BII-M1"
+            NAME="test mouse1"
+            TYPE="202"
+            NODE_ID="-1"
+            />
+
+    <PROPERTY ID="101" VALUE="organism" POSITION="1" ROLE="0" OBJ_TYPE="Characteristic"/>
+    <PROPERTY ID="102" VALUE="sex" POSITION="2" ROLE="0" OBJ_TYPE="Characteristic"/>
+    <PROPERTY ID="103" VALUE="Diet" POSITION="3" ROLE="1" OBJ_TYPE="Characteristic"/>
+    <PROPERTY ID="104" VALUE="Exposure" POSITION="4" ROLE="1" OBJ_TYPE="Characteristic"/>
+
+    <PROPERTY_VALUE OBJ_TYPE="CharacteristicValue" ID="101" VALUE="Mus musculus" PROPERTY_ID="101" MATERIAL_ID="100"/>
+    <PROPERTY_VALUE OBJ_TYPE="CharacteristicValue" ID="102" VALUE="male" PROPERTY_ID="102" MATERIAL_ID="100"/>
+    <PROPERTY_VALUE OBJ_TYPE="CharacteristicValue" ID="105" VALUE="High Fat Diet (32%lard oil, 8 %corn oil)"
+                    PROPERTY_ID="103" MATERIAL_ID="100"/>
+    <PROPERTY_VALUE OBJ_TYPE="CharacteristicValue" ID="106" VALUE="15" PROPERTY_ID="104" MATERIAL_ID="100"/>
 
 
-	<PUBLICATION
-		id = "-2"
-		STUDY_ID = "[null]"
-		investigation_id = "-10"
-		TITLE = "The Dilbert Collection"
-		authorList = "Scott Adams"
-	/>
+    <CONTACT
+            id="-2"
+            firstName="Mister"
+            midInitials=""
+            lastName="Bean"
+            email="mr.bean@comics.net"
+            phone="123"
+            fax=""
+            affiliation="Comics World"
+            URL="http://www.mrbean.co.uk/"
+            STUDY_ID="-1"
+            investigation_id="[null]"
+            />
+
+    <role2contact contact_id="-2" role_id="-1"/>
 
 
+    <CONTACT
+            id="-1"
+            firstName="Marco"
+            midInitials=""
+            lastName="Brandizi"
+            email="find.me@somewhere.net"
+            phone=""
+            fax=""
+            affiliation="European Bioinformatics Institute (EBI)"
+            URL="http://www.ebi.ac.uk"
+            STUDY_ID="[null]"
+            investigation_id="[null]"
+            />
 
-  <xref
-    id = "-1"
-    acc = "FOO.INV.REF"
-    SOURCE_ID = "-1"
-	/>
-	 <investigation2xref investigation_id = "-10" xref_id = "-1" />
+    <role2contact contact_id="-1" role_id="-1"/>
 
 
+    <PUBLICATION
+            id="-1"
+            STUDY_ID="-1"
+            investigation_id="[null]"
+            TITLE="A Structure for Deoxyribose Nucleic Acid"
+            authorList="Watson J.D., Crick F.H.C."
+            />
+
+
+    <STUDY2INVESTIGATION
+            STUDY_ID="-1"
+            investigation_id="-10"
+            />
+    <STUDY2INVESTIGATION
+            STUDY_ID="-2"
+            investigation_id="-10"
+            />
+    <STUDY2INVESTIGATION
+            STUDY_ID="-5"
+            investigation_id="-10"
+            />
+
+    <CONTACT
+            id="-3"
+            firstName="Mister"
+            midInitials=""
+            lastName="Investigator"
+            email="mr.mr@somewhere.net"
+            phone=""
+            fax=""
+            affiliation="Test Suite Town"
+            URL="http://www.in.the.net/"
+            investigation_id="-10"
+            STUDY_ID="[null]"
+            />
+
+    <role2contact contact_id="-3" role_id="-1"/>
+
+
+    <PUBLICATION
+            id="-2"
+            STUDY_ID="[null]"
+            investigation_id="-10"
+            TITLE="The Dilbert Collection"
+            authorList="Scott Adams"
+            />
+
+
+    <xref
+            id="-1"
+            acc="FOO.INV.REF"
+            SOURCE_ID="-1"
+            />
+    <investigation2xref investigation_id="-10" xref_id="-1"/>
 
 
 </dataset>

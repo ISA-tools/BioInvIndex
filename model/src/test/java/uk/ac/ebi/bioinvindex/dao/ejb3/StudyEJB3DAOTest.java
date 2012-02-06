@@ -44,28 +44,21 @@ package uk.ac.ebi.bioinvindex.dao.ejb3;
  */
 
 import org.dbunit.operation.DatabaseOperation;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
 import org.junit.Ignore;
 import org.junit.Test;
-
+import uk.ac.ebi.bioinvindex.dao.UserDAO;
 import uk.ac.ebi.bioinvindex.model.Study;
 import uk.ac.ebi.bioinvindex.model.VisibilityStatus;
-import uk.ac.ebi.bioinvindex.model.security.User;
 import uk.ac.ebi.bioinvindex.model.processing.Assay;
-import uk.ac.ebi.bioinvindex.model.term.AssayTechnology;
-import uk.ac.ebi.bioinvindex.model.term.CharacteristicValue;
-import uk.ac.ebi.bioinvindex.model.term.Measurement;
-import uk.ac.ebi.bioinvindex.model.term.FactorValue;
-import uk.ac.ebi.bioinvindex.model.term.Property;
-import uk.ac.ebi.bioinvindex.model.term.PropertyValue;
+import uk.ac.ebi.bioinvindex.model.security.User;
+import uk.ac.ebi.bioinvindex.model.term.*;
 import uk.ac.ebi.bioinvindex.utils.test.DBUnitEJB3DAOTest;
-import uk.ac.ebi.bioinvindex.dao.UserDAO;
 
 import javax.persistence.EntityTransaction;
 import java.util.List;
 import java.util.Map;
+
+import static org.junit.Assert.*;
 
 /**
  * User: Nataliya Sklyar (nsklyar@ebi.ac.uk) Date: Jun 21, 2007
@@ -413,67 +406,6 @@ public class StudyEJB3DAOTest extends DBUnitEJB3DAOTest {
 		assertEquals(1, study1.getUsers().size());
 
 	}
-
-
-	//ToDo: possibly move this test into another class
-//	@Test
-//	public void testSaveMaterrialWithProperties() {
-//
-//		OntologyEntryDAOHelper helper = new OntologyEntryDAOHelper();
-//		helper.setEntityManager(entityManager);
-//		MaterialRole role = helper.getMaterialTypeByAcc(MaterialRoles.SOURCE.getAcc());
-//
-//		Material material = new Material("test material1", role);
-//
-//		Property property = new Property(PropertyRole.FACTOR, 1);
-//		property.setName("organism");
-//		property.setAcc("test-acc2");
-//
-//		CharacteristicValue characteristic = new CharacteristicValue(property);
-//		characteristic.setAcc("test-CH101");
-//		characteristic.setValue("mouse");
-//
-//		Property property1 = new Property(PropertyRole.CHARACTERISTICS, 2);
-//		property1.setName("sex");
-//		property1.setAcc("test-acc1");
-//
-//		CharacteristicValue characteristic1 = new CharacteristicValue(property1);
-//		characteristic1.setAcc("test-CH102");
-//		characteristic1.setValue("male");
-//
-//		material.addCharacteristicValue(characteristic);
-//		material.addCharacteristicValue(characteristic1);
-//
-//		Material material1 = new Material("test material2", role);
-//		CharacteristicValue characteristic2 = new CharacteristicValue(property);
-//		characteristic2.setAcc("test-CH103");
-//		characteristic2.setValue("rat");
-//
-//		CharacteristicValue characteristic3 = new CharacteristicValue(property1);
-//		characteristic3.setAcc("test-CH104");
-//		characteristic3.setValue("female");
-//
-//		material1.addCharacteristicValue(characteristic2);
-//		material1.addCharacteristicValue(characteristic3);
-//
-//		EntityTransaction tnx = entityManager.getTransaction();
-//		tnx.begin();
-//		entityManager.persist(material);
-//		entityManager.persist(material1);
-//		tnx.commit();
-//
-//		Material testMaterial1 = entityManager.find(Material.class, (long) 1);
-//		assertNotNull(testMaterial1);
-//		assertEquals(2, testMaterial1.getCharacteristicValues().size());
-//		assertTrue(testMaterial1.getCharacteristicValues().contains(characteristic));
-//		assertTrue(testMaterial1.getCharacteristicValues().contains(characteristic1));
-//
-//		Material testMaterial2 = entityManager.find(Material.class, (long) 2);
-//		assertNotNull(testMaterial2);
-//		assertEquals(2, testMaterial2.getCharacteristicValues().size());
-//		assertTrue(testMaterial2.getCharacteristicValues().contains(characteristic2));
-//		assertTrue(testMaterial2.getCharacteristicValues().contains(characteristic3));
-//	}
 
 	@Ignore
 	public void testSaveWithProtocol() {
