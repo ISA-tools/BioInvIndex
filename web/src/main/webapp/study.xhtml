@@ -268,7 +268,7 @@
     <td width="85%" class="attrs">
         <table align="center" width="100%" cellpadding="0" cellspacing="2" style="table-layout:fixed">
 
-            <ui:repeat var="bean" value="#{viewStudyBeanModel.studyBean.assayGroups}">
+            <ui:repeat var="assayGroup" value="#{viewStudyBeanModel.studyBean.assayGroups}">
 
                 <tr>
                     <td>
@@ -280,30 +280,30 @@
                                         <table width="100%" border="0" align="left" style="table-layout:fixed;">
                                             <tr>
                                                 <td width="100%" valign="top"
-                                                    class="subtable_title">#{bean.getDisplayLabel()}
+                                                    class="subtable_title">#{assayGroup.getDisplayLabel()}
                                                 </td>
                                             </tr>
 
                                             <tr>
-                                                <td width="100%" class="subtable_value_count">#{bean.platform}</td>
+                                                <td width="100%" class="subtable_value_count">#{assayGroup.platform}</td>
                                             </tr>
 
                                             <tr>
-                                                <td width="65%"><span class="green-tag">#{bean.count} assays</span></td>
+                                                <td width="65%"><span class="green-tag">#{assayGroup.count} assays</span></td>
                                             </tr>
                                         </table>
                                     </td>
                                     <td width="45%" valign="middle">
                                         <table width="100%" border="0" align="center" style="table-layout:fixed;">
-                                            <ui:repeat var="dataLink" value="#{bean.dataLinks}">
+                                            <ui:repeat var="dataLink" value="#{assayGroup.dataLinks}">
                                                 <tr class="bigSpaceUnder">
 
                                                     <td width="30%" valign="top">
                                                         <h:panelGroup
-                                                                rendered="#{sourceURLResolver.hasRawData(bean.endPoint, bean.technology, dataLink)}">
+                                                                rendered="#{sourceURLResolver.hasRawData(assayGroup.endPoint, assayGroup.technology, dataLink)}">
                                                             <div align="center">
                                                                 <h:outputLink
-                                                                        value="#{sourceURLResolver.getRawDataURL(bean.endPoint, bean.technology, dataLink.acc)}"
+                                                                        value="#{sourceURLResolver.getRawDataURL(assayGroup.endPoint, assayGroup.technology, dataLink.acc)}"
                                                                         target="_blank" styleClass="download-button">
                                                                     <span>Raw Data</span>
                                                                     <span>Raw Data</span>
@@ -314,10 +314,10 @@
 
                                                     <td width="30%" valign="top">
                                                         <h:panelGroup
-                                                                rendered="#{sourceURLResolver.hasProcessedData(bean.endPoint, bean.technology, dataLink)}">
+                                                                rendered="#{sourceURLResolver.hasProcessedData(assayGroup.endPoint, assayGroup.technology, dataLink)}">
                                                             <div align="center">
                                                                 <h:outputLink
-                                                                        value="#{sourceURLResolver.getProcessedDataURL(bean.endPoint, bean.technology, dataLink.acc)}"
+                                                                        value="#{sourceURLResolver.getProcessedDataURL(assayGroup.endPoint, assayGroup.technology, dataLink.acc)}"
                                                                         target="_blank" styleClass="download-button">
                                                                     <span>Processed Data</span>
                                                                     <span>Processed Data</span>
@@ -330,9 +330,9 @@
 
                                                     <td width="40%" valign="top">
                                                         <h:panelGroup
-                                                                rendered="#{sourceURLResolver.hasWebEntry(bean.endPoint, bean.technology, dataLink)}">
+                                                                rendered="#{sourceURLResolver.hasWebEntry(assayGroup.endPoint, assayGroup.technology, dataLink)}">
                                                             <h:outputLink
-                                                                    value="#{sourceURLResolver.getEntryURL(bean.endPoint, bean.technology, dataLink.acc)}"
+                                                                    value="#{sourceURLResolver.getEntryURL(assayGroup.endPoint, assayGroup.technology, dataLink.acc)}"
                                                                     target="_blank" styleClass="download-button">
                                                                 <div align="right">
                                                                     <span>#{dataLink.acc}</span>

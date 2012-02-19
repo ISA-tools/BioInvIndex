@@ -147,25 +147,25 @@
                 rows="15"
                 rowClasses="even"
                 cellpadding="0" cellspacing="0" style="table-layout:fixed; vertical-align:top;"
-                var="bean"
+                var="assayGroup"
                 value="#{browseStudyBeanModel.itemList}">
 
             <rich:column width="60%" style="vertical-align: top">
-                <h:outputLink value="study.seam?studyId=#{bean.acc}" styleClass="green-button">
-                    <span>#{bean.acc}</span><span>View record</span>
+                <h:outputLink value="study.seam?studyId=#{assayGroup.acc}" styleClass="green-button">
+                    <span>#{assayGroup.acc}</span><span>View record</span>
                 </h:outputLink>
             </rich:column>
 
             <rich:column style="vertical-align: top">
                 <div align="right">
-                    <span class="feature-tag"><h:outputText value="#{bean.organism}"/></span>
+                    <span class="feature-tag"><h:outputText value="#{assayGroup.organism}"/></span>
                 </div>
             </rich:column>
 
 
             <rich:column breakBefore="true" styleClass="study-info" style="vertical-align: top">
 
-                <h:outputText value="#{bean.title}"/>
+                <h:outputText value="#{assayGroup.title}"/>
             </rich:column>
 
 
@@ -174,7 +174,7 @@
                 <div class="assay-tag" align="right">
 
                     <rich:dataTable style="align:right" width="100%"
-                                    value="#{bean.assayBeans}" var="assayBean">
+                                    value="#{assayGroup.assayBeans}" var="assayBean">
                         <rich:column width="100%">
                             <span class="assaycount-tag">
                                 <h:outputText value="#{assayBean.count}"/>

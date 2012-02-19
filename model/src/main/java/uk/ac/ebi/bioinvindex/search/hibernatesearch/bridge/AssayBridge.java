@@ -47,10 +47,8 @@ import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
 import org.hibernate.search.bridge.FieldBridge;
 import org.hibernate.search.bridge.LuceneOptions;
-import uk.ac.ebi.bioinvindex.model.Annotation;
 import uk.ac.ebi.bioinvindex.model.AssayResult;
 import uk.ac.ebi.bioinvindex.model.processing.Assay;
-import uk.ac.ebi.bioinvindex.model.term.AnnotationTypes;
 import uk.ac.ebi.bioinvindex.model.xref.Xref;
 import uk.ac.ebi.bioinvindex.search.hibernatesearch.StudyBrowseField;
 import uk.ac.ebi.bioinvindex.utils.datasourceload.DataLocationManager;
@@ -81,31 +79,7 @@ public class AssayBridge extends IndexFieldDelimiters implements FieldBridge {
         dataLocationManager.setEntityManager(entityManager);
 
         for (Assay assay : assays) {
-
-            if (assay.getTechnologyName().equals("mass spectrometry")) {
-                Collection<AssayResult> assayResults = ProcessingUtils.findAssayResultsFromAssay(assay);
-
-                String fileLink = dataLocationManager.getDataLocationLink(assay.getMeasurement().getName(), assay.getTechnologyName(), assay.getStudy().getObfuscationCode(),
-                        AnnotationTypes.GENERIC_DATA_FILE_LINK);
-
-                System.out.println("File link: " + fileLink);
-
-                String pathLink = dataLocationManager.getDataLocationLink(assay.getMeasurement().getName(), assay.getTechnologyName(), assay.getStudy().getObfuscationCode(),
-                        AnnotationTypes.GENERIC_DATA_FILE_PATH);
-
-                System.out.println("Path link: " + pathLink);
-
-                for (AssayResult result : assayResults) {
-                    for (Annotation annotation : result.getData().getAnnotation("metaboliteFile")) {
-                        System.out.printf("Type: %s -> Value: %s\n", annotation.getType().getValue(), annotation.getText());
-
-                        MetaboLightsIndexer.indexMetaboliteFile(pathLink.replace("${study-acc}",
-                                assay.getStudy().getObfuscationCode()) + annotation.getText(),
-                                document,
-                                luceneOptions);
-                    }
-                }
-            }
+            Collection<AssayResult> assayResults = ProcessingUtils.findAssayResultsFromAssay(assay);
 
             String type = buildType(assay);
 
@@ -114,19 +88,11 @@ public class AssayBridge extends IndexFieldDelimiters implements FieldBridge {
                 assayTypeToInfo.put(type, info);
             }
 
-            for (Xref xref : assay.getXrefs()) {
-                System.out.println("Adding XREF to AssayTypeInfo: " + xref.getSource().getAcc() + "(" + xref.getAcc() + ") for " + type);
-
-                StringBuilder sb = new StringBuilder();
-                sb.append("xref(").append(xref.getAcc()).append("->");
-                sb.append(xref.getSource().getAcc()).append(")");
-
-                assayTypeToInfo.get(type).addAccession(sb.toString());
-            }
+            createAssayExternalLinks(assayTypeToInfo, assayResults, type);
+            createXrefs(assayTypeToInfo, assay, type);
 
             assayTypeToInfo.get(type).increaseCount();
         }
-        // each data link should be stored perhaps, or at least whatever is required to make it display in the Study page.
 
         for (String type : assayTypeToInfo.keySet()) {
             StringBuilder fullInfo = new StringBuilder();
@@ -158,6 +124,35 @@ public class AssayBridge extends IndexFieldDelimiters implements FieldBridge {
         }
 
         entityManager.close();
+    }
+
+    private void createXrefs(Map<String, AssayTypeInfo> assayTypeToInfo, Assay assay, String type) {
+        for (Xref xref : assay.getXrefs()) {
+            StringBuilder sb = new StringBuilder();
+            sb.append("xref(").append(xref.getAcc()).append("->");
+            sb.append(xref.getSource().getAcc()).append(")");
+            assayTypeToInfo.get(type).addAccession(sb.toString());
+        }
+    }
+
+    private void createAssayExternalLinks(Map<String, AssayTypeInfo> assayTypeToInfo, Collection<AssayResult> assayResults, String type) {
+        Set<String> addedLinks = new HashSet<String>();
+        for (AssayResult result : assayResults) {
+            // we're only looking at links...should accommodate webdav etc. too
+            //todo remove this after testing
+            if (!result.getData().getName().matches("(http|ftp|https).*") && result.getData().getName().contains("/")) {
+                // we only store the folder since that will take us to multiple file locations. Otherwise we'd have too
+                // many individual links pointing to the same place.
+                String folder = result.getData().getName().substring(0, result.getData().getName().lastIndexOf("/"));
+                if (!addedLinks.contains(folder)) {
+                    StringBuilder sb = new StringBuilder();
+                    sb.append("link(").append(folder).append("->");
+                    sb.append(result.getData().getType().getName()).append(")");
+                    addedLinks.add(folder);
+                    assayTypeToInfo.get(type).addAccession(sb.toString());
+                }
+            }
+        }
     }
 
     private String buildType(Assay assay) {
