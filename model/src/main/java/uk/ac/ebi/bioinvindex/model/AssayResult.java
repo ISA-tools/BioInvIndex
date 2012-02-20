@@ -83,20 +83,16 @@ public class AssayResult extends Identifiable {
 
     private Collection<Assay> assays = new HashSet<Assay>();
 
-    private Collection<BioEntity> bioEntities;
+//    private Collection<BioEntity> bioEntities;
 
     protected AssayResult() {
 
     }
 
     public AssayResult(Data data, Study study) {
-        this(data, study, new ArrayList<BioEntity>());
-    }
-
-    public AssayResult(Data data, Study study, Collection<BioEntity> bioEntities) {
         this.data = data;
         this.study = study;
-        this.bioEntities = bioEntities;
+//        this.bioEntities = bioEntities;
         study.addAssayResult(this);
     }
 
@@ -121,19 +117,19 @@ public class AssayResult extends Identifiable {
         this.study = study;
     }
 
-    @OneToMany(targetEntity = BioEntity.class)
-    @JoinColumn(name = "BioEntities_id", nullable = true)
-    public Collection<BioEntity> getBioEntities() {
-        return bioEntities;
-    }
-
-    public void setBioEntities(Collection<BioEntity> bioEntities) {
-        this.bioEntities = bioEntities;
-    }
-
-    public void addBioEntity(BioEntity bioEntity) {
-        this.bioEntities.add(bioEntity);
-    }
+//    @OneToMany(targetEntity = BioEntity.class, fetch = FetchType.LAZY)
+//    @JoinColumn(name = "BioEntities_id", nullable = true)
+//    public Collection<BioEntity> getBioEntities() {
+//        return bioEntities;
+//    }
+//
+//    public void setBioEntities(Collection<BioEntity> bioEntities) {
+//        this.bioEntities = bioEntities;
+//    }
+//
+//    public void addBioEntity(BioEntity bioEntity) {
+//        this.bioEntities.add(bioEntity);
+//    }
 
 
     @ManyToMany(targetEntity = PropertyValue.class, fetch = FetchType.LAZY)
@@ -277,7 +273,7 @@ public class AssayResult extends Identifiable {
         }
         result.append(" Data = " + data);
         result.append(" Cascaded Properties = " + cascadedValues);
-        result.append(" BioEntities = " + bioEntities);
+//        result.append(" BioEntities = " + bioEntities);
         result.append(" }");
         return result.toString();
     }
