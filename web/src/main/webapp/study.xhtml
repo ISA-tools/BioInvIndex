@@ -4,13 +4,13 @@
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:h="http://java.sun.com/jsf/html"
                 xmlns:rich="http://richfaces.org/rich"
-                template="layout/local-template.xhtml">
+                template="layout/bioplatforms-template.xhtml">
 
 <!--xmlns:c="http://java.sun.com/jsp/jstl/core"-->
 <ui:define name="body">
 
 <div align="center">
-   <span class="green-tag">
+   <span class="property-tag">
             <h:outputText value="#{studyBean.study.acc}"/>
    </span>
 
@@ -105,7 +105,7 @@
 
                             <ui:repeat var="factorValue"
                                        value="#{viewStudyBeanModel.studyBean.getFactorValues(property)}">
-                                <span class="green-tag">
+                                <span class="property-tag">
                                     <h:outputText value="#{factorValue} "/>
                                 </span>
                             </ui:repeat>
@@ -179,7 +179,7 @@
 
                         <ui:repeat var="characteristicValue"
                                    value="#{viewStudyBeanModel.studyBean.getCharacteristicValues(property)}">
-                            <span class="green-tag">
+                            <span class="property-tag">
                                     <h:outputText value="#{characteristicValue} "/>
                             </span>
                         </ui:repeat>
@@ -199,7 +199,7 @@
         </td>
         <td width="85%" class="table_content">
             <ui:repeat var="link" value="#{studyBean.getMIBBILinks()}">
-                <span class="green-tag">
+                <span class="property-tag">
                 <h:outputLink value="#{link.url}" target="_blank">
                     <h:outputText value="#{link.acronym}"/>
                 </h:outputLink>
@@ -237,10 +237,7 @@
 <tr class="spaceUnder">
     <td width="15%" class="table_content_titles">Release Date:</td>
     <td width="85%" class="table_content">
-
         <h:outputText value="#{studyBean.study.releaseDate}"/>
-
-
     </td>
 </tr>
 
@@ -289,7 +286,7 @@
                                             </tr>
 
                                             <tr>
-                                                <td width="65%"><span class="green-tag">#{assayGroup.count} assays</span></td>
+                                                <td width="65%"><span class="property-tag">#{assayGroup.count} assays</span></td>
                                             </tr>
                                         </table>
                                     </td>
@@ -305,6 +302,7 @@
                                                                 <h:outputLink
                                                                         value="#{sourceURLResolver.getRawDataURL(assayGroup.endPoint, assayGroup.technology, dataLink.acc)}"
                                                                         target="_blank" styleClass="download-button">
+
                                                                     <span>Raw Data</span>
                                                                     <span>Raw Data</span>
                                                                 </h:outputLink>

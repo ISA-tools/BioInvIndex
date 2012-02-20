@@ -20,12 +20,13 @@ body {
     font-family: Verdana, "sans-serif";
 }
 
-.green-tag {
+.property-tag {
     padding: 3px 5px;
     -webkit-border-radius: 3px 3px;
     border: solid 1px rgb(140, 198, 63);
     background: rgb(140, 198, 63);
     margin-right: 1px;
+    margin-bottom: 1px;
     color: #fff;
     text-decoration: none;
     display: inline-block;
@@ -308,20 +309,6 @@ a, a:visited {
     text-indent: -9999px;
 }
 
-#info_register_ebi {
-    width: 200px;
-    position: absolute;
-    top: 0px;
-    left: 305px;
-}
-
-#info_register_ebi h3 {
-    width: 161px;
-    height: 25px;
-    background: url(../img/new_login/title_register_here.png) no-repeat top right;
-    text-indent: -9999px;
-}
-
 #info_register_2 {
     width: 180px;
     position: absolute;
@@ -358,22 +345,6 @@ a, a:visited {
 }
 
 #info_done h3 {
-    width: 183px;
-    height: 83px;
-    background: url(../img/new_login/done.png) no-repeat top right;
-    text-indent: -9999px;
-}
-
-#info_done_ebi {
-    width: 183px;
-    height: 260px;
-    overflow: hidden;
-    position: absolute;
-    top: 35px;
-    left: 790px;
-}
-
-#info_done_ebi h3 {
     width: 183px;
     height: 83px;
     background: url(../img/new_login/done.png) no-repeat top right;
@@ -646,7 +617,7 @@ hr {
     background-image: -webkit-gradient(linear, left bottom, left top, color-stop(0.35, #E6E6E6), color-stop(0.68, #F7F7F7), color-stop(0.84, #FFFFFF));
     background-image: -moz-linear-gradient(center bottom, #E6E6E6 35%, #F7F7F7 68%, #FFFFFF 84%);
 
-    padding: 4px 4px;
+    padding: 4px;
     border: 1px solid silver;
     -webkit-border-radius: 2px 2px;
     -webkit-transition: opacity .5s linear;
@@ -685,7 +656,7 @@ hr {
 }
 
 /*Used for the browse page */
-.green-button span {
+.study_id_button span {
     font-size: 11px;
     font-weight: normal;
     position: absolute;
@@ -702,15 +673,15 @@ hr {
     -o-transition: opacity .5s linear;
 }
 
-.green-button span + span {
+.study_id_button span + span {
     opacity: 0;
 }
 
-.green-button:hover {
+.study_id_button:hover {
 
 }
 
-.green-button:hover span {
+.study_id_button:hover span {
     opacity: 0;
     background-image: -webkit-gradient(linear, left bottom, left top, color-stop(0.35, #E6E6E6), color-stop(0.68, #F7F7F7), color-stop(0.84, #FFFFFF));
     background-image: -moz-linear-gradient(center bottom, #E6E6E6 35%, #F7F7F7 68%, #FFFFFF 84%);
@@ -718,7 +689,7 @@ hr {
     text-shadow: -1px -1px 0pt rgba(0, 0, 0, 0.3);
 }
 
-.green-button:hover span + span {
+.study_id_button:hover span + span {
     opacity: 1;
    background-image: -webkit-gradient(linear, left bottom, left top, color-stop(0.35, #E6E6E6), color-stop(0.68, #F7F7F7), color-stop(0.84, #FFFFFF));
     background-image: -moz-linear-gradient(center bottom, #E6E6E6 35%, #F7F7F7 68%, #FFFFFF 84%);
@@ -726,7 +697,7 @@ hr {
     text-shadow: -1px -1px 0pt rgba(0, 0, 0, 0.3);
 }
 
-.green-button:active {
+.study_id_button:active {
     top: 1px;
 }
 

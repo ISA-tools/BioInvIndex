@@ -6,7 +6,7 @@
                 xmlns:rich="http://richfaces.org/rich"
                 xmlns:s="http://jboss.com/products/seam/taglib"
                 xmlns:a4j="http://richfaces.org/a4j"
-                template="layout/local-template.xhtml">
+                template="layout/bioplatforms-template.xhtml">
 
 <ui:define name="body">
 
@@ -104,7 +104,7 @@
 
                             <h:commandButton value="Search"
                                              action="/browse_studies.seam"
-                                             image="img/menu_css/search.png"
+                                             image="img/menu_css/blue/search.png"
                                              styleClass="search-button"/>
                         </td>
                     </tr>
@@ -118,7 +118,7 @@
     <a4j:outputPanel rendered="#{studyBeanProvider.hasFilterApplied()}">
         <div class="filtersPane" align="right">
             #{studyBeanProvider.getFilterString()}
-            <span class="green-button">
+            <span class="study_id_button">
                 <a href="browse_studies.seam?searchPattern=&amp;platform=&amp;organism=&amp;endPoint=&amp;assayType=">
                     Clear
                 </a>
@@ -128,8 +128,8 @@
 
     <div>
         <p align="right" class="static_info_text">
-            <span class="green-tag"><h:outputText value="#{browseStudyBeanModel.rowCount} "/></span>
-            studies containing &nbsp;<span class="green-tag"><h:outputText
+            <span class="property-tag"><h:outputText value="#{browseStudyBeanModel.rowCount} "/></span>
+            studies containing &nbsp;<span class="property-tag"><h:outputText
                 value="#{browseStudyBeanModel.totalAssays}"/></span>
             assays
 
@@ -151,7 +151,7 @@
                 value="#{browseStudyBeanModel.itemList}">
 
             <rich:column width="60%" style="vertical-align: top">
-                <h:outputLink value="study.seam?studyId=#{assayGroup.acc}" styleClass="green-button">
+                <h:outputLink value="study.seam?studyId=#{assayGroup.acc}" styleClass="study_id_button">
                     <span>#{assayGroup.acc}</span><span>View record</span>
                 </h:outputLink>
             </rich:column>
