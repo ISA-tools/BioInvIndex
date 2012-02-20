@@ -17,7 +17,7 @@
                 <jdbc.artifactId>h2</jdbc.artifactId>
                 <jdbc.version>1.2.132</jdbc.version>
                 <jdbc.driverClassName>org.h2.Driver</jdbc.driverClassName>
-                <jdbc.url><![CDATA[jdbc:h2:/tmp/bii/testdb/bioinvindex]]></jdbc.url>
+                <jdbc.url><![CDATA[jdbc:h2:/tmp/bii/testdb/bioinvindex;MVCC=TRUE]]></jdbc.url>
                 <!--  jdbc.url><![CDATA[jdbc:h2:tcp://localhost/biitestdb]]></jdbc.url -->
                 <jdbc.username>sa</jdbc.username>
                 <jdbc.password/>
