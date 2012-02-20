@@ -139,16 +139,17 @@ public class AssayBridge extends IndexFieldDelimiters implements FieldBridge {
         Set<String> addedLinks = new HashSet<String>();
         for (AssayResult result : assayResults) {
             // we're only looking at links...should accommodate webdav etc. too
-            //todo remove this after testing
             if (result.getData() != null) {
-                if (result.getData().getName().matches("(http|ftp|https).*") && result.getData().getName().contains("/")) {
+                String dataFileName = result.getData().getName() == null ? "" : result.getData().getName();
+                if (dataFileName.matches("(http|ftp|https).*") && dataFileName.contains("/")) {
                     // we only store the folder since that will take us to multiple file locations. Otherwise we'd have too
                     // many individual links pointing to the same place.
-                    String folder = result.getData().getName().substring(0, result.getData().getName().lastIndexOf("/"));
+                    String folder = dataFileName.substring(0, result.getData().getName().lastIndexOf("/"));
                     if (!addedLinks.contains(folder)) {
                         StringBuilder sb = new StringBuilder();
                         sb.append("link(").append(folder).append("->");
-                        sb.append(result.getData().getType().getName()).append(")");
+                        String dataFileType = result.getData().getType().getName() == null ? "" : result.getData().getType().getName();
+                        sb.append(dataFileType).append(")");
                         addedLinks.add(folder);
                         assayTypeToInfo.get(type).addAccession(sb.toString());
                     }

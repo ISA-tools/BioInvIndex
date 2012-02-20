@@ -25,6 +25,9 @@ public class BioEntity extends Identifiable {
     @Field(name = "IDENTIFIER")
     private String identifier;
 
+    public BioEntity() {
+    }
+
     public BioEntity(String description, String identifier) {
 
         this.description = description;

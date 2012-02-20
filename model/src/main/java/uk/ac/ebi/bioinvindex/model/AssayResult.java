@@ -121,8 +121,8 @@ public class AssayResult extends Identifiable {
         this.study = study;
     }
 
-    @ManyToMany(targetEntity = BioEntity.class, fetch = FetchType.LAZY)
-    @JoinColumn(name = "BioEntities_id", nullable = false)
+    @OneToMany(targetEntity = BioEntity.class)
+    @JoinColumn(name = "BioEntities_id", nullable = true)
     public Collection<BioEntity> getBioEntities() {
         return bioEntities;
     }

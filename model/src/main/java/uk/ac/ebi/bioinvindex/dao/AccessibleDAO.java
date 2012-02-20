@@ -52,6 +52,4 @@ import uk.ac.ebi.bioinvindex.model.Accessible;
 public interface AccessibleDAO<T extends Accessible> extends AnnotatableDAO<T>{
 
 	public T getByAcc(String acc);
-
-	//ToDo add methods to work with Annotations
 }
