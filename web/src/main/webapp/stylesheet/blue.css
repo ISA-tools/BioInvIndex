@@ -58,6 +58,34 @@ a:active, a:link, a:visited {
     -o-transition: opacity .5s linear;
 }
 
+.study_id_button span + span {
+    opacity: 0;
+}
+
+.study_id_button:hover {
+
+}
+
+.study_id_button:hover span {
+    opacity: 0;
+    background-image: -webkit-gradient(linear, left bottom, left top, color-stop(0.35, #E6E6E6), color-stop(0.68, #F7F7F7), color-stop(0.84, #FFFFFF));
+    background-image: -moz-linear-gradient(center bottom, #E6E6E6 35%, #F7F7F7 68%, #FFFFFF 84%);
+    color: #3c3c3d;
+    text-shadow: -1px -1px 0pt rgba(0, 0, 0, 0.3);
+}
+
+.study_id_button:hover span + span {
+    opacity: 1;
+    background-image: -webkit-gradient(linear, left bottom, left top, color-stop(0.35, #E6E6E6), color-stop(0.68, #F7F7F7), color-stop(0.84, #FFFFFF));
+    background-image: -moz-linear-gradient(center bottom, #E6E6E6 35%, #F7F7F7 68%, #FFFFFF 84%);
+    color: #3c3c3d;
+    text-shadow: -1px -1px 0pt rgba(0, 0, 0, 0.3);
+}
+
+.study_id_button:active {
+    top: 1px;
+}
+
 .moreinformation a:link {
     font-size: 11px;
     padding: 3px 3px;
