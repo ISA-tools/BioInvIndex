@@ -51,12 +51,8 @@ import uk.ac.ebi.bioinvindex.model.AssayResult;
 import uk.ac.ebi.bioinvindex.model.processing.Assay;
 import uk.ac.ebi.bioinvindex.model.xref.Xref;
 import uk.ac.ebi.bioinvindex.search.hibernatesearch.StudyBrowseField;
-import uk.ac.ebi.bioinvindex.utils.datasourceload.DataLocationManager;
 import uk.ac.ebi.bioinvindex.utils.processing.ProcessingUtils;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
 import java.util.*;
 
 /**
@@ -74,7 +70,7 @@ public class AssayBridge extends IndexFieldDelimiters implements FieldBridge {
         Collection<Assay> assays = (Collection<Assay>) o;
 
         for (Assay assay : assays) {
-            Collection<AssayResult> assayResults = ProcessingUtils.findAssayResultsFromAssay(assay);
+
 
             String type = buildType(assay);
 
@@ -82,8 +78,11 @@ public class AssayBridge extends IndexFieldDelimiters implements FieldBridge {
                 AssayTypeInfo info = new AssayTypeInfo();
                 assayTypeToInfo.put(type, info);
             }
-
-            createAssayExternalLinks(assayTypeToInfo, assayResults, type);
+            // only go looking for assay results if there is a material associated with the assay.
+            if (assay.getMaterial() != null) {
+                Collection<AssayResult> assayResults = ProcessingUtils.findAssayResultsFromAssay(assay);
+                createAssayExternalLinks(assayTypeToInfo, assayResults, type);
+            }
             createXrefs(assayTypeToInfo, assay, type);
 
             assayTypeToInfo.get(type).increaseCount();
