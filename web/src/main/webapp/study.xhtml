@@ -4,7 +4,7 @@
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:h="http://java.sun.com/jsf/html"
                 xmlns:rich="http://richfaces.org/rich"
-                template="layout/bioplatforms-template.xhtml">
+                template="layout/local-template.xhtml">
 
 <!--xmlns:c="http://java.sun.com/jsp/jstl/core"-->
 <ui:define name="body">
@@ -282,11 +282,13 @@
                                             </tr>
 
                                             <tr>
-                                                <td width="100%" class="subtable_value_count">#{assayGroup.platform}</td>
+                                                <td width="100%"
+                                                    class="subtable_value_count">#{assayGroup.platform}</td>
                                             </tr>
 
                                             <tr>
-                                                <td width="65%"><span class="property-tag">#{assayGroup.count} assays</span></td>
+                                                <td width="65%"><span
+                                                        class="property-tag">#{assayGroup.count} assays</span></td>
                                             </tr>
                                         </table>
                                     </td>
@@ -371,12 +373,12 @@
 </h:form>
 
 <script type="text/javascript">
-    jQuery(document).ready(function() {
+    jQuery(document).ready(function () {
         jQuery("#factors tr:odd").addClass("odd");
         jQuery("#factors tr:not(.odd)").hide();
         jQuery("#factors tr:first-child").show();
 
-        jQuery("#factors tr.odd").click(function() {
+        jQuery("#factors tr.odd").click(function () {
             jQuery(this).next("tr").toggle();
             jQuery(this).find(".arrow").toggleClass("up");
         });
@@ -385,7 +387,7 @@
         jQuery("#characteristics tr:not(.odd)").hide();
         jQuery("#characteristics tr:first-child").show();
 
-        jQuery("#characteristics tr.odd").click(function() {
+        jQuery("#characteristics tr.odd").click(function () {
             jQuery(this).next("tr").toggle();
             jQuery(this).find(".arrow").toggleClass("up");
         });

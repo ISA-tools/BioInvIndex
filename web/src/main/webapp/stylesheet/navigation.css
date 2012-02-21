@@ -69,51 +69,6 @@
     width: 150px;
 }
 
-harvard-logo {
-    background-color: transparent;
-    background-image: url("../img/scde_logo.png");
-    background-repeat: no-repeat;
-    background-attachment: scroll;
-    background-position: 0pt 0pt;
-    background-clip: border-box;
-    background-origin: padding-box;
-    background-size: auto auto;
-    height: 84px;
-    left: -2px;
-    position: absolute;
-    width: 150px;
-}
-
-gsc-logo {
-    background-color: transparent;
-    background-image: url("../img/gsc_logo.png");
-    background-repeat: no-repeat;
-    background-attachment: scroll;
-    background-position: 0pt 0pt;
-    background-clip: border-box;
-    background-origin: padding-box;
-    background-size: auto auto;
-    height: 84px;
-    left: -2px;
-    position: absolute;
-    width: 150px;
-}
-
-nerc-logo {
-    background-color: transparent;
-    background-image: url("../img/nerc_logo.png");
-    background-repeat: no-repeat;
-    background-attachment: scroll;
-    background-position: 0pt 0pt;
-    background-clip: border-box;
-    background-origin: padding-box;
-    background-size: auto auto;
-    height: 84px;
-    left: -2px;
-    position: absolute;
-    width: 150px;
-}
-
 #menu ul {
     position: relative;
     height: 80px;
