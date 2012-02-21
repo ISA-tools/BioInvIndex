@@ -73,11 +73,6 @@ public class AssayBridge extends IndexFieldDelimiters implements FieldBridge {
 
         Collection<Assay> assays = (Collection<Assay>) o;
 
-        EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("BIIEntityManager");
-        EntityManager entityManager = entityManagerFactory.createEntityManager();
-        DataLocationManager dataLocationManager = new DataLocationManager();
-        dataLocationManager.setEntityManager(entityManager);
-
         for (Assay assay : assays) {
             Collection<AssayResult> assayResults = ProcessingUtils.findAssayResultsFromAssay(assay);
 
@@ -122,8 +117,6 @@ public class AssayBridge extends IndexFieldDelimiters implements FieldBridge {
             Field fvField = new Field(StudyBrowseField.ASSAY_INFO.getName(), fullInfo.toString(), luceneOptions.getStore(), luceneOptions.getIndex());
             document.add(fvField);
         }
-
-        entityManager.close();
     }
 
     private void createXrefs(Map<String, AssayTypeInfo> assayTypeToInfo, Assay assay, String type) {
