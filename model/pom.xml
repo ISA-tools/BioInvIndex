@@ -13,7 +13,7 @@
 	<parent>
 		<groupId>uk.ac.ebi</groupId>
 		<artifactId>bioinvindex</artifactId>
-		<version>1.4.1</version>
+		<version>1.4.2</version>
 	</parent>
 
 	<dependencies>
@@ -119,24 +119,6 @@
             <artifactId>mysql-connector-java</artifactId>
             <version>5.1.6</version>
         </dependency>
-
-		<!-- <dependency> <groupId>org.hibernate</groupId> <artifactId>hibernate-annotations</artifactId> 
-			</dependency> <dependency> <groupId>org.hibernate</groupId> <artifactId>hibernate-entitymanager</artifactId> 
-			<version>${hibernate-entitymanager.version}</version> </dependency> <dependency> 
-			<groupId>org.hibernate</groupId> <artifactId>hibernate-search</artifactId> 
-			<version>${hibernate-search.version}</version> </dependency> <dependency> 
-			<groupId>com.h2database</groupId> <artifactId>h2</artifactId> <version>1.2.132</version> 
-			</dependency> <dependency> <groupId>org.dbunit</groupId> <artifactId>dbunit</artifactId> 
-			<version>${dbunit.version}</version> <scope>test</scope> </dependency> <dependency> 
-			<groupId>junit</groupId> <artifactId>junit</artifactId> <version>${junit.version}</version> 
-			<scope>test</scope> </dependency> <dependency> <groupId>commons-beanutils</groupId> 
-			<artifactId>commons-beanutils</artifactId> <version>1.7.0</version> </dependency> 
-			<dependency> <groupId>commons-lang</groupId> <artifactId>commons-lang</artifactId> 
-			<version>2.3</version> </dependency> <dependency> <groupId>commons-io</groupId> 
-			<artifactId>commons-io</artifactId> <version>1.4</version> </dependency> 
-			<dependency> <groupId>org.slf4j</groupId> <artifactId>slf4j-log4j12</artifactId> 
-			<version>1.4.2</version> </dependency> <dependency> <groupId>org.slf4j</groupId> 
-			<artifactId>slf4j-api</artifactId> <version>1.4.2</version> </dependency> -->
 
 	</dependencies>
 

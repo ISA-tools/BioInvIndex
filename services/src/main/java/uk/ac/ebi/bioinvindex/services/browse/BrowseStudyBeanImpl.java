@@ -191,6 +191,7 @@ public class BrowseStudyBeanImpl extends IndexFieldDelimiters implements BrowseS
         return processedValues;
     }
 
+    // todo look at this and work out why it doesn't always work...
     private String[] splitPropertyValues(String propertyValue) {
 
         if (propertyValue.contains(":?")) {
@@ -353,12 +354,12 @@ public class BrowseStudyBeanImpl extends IndexFieldDelimiters implements BrowseS
     private DataLink createDBLink(String dbLinkRepresentation) {
         DataLink link = new DataLink();
 
-        dbLinkRepresentation = dbLinkRepresentation.replace("xref(", "").replace(")", "");
+        dbLinkRepresentation = dbLinkRepresentation.replace("xref(", "").replace("link(", "").replace(")", "");
 
         if (dbLinkRepresentation.contains("->")) {
             String[] dbLinkParts = dbLinkRepresentation.split("->");
             link.setAcc(dbLinkParts[0]);
-            link.setSourceName(dbLinkParts[1]);
+            link.setSourceName(dbLinkParts[1].toUpperCase());
         }
 
         return link;

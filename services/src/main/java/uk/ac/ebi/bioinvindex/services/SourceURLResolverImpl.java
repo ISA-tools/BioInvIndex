@@ -65,6 +65,8 @@ import uk.ac.ebi.bioinvindex.utils.datasourceload.DataSourceConfigFields;
 @AutoCreate
 public class SourceURLResolverImpl implements SourceURLResolver {
 
+    public static final String EXTERNAL_LINK_PATTERN = "(http|ftp|https).*";
+    
     private static Cache<String, String> cache = new BIICache<String, String>();
 
     private static final Log log = LogFactory.getLog(SourceURLResolverImpl.class);
@@ -74,6 +76,7 @@ public class SourceURLResolverImpl implements SourceURLResolver {
 
     public String getRawDataURL(String measurement, String technology, String accession) {
         try {
+            if (checkIsExternalLink(accession)) return accession;
             return getDataURL(measurement, technology, accession, AnnotationTypes.RAW_DATA_FILE_LINK);
         } catch (Exception e) {
             log.error("Unable to resolve Raw data URL");
@@ -81,9 +84,13 @@ public class SourceURLResolverImpl implements SourceURLResolver {
         }
     }
 
+    private boolean checkIsExternalLink(String accession) {
+        return accession.matches(EXTERNAL_LINK_PATTERN);
+    }
+
     public String getProcessedDataURL(String measurement, String technology, String accession) {
         try {
-
+            if (checkIsExternalLink(accession)) return accession;
             return getDataURL(measurement, technology, accession, AnnotationTypes.PROCESSED_DATA_FILE_LINK);
         } catch (Exception e) {
             log.error("Unable to resolve Processed data URL");

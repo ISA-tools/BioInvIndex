@@ -6,7 +6,7 @@
                 xmlns:rich="http://richfaces.org/rich"
                 xmlns:s="http://jboss.com/products/seam/taglib"
                 xmlns:a4j="http://richfaces.org/a4j"
-                template="layout/local-template.xhtml">
+                template="layout/bioplatforms-template.xhtml">
 
 <ui:define name="body">
 
@@ -104,7 +104,7 @@
 
                             <h:commandButton value="Search"
                                              action="/browse_studies.seam"
-                                             image="img/menu_css/search.png"
+                                             image="img/menu_css/blue/search.png"
                                              styleClass="search-button"/>
                         </td>
                     </tr>
@@ -118,7 +118,7 @@
     <a4j:outputPanel rendered="#{studyBeanProvider.hasFilterApplied()}">
         <div class="filtersPane" align="right">
             #{studyBeanProvider.getFilterString()}
-            <span class="green-button">
+            <span class="study_id_button">
                 <a href="browse_studies.seam?searchPattern=&amp;platform=&amp;organism=&amp;endPoint=&amp;assayType=">
                     Clear
                 </a>
@@ -128,8 +128,8 @@
 
     <div>
         <p align="right" class="static_info_text">
-            <span class="green-tag"><h:outputText value="#{browseStudyBeanModel.rowCount} "/></span>
-            studies containing &nbsp;<span class="green-tag"><h:outputText
+            <span class="property-tag"><h:outputText value="#{browseStudyBeanModel.rowCount} "/></span>
+            studies containing &nbsp;<span class="property-tag"><h:outputText
                 value="#{browseStudyBeanModel.totalAssays}"/></span>
             assays
 
@@ -147,25 +147,25 @@
                 rows="15"
                 rowClasses="even"
                 cellpadding="0" cellspacing="0" style="table-layout:fixed; vertical-align:top;"
-                var="bean"
+                var="assayGroup"
                 value="#{browseStudyBeanModel.itemList}">
 
             <rich:column width="60%" style="vertical-align: top">
-                <h:outputLink value="study.seam?studyId=#{bean.acc}" styleClass="green-button">
-                    <span>#{bean.acc}</span><span>View record</span>
+                <h:outputLink value="study.seam?studyId=#{assayGroup.acc}" styleClass="study_id_button">
+                    <span>#{assayGroup.acc}</span><span>View record</span>
                 </h:outputLink>
             </rich:column>
 
             <rich:column style="vertical-align: top">
                 <div align="right">
-                    <span class="feature-tag"><h:outputText value="#{bean.organism}"/></span>
+                    <span class="feature-tag"><h:outputText value="#{assayGroup.organism}"/></span>
                 </div>
             </rich:column>
 
 
             <rich:column breakBefore="true" styleClass="study-info" style="vertical-align: top">
 
-                <h:outputText value="#{bean.title}"/>
+                <h:outputText value="#{assayGroup.title}"/>
             </rich:column>
 
 
@@ -174,7 +174,7 @@
                 <div class="assay-tag" align="right">
 
                     <rich:dataTable style="align:right" width="100%"
-                                    value="#{bean.assayBeans}" var="assayBean">
+                                    value="#{assayGroup.assayBeans}" var="assayBean">
                         <rich:column width="100%">
                             <span class="assaycount-tag">
                                 <h:outputText value="#{assayBean.count}"/>

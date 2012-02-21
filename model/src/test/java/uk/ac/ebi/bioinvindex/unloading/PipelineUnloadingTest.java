@@ -43,61 +43,28 @@
  
 package uk.ac.ebi.bioinvindex.unloading;
 
-import java.io.InputStream;
-import java.io.StringReader;
-import java.sql.Timestamp;
-import java.util.List;
-
-import javax.persistence.Query;
-
 import org.apache.commons.lang.StringUtils;
 import org.dbunit.operation.DatabaseOperation;
-import org.junit.Ignore;
 import org.junit.Test;
-
 import uk.ac.ebi.bioinvindex.dao.AccessibleDAO;
-import uk.ac.ebi.bioinvindex.dao.AnnotatableDAO;
-import uk.ac.ebi.bioinvindex.dao.IdentifiableDAO;
 import uk.ac.ebi.bioinvindex.dao.OntologyEntryDAO;
 import uk.ac.ebi.bioinvindex.dao.ejb3.DaoFactory;
 import uk.ac.ebi.bioinvindex.model.Accessible;
-import uk.ac.ebi.bioinvindex.model.Annotatable;
-import uk.ac.ebi.bioinvindex.model.AssayResult;
-import uk.ac.ebi.bioinvindex.model.Data;
 import uk.ac.ebi.bioinvindex.model.Identifiable;
-import uk.ac.ebi.bioinvindex.model.Material;
-import uk.ac.ebi.bioinvindex.model.Protocol;
 import uk.ac.ebi.bioinvindex.model.Study;
-import uk.ac.ebi.bioinvindex.model.processing.Assay;
-import uk.ac.ebi.bioinvindex.model.processing.DataAcquisition;
-import uk.ac.ebi.bioinvindex.model.processing.DataNode;
-import uk.ac.ebi.bioinvindex.model.processing.MaterialNode;
-import uk.ac.ebi.bioinvindex.model.processing.MaterialProcessing;
-import uk.ac.ebi.bioinvindex.model.processing.ProtocolApplication;
-import uk.ac.ebi.bioinvindex.model.term.AssayTechnology;
-import uk.ac.ebi.bioinvindex.model.term.Characteristic;
-import uk.ac.ebi.bioinvindex.model.term.CharacteristicValue;
-import uk.ac.ebi.bioinvindex.model.term.DataType;
-import uk.ac.ebi.bioinvindex.model.term.Factor;
-import uk.ac.ebi.bioinvindex.model.term.FactorValue;
-import uk.ac.ebi.bioinvindex.model.term.MaterialRole;
-import uk.ac.ebi.bioinvindex.model.term.Measurement;
 import uk.ac.ebi.bioinvindex.model.term.OntologyEntry;
-import uk.ac.ebi.bioinvindex.model.term.OntologyTerm;
-import uk.ac.ebi.bioinvindex.model.term.Parameter;
-import uk.ac.ebi.bioinvindex.model.term.ParameterValue;
 import uk.ac.ebi.bioinvindex.model.term.PropertyValue;
-import uk.ac.ebi.bioinvindex.model.term.Unit;
-import uk.ac.ebi.bioinvindex.model.term.UnitValue;
 import uk.ac.ebi.bioinvindex.model.xref.ReferenceSource;
 import uk.ac.ebi.bioinvindex.persistence.Persister;
 import uk.ac.ebi.bioinvindex.persistence.StudyPersister;
 import uk.ac.ebi.bioinvindex.persistence.pipeline.AssayMaterialPersister;
-import uk.ac.ebi.bioinvindex.persistence.pipeline.MaterialNodePersister;
 import uk.ac.ebi.bioinvindex.utils.test.TransactionalDBUnitEJB3DAOTest;
 import uk.ac.ebi.bioinvindex.utils.testmodels.FullStudyPipelineModel;
 import uk.ac.ebi.bioinvindex.utils.testmodels.ProtocolEquippedModel;
 import uk.ac.ebi.bioinvindex.utils.testmodels.SimplePipelineModel;
+
+import javax.persistence.Query;
+import java.sql.Timestamp;
 
 import static java.lang.System.out;
 import static org.junit.Assert.*;
@@ -143,8 +110,8 @@ public class PipelineUnloadingTest extends TransactionalDBUnitEJB3DAOTest
 		AssayMaterialPersister assayMaterialPersister = new AssayMaterialPersister ( daoFactory, ts );
 		studyPersister.persist ( pip.study );
 		assayMaterialPersister.persist (  pip.assayMaterial1 );
-		commitTansaction ();
-		session.flush ();
+        commitTansaction();
+//		session.flush ();
 		
 		AccessibleDAO<Accessible> adao = daoFactory.getAccessibleDAO ( Accessible.class );
 		OntologyEntryDAO<OntologyEntry> oedao = daoFactory.getOntologyEntryDAO ();
@@ -217,8 +184,8 @@ public class PipelineUnloadingTest extends TransactionalDBUnitEJB3DAOTest
 		AssayMaterialPersister assayMaterialPersister = new AssayMaterialPersister ( daoFactory, ts );
 		studyPersister.persist ( pip.study );
 		assayMaterialPersister.persist ( pip.assayMaterial1 );
-		commitTansaction ();
-		session.flush ();
+        commitTansaction();
+//		session.flush ();
 		
 		AccessibleDAO<Accessible> adao = daoFactory.getAccessibleDAO ( Accessible.class );
 		OntologyEntryDAO<OntologyEntry> oedao = daoFactory.getOntologyEntryDAO ();
@@ -306,9 +273,10 @@ public class PipelineUnloadingTest extends TransactionalDBUnitEJB3DAOTest
 		Timestamp ts = new Timestamp ( System.currentTimeMillis () );
 		StudyPersister studyPersister = new StudyPersister ( daoFactory, ts );
 		studyPersister.persist ( pip.study );
-		commitTansaction ();
-		session.flush ();
-		
+//		session.flush ();
+        commitTansaction();
+
+
 		AccessibleDAO<Accessible> adao = daoFactory.getAccessibleDAO ( Accessible.class );
 		OntologyEntryDAO<OntologyEntry> oedao = daoFactory.getOntologyEntryDAO ();
 		
@@ -418,7 +386,7 @@ public class PipelineUnloadingTest extends TransactionalDBUnitEJB3DAOTest
 		StudyPersister studyPersister = new StudyPersister ( daoFactory, ts );
 		studyPersister.persist ( pip.study );
 		commitTansaction ();
-		session.flush ();
+//		session.flush ();
 		
 		AccessibleDAO<Accessible> adao = daoFactory.getAccessibleDAO ( Accessible.class );
 		OntologyEntryDAO<OntologyEntry> oedao = daoFactory.getOntologyEntryDAO ();

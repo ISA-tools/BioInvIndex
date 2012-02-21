@@ -43,14 +43,11 @@ package uk.ac.ebi.bioinvindex.persistence;
  * EU NuGO [NoE 503630](http://www.nugo.org/everyone) projects and in part by EMBL-EBI.
  */
 
+import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.Level;
 import uk.ac.ebi.bioinvindex.dao.StudyDAO;
 import uk.ac.ebi.bioinvindex.dao.ejb3.DaoFactory;
-import uk.ac.ebi.bioinvindex.model.AssayResult;
-import uk.ac.ebi.bioinvindex.model.Contact;
-import uk.ac.ebi.bioinvindex.model.Investigation;
-import uk.ac.ebi.bioinvindex.model.Protocol;
-import uk.ac.ebi.bioinvindex.model.Publication;
-import uk.ac.ebi.bioinvindex.model.Study;
+import uk.ac.ebi.bioinvindex.model.*;
 import uk.ac.ebi.bioinvindex.model.processing.Assay;
 import uk.ac.ebi.bioinvindex.model.term.Design;
 
@@ -58,9 +55,6 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-
-import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Level;
 
 /**
  * Persists a {@link Study}.
@@ -119,12 +113,7 @@ public class StudyPersister extends AccessiblePersister<Study>
 				study.addProtocol ( protocolDB );
 			}
 		}
-	
-		
-		// Now work on the investigations, we must save them and temporary remove, because of 
-		// referential integrity checkings. 
-		// TODO: is there a smarter way?
-		//
+
 		this.backupInvestigations = new ArrayList<Investigation> ( study.getInvestigations () );
 		for ( Investigation investigation: backupInvestigations )
 			if ( investigation.getId () == null )

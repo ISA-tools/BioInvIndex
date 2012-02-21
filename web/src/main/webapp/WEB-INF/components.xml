@@ -15,7 +15,7 @@
                  http://jboss.com/products/seam/components http://jboss.com/products/seam/components-2.0.xsd">
 
 
-    <core:init debug="true" jndi-pattern="bii-1.4.1/#{ejbName}/local"/>
+    <core:init debug="true" jndi-pattern="bii-1.4.2/#{ejbName}/local"/>
 
     <core:manager concurrent-request-timeout="500"
                   conversation-timeout="120000"
@@ -26,24 +26,6 @@
                                              auto-create="true"
                                              persistence-unit-jndi-name="java:/BIIEntityManagerFactory"/>
 
-    <!--<drools:rule-base name="securityRules">-->
-    <!--<drools:rule-files>-->
-    <!--<value>/security.drl</value>-->
-    <!--</drools:rule-files>-->
-    <!--</drools:rule-base>-->
-
-    <!--<security:identity authenticate-method="#{authenticator.authenticate}"-->
-    <!--security-rules="#{securityRules}"/>-->
-
-    <!--<framework:entity-home name="studyHome"-->
-    <!--entity-class="uk.ac.ebi.bioinvindex.model.Study"/>-->
-
-    <!--<event type="org.jboss.seam.notLoggedIn">-->
-    <!--<action expression="#{redirect.captureCurrentView}"/>-->
-    <!--</event>-->
-    <!--<event type="org.jboss.seam.postAuthenticate">-->
-    <!--<action expression="#{redirect.returnToCapturedView}"/>-->
-    <!--</event>-->
     <transaction:ejb-transaction/>
 
 

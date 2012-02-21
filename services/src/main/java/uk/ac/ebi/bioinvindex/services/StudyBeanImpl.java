@@ -94,23 +94,11 @@ public class StudyBeanImpl implements StudyBean {
     @In(required = false)
     private StudyIndexLocatorImpl studyIndexLocator;
 
-
-    private String organism;
-
-    private String design;
-
-    private Map<String, List<String>> factorsToValues;
-
-    private Map<String, List<String>> characteristicsToValues;
-
-    private List<Contact> contacts;
-
-    private List<AssayGroupInfo> assayInfos;
-
-    private String studyId;
-
+    private String studyId, organism, design;
     private Collection<Investigation> investigations;
-
+    private List<AssayGroupInfo> assayInfos;
+    private List<Contact> contacts;
+    private Map<String, List<String>> characteristicsToValues, factorsToValues;
     private List<String> relatedStudies;
 
     public StudyBeanImpl() {

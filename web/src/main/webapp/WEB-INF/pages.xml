@@ -16,9 +16,6 @@
 
     <page view-id="/credits.xhtml"/>
 
-    <page view-id="/compound_view.xhtml">
-    </page>
-
     <page view-id="/clearStudyCache.xhtml"/>
     <page view-id="/clearFilterCache.xhtml"/>
 

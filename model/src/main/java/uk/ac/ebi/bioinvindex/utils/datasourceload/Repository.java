@@ -11,7 +11,8 @@ package uk.ac.ebi.bioinvindex.utils.datasourceload;
 public enum Repository {
 
     PRIDE("^[0-9]+","pride"), ARRAYEXPRESS("^(e-).*", "arrayexpress"),  GEO("^[(gse)|(ges)]*[0-9]+", "geo"),
-    ENA("^[(sra)|(ena)]*[0-9]+","embl-bank", "ena", "ebi/ena"), GENERIC("generic", "generic", "none", "generic proteomic location", "generic microarray location");
+    ENA("^[(sra)|(ena)]*[0-9]+","embl-bank", "ena", "ebi/ena"),
+    GENERIC("generic", "generic", "none", "generic proteomic location", "generic microarray location");
 
 
     private String startString;

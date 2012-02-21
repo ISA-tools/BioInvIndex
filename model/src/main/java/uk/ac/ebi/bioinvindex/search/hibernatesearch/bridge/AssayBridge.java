@@ -47,15 +47,17 @@ import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
 import org.hibernate.search.bridge.FieldBridge;
 import org.hibernate.search.bridge.LuceneOptions;
+import uk.ac.ebi.bioinvindex.model.AssayResult;
 import uk.ac.ebi.bioinvindex.model.processing.Assay;
 import uk.ac.ebi.bioinvindex.model.xref.Xref;
 import uk.ac.ebi.bioinvindex.search.hibernatesearch.StudyBrowseField;
+import uk.ac.ebi.bioinvindex.utils.datasourceload.DataLocationManager;
+import uk.ac.ebi.bioinvindex.utils.processing.ProcessingUtils;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
+import java.util.*;
 
 /**
  * Creates a  String template: endpoint|technology|number|&&&acc1!!!url1&&&acc2!!!url2
@@ -63,6 +65,7 @@ import java.util.Set;
  * @author Nataliya Sklyar (nsklyar@ebi.ac.uk)
  *         Date: Feb 22, 2008
  */
+
 public class AssayBridge extends IndexFieldDelimiters implements FieldBridge {
 
     public void set(String s, Object o, Document document, LuceneOptions luceneOptions) {
@@ -71,27 +74,20 @@ public class AssayBridge extends IndexFieldDelimiters implements FieldBridge {
         Collection<Assay> assays = (Collection<Assay>) o;
 
         for (Assay assay : assays) {
+            Collection<AssayResult> assayResults = ProcessingUtils.findAssayResultsFromAssay(assay);
 
             String type = buildType(assay);
 
             if (!assayTypeToInfo.containsKey(type)) {
-                AssayTypeInfo info  = new AssayTypeInfo();
+                AssayTypeInfo info = new AssayTypeInfo();
                 assayTypeToInfo.put(type, info);
             }
 
-            for (Xref xref : assay.getXrefs()) {
-                System.out.println("Adding XREF to AssayTypeInfo: " + xref.getSource().getAcc() + "(" + xref.getAcc() +  ") for " + type);
-
-                StringBuilder sb = new StringBuilder();
-                sb.append("xref(").append(xref.getAcc()).append("->");
-                sb.append(xref.getSource().getAcc()).append(")");
-
-                assayTypeToInfo.get(type).addAccession(sb.toString());
-            }
+            createAssayExternalLinks(assayTypeToInfo, assayResults, type);
+            createXrefs(assayTypeToInfo, assay, type);
 
             assayTypeToInfo.get(type).increaseCount();
         }
-        // each data link should be stored perhaps, or at least whatever is required to make it display in the Study page.
 
         for (String type : assayTypeToInfo.keySet()) {
             StringBuilder fullInfo = new StringBuilder();
@@ -120,7 +116,38 @@ public class AssayBridge extends IndexFieldDelimiters implements FieldBridge {
             }
             Field fvField = new Field(StudyBrowseField.ASSAY_INFO.getName(), fullInfo.toString(), luceneOptions.getStore(), luceneOptions.getIndex());
             document.add(fvField);
+        }
+    }
 
+    private void createXrefs(Map<String, AssayTypeInfo> assayTypeToInfo, Assay assay, String type) {
+        for (Xref xref : assay.getXrefs()) {
+            StringBuilder sb = new StringBuilder();
+            sb.append("xref(").append(xref.getAcc()).append("->");
+            sb.append(xref.getSource().getAcc()).append(")");
+            assayTypeToInfo.get(type).addAccession(sb.toString());
+        }
+    }
+
+    private void createAssayExternalLinks(Map<String, AssayTypeInfo> assayTypeToInfo, Collection<AssayResult> assayResults, String type) {
+        Set<String> addedLinks = new HashSet<String>();
+        for (AssayResult result : assayResults) {
+            // we're only looking at links...should accommodate webdav etc. too
+            if (result.getData() != null) {
+                String dataFileName = result.getData().getName() == null ? "" : result.getData().getName();
+                if (dataFileName.matches("(http|ftp|https).*") && dataFileName.contains("/")) {
+                    // we only store the folder since that will take us to multiple file locations. Otherwise we'd have too
+                    // many individual links pointing to the same place.
+                    String folder = dataFileName.substring(0, result.getData().getName().lastIndexOf("/"));
+                    if (!addedLinks.contains(folder)) {
+                        StringBuilder sb = new StringBuilder();
+                        sb.append("link(").append(folder).append("->");
+                        String dataFileType = result.getData().getType().getName() == null ? "" : result.getData().getType().getName();
+                        sb.append(dataFileType).append(")");
+                        addedLinks.add(folder);
+                        assayTypeToInfo.get(type).addAccession(sb.toString());
+                    }
+                }
+            }
         }
     }
 
