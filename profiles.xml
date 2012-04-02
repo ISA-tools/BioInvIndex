@@ -125,7 +125,7 @@
                 <activeByDefault>false</activeByDefault>
             </activation>
             <properties>
-                <hibernate.search.default.indexBase>/Users/eamonnmaguire/dev/bii-index-test</hibernate.search.default.indexBase>
+                <hibernate.search.default.indexBase>/tmp/lucene/bii-local</hibernate.search.default.indexBase>
             </properties>
         </profile>
 
@@ -135,7 +135,7 @@
                 <activeByDefault>false</activeByDefault>
             </activation>
             <properties>
-                <hibernate.search.default.indexBase>/Users/eamonnmaguire/dev/index-test-june</hibernate.search.default.indexBase>
+                <hibernate.search.default.indexBase>/tmp/lucene/bii-test</hibernate.search.default.indexBase>
             </properties>
         </profile>
 
@@ -145,7 +145,7 @@
                 <activeByDefault>false</activeByDefault>
             </activation>
             <properties>
-                <hibernate.search.default.indexBase>/home/isauser/lucene/bii</hibernate.search.default.indexBase>
+                <hibernate.search.default.indexBase>/tmp/lucene/bii-prod</hibernate.search.default.indexBase>
             </properties>
         </profile>
 
