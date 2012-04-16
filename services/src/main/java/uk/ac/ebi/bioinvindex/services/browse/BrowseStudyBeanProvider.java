@@ -54,7 +54,7 @@ import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.security.Identity;
 import uk.ac.ebi.bioinvindex.model.Study;
 import uk.ac.ebi.bioinvindex.search.hibernatesearch.*;
-import uk.ac.ebi.bioinvindex.services.utils.AlphanumComparator;
+import uk.ac.ebi.utils.collections.AlphaNumComparator;
 
 import java.util.*;
 
@@ -97,7 +97,7 @@ public class BrowseStudyBeanProvider {
             answer.add(bean);
         }
 
-        Collections.sort(answer, new AlphanumComparator<BrowseStudyBeanImpl>());
+        Collections.sort(answer, new AlphaNumComparator<BrowseStudyBeanImpl>());
 
 
         Iterator<BrowseStudyBeanImpl> iterator = answer.iterator();
