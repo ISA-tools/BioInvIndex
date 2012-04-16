@@ -38,7 +38,7 @@ yet supported by dependencies we use in our codebase.
 
 The profiles.xml file contains example database connection profiles for H2, Oracle, MySQL and PostGreSQL. If you have no database yet, you can use H2 by running this command for instance:
 
-    mvn clean package -Pdeploy,h2,index_local -Dmaven.test.skip=true
+    mvn clean package -Ph2,index_local -Dmaven.test.skip=true
 
 
 ### Refreshing your clone
