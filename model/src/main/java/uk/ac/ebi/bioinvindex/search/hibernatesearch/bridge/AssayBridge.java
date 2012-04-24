@@ -51,7 +51,6 @@ import uk.ac.ebi.bioinvindex.model.AssayResult;
 import uk.ac.ebi.bioinvindex.model.processing.Assay;
 import uk.ac.ebi.bioinvindex.model.xref.Xref;
 import uk.ac.ebi.bioinvindex.search.hibernatesearch.StudyBrowseField;
-import uk.ac.ebi.bioinvindex.utils.processing.ProcessingUtils;
 
 import java.util.*;
 
@@ -70,21 +69,12 @@ public class AssayBridge extends IndexFieldDelimiters implements FieldBridge {
         Collection<Assay> assays = (Collection<Assay>) o;
 
         for (Assay assay : assays) {
-
-
-            String type = buildType(assay);
-
-            if (!assayTypeToInfo.containsKey(type)) {
-                AssayTypeInfo info = new AssayTypeInfo();
-                assayTypeToInfo.put(type, info);
-            }
+            String type = addToAssayTypes(assayTypeToInfo, assay);
             // only go looking for assay results if there is a material associated with the assay.
             if (assay.getMaterial() != null) {
-                Collection<AssayResult> assayResults = ProcessingUtils.findAssayResultsFromAssay(assay);
-                createAssayExternalLinks(assayTypeToInfo, assayResults, type);
+                createAssayExternalLinks(assayTypeToInfo, assay.getStudy().getAssayResults(), assay);
             }
             createXrefs(assayTypeToInfo, assay, type);
-
             assayTypeToInfo.get(type).increaseCount();
         }
 
@@ -118,6 +108,8 @@ public class AssayBridge extends IndexFieldDelimiters implements FieldBridge {
         }
     }
 
+   
+
     private void createXrefs(Map<String, AssayTypeInfo> assayTypeToInfo, Assay assay, String type) {
         for (Xref xref : assay.getXrefs()) {
             StringBuilder sb = new StringBuilder();
@@ -127,9 +119,10 @@ public class AssayBridge extends IndexFieldDelimiters implements FieldBridge {
         }
     }
 
-    private void createAssayExternalLinks(Map<String, AssayTypeInfo> assayTypeToInfo, Collection<AssayResult> assayResults, String type) {
+    private void createAssayExternalLinks(Map<String, AssayTypeInfo> assayTypeToInfo, Collection<AssayResult> assayResults, Assay assay) {
         Set<String> addedLinks = new HashSet<String>();
         for (AssayResult result : assayResults) {
+             
             // we're only looking at links...should accommodate webdav etc. too
             if (result.getData() != null) {
                 String dataFileName = result.getData().getName() == null ? "" : result.getData().getName();
@@ -143,6 +136,7 @@ public class AssayBridge extends IndexFieldDelimiters implements FieldBridge {
                         String dataFileType = result.getData().getType().getName() == null ? "" : result.getData().getType().getName();
                         sb.append(dataFileType).append(")");
                         addedLinks.add(folder);
+                        String type = addToAssayTypes(assayTypeToInfo, assay);
                         assayTypeToInfo.get(type).addAccession(sb.toString());
                     }
                 }
@@ -150,10 +144,19 @@ public class AssayBridge extends IndexFieldDelimiters implements FieldBridge {
         }
     }
 
+    private String addToAssayTypes(Map<String, AssayTypeInfo> assayTypeToInfo, Assay assay) {
+        String type = buildType(assay);
+
+        if (!assayTypeToInfo.containsKey(type)) {
+            AssayTypeInfo info = new AssayTypeInfo();
+            assayTypeToInfo.put(type, info);
+        }
+        return type;
+    }
+
     private String buildType(Assay assay) {
         return assay.getMeasurement().getName() + "|" + assay.getTechnologyName();
     }
-
 
     private class AssayTypeInfo {
 
