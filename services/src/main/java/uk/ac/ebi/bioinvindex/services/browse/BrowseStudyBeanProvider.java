@@ -99,7 +99,6 @@ public class BrowseStudyBeanProvider {
 
         Collections.sort(answer, new AlphaNumComparator<BrowseStudyBeanImpl>());
 
-
         Iterator<BrowseStudyBeanImpl> iterator = answer.iterator();
 
         Set<String> addedAccessions = new HashSet<String>();

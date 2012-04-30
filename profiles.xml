@@ -135,7 +135,7 @@
                 <activeByDefault>false</activeByDefault>
             </activation>
             <properties>
-                <hibernate.search.default.indexBase>/tmp/lucene/bii-test</hibernate.search.default.indexBase>
+                <hibernate.search.default.indexBase>/tmp/bii/luceneindex</hibernate.search.default.indexBase>
             </properties>
         </profile>
 
