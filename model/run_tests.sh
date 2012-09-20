@@ -1,5 +1,5 @@
 mvn -DargLine="-Xms256m -Xmx2048m -XX:PermSize=64m -XX:MaxPermSize=128m" \
     -Dsurefire.useFile=true \
-    -Ph2,test clean test
+    -Ph2,test clean test -Dtest=StudyUnloaderTest
 
 mvn surefire-report:report-only
