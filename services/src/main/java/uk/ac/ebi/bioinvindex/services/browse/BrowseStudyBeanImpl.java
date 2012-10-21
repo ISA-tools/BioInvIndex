@@ -191,7 +191,6 @@ public class BrowseStudyBeanImpl extends IndexFieldDelimiters implements BrowseS
         return processedValues;
     }
 
-    // todo look at this and work out why it doesn't always work...
     private String[] splitPropertyValues(String propertyValue) {
 
         if (propertyValue.contains(":?")) {
@@ -208,7 +207,6 @@ public class BrowseStudyBeanImpl extends IndexFieldDelimiters implements BrowseS
      * @return List<AssayInfoBean>
      */
     public List<AssayInfoBean> getAssayBeans() {
-        // a check to prevent fetching the assays twice, since the first time it is need to get the total number of assays for display in the page
 
         String[] strings = values.get(StudyBrowseField.ASSAY_INFO);
         if (strings == null) {
@@ -228,7 +226,6 @@ public class BrowseStudyBeanImpl extends IndexFieldDelimiters implements BrowseS
      * @return List<AssayInfoBean>
      */
     public List<AssayGroupInfo> getAssayGroups() {
-        // a check to prevent fetching the assays twice, since the first time it is need to get the total number of assays for display in the page
 
         String[] strings = values.get(StudyBrowseField.ASSAY_INFO);
         if (strings == null) {
@@ -258,11 +255,7 @@ public class BrowseStudyBeanImpl extends IndexFieldDelimiters implements BrowseS
 
         String[] infoSections;
 
-        if (assayInfoString.contains(":?")) {
-            infoSections = assayInfoString.split(":\\?");
-        } else {
-            infoSections = new String[]{assayInfoString};
-        }
+        infoSections = splitAssayInfoString(assayInfoString);
 
         // at this point we now have an array where the first element should be the assay and all others are the DB links
 
@@ -271,15 +264,12 @@ public class BrowseStudyBeanImpl extends IndexFieldDelimiters implements BrowseS
         return assayInfoBean;
     }
 
+
     private AssayGroupInfo processAssayGroupInfoFromString(String assayGroupInfoString) {
         AssayGroupInfo assayGroupInfo = new AssayGroupInfo();
         String[] infoSections;
 
-        if (assayGroupInfoString.contains(":?")) {
-            infoSections = assayGroupInfoString.split(":\\?");
-        } else {
-            infoSections = new String[]{assayGroupInfoString};
-        }
+        infoSections = splitAssayInfoString(assayGroupInfoString);
 
         // at this point we now have an array where the first element should be the assay and all others are the DB links
 
@@ -297,26 +287,53 @@ public class BrowseStudyBeanImpl extends IndexFieldDelimiters implements BrowseS
             assayGroupInfo.setCount(0);
         }
 
+        System.out.println("Created Assay group " + assayGroupInfo.getDisplayLabel() + ", now checking dbLinks.");
+
         Map<String, DataLink> accessionToDataLink = new HashMap<String, DataLink>();
 
         for (int dbLinkIndex = 1; dbLinkIndex < infoSections.length; dbLinkIndex++) {
 
+            System.out.println("Processing DB Link for Assay Group: " + infoSections[dbLinkIndex]);
             DataLink link = createDBLink(infoSections[dbLinkIndex]);
 
-            if (!accessionToDataLink.containsKey(link.getAcc())) {
-                accessionToDataLink.put(link.getAcc(), link);
+            String accessionToCheck = link.getAcc();
+
+            if (link.getAcc().contains(">")) {
+                int indexOfAngularBracket = link.getAcc().indexOf(">");
+                accessionToCheck = link.getAcc().substring(0, indexOfAngularBracket);
+                link.setAcc(link.getAcc().substring(indexOfAngularBracket + 1));
             }
 
-            accessionToDataLink.get(link.getAcc()).addDataOfType(determineDataType(link.getSourceName()));
+            if (!accessionToDataLink.containsKey(accessionToCheck)) {
+                accessionToDataLink.put(accessionToCheck, link);
+            }
 
+            accessionToDataLink.get(accessionToCheck).addDataOfType(determineDataType(link.getSourceName()), link.getAcc());
         }
+
+        Set<String> addedDataLinks = new HashSet<String>();
 
         for (String accession : accessionToDataLink.keySet()) {
-            assayGroupInfo.addDataLink(accessionToDataLink.get(accession));
+            String linksAsString = accessionToDataLink.get(accession).getLinksAsString();
+            if (!addedDataLinks.contains(linksAsString)) {
+                assayGroupInfo.addDataLink(accessionToDataLink.get(accession));
+                addedDataLinks.add(linksAsString);
+            }
         }
-
         return assayGroupInfo;
     }
+
+
+    private String[] splitAssayInfoString(String assayInfoString) {
+        String[] infoSections;
+        if (assayInfoString.contains(":?")) {
+            infoSections = assayInfoString.split(":\\?");
+        } else {
+            infoSections = new String[]{assayInfoString};
+        }
+        return infoSections;
+    }
+
 
     private AssayInfoBean createAssayInfoBean(AssayInfoBean assayInfoBean, String assayRepresentation) {
 

@@ -83,7 +83,7 @@ public class AssayGroupInfo {
 	}
 
 	public String getPlatform() {
-		return platform;
+		return platform == null ? "" : platform;
 	}
 
 	public void setPlatform(String platform) {
@@ -95,7 +95,7 @@ public class AssayGroupInfo {
 	}
 
     public String getDisplayLabel() {
-        return getEndPoint() + (!getTechnology().equals("") ? " using " + getTechnology() : "");
+        return getEndPoint() + (!getTechnology().equals("") ? " using " + getTechnology() : "") + (!getPlatform().equals("") ? " with " + getPlatform() : "");
     }
 
 	public void addAccession(String accession) {

@@ -296,13 +296,12 @@
                                         <table width="100%" border="0" align="center" style="table-layout:fixed;">
                                             <ui:repeat var="dataLink" value="#{assayGroup.dataLinks}">
                                                 <tr class="bigSpaceUnder">
-
                                                     <td width="30%" valign="top">
                                                         <h:panelGroup
                                                                 rendered="#{sourceURLResolver.hasRawData(assayGroup.endPoint, assayGroup.technology, dataLink)}">
                                                             <div align="center">
                                                                 <h:outputLink
-                                                                        value="#{sourceURLResolver.getRawDataURL(assayGroup.endPoint, assayGroup.technology, dataLink.acc)}"
+                                                                        value="#{sourceURLResolver.getRawDataURL(assayGroup.endPoint, assayGroup.technology, dataLink.getRaw())}"
                                                                         target="_blank" styleClass="download-button">
 
                                                                     <span>Raw Data</span>
@@ -317,7 +316,7 @@
                                                                 rendered="#{sourceURLResolver.hasProcessedData(assayGroup.endPoint, assayGroup.technology, dataLink)}">
                                                             <div align="center">
                                                                 <h:outputLink
-                                                                        value="#{sourceURLResolver.getProcessedDataURL(assayGroup.endPoint, assayGroup.technology, dataLink.acc)}"
+                                                                        value="#{sourceURLResolver.getProcessedDataURL(assayGroup.endPoint, assayGroup.technology, dataLink.getProcessed())}"
                                                                         target="_blank" styleClass="download-button">
                                                                     <span>Processed Data</span>
                                                                     <span>Processed Data</span>
@@ -336,7 +335,7 @@
                                                                     target="_blank" styleClass="download-button">
                                                                 <div align="right">
                                                                     <span>#{dataLink.acc}</span>
-                                                                    <span>View in #{sourceURLResolver.getViewImageLocation(dataLink.sourceName)}</span>
+                                                                    <span>#{sourceURLResolver.getViewImageLocation(dataLink.sourceName)}</span>
 
                                                                 </div>
                                                             </h:outputLink>

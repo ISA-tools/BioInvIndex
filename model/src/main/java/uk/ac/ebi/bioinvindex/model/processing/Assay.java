@@ -46,13 +46,7 @@ package uk.ac.ebi.bioinvindex.model.processing;
 import org.apache.commons.lang.StringUtils;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
-import org.hibernate.search.annotations.ContainedIn;
-import org.hibernate.search.annotations.Field;
-import org.hibernate.search.annotations.FieldBridge;
-import org.hibernate.search.annotations.Fields;
-import org.hibernate.search.annotations.Index;
-import org.hibernate.search.annotations.Store;
-
+import org.hibernate.search.annotations.*;
 import uk.ac.ebi.bioinvindex.model.HasReferences;
 import uk.ac.ebi.bioinvindex.model.Material;
 import uk.ac.ebi.bioinvindex.model.Study;
@@ -61,16 +55,7 @@ import uk.ac.ebi.bioinvindex.model.term.Measurement;
 import uk.ac.ebi.bioinvindex.model.xref.Xref;
 import uk.ac.ebi.bioinvindex.search.hibernatesearch.bridge.OntologyEntryBridge;
 
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
-import javax.persistence.Column;
-import javax.persistence.Transient;
-
+import javax.persistence.*;
 import java.util.Collection;
 
 
@@ -118,8 +103,7 @@ public class Assay extends HasReferences {
 	private Material material;
 
 	private Node node;
-	//ToDo: decide if we need direct link to the data
-//	private Collection<Data> data = new ArrayList<Data>();
+
 
 	public Assay() {
 		super();

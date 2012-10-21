@@ -2,8 +2,6 @@ package uk.ac.ebi.bioinvindex.utils.datasourceload;
 
 import uk.ac.ebi.bioinvindex.model.xref.AssayTypeDataLocation;
 
-import java.util.regex.Matcher;
-
 /**
  * Created by the ISA team
  *
@@ -43,11 +41,5 @@ public class DataSourceUtils {
         return false;
 
     }
-
-    public static void main(String[] args) {
-        System.out.println(DataSourceUtils.resolveRepositoryFromAccession("BII-S-8_3fLM7L9fnh").getAliases()[0]);
-    }
-
-
 
 }

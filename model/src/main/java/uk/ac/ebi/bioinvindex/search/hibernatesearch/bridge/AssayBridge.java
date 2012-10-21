@@ -51,6 +51,7 @@ import uk.ac.ebi.bioinvindex.model.AssayResult;
 import uk.ac.ebi.bioinvindex.model.processing.Assay;
 import uk.ac.ebi.bioinvindex.model.xref.Xref;
 import uk.ac.ebi.bioinvindex.search.hibernatesearch.StudyBrowseField;
+import uk.ac.ebi.bioinvindex.utils.processing.ProcessingUtils;
 
 import java.util.*;
 
@@ -108,7 +109,6 @@ public class AssayBridge extends IndexFieldDelimiters implements FieldBridge {
         }
     }
 
-   
 
     private void createXrefs(Map<String, AssayTypeInfo> assayTypeToInfo, Assay assay, String type) {
         for (Xref xref : assay.getXrefs()) {
@@ -121,23 +121,34 @@ public class AssayBridge extends IndexFieldDelimiters implements FieldBridge {
 
     private void createAssayExternalLinks(Map<String, AssayTypeInfo> assayTypeToInfo, Collection<AssayResult> assayResults, Assay assay) {
         Set<String> addedLinks = new HashSet<String>();
-        for (AssayResult result : assayResults) {
-             
+
+        System.out.println("*** CREATING Assay External Links ***");
+
+        Collection<AssayResult> data = ProcessingUtils.findAllDataInAssay(assay);
+
+        for (AssayResult result : data) {
+
             // we're only looking at links...should accommodate webdav etc. too
             if (result.getData() != null) {
                 String dataFileName = result.getData().getName() == null ? "" : result.getData().getName();
                 if (dataFileName.matches("(http|ftp|https).*") && dataFileName.contains("/")) {
                     // we only store the folder since that will take us to multiple file locations. Otherwise we'd have too
                     // many individual links pointing to the same place.
+                    String dataResultType = result.getData().getType().getName();
+                    dataResultType = dataResultType == null ? "" : dataResultType;
+
                     String folder = dataFileName.substring(0, result.getData().getName().lastIndexOf("/"));
-                    if (!addedLinks.contains(folder)) {
-                        StringBuilder sb = new StringBuilder();
-                        sb.append("link(").append(folder).append("->");
-                        String dataFileType = result.getData().getType().getName() == null ? "" : result.getData().getType().getName();
-                        sb.append(dataFileType).append(")");
-                        addedLinks.add(folder);
+
+                    if (!addedLinks.contains(dataResultType + folder)) {
                         String type = addToAssayTypes(assayTypeToInfo, assay);
-                        assayTypeToInfo.get(type).addAccession(sb.toString());
+
+                        StringBuilder linkBuilder = new StringBuilder();
+                        linkBuilder.append("link(").append("<" + assay.getAcc() + ">" +folder).append("->");
+
+                        linkBuilder.append(dataResultType).append(")");
+                        addedLinks.add(folder);
+
+                        assayTypeToInfo.get(type).addAccession(linkBuilder.toString());
                     }
                 }
             }

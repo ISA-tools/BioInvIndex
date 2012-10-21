@@ -187,7 +187,7 @@ public class SourceURLResolverImpl implements SourceURLResolver {
 
                     location = locationWithAcc;
                     //For AE links
-                    if (locationWithAcc.indexOf(DataSourceConfigFields.ACCESSION_PREFIX_PLACEHOLDER.getName()) > 0 && accession.indexOf("-") > -1) {
+                    if (locationWithAcc.indexOf(DataSourceConfigFields.ACCESSION_PREFIX_PLACEHOLDER.getName()) > 0 && accession.contains("-")) {
                         String dataType = accession.substring(accession.indexOf("-") + 1, accession.lastIndexOf("-"));
                         location = locationWithAcc.replace(DataSourceConfigFields.ACCESSION_PREFIX_PLACEHOLDER.getName(), dataType);
                     }

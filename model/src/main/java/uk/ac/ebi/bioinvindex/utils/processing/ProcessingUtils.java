@@ -44,28 +44,13 @@ package uk.ac.ebi.bioinvindex.utils.processing;
  * EU NuGO [NoE 503630](http://www.nugo.org/everyone) projects and in part by EMBL-EBI.
  */
 
-import uk.ac.ebi.bioinvindex.model.AssayResult;
-import uk.ac.ebi.bioinvindex.model.Data;
-import uk.ac.ebi.bioinvindex.model.Material;
-import uk.ac.ebi.bioinvindex.model.Protocol;
-import uk.ac.ebi.bioinvindex.model.Study;
-import uk.ac.ebi.bioinvindex.model.processing.Assay;
-import uk.ac.ebi.bioinvindex.model.processing.DataNode;
-import uk.ac.ebi.bioinvindex.model.processing.GraphElement;
-import uk.ac.ebi.bioinvindex.model.processing.MaterialNode;
-import uk.ac.ebi.bioinvindex.model.processing.Node;
-import uk.ac.ebi.bioinvindex.model.processing.Processing;
-import uk.ac.ebi.bioinvindex.model.processing.ProtocolApplication;
+import org.apache.commons.lang.StringUtils;
+import uk.ac.ebi.bioinvindex.model.*;
+import uk.ac.ebi.bioinvindex.model.processing.*;
 import uk.ac.ebi.bioinvindex.model.term.MaterialRole;
 import uk.ac.ebi.bioinvindex.model.term.ProtocolType;
 
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.Set;
-
-import org.apache.commons.lang.StringUtils;
+import java.util.*;
 
 /**
  * Utilities for the experimental pipeline/processing steps/processing nodes and alike
@@ -114,6 +99,39 @@ public class ProcessingUtils
 		new ExperimentalPipelineVisitor ( visitor ).visitForward ( material.getMaterialNode () );
 	  return result;
 	}
+
+    /**
+     * An helper that finds all the AssayResults related to the assay parameter. It is based on the experimental pipeline
+     * the assay's material belong in. 
+     */
+    public static Collection<AssayResult> findAllDataInAssay ( Assay assay )
+    {
+        if ( assay == null )
+            throw new RuntimeException ( "findAllDataInAssay(): null assay passed to the method" );
+
+        Material material = assay.getMaterial ();
+        if ( material == null )
+            throw new RuntimeException ( "findAllDataInAssay( " + assay + "): no material associated to the assay" );
+
+        final Study study = assay.getStudy ();
+        if ( study == null )
+            throw new RuntimeException ( "findAllDataInAssay ( " + assay + " ): no study associated to the assay" );
+
+        final Collection<AssayResult> result = new HashSet<AssayResult> ();
+        ProcessingVisitAction visitor = new ProcessingVisitAction ()
+        {
+            public boolean visit ( GraphElement graphElement )
+            {
+                if ( ! ( graphElement instanceof DataNode ) ) return true;
+                Data data = ( (DataNode) graphElement ).getData ();
+                result.add(new AssayResult(data, study));
+                return true;
+            }
+        };
+
+        new ExperimentalPipelineVisitor ( visitor ).visitForward ( material.getMaterialNode () );
+        return result;
+    }
 
 	/**
 	 * Finds the root nodes in a graph that this element is connected to. 
@@ -397,43 +415,5 @@ public class ProcessingUtils
 			result.addAll ( findSampleFileLastNodes ( inputNode, includeSource ) );
 		return result;
 	}
-
-	
-//	/**
-//	 * Tells all those samples nodes the endNode derives from that are the last in a ISATAB sample file.
-//	 * It start searching from a left node, the startNode.
-//	 * 
-//	 */
-//	public static Collection<MaterialNode> findSampleFileLastNodesFromLeft ( Node startNode )
-//	{
-//		MaterialNode mnode = null; 
-//		Collection<MaterialNode> result = new HashSet<MaterialNode> ();
-//		
-//		if ( startNode instanceof MaterialNode )
-//		{
-//			mnode = (MaterialNode) startNode;
-//			if ( mnode.getMaterial ().getSingleAnnotationValue ( "sampleFileId" ) != null ) 
-//			{
-//				boolean isResult = true;
-//				for ( Processing rproc: (Collection<Processing>) mnode.getUpstreamProcessings () )
-//				{
-//					for ( Node rnode: (Collection<Node>) rproc.getOutputNodes () ) {
-//						if ( rnode instanceof MaterialNode 
-//								 && ((MaterialNode) rnode).getSingleAnnotationValue ( "sampleFileId" ) != null ) 
-//						{
-//							// More materials follow
-//							isResult = false;
-//							result.addAll ( findSampleFileLastNodesFromLeft ( rnode ) );
-//						}
-//					}
-//				}
-//				if ( isResult )
-//					result.add ( mnode );
-//				return result;
-//			}
-//		}
-//		
-//		return result;
-//	}
 
 }

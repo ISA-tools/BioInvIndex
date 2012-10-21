@@ -160,7 +160,7 @@ public class PipelinePersistenceTest extends TransactionalDBUnitEJB3DAOTest
 		assayMaterialPersister.persist ( pip.assayMaterial1 );
 
 		session.flush ();
-		
+
 		AccessibleDAO<Accessible> adao = daoFactory.getAccessibleDAO ( Accessible.class );
 		OntologyEntryDAO<OntologyEntry> oedao = daoFactory.getOntologyEntryDAO ();
 				

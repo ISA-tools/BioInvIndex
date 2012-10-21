@@ -45,63 +45,82 @@ package uk.ac.ebi.bioinvindex.services;
 
 import uk.ac.ebi.bioinvindex.model.xref.ResourceType;
 
+import java.util.HashMap;
 import java.util.HashSet;
 
 public class DataLink {
 
+    private String acc;
+    private String sourceName;
 
-	private String acc;
+    private HashSet<ResourceType> types = new HashSet<ResourceType>(3);
+    private HashMap<ResourceType, String> linkMap = new HashMap<ResourceType, String>();
 
-	private String sourceName;
+    public String getAcc() {
+        return acc;
+    }
 
-	private HashSet<ResourceType> types = new HashSet<ResourceType>(3);
+    public void setAcc(String acc) {
+        this.acc = acc;
+    }
 
+    public String getSourceName() {
+        return sourceName;
+    }
 
-	public String getAcc() {
-		return acc;
-	}
+    public void setSourceName(String sourceName) {
+        this.sourceName = sourceName;
+    }
 
-	public void setAcc(String acc) {
-		this.acc = acc;
-	}
+    public void addDataOfType(ResourceType type) {
+        addDataOfType(type, acc);
+    }
 
-	public String getSourceName() {
-		return sourceName;
-	}
+    public void addDataOfType(ResourceType type, String link) {
+        types.add(type);
+        linkMap.put(type, link);
+    }
 
-	public void setSourceName(String sourceName) {
-		this.sourceName = sourceName;
-	}
-
-	public void addDataOfType(ResourceType type) {
-		types.add(type);
-	}
-
-
-	public boolean hasDataOfType(String type) {
-
+    public boolean hasDataOfType(String type) {
         return types.contains(ResourceType.getInstanceByName(type));
-	}
+    }
+    
+    public String getRaw() {
+        return linkMap.get(ResourceType.RAW);
+    }
 
-	@Override
-	public boolean equals(Object o) {
-		if (this == o) return true;
-		if (o == null || getClass() != o.getClass()) return false;
+    public String getProcessed() {
+        return linkMap.get(ResourceType.PROCESSED);
+    }
 
-		DataLink dataLink = (DataLink) o;
+    public String getLinksAsString() {
+        StringBuilder links = new StringBuilder();
+        
+        for(String link : linkMap.values()) {
+            links.append(link);
+        }
 
-		if (!acc.equals(dataLink.acc)) return false;
-		if (!sourceName.equals(dataLink.sourceName)) return false;
-		if (!types.equals(dataLink.types)) return false;
+        return links.toString();
+    }
 
-		return true;
-	}
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
 
-	@Override
-	public int hashCode() {
-		int result = acc.hashCode();
-		result = 31 * result + sourceName.hashCode();
-		result = 31 * result + types.hashCode();
-		return result;
-	}
+        DataLink dataLink = (DataLink) o;
+
+        if (!acc.equals(dataLink.acc)) return false;
+        if (!sourceName.equals(dataLink.sourceName)) return false;
+        // todo add check on types.
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = acc.hashCode();
+        result = 31 * result + sourceName.hashCode();
+        result = 31 * result + types.hashCode();
+        return result;
+    }
 }
