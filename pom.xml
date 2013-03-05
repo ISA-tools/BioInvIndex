@@ -152,6 +152,10 @@
 
         <!-- <repository> <id>jboss-repo</id> <url>http://repository.jboss.com/maven2</url>
               <snapshots> <enabled>true</enabled> </snapshots> </repository> -->
+        <repository>
+            <id>oerc</id>
+            <url>http://frog.oerc.ox.ac.uk:8080/nexus-2.1.2/content/repositories/releases/</url>
+        </repository>
 
         <repository>
             <id>java.net</id>
