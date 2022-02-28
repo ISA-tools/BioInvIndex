@@ -33,10 +33,10 @@
         <version.seam>2.2.1.Final</version.seam>
         <!-- MUST correspond w. seam version in parent tag -->
 
-        <version.ant>1.8.2</version.ant>
+        <version.ant>1.9.15</version.ant>
         <version.antlr>3.3</version.antlr>
         <version.cglib-nodep>2.2</version.cglib-nodep>
-        <version.commons-beanutils>1.8.3</version.commons-beanutils>
+        <version.commons-beanutils>1.9.2</version.commons-beanutils>
         <version.commons-collections>3.2.1</version.commons-collections>
         <version.commons-configuration>1.6</version.commons-configuration>
         <version.commons-cli>1.2</version.commons-cli>
@@ -60,7 +60,7 @@
 
         <!-- testing (primarily) -->
         <version.hamcrest>1.2.1</version.hamcrest>
-        <version.junit>4.8.2</version.junit>
+        <version.junit>4.13.1</version.junit>
         <version.mockito>1.8.5</version.mockito>
         <version.objenesis>1.2</version.objenesis>
         <version.powermock>1.4.7</version.powermock>
